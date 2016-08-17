@@ -124,6 +124,8 @@ namespace RTCareerAsk.DAL.Domain
 
         public string Title { get; set; }
 
+        public string Company { get; set; }
+
         public string SelfDescription { get; set; }
 
         public int FieldIndex { get; set; }
@@ -137,6 +139,7 @@ namespace RTCareerAsk.DAL.Domain
 
             ForUser = udo.ContainsKey("forUser") && udo.Get<AVUser>("forUser") != null ? new User(udo.Get<AVUser>("forUser")) : null;
             Title = udo.Get<string>("title");
+            Company = udo.Get<string>("company");
             SelfDescription = udo.Get<string>("selfDescription");
             FieldIndex = udo.Get<int>("fieldIndex");
         }
@@ -145,7 +148,8 @@ namespace RTCareerAsk.DAL.Domain
         {
             AVObject userDetail = new AVObject("UserDetail");
 
-
+            userDetail.Add("title", Title);
+            userDetail.Add("company", Company);
             userDetail.Add("selfDescription", SelfDescription);
             userDetail.Add("fieldIndex", FieldIndex);
 

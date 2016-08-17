@@ -77,6 +77,9 @@ namespace RTCareerAsk.Models
 
         public UserDetailModel(UserDetail ud)
         {
+            RecentQuestions = new List<QuestionInfoModel>();
+            RecentAnswers = new List<AnswerModel>();
+
             ConvertUserDetailObjectToModel(ud);
         }
 
@@ -87,6 +90,8 @@ namespace RTCareerAsk.Models
         public string Portrait { get; set; }
 
         public string Title { get; set; }
+
+        public string Company { get; set; }
 
         public string SelfDescription { get; set; }
 
@@ -123,6 +128,7 @@ namespace RTCareerAsk.Models
                 Name = ud.ForUser.Name;
                 Portrait = ud.ForUser.Portrait;
                 Title = ud.Title;
+                Company = ud.Company;
                 SelfDescription = ud.SelfDescription;
                 FieldIndex = ud.FieldIndex;
             }
