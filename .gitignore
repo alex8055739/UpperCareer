@@ -1,2 +1,3 @@
 *.cache
-RTCareerAsk.BL\bin\*.*
+RTCareerAsk.BL\bin\Debug\*.*
+RTCareerAsk.BL\bin\Release\*.*
