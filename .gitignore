@@ -1,5 +1,5 @@
-*.cache
-*.txt
+**/*.cache
+**/*.txt
 
 **/Debug/*
 **/Release/*
