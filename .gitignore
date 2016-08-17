@@ -3,5 +3,5 @@ RTCareerAsk.BL/bin/Debug/*.*
 RTCareerAsk.BL/bin/Release/*.*
 RTCareerAsk.BL/obj/Debug/*.*
 RTCareerAsk.BL/obj/Release/*.*
-/Debug/
-/Release/
+/Debug/*
+/Release/*
