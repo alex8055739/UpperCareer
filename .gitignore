@@ -1,8 +1,9 @@
 *.cache
+*.txt
 
 **/Debug/*
 **/Release/*
 
 RTCareerAsk/bin/**
 
-*.txt
+RTCareerAsk.v11.suo
