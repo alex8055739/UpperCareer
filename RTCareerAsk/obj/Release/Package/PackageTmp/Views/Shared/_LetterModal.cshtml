@@ -1,0 +1,42 @@
+﻿@model RTCareerAsk.Models.LetterModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="postQuestionModalLabel">请输入私信内容</h4>
+    </div>
+    @using (Ajax.BeginForm("WritePersonalLetter", "Message", new { }, new AjaxOptions
+    {
+        LoadingElementId = "divInfoLoading",
+        OnBegin = "OnLetterBegin",
+        OnSuccess = "OnLetterSuccess",
+        OnComplete = "OnLetterComplete",
+        OnFailure = "OnLetterFailure"
+    }, new { enctype = "multipart/form-data", @class = "form-horizontal", id = "formLetter" }))
+    {
+        @Html.HiddenFor(model => model.To)
+        <div class="modal-body post">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                    <span class="help-block validate">@Html.ValidationMessageFor(model => model.Title)</span>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Content, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.TextAreaFor(model => model.Content, new { @class = "form-control", rows = "6" })
+                    <span class="help-block validate">@Html.ValidationMessageFor(model => model.Content)</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <input type="submit" class="btn btn-primary" value="写信" />
+        </div>
+    }
+    <script type="text/javascript">
+        $.validator.unobtrusive.parse("#formLetter");
+    </script>
+</div>

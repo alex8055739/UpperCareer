@@ -1,0 +1,63 @@
+﻿@model RTCareerAsk.Models.UserDetailModel
+
+<div class="jumbotron" style="overflow: auto">
+    <div class="align-center col-lg-6">
+        <div>
+            <h3>@Model.Name</h3>
+        </div>
+        @*<div>
+            @if (string.IsNullOrEmpty(Model.Title))
+            {
+                <p class="lead">一个没有头衔的人</p>
+            }
+            else
+            {
+                <p class="lead">(@Model.Title)</p>
+            }
+        </div>*@
+    </div>
+    <div class="align-center col-lg-6">
+        <div class="align-center">
+            <div>
+                加入Upper: @Model.DateCreate.ToLongDateString()
+            </div>
+        </div>
+        <div class="follow-info">
+            <div class="followee-box" style="text-align: right">
+                <h5>关注： <span id="spnFolloweeCount">@Model.FolloweeCount</span></h5>
+            </div>
+            <div class="follower-box" style="text-align: left; border-left: solid 1px">
+                <h5>粉丝： <span id="spnFollowerCount">@Model.FollowerCount</span></h5>
+            </div>
+        </div>
+        <div class="align-center">
+            @if (ViewBag.IsAuthorized)
+            {
+                @Html.HiddenFor(model => model.UserID, new { id = "hdnSender" })
+
+                if (!ViewBag.IsSelf)
+                {
+                @Ajax.ActionLink("取消关注", "UnfollowUser", "User", new { id = Model.UserID }, new AjaxOptions
+           {
+               LoadingElementId = "divInfoLoading",
+               OnBegin = "OnUnfollowBegin",
+               OnSuccess = "OnUnfollowSuccess",
+               OnComplete = "OnUnfollowComplete",
+               OnFailure = "OnUnfollowFailure"
+           }, new { @class = "btn btn-primary", id = "btnUnfollow", style = Model.HasFollowed ? "" : "display:none" })
+                @Ajax.ActionLink("关注TA", "FollowUser", "User", new { id = Model.UserID }, new AjaxOptions
+           {
+               LoadingElementId = "divInfoLoading",
+               OnBegin = "OnFollowBegin",
+               OnSuccess = "OnFollowSuccess",
+               OnComplete = "OnFollowComplete",
+               OnFailure = "OnFollowFailure"
+           }, new { @class = "btn btn-primary", id = "btnFollow", style = Model.HasFollowed ? "display:none" : "" })
+                
+                <a href="#" class="btn btn-info" id="btnWriteLetter" data-toggle="modal" data-target="#divModal">发消息</a>
+                }
+            }
+
+        </div>
+    </div>
+</div>

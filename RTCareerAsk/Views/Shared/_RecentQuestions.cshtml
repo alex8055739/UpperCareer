@@ -1,0 +1,15 @@
+﻿@model List<RTCareerAsk.Models.QuestionInfoModel>
+
+<div class="question-info">
+    @foreach (RTCareerAsk.Models.QuestionInfoModel q in Model)
+    {
+        <div class="list-group box">
+            <a href="@Url.Action("Index", "Question", new { id = q.QuestionID })" class="list-group-item">
+                <h4 class="list-group-item-heading">@q.Title</h4>
+                <p class="list-group-item-text">@Html.Raw(HttpUtility.HtmlDecode(q.Content))</p>
+                <p class="divider" />
+                <p class="list-group-item-text extra">@q.DateCreate.ToShortDateString()</p>
+            </a>
+        </div>
+    }
+</div>

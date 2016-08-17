@@ -1,0 +1,50 @@
+﻿@model RTCareerAsk.Models.LoginRegiModel
+
+@{
+    ViewBag.Title = "登陆Upper";
+}
+
+<ul class="nav nav-tabs">
+    @if (ViewBag.FromRegister != null && Convert.ToBoolean(ViewBag.FromRegister))
+    {
+        <li id="tabLogin" class=""><a href="#divLoginForm" data-toggle="tab" aria-expanded="true">登陆</a></li>
+        <li id="tabRegi" class="active"><a href="#divRegister" data-toggle="tab" aria-expanded="false">注册</a></li>
+    }
+    else
+    {
+        <li id="tabLogin" class="active"><a href="#divLoginForm" data-toggle="tab" aria-expanded="true">登陆</a></li>
+        <li id="tabRegi" class=""><a href="#divRegister" data-toggle="tab" aria-expanded="false">注册</a></li>
+    }
+</ul>
+
+@if (ViewBag.FromRegister != null && Convert.ToBoolean(ViewBag.FromRegister))
+{
+    <div id="tabLoginAndReg" class="tab-content col-lg-6">
+        <div id="divLoginForm" class="tab-pane fade">
+            @Html.Partial("_Login", Model.Login)
+        </div>
+        <div id="divRegister" class="tab-pane fade active in">
+            @Html.Partial("_Register", Model.Register)
+        </div>
+    </div>
+}
+else
+{
+    <div id="tabLoginAndReg" class="tab-content col-lg-6">
+        <div id="divLoginForm" class="tab-pane fade active in">
+            @Html.Partial("_Login", Model.Login)
+        </div>
+        <div id="divRegister" class="tab-pane fade">
+            @Html.Partial("_Register", Model.Register)
+        </div>
+    </div>
+}
+
+@*<section class="social" id="socialLoginForm">
+    <h2>Use another service to log in.</h2>
+    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
+</section>*@
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

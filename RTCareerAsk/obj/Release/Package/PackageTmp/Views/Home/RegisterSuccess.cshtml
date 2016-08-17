@@ -1,0 +1,11 @@
+﻿@{
+
+}
+
+<div>
+    <h2>恭喜，您已注册成功！</h2>
+    <p class="text-primary">验证邮件已发送至您的邮箱@(ViewBag.Email)，请验证之后登陆。</p>
+    <p class="text-info">接下来您可以返回：</p>
+    <a href="@ViewBag.ReturnUrl" class="btn btn-success">之前页面</a>
+    <a href="@Url.Action("Index", "Home")" class="btn btn-info">Upper首页</a>
+</div>

@@ -1,0 +1,10 @@
+C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Release\RTCareerAsk.DAL.Tests.dll
+C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Release\RTCareerAsk.DAL.Tests.pdb
+C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Release\AVOSCloud.NetFx45.dll
+C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Release\RTCareerAsk.DAL.dll
+C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Release\websocket-sharp.dll
+C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Release\RTCareerAsk.DAL.pdb
+C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Release\AVOSCloud.NetFx45.xml
+C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\obj\Release\RTCareerAsk.DAL.Tests.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\obj\Release\RTCareerAsk.DAL.Tests.dll
+C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\obj\Release\RTCareerAsk.DAL.Tests.pdb

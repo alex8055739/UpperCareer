@@ -1,0 +1,36 @@
+﻿@model IEnumerable<RTCareerAsk.Models.FileInfoModel>
+
+@{
+    ViewBag.Title = "所有文件列表";
+
+    int i = 1;
+}
+
+<h2>来自LeanCloud的所有文件：</h2>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>文件名</th>
+            <th>文件类型</th>
+            <th>创建时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (RTCareerAsk.Models.FileInfoModel fim in Model)
+        {
+            <tr>
+                <td>@i</td>
+                <td>
+                    <a href="@Url.Action("DisplayTestResult", "Home", new { fileId = fim.FileID })" target="_blank">
+                        @fim.FileName
+                    </a>
+                </td>
+                <td>@fim.Mime_Type</td>
+                <td>@fim.DateCreate.ToShortDateString()</td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>

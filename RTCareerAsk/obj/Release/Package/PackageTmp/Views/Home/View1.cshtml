@@ -1,0 +1,60 @@
+﻿@model RTCareerAsk.Models.PostModel
+
+@{
+    ViewBag.Title = "View1";
+}
+
+<h2>View1</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>PostModel</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PostID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PostID)
+            @Html.ValidationMessageFor(model => model.PostID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PostTitle)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PostTitle)
+            @Html.ValidationMessageFor(model => model.PostTitle)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PostContent)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PostContent)
+            @Html.ValidationMessageFor(model => model.PostContent)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UserID)
+            @Html.ValidationMessageFor(model => model.UserID)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

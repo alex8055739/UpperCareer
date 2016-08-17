@@ -1,0 +1,31 @@
+﻿@model RTCareerAsk.Models.MessageModel
+
+@{
+    bool isFromSystem = Model.From == null;
+}
+@Html.HiddenFor(model => model.MessageID, new { id = "hdnMsgID" })
+@Html.HiddenFor(model => model.From.UserID, new { id = "hdnSender" })
+<div class="message-body">
+    <h4>@Model.Content.Title</h4>
+    <small>来自：
+    @if (isFromSystem)
+    {
+        <span>Upper管理员</span>
+    }
+    else
+    {
+        <a href="@Url.Action("Index", "User", new { id = Model.From.UserID })">@Model.From.Name</a>
+    }
+    </small>
+    <div class="float-right">
+        @if (!isFromSystem && !ViewBag.IsFromSelf)
+        {
+            <a href="#" id="btnWriteLetter" data-toggle="modal" data-target="#divModal"><span class="glyphicon glyphicon-share-alt icon" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="回复" /></a>
+        }
+        <a href="#" id="btnDeleteMsg" class="glyphicon glyphicon-trash icon" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="删除"></a>
+    </div>
+    <div class="divider"></div>
+    <div>
+        <p>@Model.Content.Content</p>
+    </div>
+</div>

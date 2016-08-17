@@ -1,0 +1,98 @@
+﻿@{
+    bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+    bool IsAdmin = ViewBag.IsAdmin != null ? Convert.ToBoolean(ViewBag.IsAdmin) : false;
+    RTCareerAsk.Models.UserInfoModel um = new RTCareerAsk.Models.UserInfoModel();
+
+    if (IsAuthorized || (ViewBag.IsAuthorized == null && Session["UserInfo"] != null))
+    {
+        um = Session["UserInfo"] as RTCareerAsk.Models.UserInfoModel;
+
+        IsAuthorized = true;
+    }
+}
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Upper", "Index", "Home", new { }, new { @class = "navbar-brand" })
+            @Html.Hidden("UserID", um.UserID, new { id = "hdnUserID" })
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+            @if (IsAdmin)
+            {
+                <ul class="nav navbar-nav">
+                    <li><a href="#" id="btnBugReport" data-toggle="modal" data-target="#divModal">报错 <span class="sr-only">(current)</span></a></li>
+                    <li>@Html.ActionLink("报告列表", "Index", "Test")</li>
+                </ul>
+            }
+            @if (IsAuthorized)
+            {
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink(um.Name, "Index", "User", new { id = um.UserID }, new { })</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("管理账户", "UserManage", "Account")</li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("登出", "LogOff", "Account")</li>
+                        </ul>
+
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Message")"><span class="glyphicon glyphicon-envelope" data-toggle="tooltip" data-placement="bottom" title="消息">
+                            @if (um.NewMessageCount > 0)
+                            {
+                                <span id="spnNewMsgCnt" class="badge">@(um.NewMessageCount)</span>
+                            }
+                        </span>
+                            <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#" id="btnPostQuestion" data-toggle="modal" data-target="#divModal"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="bottom" title="提问" /></a></li>
+                </ul>
+            }
+            else
+            {
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("登陆 / 注册", "Login", "Account", new { returnUrl = Request.Url.AbsolutePath }, new { })</li>
+                    @*<li>@Html.ActionLink("测试页", "FileListPage", "Home")</li>*@
+                </ul>                
+            }
+        </div>
+    </div>
+</nav>
+@if (IsAuthorized)
+{
+    <div id="divInfoLoading" class="alert-tag" style="display: none">
+        <div class="alert alert-dismissible alert-info">
+            <button type="button" class="close">&times;</button>
+            <strong>显示些没用的……</strong>
+        </div>
+    </div>
+    <div id="divInfoSuccess" class="alert-tag" style="display: none">
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close">&times;</button>
+            <strong>Well done!</strong>
+        </div>
+    </div>
+    <div id="divInfoError" class="alert-tag" style="display: none">
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close">&times;</button>
+            <strong></strong>
+        </div>
+    </div>
+    <div class="modal fade" id="divModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/Upper/bug-report.js"></script>

@@ -1,0 +1,22 @@
+﻿@model RTCareerAsk.Models.FileModel
+@{
+    bool isImage = string.Compare(Model.MetaData["类型"].ToString(), "image/jpeg") == 0;
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">文件名：@Model.FileName</div>
+    <div class="panel-body">
+        @if (isImage)
+        {
+            <img src="@Model.Url.AbsoluteUri" alt="@Model.FileName" />
+        }
+        else
+        {
+            <a href="@Model.Url.AbsoluteUri" target="_blank">打开文件</a>
+        }
+    </div>
+</div>

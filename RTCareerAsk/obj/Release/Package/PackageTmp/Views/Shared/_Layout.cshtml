@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/upper_logo_64px.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/base")
+    <script src="~/ckeditor/ckeditor.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        var updateMsgCount = "@Url.Action("UpdateMsgCount", "Home")"
+        var loadQuestionForm = "@Url.Action("CreateQuestionForm", "Question")"
+    </script>
+</head>
+<body>
+    <div id="container">
+        <header>
+            <div id="divNavBar">
+                @Html.Partial("_NavBar")
+            </div>
+        </header>
+        <div id="body">
+            <div class="container">
+                @RenderSection("featured", required: false)
+                <section>
+                    @RenderBody()
+                </section>
+            </div>
+        </div>
+        <footer id="footer">
+            <div class="container">
+                <div>
+                    <p>&copy; @DateTime.Now.Year - Upper - Boost your life</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
