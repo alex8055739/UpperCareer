@@ -1,4 +1,5 @@
 *.cache
-RTCareerAsk.BL\bin\Debug\*.*
-RTCareerAsk.BL\bin\Release\*.*
+RTCareerAsk.BL/bin/Debug/*.*
+RTCareerAsk.BL/bin/Release/*.*
+*.cache
 *.cache
