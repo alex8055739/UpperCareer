@@ -4,3 +4,8 @@
 **/Release/*
 
 RTCareerAsk/bin/**
+
+RTCareerAsk.BL/obj/Debug/RTCareerAsk.BL.csproj.FileListAbsolute.txt
+RTCareerAsk.DAL.Tests/obj/Debug/RTCareerAsk.DAL.Tests.csproj.FileListAbsolute.txt
+RTCareerAsk.DAL/obj/Debug/RTCareerAsk.DAL.csproj.FileListAbsolute.txt
+RTCareerAsk/obj/Debug/RTCareerAsk.csproj.FileListAbsolute.txt
