@@ -683,6 +683,7 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\_BugInfoForm.cshtml" />
     <Content Include="Views\Account\UserManage.cshtml" />
+    <Content Include="Views\Shared\_ChangePortrait.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

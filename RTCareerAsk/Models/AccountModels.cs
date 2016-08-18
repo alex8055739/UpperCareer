@@ -123,25 +123,75 @@ namespace RTCareerAsk.Models
 
     public class UserManageModel
     {
+        public UserManageModel() { }
+
+        public UserManageModel(UserDetail ud)
+        {
+            ConvertUserManageObjectToModel(ud);
+        }
+
+        public string UserDetailID { get; set; }
+
         public string UserID { get; set; }
 
-        public bool HasPasswordChangeRequest { get; set; }
+        //public bool HasPasswordChangeRequest { get; set; }
 
-        public LocalPasswordModel NewPassword { get; set; }
+        //public LocalPasswordModel NewPassword { get; set; }
 
         [Required]
         [Display(Name = "称谓")]
         [StringLength(10, ErrorMessage = "称谓不要超过10个字")]
         public string Name { get; set; }
 
-        [Required]
         [Display(Name = "头衔")]
         [StringLength(10, ErrorMessage = "头衔不要超过10个字")]
         public string Title { get; set; }
 
+        [Display(Name = "性别")]
+        public int Gender { get; set; }
+
+        [Display(Name = "公司")]
+        [StringLength(20, ErrorMessage = "公司名称不要超过20个字")]
+        public string Company { get; set; }
+
+        [Display(Name = "个人简介")]
         public string SelfDescription { get; set; }
 
+        [Display(Name = "行业")]
         public int FieldIndex { get; set; }
+
+        private void ConvertUserManageObjectToModel(UserDetail ud)
+        {
+            if (ud != null)
+            {
+                UserDetailID = ud.ObjectId;
+                UserID = ud.ForUser.ObjectID;
+                Name = ud.ForUser.Name;
+                Gender = ud.Gender;
+                Title = ud.Title;
+                Company = ud.Company;
+                SelfDescription = ud.SelfDescription;
+                FieldIndex = ud.FieldIndex;
+            }
+        }
+
+        public UserDetail RestoreUserManageModelToUserDetailObject()
+        {
+            return new UserDetail()
+            {
+                ObjectId = UserDetailID,
+                ForUser = new User()
+                {
+                    ObjectID = UserID,
+                    Name = Name
+                },
+                Title = Title,
+                Gender = Gender,
+                Company = Company,
+                SelfDescription = SelfDescription,
+                FieldIndex = FieldIndex
+            };
+        }
     }
 
     public class ExternalLogin

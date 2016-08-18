@@ -1,4 +1,5 @@
-﻿function DragOver(e) {
+﻿//Portrail operations
+function DragOver(e) {
     e.stopPropagation();
     e.preventDefault();
     e.originalEvent.dataTransfer.dropEffect = 'copy';
@@ -72,6 +73,31 @@ function CropPortrait() {
 
     $('#divActions').show();
     portrait.cropper({ aspectRatio: 1 / 1, preview: $('div[class^="preview"]') });
+}
+
+//Profile operations
+function OnProfileBegin() {
+    var loadingTab = $('#divInfoLoading').find('strong');
+    loadingTab.text('正在保存信息，请您耐心等待');
+    loadingTab.append('<div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: 100%"></div></div>');
+    var submitBtn = $('button[type="submit"]');
+    submitBtn.addClass('disabled');
+    submitBtn.text('保存中...');
+}
+
+function OnProfileSuccess() {
+    DisplaySuccessInfo('恭喜，信息保存成功！')
+}
+
+function OnProfileComplete() {
+    var submitBtn = $('button[type="submit"]');
+    submitBtn.removeClass('disabled');
+    submitBtn.text('保存');
+}
+
+function OnProfileFailure(result) {
+    DisplayErrorInfo('保存信息出错，请您查看……');
+    alert(result.text);
 }
 
 $(document).ready(function () {

@@ -146,10 +146,75 @@ namespace RTCareerAsk.DAL
                 return true;
             });
         }
-
-        public async Task<bool> UpdateUserDetail(UserDetail udm)
+        /// <summary>
+        /// 保存更新用户详细信息。
+        /// </summary>
+        /// <param name="ud">用户详细信息模型</param>
+        /// <returns>代表保存更新是否成功的Boolean值</returns>
+        public async Task<bool> SaveUserDetail(UserDetail ud)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(ud.ForUser.ObjectID) || string.IsNullOrEmpty(ud.ForUser.Name))
+            {
+                throw new InvalidOperationException("没有指定保存对象ID或称谓空缺");
+            }
+
+            if (!string.IsNullOrEmpty(ud.ObjectId))
+            {
+                AVObject udo = await AVObject.GetQuery("UserDetail").GetAsync(ud.ObjectId);
+                await ud.UpdateUserDetailObject(udo).SaveAsync().ContinueWith(t =>
+                    {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        return AVUser.Query.GetAsync(ud.ForUser.ObjectID).ContinueWith(s =>
+                        {
+                            if (s.IsFaulted || s.IsCanceled)
+                            {
+                                throw s.Exception;
+                            }
+
+                            s.Result["nickname"] = ud.ForUser.Name;
+                            return s.Result.SaveAsync().ContinueWith(x =>
+                            {
+                                if (x.IsFaulted || x.IsCanceled)
+                                {
+                                    throw x.Exception;
+                                }
+
+                                return true;
+                            });
+                        });
+                    }).Unwrap().Unwrap();
+            }
+
+            return await ud.CreateUserDetailObjectForSave().SaveAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return AVUser.Query.GetAsync(ud.ForUser.ObjectID).ContinueWith(s =>
+                        {
+                            if (s.IsFaulted || s.IsCanceled)
+                            {
+                                throw s.Exception;
+                            }
+
+                            s.Result["nickname"] = ud.ForUser.Name;
+                            return s.Result.SaveAsync().ContinueWith(x =>
+                                {
+                                    if (x.IsFaulted || x.IsCanceled)
+                                    {
+                                        throw x.Exception;
+                                    }
+
+                                    return true;
+                                });
+                        });
+                }).Unwrap().Unwrap();
         }
         /// <summary>
         /// 关注一个用户。
@@ -479,9 +544,7 @@ namespace RTCareerAsk.DAL
 
                     if (t.Result.Count() == 0)
                     {
-                        return new UserDetail()
-                        {
-                            ForUser = new User(await GetUserByID(userId).ContinueWith(s =>
+                        return new UserDetail(await GetUserByID(userId).ContinueWith(s =>
                                 {
                                     if (s.IsFaulted || s.IsCanceled)
                                     {
@@ -489,8 +552,7 @@ namespace RTCareerAsk.DAL
                                     }
 
                                     return s.Result;
-                                }))
-                        };
+                                }));
                     }
 
                     return new UserDetail(t.Result.First());
@@ -1757,8 +1819,6 @@ namespace RTCareerAsk.DAL
                 });
 
             Task.WaitAll(u1, test);
-
-            //test.Result.Get<AVRelation<AVUser>>("forUser").Add(u1.Result);
 
             await test.Result.SaveAsync();
         }

@@ -39,7 +39,21 @@ body {
     /*--IE9 DOES NOT SUPPORT CSS3 GRADIENT BACKGROUNDS--*/
 }
 
+#divNavBar {
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+
+.container {
+    padding-top: 66px;
+}
+
 @font-face {
+}
+
+nav {
+    margin-bottom: 0 !important;
 }
 
 img {

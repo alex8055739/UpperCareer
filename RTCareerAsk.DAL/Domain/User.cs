@@ -115,14 +115,23 @@ namespace RTCareerAsk.DAL.Domain
     {
         public UserDetail() { }
 
+        public UserDetail(AVUser u)
+        {
+            CreateNewUserDetailObject(u);
+        }
+
         public UserDetail(AVObject udo)
         {
             GenerateUserDetailObject(udo);
         }
 
+        public string ObjectId { get; set; }
+
         public User ForUser { get; set; }
 
         public string Title { get; set; }
+
+        public int Gender { get; set; }
 
         public string Company { get; set; }
 
@@ -130,15 +139,26 @@ namespace RTCareerAsk.DAL.Domain
 
         public int FieldIndex { get; set; }
 
+        private void CreateNewUserDetailObject(AVUser uo)
+        {
+            ForUser = new User(uo);
+        }
+
         private void GenerateUserDetailObject(AVObject udo)
         {
             if (udo.ClassName != "UserDetail")
             {
                 throw new InvalidOperationException("获取的对象不是用户信息类object。");
             }
+            else if (!udo.ContainsKey("forUser") || udo.Get<AVUser>("forUser") == null)
+            {
+                throw new NullReferenceException("未能获取用户基本信息。");
+            }
 
-            ForUser = udo.ContainsKey("forUser") && udo.Get<AVUser>("forUser") != null ? new User(udo.Get<AVUser>("forUser")) : null;
+            ObjectId = udo.ObjectId;
+            ForUser = new User(udo.Get<AVUser>("forUser"));
             Title = udo.Get<string>("title");
+            Gender = udo.Get<int>("gender");
             Company = udo.Get<string>("company");
             SelfDescription = udo.Get<string>("selfDescription");
             FieldIndex = udo.Get<int>("fieldIndex");
@@ -148,12 +168,38 @@ namespace RTCareerAsk.DAL.Domain
         {
             AVObject userDetail = new AVObject("UserDetail");
 
+            userDetail.Add("forUser", ForUser.LoadUserObject());
             userDetail.Add("title", Title);
+            userDetail.Add("gender", Gender);
             userDetail.Add("company", Company);
             userDetail.Add("selfDescription", SelfDescription);
             userDetail.Add("fieldIndex", FieldIndex);
 
             return userDetail;
         }
+
+        public AVObject UpdateUserDetailObject(AVObject udo)
+        {
+            if (udo.ClassName != "UserDetail")
+            {
+                throw new InvalidOperationException("获取的对象不是用户信息类object。");
+            }
+            //else if (!udo.ContainsKey("forUser") || udo.Get<AVUser>("forUser") == null)
+            //{
+            //    throw new NullReferenceException("未能获取用户基本信息。");
+            //}
+
+            //AVUser uo = udo.Get<AVUser>("forUser");
+            //uo["nickname"] = ForUser.Name;
+            //udo["forUser"] = uo;
+            udo["title"] = Title;
+            udo["gender"] = Gender;
+            udo["company"] = Company;
+            udo["selfDescription"] = SelfDescription;
+            udo["fieldIndex"] = FieldIndex;
+
+            return udo;
+        }
+
     }
 }

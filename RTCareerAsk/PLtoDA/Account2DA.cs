@@ -31,12 +31,17 @@ namespace RTCareerAsk.PLtoDA
                 });
         }
 
-        public async Task<UserDetailModel> LoadUserManageInfo(string userId)
+        public async Task<UserManageModel> LoadUserManageInfo(string userId)
         {
             return await LCDal.LoadUserDetail(userId).ContinueWith(t =>
                 {
-                    return new UserDetailModel(t.Result);
+                    return new UserManageModel(t.Result);
                 });
+        }
+
+        public async Task<bool> UpdateProfile(UserManageModel umm)
+        {
+            return await LCDal.SaveUserDetail(umm.RestoreUserManageModelToUserDetailObject());
         }
     }
 }

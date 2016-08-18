@@ -16,7 +16,7 @@ using RTCareerAsk.PLtoDA;
 
 namespace RTCareerAsk.Controllers
 {
-    [Authorize]
+    //[Authorize]
     //[InitializeSimpleMembership] //Placeholder: Comment this area to disable WebSecurity functions.
     public class AccountController : BaseController
     {
@@ -191,8 +191,9 @@ namespace RTCareerAsk.Controllers
 
                 ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
                 ViewBag.IsAdmin = IsUserAuthorized("Admin");
+                ViewBag.FieldList = GetFieldList();
 
-                UserDetailModel model = await AccountDa.LoadUserManageInfo(GetUserID());
+                UserManageModel model = await AccountDa.LoadUserManageInfo(GetUserID());
 
                 return View(model);
             }
@@ -203,6 +204,22 @@ namespace RTCareerAsk.Controllers
             }
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<PartialViewResult> UserManage(UserManageModel model)
+        {
+            try
+            {
+                await AccountDa.UpdateProfile(model);
+
+                return PartialView("_NavBar");
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
         #endregion
 
         #region Upper Excluded

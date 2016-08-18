@@ -83,9 +83,13 @@ namespace RTCareerAsk.Models
             ConvertUserDetailObjectToModel(ud);
         }
 
+        public string UserDetailID { get; set; }
+
         public string UserID { get; set; }
 
         public string Name { get; set; }
+
+        public int Gender { get; set; }
 
         public string Portrait { get; set; }
 
@@ -124,8 +128,10 @@ namespace RTCareerAsk.Models
         {
             if (ud != null)
             {
+                UserDetailID = ud.ObjectId;
                 UserID = ud.ForUser.ObjectID;
                 Name = ud.ForUser.Name;
+                Gender = ud.Gender;
                 Portrait = ud.ForUser.Portrait;
                 Title = ud.Title;
                 Company = ud.Company;
@@ -143,11 +149,6 @@ namespace RTCareerAsk.Models
             RecentAnswers.AddRange(answers);
 
             return this;
-        }
-
-        public UserDetail CreateUserDetailObjectForSave()
-        {
-            throw new NotImplementedException();
         }
     }
 }

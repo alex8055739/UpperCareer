@@ -181,6 +181,28 @@ namespace RTCareerAsk.Controllers
             return Session[sessionName] as T;
         }
 
+        protected List<SelectListItem> GetFieldList()
+        {
+            return new List<SelectListItem>()
+            {
+                new SelectListItem(){Text="未选择",Value="0"},
+                new SelectListItem(){Text="科技科研",Value="1"},
+                new SelectListItem(){Text="金融",Value="2"},
+                new SelectListItem(){Text="教育培训",Value="3"},
+                new SelectListItem(){Text="服务业",Value="4"},
+                new SelectListItem(){Text="信息传媒",Value="5"},
+                new SelectListItem(){Text="制造业",Value="6"},
+                new SelectListItem(){Text="地产开发",Value="7"},
+                new SelectListItem(){Text="医疗保健",Value="8"},
+                new SelectListItem(){Text="运输物流",Value="9"},
+                new SelectListItem(){Text="艺术文化",Value="10"},
+                new SelectListItem(){Text="体育",Value="11"},
+                new SelectListItem(){Text="政府和公共事业",Value="12"},
+                new SelectListItem(){Text="贸易零售",Value="13"},
+                new SelectListItem(){Text="自由职业",Value="14"}
+            };
+        }
+
         #endregion
 
         #region Authorization

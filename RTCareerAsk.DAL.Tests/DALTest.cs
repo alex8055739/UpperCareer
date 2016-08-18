@@ -373,6 +373,20 @@ namespace RTCareerAsk.DAL.Tests
             Assert.AreEqual("老司机阿来", await LCDal.LoadUserDetail(UserId).ContinueWith(t => t.Result.ForUser.Name));
         }
 
+        [TestMethod]
+        public async Task SaveUserDetailTest()
+        {
+            UserDetail ud = await LCDal.LoadUserDetail(UserId);
+
+            ud.ForUser.Name = "老司机阿来";
+            ud.Title = "全国失眠达人";
+            ud.Gender = 1;
+            ud.Company = "拉夫德尔网络科技";
+            ud.SelfDescription = "激动得不知道说些什么好";
+
+            Assert.IsTrue(await LCDal.SaveUserDetail(ud));
+        }
+
         #endregion
 
         #region Practice Test
