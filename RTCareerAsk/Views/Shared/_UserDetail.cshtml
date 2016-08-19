@@ -39,7 +39,6 @@
                 {
                 @Ajax.ActionLink("取消关注", "UnfollowUser", "User", new { id = Model.UserID }, new AjaxOptions
            {
-               LoadingElementId = "divInfoLoading",
                OnBegin = "OnUnfollowBegin",
                OnSuccess = "OnUnfollowSuccess",
                OnComplete = "OnUnfollowComplete",
@@ -47,7 +46,6 @@
            }, new { @class = "btn btn-primary", id = "btnUnfollow", style = Model.HasFollowed ? "" : "display:none" })
                 @Ajax.ActionLink("关注TA", "FollowUser", "User", new { id = Model.UserID }, new AjaxOptions
            {
-               LoadingElementId = "divInfoLoading",
                OnBegin = "OnFollowBegin",
                OnSuccess = "OnFollowSuccess",
                OnComplete = "OnFollowComplete",

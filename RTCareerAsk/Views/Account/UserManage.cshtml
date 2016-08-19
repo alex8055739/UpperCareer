@@ -20,7 +20,7 @@
         @using (Ajax.BeginForm("UserManage", "Account", new { }, new AjaxOptions
         {
             LoadingElementId = "divInfoLoading",
-
+            UpdateTargetId = "divNavBar",
             OnBegin = "OnProfileBegin",
             OnSuccess = "OnProfileSuccess",
             OnComplete = "OnProfileComplete",

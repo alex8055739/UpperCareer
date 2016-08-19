@@ -1,7 +1,9 @@
 ﻿function OnFollowBegin() {
-    var loadingTab = $('#divInfoLoading').find('strong');
-    loadingTab.text('正在提交申请，请您耐心等待');
-    loadingTab.append('<div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: 100%"></div></div>');
+    //var loadingTab = $('#divInfoLoading').find('strong');
+    //loadingTab.text('正在提交申请，请您耐心等待');
+    //loadingTab.append('<div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: 100%"></div></div>');
+
+    $('#btnFollow').addClass('disabled').text('关注中...');
 }
 
 function OnFollowSuccess() {
@@ -15,16 +17,20 @@ function OnFollowSuccess() {
     $('#spnFollowerCount').html(newFollowerCount + 1);
 }
 
-function OnFollowComplete() { }
+function OnFollowComplete() {
+    $('#btnFollow').removeClass('disabled').text('关注TA');
+}
 
 function OnFollowFailure() {
     DisplayErrorInfo('申请关注出现问题，请您查看……');
 }
 
 function OnUnfollowBegin() {
-    var loadingTab = $('#divInfoLoading').find('strong');
-    loadingTab.text('正在提交申请，请您耐心等待');
-    loadingTab.append('<div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: 100%"></div></div>');
+    //var loadingTab = $('#divInfoLoading').find('strong');
+    //loadingTab.text('正在提交申请，请您耐心等待');
+    //loadingTab.append('<div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: 100%"></div></div>');
+
+    $('#btnUnfollow').addClass('disabled').text('取关中...');
 }
 
 function OnUnfollowSuccess() {
@@ -38,7 +44,9 @@ function OnUnfollowSuccess() {
     $('#spnFollowerCount').html(newFollowerCount - 1);
 }
 
-function OnUnfollowComplete() { }
+function OnUnfollowComplete() {
+    $('#btnUnfollow').removeClass('disabled').text('取消关注');
+}
 
 function OnUnfollowFailure() {
     DisplayErrorInfo('取消关注出现问题，请您查看……');

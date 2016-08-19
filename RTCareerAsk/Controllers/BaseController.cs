@@ -88,6 +88,20 @@ namespace RTCareerAsk.Controllers
             StoreUserToSession(UserInfo);
         }
 
+        protected async Task UpdateUserInfo(IDictionary<string, object> newInfo)
+        {
+            foreach (string key in newInfo.Keys)
+            {
+                if (key == "NewMessageCount")
+                {
+                    ModifyUserInfo(key, await HomeDa.LoadMessageCount(GetUserID()));
+                    continue;
+                }
+
+                ModifyUserInfo(key, newInfo[key]);
+            }
+        }
+
         protected void ClearUserFromSession()
         {
             Session["UserInfo"] = null;
@@ -246,6 +260,28 @@ namespace RTCareerAsk.Controllers
                         where !String.IsNullOrEmpty(trimmed)
                         select trimmed;
             return split.ToArray();
+        }
+
+        #endregion
+
+        #region Private Method
+
+        private void ModifyUserInfo(string key, object value)
+        {
+            switch (key)
+            {
+                case "Name":
+                    UserInfo.Name = value.ToString();
+                    break;
+                case "Portrait":
+                    UserInfo.Portrait = value.ToString();
+                    break;
+                case "NewMessageCount":
+                    UserInfo.NewMessageCount = Convert.ToInt32(value);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("不能识别输入的变量名");
+            }
         }
 
         #endregion

@@ -210,7 +210,10 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
-                await AccountDa.UpdateProfile(model);
+                if (await AccountDa.UpdateProfile(model))
+                {
+                    await UpdateUserInfo(new Dictionary<string, object>() { { "Name", model.Name } });
+                }
 
                 return PartialView("_NavBar");
             }

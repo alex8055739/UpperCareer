@@ -77,6 +77,17 @@ namespace RTCareerAsk.Controllers
         }
 
         [HttpPost]
+        public async Task<PartialViewResult> UpdateMsgCount()
+        {
+            await UpdateUserInfo(new Dictionary<string, object>() { { "NewMessageCount", null } });
+
+            ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
+            ViewBag.IsAdmin = IsUserAuthorized("Admin");
+
+            return PartialView("_NavBar");
+        }
+
+        [HttpPost]
         public PartialViewResult CreateLetterForm(string targetId)
         {
             try

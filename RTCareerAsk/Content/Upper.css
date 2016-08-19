@@ -45,7 +45,7 @@ body {
     z-index: 100;
 }
 
-.container {
+#body .container {
     padding-top: 66px;
 }
 

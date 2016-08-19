@@ -39,19 +39,19 @@ function DisplaySuccessInfo(infoText) {
     var successTab = $('#divInfoSuccess').find('strong');
     $('div[id^="divInfo"]').hide();
     successTab.text(infoText);
-    successTab.closest('.alert-tag').show('slow');
+    successTab.closest('.alert-tag').fadeIn('slow').delay(2000).fadeOut('slow');
 }
 
 function DisplayErrorInfo(infoText) {
     var errorTab = $('#divInfoError').find('strong');
     $('div[id^="divInfo"]').hide();
     errorTab.text(infoText);
-    errorTab.closest('.alert-tag').show('slow');
+    errorTab.closest('.alert-tag').fadeIn('slow').delay(2000).fadeOut('slow');
 }
 
 $(document).ready(function () {
     $(document).on('click', 'button.close', function () {
-        $(this).closest('.alert-tag').toggle('slow');
+        $(this).closest('.alert-tag').hide('slow');
     });
 
     $('#btnPostQuestion').click(function (e) {

@@ -160,33 +160,39 @@ namespace RTCareerAsk.DAL
 
             if (!string.IsNullOrEmpty(ud.ObjectId))
             {
-                AVObject udo = await AVObject.GetQuery("UserDetail").GetAsync(ud.ObjectId);
-                await ud.UpdateUserDetailObject(udo).SaveAsync().ContinueWith(t =>
+                return await AVObject.GetQuery("UserDetail").GetAsync(ud.ObjectId).ContinueWith(t =>
                     {
-                        if (t.IsFaulted || t.IsCanceled)
+                        if (t.IsFaulted||t.IsCanceled)
                         {
                             throw t.Exception;
                         }
 
-                        return AVUser.Query.GetAsync(ud.ForUser.ObjectID).ContinueWith(s =>
-                        {
-                            if (s.IsFaulted || s.IsCanceled)
+                        return ud.UpdateUserDetailObject(t.Result).SaveAsync().ContinueWith(u=>{
+                            if (u.IsFaulted||u.IsCanceled)
                             {
-                                throw s.Exception;
+                                throw u.Exception;
                             }
 
-                            s.Result["nickname"] = ud.ForUser.Name;
-                            return s.Result.SaveAsync().ContinueWith(x =>
+                            return AVUser.Query.GetAsync(ud.ForUser.ObjectID).ContinueWith(v =>
                             {
-                                if (x.IsFaulted || x.IsCanceled)
+                                if (v.IsFaulted||v.IsCanceled)
                                 {
-                                    throw x.Exception;
+                                    throw v.Exception;
                                 }
 
-                                return true;
+                                v.Result["nickname"] = ud.ForUser.Name;
+                                return v.Result.SaveAsync().ContinueWith(w =>
+                                    {
+                                        if (w.IsFaulted||w.IsCanceled)
+                                        {
+                                            throw w.Exception;
+                                        }
+
+                                        return true;
+                                    });
                             });
                         });
-                    }).Unwrap().Unwrap();
+                    }).Unwrap().Unwrap().Unwrap();
             }
 
             return await ud.CreateUserDetailObjectForSave().SaveAsync().ContinueWith(t =>

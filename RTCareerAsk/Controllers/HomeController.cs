@@ -42,16 +42,16 @@ namespace RTCareerAsk.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<PartialViewResult> UpdateMsgCount()
-        {
-            await UpdateUserInfo();
+        //[HttpPost]
+        //public async Task<PartialViewResult> UpdateMsgCount()
+        //{
+        //    await UpdateUserInfo();
 
-            ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-            ViewBag.IsAdmin = IsUserAuthorized("Admin");
+        //    ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
+        //    ViewBag.IsAdmin = IsUserAuthorized("Admin");
 
-            return PartialView("_NavBar");
-        }
+        //    return PartialView("_NavBar");
+        //}
 
         [HttpPost]
         public async Task<PartialViewResult> ChangePortrait(HttpPostedFileBase portrait)
@@ -62,7 +62,7 @@ namespace RTCareerAsk.Controllers
 
                 if (await HomeDa.ChangeUserPortrait(GetUserID(), url))
                 {
-                    await UpdateUserInfo(url);
+                    await UpdateUserInfo(new Dictionary<string, object>() { { "Portrait", url } });
                 }
                 else
                 {

@@ -184,14 +184,7 @@ namespace RTCareerAsk.DAL.Domain
             {
                 throw new InvalidOperationException("获取的对象不是用户信息类object。");
             }
-            //else if (!udo.ContainsKey("forUser") || udo.Get<AVUser>("forUser") == null)
-            //{
-            //    throw new NullReferenceException("未能获取用户基本信息。");
-            //}
 
-            //AVUser uo = udo.Get<AVUser>("forUser");
-            //uo["nickname"] = ForUser.Name;
-            //udo["forUser"] = uo;
             udo["title"] = Title;
             udo["gender"] = Gender;
             udo["company"] = Company;
