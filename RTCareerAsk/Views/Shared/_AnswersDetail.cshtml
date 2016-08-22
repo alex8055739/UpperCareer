@@ -28,6 +28,10 @@
                 {
                     <div class="float-right">
                         <ul class="breadcrumb" style="font-size: 5px">
+                            @if (a.IsEditAllowed)
+                            {
+                                <li><a href="#" role="button">编辑答案</a></li>
+                            }
                             <li><a href="@string.Format("#divCmtForm{0}", a.AnswerID)" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">评一下</a></li>
                             <li><a href="@string.Format("#divCmtList{0}", a.AnswerID)" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" class="CmtCount">
                                 <span class="badge">@a.Comments.Count</span>条评论

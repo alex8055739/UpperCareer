@@ -25,6 +25,9 @@ function OnPostSuccess() {
 
 function OnAnsSuccess() {
     DisplaySuccessInfo('恭喜，您已成功发布答案！')
+
+    $('#btnSubmitAns').addClass('disabled');
+    $('#btnWriteAnswer').fadeOut('slow');
 }
 
 function OnCmtSuccess() {

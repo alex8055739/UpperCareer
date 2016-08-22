@@ -35,7 +35,7 @@ namespace RTCareerAsk.Models
     {
         [Required(ErrorMessage="请您输入答案正文")]
         [DisplayName("答案内容：")]
-        [StringLength(20000, ErrorMessage = "超过字数上限，答案请不要超过20000字")]
+        [StringLength(5000, ErrorMessage = "超过字数上限，答案请不要超过20000字")]
         public string PostContent { get; set; }
 
         public string QuestionID { get; set; }

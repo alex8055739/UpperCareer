@@ -485,6 +485,15 @@ namespace RTCareerAsk.DAL.Tests
             Assert.AreEqual("_File", file.ClassName);
         }
 
+        [TestMethod]
+        public async Task UpdateAnswerContentTst()
+        {
+            string ansId = "57986f3b1532bc0060ee1f5b";
+            string content = "我知道错了，下次不写这么长的答案了。";
+
+            Assert.IsTrue(await LCDal.UpdateAnswerContent(ansId, content));
+        }
+
         #endregion
     }
 }

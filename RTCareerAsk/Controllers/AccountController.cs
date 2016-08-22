@@ -29,6 +29,8 @@ namespace RTCareerAsk.Controllers
         public ActionResult Login(string returnUrl, bool fromRegister = false)
         {
             ViewBag.Title = "请您登陆或加入Upper";
+            ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
+            ViewBag.IsAdmin = IsUserAuthorized("Admin");
 
             if (fromRegister)
             {

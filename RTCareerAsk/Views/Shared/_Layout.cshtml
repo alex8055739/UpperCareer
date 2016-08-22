@@ -13,7 +13,7 @@
     <script type="text/javascript">
         var updateMsgCount = "@Url.Action("UpdateMsgCount", "Message")"
         var loadQuestionForm = "@Url.Action("CreateQuestionForm", "Question")"
-        var changePortrait = "@Url.Action("ChangePortrait","Home")"
+        var changePortrait = "@Url.Action("ChangePortrait", "Home")"
     </script>
 </head>
 <body>
@@ -21,6 +21,10 @@
         <header>
             <div id="divNavBar">
                 @Html.Partial("_NavBar")
+            </div>
+            <div class="modal fade" id="divModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                </div>
             </div>
         </header>
         <div id="body">

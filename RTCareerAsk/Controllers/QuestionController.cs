@@ -19,7 +19,7 @@ namespace RTCareerAsk.Controllers
                 ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
                 ViewBag.IsAdmin = IsUserAuthorized("Admin");
 
-                return View(await QuestionDa.GetQuestionModel(id));
+                return View(SetFlagsForActions(await QuestionDa.GetQuestionModel(id)));
             }
             catch (Exception e)
             {
@@ -41,7 +41,6 @@ namespace RTCareerAsk.Controllers
                 throw e;
             }
         }
-
 
         [HttpPost]
         [ValidateInput(false)]
@@ -89,7 +88,7 @@ namespace RTCareerAsk.Controllers
                     ViewBag.IsAdmin = IsUserAuthorized("Admin");
 
                     //Placeholder: Send a notify message to original poster, a.NotifyUserID.
-                    return PartialView("_AnswersDetail", await QuestionDa.GetAnswerModels(a.QuestionID));
+                    return PartialView("_AnswersDetail", SetFlagsForActions(await QuestionDa.GetAnswerModels(a.QuestionID)));
                 }
 
                 throw new InvalidOperationException("保存答案失败，请再次尝试");
@@ -131,6 +130,38 @@ namespace RTCareerAsk.Controllers
                 while (e.InnerException != null) e = e.InnerException;
                 throw e;
             }
+        }
+
+        private QuestionModel SetFlagsForActions(QuestionModel model)
+        {
+            bool createdByUser = model.Creator.UserID == GetUserID();
+            IEnumerable<AnswerModel> answerByUser = model.Answers.Where(x => x.Creator.UserID == GetUserID());
+
+            model.IsEditAllowed = createdByUser;
+            model.IsAnswerAllowed = !createdByUser && answerByUser.Count() == 0;
+
+            if (answerByUser.Count() > 0)
+            {
+                foreach (AnswerModel ans in answerByUser)
+                {
+                    model.Answers.Where(x => x.AnswerID == ans.AnswerID).First().IsEditAllowed = true;
+                }
+            }
+
+            return model;
+        }
+
+        private List<AnswerModel> SetFlagsForActions(List<AnswerModel> models)
+        {
+            foreach (AnswerModel ans in models)
+            {
+                if (ans.Creator.UserID == GetUserID())
+                {
+                    ans.IsEditAllowed = true;
+                }
+            }
+
+            return models;
         }
     }
 }

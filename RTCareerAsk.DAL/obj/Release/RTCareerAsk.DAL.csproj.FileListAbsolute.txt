@@ -6,3 +6,11 @@ C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCaree
 C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL\obj\Release\RTCareerAsk.DAL.dll
 C:\Users\Administrator\documents\visual studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL\obj\Release\RTCareerAsk.DAL.pdb
 C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL\obj\Release\RTCareerAsk.DAL.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Release\RTCareerAsk.DAL.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Release\RTCareerAsk.DAL.pdb
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Release\AVOSCloud.NetFx45.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Release\websocket-sharp.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Release\AVOSCloud.NetFx45.xml
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\obj\Release\RTCareerAsk.DAL.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\obj\Release\RTCareerAsk.DAL.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\obj\Release\RTCareerAsk.DAL.pdb

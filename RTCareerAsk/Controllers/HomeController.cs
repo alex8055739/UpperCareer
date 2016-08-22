@@ -42,17 +42,6 @@ namespace RTCareerAsk.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public async Task<PartialViewResult> UpdateMsgCount()
-        //{
-        //    await UpdateUserInfo();
-
-        //    ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-        //    ViewBag.IsAdmin = IsUserAuthorized("Admin");
-
-        //    return PartialView("_NavBar");
-        //}
-
         [HttpPost]
         public async Task<PartialViewResult> ChangePortrait(HttpPostedFileBase portrait)
         {

@@ -15,11 +15,18 @@
                 <small><strong><a href="@Url.Action("Index", "User", new { id = Model.Creator.UserID })">@Model.Creator.Name</a></strong>于<cite title="Source Title">@Model.DateCreate.Year 年 @Model.DateCreate.Month 月 @Model.DateCreate.Day 日</cite>提问</small>
                 if (IsAuthorized)
                 {
-                <a href="#divAnsForm" role="button" data-toggle="collapse" class="btn btn-info float-right" aria-expanded="false" aria-controls="collapseExample">我要回答</a>
+                    if (Model.IsEditAllowed)
+                    {
+                <a href="#" class="btn btn-warning float-right">编辑问题</a>
+                    }
+                    else if (Model.IsAnswerAllowed)
+                    {
+                <a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" class="btn btn-info float-right" aria-expanded="false" aria-controls="collapseExample">我要回答</a>
+                    }
                 }
             }
         </div>
-        @if (IsAuthorized)
+        @if (IsAuthorized && Model.IsAnswerAllowed)
         {
             @Html.Partial("_AnswerForm", new RTCareerAsk.Models.AnswerPostModel() { QuestionID = Model.QuestionID, NotifyUserID = Model.Creator.UserID })
         }

@@ -162,20 +162,21 @@ namespace RTCareerAsk.DAL
             {
                 return await AVObject.GetQuery("UserDetail").GetAsync(ud.ObjectId).ContinueWith(t =>
                     {
-                        if (t.IsFaulted||t.IsCanceled)
+                        if (t.IsFaulted || t.IsCanceled)
                         {
                             throw t.Exception;
                         }
 
-                        return ud.UpdateUserDetailObject(t.Result).SaveAsync().ContinueWith(u=>{
-                            if (u.IsFaulted||u.IsCanceled)
+                        return ud.UpdateUserDetailObject(t.Result).SaveAsync().ContinueWith(u =>
+                        {
+                            if (u.IsFaulted || u.IsCanceled)
                             {
                                 throw u.Exception;
                             }
 
                             return AVUser.Query.GetAsync(ud.ForUser.ObjectID).ContinueWith(v =>
                             {
-                                if (v.IsFaulted||v.IsCanceled)
+                                if (v.IsFaulted || v.IsCanceled)
                                 {
                                     throw v.Exception;
                                 }
@@ -183,7 +184,7 @@ namespace RTCareerAsk.DAL
                                 v.Result["nickname"] = ud.ForUser.Name;
                                 return v.Result.SaveAsync().ContinueWith(w =>
                                     {
-                                        if (w.IsFaulted||w.IsCanceled)
+                                        if (w.IsFaulted || w.IsCanceled)
                                         {
                                             throw w.Exception;
                                         }
@@ -1764,6 +1765,28 @@ namespace RTCareerAsk.DAL
             });
 
             return isSuccess;
+        }
+
+        public async Task<bool> UpdateAnswerContent(string answerId, string content)
+        {
+            return await AVObject.GetQuery("Answer").GetAsync(answerId).ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    t.Result["content"] = content;
+                    return t.Result.SaveAsync().ContinueWith(s =>
+                    {
+                        if (s.IsFaulted || s.IsCanceled)
+                        {
+                            throw s.Exception;
+                        }
+
+                        return true;
+                    });
+                }).Unwrap();
         }
 
         public async Task<AVUser> GetUserByID(string userId)

@@ -30,6 +30,10 @@ namespace RTCareerAsk.Models
 
         public string Content { get; set; }
 
+        public bool IsEditAllowed { get; set; }
+
+        public bool IsAnswerAllowed { get; set; }
+
         public List<AnswerModel> Answers { get; set; }
 
         private void ConvertQuestionObjectToModel(Question po)
@@ -48,7 +52,6 @@ namespace RTCareerAsk.Models
                 }
             }
         }
-        //Place a group of pictures at this point
     }
 
     public class AnswerModel
@@ -76,6 +79,8 @@ namespace RTCareerAsk.Models
         public DateTime DateCreate { get; set; }
 
         public List<CommentModel> Comments { get; set; }
+
+        public bool IsEditAllowed { get; set; }
 
         private void ConvertAnswerObjectToModel(Answer ao)
         {

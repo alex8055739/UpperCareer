@@ -17,18 +17,21 @@
     {
         <div class="modal-body post">
             <div>
-                <div class="display">
+                @*<div class="display">
                     @Html.LabelFor(model => model.PostTitle)
-                </div>
+                </div>*@
                 <div class="edit-title">
-                    @Html.EditorFor(model => model.PostTitle)
+                    @Html.TextBoxFor(model => model.PostTitle, new { placeholder = "请输入问题标题" })
+                    <span class="help-block">这是一句描述</span>
+                    <span class="help-block">这是一句描述</span>
+                    <span class="help-block">这是一句描述</span>
                 </div>
             </div>
             <div class="validate">
                 @Html.ValidationMessageFor(model => model.PostTitle, "", new { @class = "validation-msg" })
             </div>
             <div>
-                @Html.TextAreaFor(model => model.PostContent, new { id="txtPostContent", style = "width:100%", rows = "8", placeholder = "请输入问题内容……" })
+                @Html.TextAreaFor(model => model.PostContent, new { id = "txtPostContent", style = "width:100%", rows = "8", placeholder = "请输入问题内容……" })
                 <script>
                     CKEDITOR.replace("txtPostContent");
                 </script>

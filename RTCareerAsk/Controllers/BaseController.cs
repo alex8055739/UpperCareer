@@ -75,19 +75,6 @@ namespace RTCareerAsk.Controllers
             Session["UserInfo"] = um;
         }
 
-        protected async Task UpdateUserInfo(string portraitUrl = "")
-        {
-            //Load updated new messages count.
-            UserInfo.NewMessageCount = await HomeDa.LoadMessageCount(GetUserID());
-            //Load updated new portrait link.
-            if (!string.IsNullOrEmpty(portraitUrl))
-            {
-                UserInfo.Portrait = portraitUrl;
-            }
-
-            StoreUserToSession(UserInfo);
-        }
-
         protected async Task UpdateUserInfo(IDictionary<string, object> newInfo)
         {
             foreach (string key in newInfo.Keys)
