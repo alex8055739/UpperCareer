@@ -50,4 +50,6 @@ CKEDITOR.editorConfig = function (config) {
 
     config.removeButtons = 'Subscript,Superscript,Cut,PasteText,Undo,Redo,PasteFromWord,Copy,Paste,Scayt,SpecialChar,Source,Underline,RemoveFormat,Anchor,Unlink,Outdent,Indent,Styles,Format,About';
     config.filebrowserImageUploadUrl = "/Home/UploadImage";
+
+    config.contentsCss = ['/Content/bootstrap.css', '/Content/Upper.css'];
 };

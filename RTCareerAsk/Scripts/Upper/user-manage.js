@@ -120,7 +120,7 @@ $(document).ready(function () {
                 contentType: false,
                 beforeSend: function () {
                     var loadingTab = $('#divInfoLoading').find('strong');
-                    loadingTab.text('正在提交问题，请您耐心等待');
+                    loadingTab.text('正在保存头像，请您耐心等待');
                     loadingTab.append('<div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: 100%"></div></div>');
                     $('div[id^="divInfo"]').hide();
                     loadingTab.closest('.alert-tag').show('slow');

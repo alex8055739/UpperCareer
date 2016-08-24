@@ -170,3 +170,9 @@ C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\zh-Hant\Syst
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\obj\Release\RTCareerAsk.csprojResolveAssemblyReference.cache
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\obj\Release\RTCareerAsk.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\obj\Release\RTCareerAsk.pdb
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.Http.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.Http.xml
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.Http.WebHost.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.Http.WebHost.xml
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Net.Http.Formatting.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Net.Http.Formatting.xml

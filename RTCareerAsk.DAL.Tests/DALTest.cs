@@ -387,6 +387,14 @@ namespace RTCareerAsk.DAL.Tests
             Assert.IsTrue(await LCDal.SaveUserDetail(ud));
         }
 
+        [TestMethod]
+        public async Task DeleteAnswerWithComments()
+        {
+            string ansId = "57bd740cdf0eea005c6fa262";
+
+            Assert.IsTrue(await LCDal.DeleteAnswerWithComments(ansId));
+        }
+
         #endregion
 
         #region Practice Test

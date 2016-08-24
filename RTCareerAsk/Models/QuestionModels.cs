@@ -95,7 +95,6 @@ namespace RTCareerAsk.Models
                 Comments.Add(new CommentModel(c));
             }
         }
-        //Place a group of pictures
     }
 
     public class CommentModel

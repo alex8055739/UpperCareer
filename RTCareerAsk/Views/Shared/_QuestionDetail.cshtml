@@ -9,7 +9,9 @@
             <h2>@Model.Title</h2>
         </div>
         <div class="clearfix">
-            @Html.Raw(HttpUtility.HtmlDecode(Model.Content))
+            <div id="@string.Format("divQContent{0}", Model.QuestionID)">
+                @Html.Raw(HttpUtility.HtmlDecode(Model.Content))
+            </div>
             @if (Model.Creator != null)
             {
                 <small><strong><a href="@Url.Action("Index", "User", new { id = Model.Creator.UserID })">@Model.Creator.Name</a></strong>于<cite title="Source Title">@Model.DateCreate.Year 年 @Model.DateCreate.Month 月 @Model.DateCreate.Day 日</cite>提问</small>
@@ -17,11 +19,15 @@
                 {
                     if (Model.IsEditAllowed)
                     {
-                <a href="#" class="btn btn-warning float-right">编辑问题</a>
+                <a id="btnEditQuestion" href="#" class="btn btn-warning float-right">编辑问题</a>
                     }
-                    else if (Model.IsAnswerAllowed)
+                    if (Model.IsAnswerAllowed)
                     {
                 <a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" class="btn btn-info float-right" aria-expanded="false" aria-controls="collapseExample">我要回答</a>
+                    }
+                    else
+                    {
+                <a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" style="display: none" class="btn btn-info float-right" aria-expanded="false" aria-controls="collapseExample">我要回答</a>
                     }
                 }
             }

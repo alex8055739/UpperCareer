@@ -181,26 +181,6 @@ a:focus .question-info {
     float: right;
 }
 
-.post .display {
-    display: inline;
-    position: absolute;
-    width: 50px;
-}
-
-.post .edit-title {
-    display: inline;
-    margin-left: 50px;
-}
-
-.post .validate {
-    margin-left: 50px;
-    color: red;
-}
-
-.post div {
-    margin-bottom: 10px;
-}
-
 .button-expand {
     height: 5px;
     text-align: center;

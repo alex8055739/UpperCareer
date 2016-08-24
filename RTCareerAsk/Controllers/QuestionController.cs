@@ -132,19 +132,34 @@ namespace RTCareerAsk.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task UpdateContent(bool isQuestion, string id, string content)
+        {
+            await QuestionDa.UpdateContent(isQuestion, id, content);
+        }
+
+        [HttpPost]
+        public async Task DeleteAnswer(string ansId)
+        {
+            await QuestionDa.DeleteAnswerWithComments(ansId);
+        }
+
         private QuestionModel SetFlagsForActions(QuestionModel model)
         {
-            bool createdByUser = model.Creator.UserID == GetUserID();
-            IEnumerable<AnswerModel> answerByUser = model.Answers.Where(x => x.Creator.UserID == GetUserID());
-
-            model.IsEditAllowed = createdByUser;
-            model.IsAnswerAllowed = !createdByUser && answerByUser.Count() == 0;
-
-            if (answerByUser.Count() > 0)
+            if (HasUserInfo)
             {
-                foreach (AnswerModel ans in answerByUser)
+                bool createdByUser = model.Creator.UserID == GetUserID();
+                IEnumerable<AnswerModel> answerByUser = model.Answers.Where(x => x.Creator.UserID == GetUserID());
+
+                model.IsEditAllowed = createdByUser;
+                model.IsAnswerAllowed = !createdByUser && answerByUser.Count() == 0;
+
+                if (answerByUser.Count() > 0)
                 {
-                    model.Answers.Where(x => x.AnswerID == ans.AnswerID).First().IsEditAllowed = true;
+                    foreach (AnswerModel ans in answerByUser)
+                    {
+                        model.Answers.Where(x => x.AnswerID == ans.AnswerID).First().IsEditAllowed = true;
+                    }
                 }
             }
 

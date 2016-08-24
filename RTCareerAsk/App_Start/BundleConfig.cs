@@ -17,7 +17,8 @@ namespace RTCareerAsk
                         "~/Scripts/Upper/new-post.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/ask").Include(
-                        "~/Scripts/Upper/fix-image-display.js"));
+                        "~/Scripts/Upper/fix-image-display.js",
+                        "~/Scripts/Upper/question-answer-edit.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/user").Include(
                         "~/Scripts/Upper/user-page.js",

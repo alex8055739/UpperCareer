@@ -80,5 +80,15 @@ namespace RTCareerAsk.PLtoDA
         {
             return await LCDal.SaveNewComment(c.CreatePostForSave());
         }
+
+        public async Task UpdateContent(bool isQuestion, string id, string content)
+        {
+            await LCDal.UpdateContent(isQuestion, id, content);
+        }
+
+        public async Task DeleteAnswerWithComments(string ansId)
+        {
+            await LCDal.DeleteAnswerWithComments(ansId);
+        }
     }
 }

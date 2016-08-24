@@ -1237,6 +1237,56 @@ namespace RTCareerAsk.DAL
                 }
             });
         }
+        /// <summary>
+        /// 保存用户对自己发过的问题或答案内容的更新。
+        /// </summary>
+        /// <param name="isQuestion">被更新目标是否为问题</param>
+        /// <param name="id">被更新目标的ID</param>
+        /// <param name="content">更新后的内容</param>
+        /// <returns>代表操作是否成功的Boolean值</returns>
+        public async Task<bool> UpdateContent(bool isQuestion, string id, string content)
+        {
+            string className = isQuestion ? "Post" : "Answer";
+
+            return await AVObject.GetQuery(className).GetAsync(id).ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    t.Result["content"] = content;
+                    return t.Result.SaveAsync().ContinueWith(s =>
+                    {
+                        if (s.IsFaulted || s.IsCanceled)
+                        {
+                            throw s.Exception;
+                        }
+
+                        return true;
+                    });
+                }).Unwrap();
+        }
+
+        public async Task<bool> DeleteAnswerWithComments(string ansId)
+        {
+            AVObject ans = AVObject.CreateWithoutData("Answer", ansId);
+
+            IEnumerable<AVObject> cmts = await AVObject.GetQuery("Comment").WhereEqualTo("forAnswer", ans).FindAsync();
+
+            List<Task> ts = new List<Task>();
+
+            foreach (AVObject cmt in cmts)
+            {
+                ts.Add(cmt.DeleteAsync());
+            }
+
+            ts.Add(ans.DeleteAsync());
+
+            Task.WaitAll(ts.ToArray());
+
+            return true;
+        }
         #endregion
 
         #region Message Operation
