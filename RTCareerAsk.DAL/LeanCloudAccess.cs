@@ -1034,6 +1034,15 @@ namespace RTCareerAsk.DAL
                             throw t.Exception;
                         }
 
+                        t.Result["viewCount"] = t.Result.ContainsKey("viewCount") ? t.Result.Get<int>("viewCount") + 1 : 1;
+                        t.Result.SaveAsync().ContinueWith(s =>
+                        {
+                            if (s.IsFaulted || s.IsCanceled)
+                            {
+                                throw s.Exception;
+                            }
+                        });
+
                         return new Question(t.Result, ans);
                     });
             }
