@@ -31,14 +31,10 @@ namespace RTCareerAsk.DAL.Domain
         {
             if (po.ClassName != "Post")
             {
-                throw new InvalidOperationException("获取的对象不是问题类object。");
+                throw new InvalidOperationException(string.Format("获取的对象{0}不是问题类object。", po.ObjectId));
             }
-
-            ObjectID = po.ObjectId;
+            GenerateQACObject(po);
             Title = po.Get<string>("title");
-            Content = po.Get<string>("content");
-            DateCreate = Convert.ToDateTime(po.CreatedAt);
-            CreatedBy = po.Get<AVUser>("createdBy") != null ? new User(po.Get<AVUser>("createdBy")) : null;
         }
 
         public QuestionInfo SetAnswerCount(int ansCnt)
@@ -81,14 +77,11 @@ namespace RTCareerAsk.DAL.Domain
         {
             if (po.ClassName != "Post")
             {
-                throw new InvalidOperationException("获取的对象不是问题类object。");
+                throw new InvalidOperationException(string.Format("获取的对象{0}不是问题类object。", po.ObjectId));
             }
 
-            ObjectID = po.ObjectId;
+            GenerateQACObject(po);
             Title = po.ContainsKey("title") ? po.Get<string>("title") : null;
-            Content = po.ContainsKey("content") ? po.Get<string>("content") : null;
-            DateCreate = Convert.ToDateTime(po.CreatedAt);
-            CreatedBy = po.ContainsKey("createdBy") ? new User(po.Get<AVUser>("createdBy")) : null;
         }
 
         public Question SetAnswers(IEnumerable<AVObject> aos)
@@ -153,14 +146,11 @@ namespace RTCareerAsk.DAL.Domain
         {
             if (ao.ClassName != "Answer")
             {
-                throw new InvalidOperationException("获取的对象不是答案类object。");
+                throw new InvalidOperationException(string.Format("获取的对象{0}不是答案类object。", ao.ObjectId));
             }
 
-            ObjectID = ao.ObjectId;
-            Content = ao.Get<string>("content");
-            CreatedBy = ao.Get<AVUser>("createdBy") != null ? new User(ao.Get<AVUser>("createdBy")) : null;
+            GenerateQACObject(ao);
             ForQuestion = ao.Get<AVObject>("forQuestion") != null ? new Question(ao.Get<AVObject>("forQuestion")) : null;
-            DateCreate = Convert.ToDateTime(ao.CreatedAt);
         }
 
         public Answer SetComments(IEnumerable<AVObject> cmts)
@@ -218,13 +208,10 @@ namespace RTCareerAsk.DAL.Domain
         {
             if (co.ClassName != "Comment")
             {
-                throw new InvalidOperationException("获取的对象不是评论类object。");
+                throw new InvalidOperationException(string.Format("获取的对象{0}不是评论类object。", co.ObjectId));
             }
 
-            ObjectID = co.ObjectId;
-            Content = co.Get<string>("content");
-            CreatedBy = co["createdBy"] != null ? new User(co.Get<AVUser>("createdBy")) : null;
-            DateCreate = Convert.ToDateTime(co.CreatedAt);
+            GenerateQACObject(co);
         }
 
         public AVObject CreateCommentObjectForSave()
