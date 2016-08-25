@@ -6,16 +6,18 @@
 
     $.ajax(updateContent, {
         method: 'POST',
-        async: false,
         data: JSON.stringify(data),
         contentType: "application/json",
+        beforeSend: function () {
+            $('#btnEditQuestion').addClass('disabled').text('保存更新中……');
+        },
         success: function () {
             DisplaySuccessInfo('内容更新成功！');
-            return true;
+            $('#btnEditQuestion').trigger('updateSuccess');
         },
         error: function () {
             DisplayErrorInfo('内容更新出现问题……');
-            return false;
+            $('#btnEditQuestion').trigger('updateError');
         }
     });
 }
@@ -36,17 +38,20 @@ $(document).ready(function () {
         else {
             var data = CKEDITOR.instances[qContent.attr('id')].getData();
             var id = qContent.attr('id').replace('divQContent', '');
-            var result = UpdateContent('true', id, data);
-
-            if (result) {
-                qContent.removeAttr('contenteditable');
-                CKEDITOR.instances[qContent.attr('id')].destroy();
-                $(this).removeClass('btn-success').removeClass('disabled').addClass('btn-warning').text('编辑问题');
-            }
-            else {
-                $(this).removeClass('disabled').text('保存修改');
-            }
+            UpdateContent('true', id, data);
         }
+    });
+
+    $('#btnEditQuestion').on('updateSuccess', function () {
+        var qContent = $('div[id^="divQContent"]');
+
+        qContent.removeAttr('contenteditable');
+        CKEDITOR.instances[qContent.attr('id')].destroy();
+        $(this).removeClass('btn-success').removeClass('disabled').addClass('btn-warning').text('编辑问题');
+    });
+
+    $('#btnEditQuestion').on('updateError', function () {
+        $(this).removeClass('disabled').text('保存修改');
     });
 
     $(document).on('click', 'a[id^="btnAnsDel"]', function () {

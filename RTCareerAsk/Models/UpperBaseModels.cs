@@ -24,14 +24,14 @@ namespace RTCareerAsk.Models
             Creator = obj.CreatedBy != null ? new UserModel(obj.CreatedBy) : null;
             DateCreate = obj.DateCreate;
             Content = obj.Content;
-            //GenerateTimeDisplay();
+            GenerateTimeDisplay();
         }
 
         protected void GenerateTimeDisplay()
         {
             if (DateCreate == default(DateTime))
             {
-                throw new InvalidOperationException("没有找到创建时间");
+                throw new InvalidOperationException(string.Format("项目{0}没有找到创建时间", ID));
             }
 
             TimeSpan diff = DateTime.Now.Subtract(DateCreate);
