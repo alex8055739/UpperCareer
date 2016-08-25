@@ -10,7 +10,7 @@ using RTCareerAsk.PLtoDA;
 
 namespace RTCareerAsk.Controllers
 {
-    public class QuestionController : BaseController
+    public class QuestionController : UpperBaseController
     {
         public async Task<ActionResult> Index(string id)
         {
@@ -158,7 +158,7 @@ namespace RTCareerAsk.Controllers
                 {
                     foreach (AnswerModel ans in answerByUser)
                     {
-                        model.Answers.Where(x => x.AnswerID == ans.AnswerID).First().IsEditAllowed = true;
+                        model.Answers.Where(x => x.ID == ans.ID).First().IsEditAllowed = true;
                     }
                 }
             }

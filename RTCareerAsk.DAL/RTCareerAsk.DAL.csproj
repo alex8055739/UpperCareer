@@ -53,6 +53,7 @@
     <Compile Include="Domain\Message.cs" />
     <Compile Include="Domain\Question.cs" />
     <Compile Include="Domain\Test.cs" />
+    <Compile Include="Domain\UpperBaseDomains.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="LeanCloudAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

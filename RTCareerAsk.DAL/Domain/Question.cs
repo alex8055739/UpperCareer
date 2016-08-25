@@ -57,7 +57,7 @@ namespace RTCareerAsk.DAL.Domain
         }
     }
 
-    public class Question
+    public class Question : UpperQACBaseDomain
     {
         public Question()
         {
@@ -81,15 +81,7 @@ namespace RTCareerAsk.DAL.Domain
             GenerateQuestionObject(po);
         }
 
-        public string ObjectID { get; set; }
-
         public string Title { get; set; }
-
-        public string Content { get; set; }
-
-        public DateTime DateCreate { get; set; }
-
-        public User CreatedBy { get; set; }
 
         public List<Answer> Answers { get; set; }
 
@@ -147,7 +139,7 @@ namespace RTCareerAsk.DAL.Domain
         }
     }
 
-    public class Answer
+    public class Answer : UpperQACBaseDomain
     {
         public Answer()
         {
@@ -161,15 +153,7 @@ namespace RTCareerAsk.DAL.Domain
             GenerateAnswerObject(ao);
         }
 
-        public string ObjectID { get; set; }
-
-        public string Content { get; set; }
-
-        public User CreatedBy { get; set; }
-
         public Question ForQuestion { get; set; }
-
-        public DateTime DateCreate { get; set; }
 
         public List<Comment> Comments { get; set; }
 
@@ -227,7 +211,7 @@ namespace RTCareerAsk.DAL.Domain
         }
     }
 
-    public class Comment
+    public class Comment : UpperQACBaseDomain
     {
         public Comment() { }
 
@@ -236,15 +220,7 @@ namespace RTCareerAsk.DAL.Domain
             GenerateCommentObject(co);
         }
 
-        public string ObjectID { get; set; }
-
-        public string Content { get; set; }
-
-        public User CreatedBy { get; set; }
-
         public Answer ForAnswer { get; set; }
-
-        public DateTime DateCreate { get; set; }
 
         private void GenerateCommentObject(AVObject co)
         {

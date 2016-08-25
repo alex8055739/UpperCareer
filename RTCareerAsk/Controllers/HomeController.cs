@@ -11,7 +11,7 @@ using RTCareerAsk.Filters;
 
 namespace RTCareerAsk.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : UpperBaseController
     {
         #region Action
 
@@ -75,6 +75,21 @@ namespace RTCareerAsk.Controllers
 
             //上传成功后，我们还需要通过以下的一个脚本把图片返回到第一个tab选项
             return Content("<script>window.parent.CKEDITOR.tools.callFunction(" + CKEditorFuncNum + ", \"" + url + "\");</script>");
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UploadDroppedAndPastedImage(HttpPostedFileBase upload)
+        {
+            try
+            {
+                var url = await HomeDa.UploadImageFile(CreateFileModelForUpload(upload));
+                return Json(new { uploaded = 1, fileName = "图片", url = url });
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                return Json(new { uploaded = 0, error = new { message = e.Message } });
+            }
         }
 
         public async Task<ActionResult> FileListPage()

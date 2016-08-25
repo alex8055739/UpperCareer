@@ -6,7 +6,7 @@ using RTCareerAsk.DAL.Domain;
 
 namespace RTCareerAsk.Models
 {
-    public class QuestionModel
+    public class QuestionModel : UpperQACBaseModel
     {
         public QuestionModel()
         {
@@ -20,15 +20,7 @@ namespace RTCareerAsk.Models
             ConvertQuestionObjectToModel(po);
         }
 
-        public string QuestionID { get; set; }
-
-        public UserModel Creator { get; set; }
-
-        public DateTime DateCreate { get; set; }
-
         public string Title { get; set; }
-
-        public string Content { get; set; }
 
         public bool IsEditAllowed { get; set; }
 
@@ -38,11 +30,8 @@ namespace RTCareerAsk.Models
 
         private void ConvertQuestionObjectToModel(Question po)
         {
-            QuestionID = po.ObjectID;
-            Creator = po.CreatedBy != null ? new UserModel(po.CreatedBy) : null;
-            DateCreate = po.DateCreate;
+            ConvertQACObjectToModel(po);
             Title = po.Title;
-            Content = po.Content;
 
             if (po.Answers != null)
             {
@@ -54,7 +43,7 @@ namespace RTCareerAsk.Models
         }
     }
 
-    public class AnswerModel
+    public class AnswerModel : UpperQACBaseModel
     {
         public AnswerModel()
         {
@@ -68,15 +57,7 @@ namespace RTCareerAsk.Models
             ConvertAnswerObjectToModel(ao);
         }
 
-        public string AnswerID { get; set; }
-
-        public string Content { get; set; }
-
-        public UserModel Creator { get; set; }
-
         public QuestionModel ForQuestion { get; set; }
-
-        public DateTime DateCreate { get; set; }
 
         public List<CommentModel> Comments { get; set; }
 
@@ -84,11 +65,8 @@ namespace RTCareerAsk.Models
 
         private void ConvertAnswerObjectToModel(Answer ao)
         {
-            AnswerID = ao.ObjectID;
-            Content = ao.Content;
-            Creator = ao.CreatedBy != null ? new UserModel(ao.CreatedBy) : null;
+            ConvertQACObjectToModel(ao);
             ForQuestion = ao.ForQuestion != null ? new QuestionModel(ao.ForQuestion) : null;
-            DateCreate = ao.DateCreate;
 
             foreach (Comment c in ao.Comments)
             {
@@ -97,7 +75,7 @@ namespace RTCareerAsk.Models
         }
     }
 
-    public class CommentModel
+    public class CommentModel : UpperQACBaseModel
     {
         public CommentModel() { }
 
@@ -106,20 +84,9 @@ namespace RTCareerAsk.Models
             ConvertCommentObjectToModel(co);
         }
 
-        public string CommentID { get; set; }
-
-        public string Content { get; set; }
-
-        public UserModel Creator { get; set; }
-
-        public DateTime DateCreate { get; set; }
-
         private void ConvertCommentObjectToModel(Comment co)
         {
-            CommentID = co.ObjectID;
-            Content = co.Content;
-            Creator = co.CreatedBy != null ? new UserModel(co.CreatedBy) : null;
-            DateCreate = co.DateCreate;
+            ConvertQACObjectToModel(co);
         }
     }
 }

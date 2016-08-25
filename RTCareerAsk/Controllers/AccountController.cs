@@ -18,7 +18,7 @@ namespace RTCareerAsk.Controllers
 {
     //[Authorize]
     //[InitializeSimpleMembership] //Placeholder: Comment this area to disable WebSecurity functions.
-    public class AccountController : BaseController
+    public class AccountController : UpperBaseController
     {
         #region Upper Included
 

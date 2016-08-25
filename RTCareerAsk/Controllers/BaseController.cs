@@ -13,7 +13,7 @@ namespace RTCareerAsk.Controllers
     /// <summary>
     /// 基础控制器，用于提供通用方法。
     /// </summary>
-    public class BaseController : Controller
+    public class UpperBaseController : Controller
     {
         #region Private Field
 

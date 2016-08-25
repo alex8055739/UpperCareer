@@ -8,7 +8,7 @@ using RTCareerAsk.Models;
 
 namespace RTCareerAsk.Controllers
 {
-    public class TestController : BaseController
+    public class TestController : UpperBaseController
     {
         public string SessionCopyName { get { return "BugReportCopy"; } }
 

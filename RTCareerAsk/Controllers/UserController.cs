@@ -11,7 +11,7 @@ using RTCareerAsk.Filters;
 
 namespace RTCareerAsk.Controllers
 {
-    public class UserController : BaseController
+    public class UserController : UpperBaseController
     {
         public async Task<ActionResult> Index(string id)
         {

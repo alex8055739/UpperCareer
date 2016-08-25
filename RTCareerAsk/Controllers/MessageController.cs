@@ -9,7 +9,7 @@ using RTCareerAsk.Models;
 
 namespace RTCareerAsk.Controllers
 {
-    public class MessageController : BaseController
+    public class MessageController : UpperBaseController
     {
         public string SessionCopyName { get { return "MessageCopy"; } }
 

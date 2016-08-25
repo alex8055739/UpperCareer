@@ -213,6 +213,7 @@
     <Compile Include="Models\QuestionInfoModel.cs" />
     <Compile Include="Models\QuestionModels.cs" />
     <Compile Include="Models\TestModels.cs" />
+    <Compile Include="Models\UpperBaseModels.cs" />
     <Compile Include="Models\UserInfoModels.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="PLtoDA\Account2DA.cs" />
