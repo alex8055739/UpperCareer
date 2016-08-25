@@ -8,7 +8,7 @@
                 <p class="list-group-item-text lead">@Html.Raw(HttpUtility.HtmlDecode(a.Content))</p>
                 <p class="divider" />
                 <h5 class="list-group-item-heading">@a.ForQuestion.Title</h5>
-                <p class="list-group-item-text extra">@a.DateCreate.ToShortDateString()</p>
+                <p class="list-group-item-text extra">@a.TimeDisplay</p>
             </a>
         </div>
     }

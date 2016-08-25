@@ -7,7 +7,7 @@ using AVOSCloud;
 
 namespace RTCareerAsk.DAL.Domain
 {
-    public class QuestionInfo
+    public class QuestionInfo : UpperQACBaseDomain
     {
         public QuestionInfo() { }
 
@@ -23,15 +23,7 @@ namespace RTCareerAsk.DAL.Domain
             GenerateQuestionInfoObject(po);
         }
 
-        public string ObjectID { get; set; }
-
         public string Title { get; set; }
-
-        public string Content { get; set; }
-
-        public DateTime DateCreate { get; set; }
-
-        public User CreatedBy { get; set; }
 
         public int AnswerCount { get; set; }
 

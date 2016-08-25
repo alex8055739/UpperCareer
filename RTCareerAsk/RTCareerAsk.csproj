@@ -210,7 +210,6 @@
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\MessageModels.cs" />
     <Compile Include="Models\PostModels.cs" />
-    <Compile Include="Models\QuestionInfoModel.cs" />
     <Compile Include="Models\QuestionModels.cs" />
     <Compile Include="Models\TestModels.cs" />
     <Compile Include="Models\UpperBaseModels.cs" />

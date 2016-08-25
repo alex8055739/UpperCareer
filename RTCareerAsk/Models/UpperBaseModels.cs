@@ -12,8 +12,6 @@ namespace RTCareerAsk.Models
 
         public UserModel Creator { get; set; }
 
-        public DateTime DateCreate { get; set; }
-
         public string Content { get; set; }
 
         public string TimeDisplay { get; set; }
@@ -22,20 +20,17 @@ namespace RTCareerAsk.Models
         {
             ID = obj.ObjectID;
             Creator = obj.CreatedBy != null ? new UserModel(obj.CreatedBy) : null;
-            DateCreate = obj.DateCreate;
             Content = obj.Content;
-            GenerateTimeDisplay();
+            GenerateTimeDisplay(obj.DateCreate);
         }
 
-        protected void GenerateTimeDisplay()
+        protected void GenerateTimeDisplay(DateTime dateCreate)
         {
-            if (DateCreate == default(DateTime))
+            if (dateCreate != default(DateTime))
             {
-                throw new InvalidOperationException(string.Format("项目{0}没有找到创建时间", ID));
+                TimeSpan diff = DateTime.Now.Subtract(dateCreate);
+                TimeDisplay = diff.Days > 365 ? string.Format("{0}年前", diff.Days / 365) : diff.Days > 30 ? string.Format("{0}个月前", diff.Days / 30) : diff.Days > 0 ? string.Format("{0}天前", diff.Days) : diff.Hours > 0 ? string.Format("{0}小时前", diff.Hours) : string.Format("{0}分钟前", diff.Minutes);
             }
-
-            TimeSpan diff = DateTime.Now.Subtract(DateCreate);
-            TimeDisplay = diff.Days > 365 ? string.Format("{0}年前", diff.Days / 365) : diff.Days > 30 ? string.Format("{0}月前", diff.Days / 30) : diff.Days > 0 ? string.Format("{0}天前", diff.Days) : diff.Hours > 0 ? string.Format("{0}小时前", diff.Hours) : string.Format("{0}分钟前", diff.Minutes);
         }
     }
 }

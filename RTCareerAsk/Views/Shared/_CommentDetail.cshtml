@@ -6,6 +6,6 @@
         <p>@c.Content</p>
         <small>
             @Html.ActionLink(c.Creator.Name, "Index", "User", new { id = c.Creator.UserID }, new { })
-            <cite title="Source Title">@c.DateCreate.ToShortDateString()</cite></small>
+            <cite title="Source Title">@c.TimeDisplay</cite></small>
     </blockquote>
 }

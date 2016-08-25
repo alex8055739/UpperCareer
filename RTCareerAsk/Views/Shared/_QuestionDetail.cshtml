@@ -14,8 +14,7 @@
             </div>
             @if (Model.Creator != null)
             {
-                <small><strong><a href="@Url.Action("Index", "User", new { id = Model.Creator.UserID })">@Model.Creator.Name</a></strong>于<cite title="Source Title">@Model.DateCreate.Year 年 @Model.DateCreate.Month 月 @Model.DateCreate.Day 日</cite>提问</small>@*
-                <small><strong><a href="@Url.Action("Index", "User", new { id = Model.Creator.UserID })">@Model.Creator.Name</a></strong>于<cite title="Source Title">@Model.TimeDisplay</cite>提问</small>*@
+                <small><strong><a href="@Url.Action("Index", "User", new { id = Model.Creator.UserID })">@Model.Creator.Name</a></strong>于<cite title="Source Title">@Model.TimeDisplay</cite>提问</small>
                 if (IsAuthorized)
                 {
                     if (Model.IsEditAllowed)

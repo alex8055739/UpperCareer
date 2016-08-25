@@ -6,6 +6,27 @@ using RTCareerAsk.DAL.Domain;
 
 namespace RTCareerAsk.Models
 {
+    public class QuestionInfoModel : UpperQACBaseModel
+    {
+        public QuestionInfoModel() { }
+
+        public QuestionInfoModel(QuestionInfo qio)
+        {
+            ConvertQuestionObjectsToQuestionInfoModels(qio);
+        }
+
+        public string Title { get; set; }
+
+        public int AnswerCount { get; set; }
+
+        private void ConvertQuestionObjectsToQuestionInfoModels(QuestionInfo qio)
+        {
+            ConvertQACObjectToModel(qio);
+            Title = qio.Title;
+            AnswerCount = qio.AnswerCount;
+        }
+    }
+
     public class QuestionModel : UpperQACBaseModel
     {
         public QuestionModel()
