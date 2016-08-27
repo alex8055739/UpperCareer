@@ -32,7 +32,7 @@
                 }
             }
         </div>
-        @if (IsAuthorized && Model.IsAnswerAllowed)
+        @if (IsAuthorized)
         {
             @Html.Partial("_AnswerForm", new RTCareerAsk.Models.AnswerPostModel() { QuestionID = Model.ID, NotifyUserID = Model.Creator.UserID })
         }

@@ -22,8 +22,9 @@
     <div class="answer">
         <div class="bs-component clearfix">
             <blockquote>
-                <p>@a.Content</p>
-                @*<small>由<a href="@Url.Action("Index", "User", new { id = a.Creator.UserID })">@a.Creator.Name</a> 于 <cite title="Source Title">@a.DateCreate.Year 年 @a.DateCreate.Month 月 @a.DateCreate.Day 日</cite> 回答</small>*@
+                <p>
+                    @Html.Raw(HttpUtility.HtmlDecode(a.Content))
+                </p>
                 <small>由<a href="@Url.Action("Index", "User", new { id = a.Creator.UserID })">@a.Creator.Name</a> 于 <cite title="Source Title">@a.TimeDisplay</cite> 回答</small>
                 @if (IsAuthorized)
                 {

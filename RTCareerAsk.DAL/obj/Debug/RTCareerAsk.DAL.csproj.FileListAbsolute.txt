@@ -12,4 +12,3 @@ C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Debug\we
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Debug\AVOSCloud.NetFx45.xml
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\obj\Debug\RTCareerAsk.DAL.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\obj\Debug\RTCareerAsk.DAL.pdb
-C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\obj\Debug\RTCareerAsk.DAL.csprojResolveAssemblyReference.cache

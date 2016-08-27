@@ -8,14 +8,16 @@
     @foreach (RTCareerAsk.Models.QuestionInfoModel q in Model)
     {
         <div class="list-group box">
-            <a href="@Url.Action("Index", "Question", new { id = q.ID })" class="list-group-item">
-                <h4 class="list-group-item-heading">@q.Title</h4>
-                <p class="list-group-item-text">@Html.Raw(HttpUtility.HtmlDecode(q.Content))</p>
-            </a>
+            <div class="list-group-item">
+                <a href="@Url.Action("Index", "Question", new { id = q.ID })">
+                    <h4 class="list-group-item-heading">@q.Title</h4>
+                    <p class="list-group-item-text">@Html.Raw(HttpUtility.HtmlDecode(q.Content))</p>
+                </a>
+            </div>
             <div class="list-group-item">
                 <p class="list-group-item-text extra">
                     @Html.ActionLink(q.Creator.Name, "Index", "User", new { id = q.Creator.UserID }, new { })
-                    于 @q.TimeDisplay 提问 <span class="float-right">@q.AnswerCount 个回答
+                    于 @q.TimeDisplay 提问 <span class="float-right">@q.AnswerCount 个回答</span>
                 </p>
             </div>
         </div>

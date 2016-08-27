@@ -1,7 +1,7 @@
-/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
- */
+///**
+// * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+// * For licensing, see LICENSE.md or http://ckeditor.com/license
+// */
 
 //CKEDITOR.editorConfig = function( config ) {
 //	// Define changes to default configuration here.
@@ -28,7 +28,7 @@
 
 //	// Remove some buttons provided by the standard plugins, which are
 //	// not needed in the Standard(s) toolbar.
-//	config.removeButtons = 'Underline,Subscript,Superscript,Image';
+//	config.removeButtons = 'Underline,Subscript,Superscript';
 
 //	// Set the most common block elements.
 //	config.format_tags = 'p;h1;h2;h3;pre';
@@ -51,8 +51,13 @@ CKEDITOR.editorConfig = function (config) {
     config.removeButtons = 'Subscript,Superscript,Cut,PasteText,Undo,Redo,PasteFromWord,Copy,Paste,Scayt,SpecialChar,Source,Underline,RemoveFormat,Anchor,Unlink,Outdent,Indent,Styles,Format,About';
     config.filebrowserImageUploadUrl = "/Home/UploadImage";
 
-    config.extraPlugins = 'uploadimage';
+    config.extraPlugins = 'uploadimage,wordcount,notification';
     config.uploadUrl = '/Home/UploadDroppedAndPastedImage';
+    config.wordcount = {
+        showWordCount: false,
+        showCharCount: true,
+        maxCharCount: 1000
+    };
 
     config.contentsCss = ['/Content/bootstrap.css', '/Content/Upper.css'];
 };
