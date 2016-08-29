@@ -4,20 +4,22 @@
     data.id = id;
     data.content = content;
 
+    var triggerTarget = isQuestion == 'true' ? $('#btnEditQuestion') : $('#btnAnsEdt' + id);
+
     $.ajax(updateContent, {
         method: 'POST',
         data: JSON.stringify(data),
         contentType: "application/json",
         beforeSend: function () {
-            $('#btnEditQuestion').addClass('disabled').text('保存更新中……');
+            triggerTarget.addClass('disabled').text('保存更新中……');
         },
         success: function () {
             DisplaySuccessInfo('内容更新成功！');
-            $('#btnEditQuestion').trigger('updateSuccess');
+            triggerTarget.trigger('updateSuccess');
         },
         error: function () {
             DisplayErrorInfo('内容更新出现问题……');
-            $('#btnEditQuestion').trigger('updateError');
+            triggerTarget.trigger('updateError');
         }
     });
 }
@@ -42,6 +44,33 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on('click', 'a[id^="btnAnsEdt"]', function (e) {
+        e.preventDefault();
+
+        CKEDITOR.disableAutoInline = true;
+
+        var id = $(this).attr('id').replace('btnAnsEdt', '');
+        var ansTxt = $('#divAnsTxt' + id);
+
+        if (!ansTxt.attr('contenteditable')) {
+            ansTxt.attr('contenteditable', true);
+            CKEDITOR.inline(ansTxt.attr('id'),
+                {
+                    wordcount: {
+                        showWordCount: false,
+                        showCharCount: true,
+                        maxCharCount: 5000
+                    }
+                });
+            ansTxt.focus();
+            $(this).text('保存修改').attr('style', 'color:red');
+        }
+        else {
+            var data = CKEDITOR.instances[ansTxt.attr('id')].getData();
+            UpdateContent('false', id, data);
+        }
+    });
+
     $('#btnEditQuestion').on('updateSuccess', function () {
         var qContent = $('div[id^="divQContent"]');
 
@@ -50,11 +79,25 @@ $(document).ready(function () {
         $(this).removeClass('btn-success').removeClass('disabled').addClass('btn-warning').text('编辑问题');
     });
 
+    $(document).on('updateSuccess', 'a[id^="btnAnsEdt"]', function () {
+        $(this).removeAttr('style').text('编辑');
+
+        var ansTxt = $('#divAnsTxt' + $(this).attr('id').replace('btnAnsEdt', ''));
+        ansTxt.removeAttr('contenteditable');
+        CKEDITOR.instances[ansTxt.attr('id')].destroy();
+    });
+
     $('#btnEditQuestion').on('updateError', function () {
         $(this).removeClass('disabled').text('保存修改');
     });
 
-    $(document).on('click', 'a[id^="btnAnsDel"]', function () {
+    $('a[id^="btnAnsEdt"]').on('updateError', function () {
+
+    });
+
+    $(document).on('click', 'a[id^="btnAnsDel"]', function (e) {
+        e.preventDefault();
+
         if (confirm('确认删除答案？')) {
             var ansBlock = $(this).closest('div[class="answer"]');
             var data = new Object();
