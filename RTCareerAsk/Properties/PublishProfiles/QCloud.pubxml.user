@@ -1571,7 +1571,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/20/2016 17:49:51</publishTime>
     </File>
     <File Include="Scripts/Upper/question-answer-edit.js">
-      <publishTime>08/25/2016 16:26:49</publishTime>
+      <publishTime>08/29/2016 15:22:23</publishTime>
     </File>
     <File Include="Scripts/Upper/upper-base.js">
       <publishTime>08/19/2016 15:37:41</publishTime>
@@ -1643,10 +1643,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2016 17:19:39</publishTime>
     </File>
     <File Include="Views/Shared/_AnswerForm.cshtml">
-      <publishTime>08/20/2016 17:47:33</publishTime>
+      <publishTime>08/29/2016 11:25:36</publishTime>
     </File>
     <File Include="Views/Shared/_AnswersDetail.cshtml">
-      <publishTime>08/25/2016 16:49:55</publishTime>
+      <publishTime>08/29/2016 14:58:31</publishTime>
     </File>
     <File Include="Views/Shared/_BugReportModal.cshtml">
       <publishTime>07/28/2016 17:20:23</publishTime>
@@ -1682,7 +1682,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/23/2016 15:45:14</publishTime>
     </File>
     <File Include="Views/Shared/_QuestionDetail.cshtml">
-      <publishTime>08/25/2016 16:47:57</publishTime>
+      <publishTime>08/27/2016 17:12:21</publishTime>
     </File>
     <File Include="Views/Shared/_QuestionList.cshtml">
       <publishTime>08/27/2016 15:27:24</publishTime>
