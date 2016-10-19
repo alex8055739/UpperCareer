@@ -27,19 +27,65 @@ namespace RTCareerAsk.DAL.Domain
 
         public int AnswerCount { get; set; }
 
+        public int VoteDiff { get; set; }
+
         private void GenerateQuestionInfoObject(AVObject po)
         {
             if (po.ClassName != "Post")
             {
                 throw new InvalidOperationException(string.Format("获取的对象{0}不是问题类object。", po.ObjectId));
             }
+
             GenerateQACObject(po);
             Title = po.Get<string>("title");
+            VoteDiff = po.ContainsKey("voteDiff") ? po.Get<int>("voteDiff") : default(int);
         }
 
         public QuestionInfo SetAnswerCount(int ansCnt)
         {
             AnswerCount = ansCnt;
+
+            return this;
+        }
+    }
+
+    public class AnswerInfo : UpperQACBaseDomain
+    {
+        public AnswerInfo() { }
+
+        public AnswerInfo(AVObject ao)
+        {
+            GenerateAnswerInfoObject(ao);
+        }
+
+        public AnswerInfo(AVObject ao, int cmtCnt)
+        {
+            CommentCount = cmtCnt;
+
+            GenerateAnswerInfoObject(ao);
+        }
+
+        public Question ForQuestion { get; set; }
+
+        public int CommentCount { get; set; }
+
+        public int VoteDiff { get; set; }
+
+        private void GenerateAnswerInfoObject(AVObject ao)
+        {
+            if (ao.ClassName != "Answer")
+            {
+                throw new InvalidOperationException(string.Format("获取的对象{0}不是问题类object。对象类型：{1}", ao.ObjectId, ao.ClassName));
+            }
+
+            GenerateQACObject(ao);
+            ForQuestion = ao.Get<AVObject>("forQuestion") != null ? new Question(ao.Get<AVObject>("forQuestion")) : null;
+            VoteDiff = ao.ContainsKey("voteDiff") ? ao.Get<int>("voteDiff") : default(int);
+        }
+
+        public AnswerInfo SetCommentCount(int cmtCnt)
+        {
+            CommentCount = cmtCnt;
 
             return this;
         }
@@ -71,6 +117,10 @@ namespace RTCareerAsk.DAL.Domain
 
         public string Title { get; set; }
 
+        public int VoteDiff { get; set; }
+
+        public bool? IsLike { get; set; }
+
         public List<Answer> Answers { get; set; }
 
         private void GenerateQuestionObject(AVObject po)
@@ -82,22 +132,12 @@ namespace RTCareerAsk.DAL.Domain
 
             GenerateQACObject(po);
             Title = po.ContainsKey("title") ? po.Get<string>("title") : null;
+            VoteDiff = po.ContainsKey("voteDiff") ? po.Get<int>("voteDiff") : default(int);
         }
 
-        public Question SetAnswers(IEnumerable<AVObject> aos)
+        public Question SetVote(bool? isLike)
         {
-            if (aos.Count() > 0)
-            {
-                if (aos.First().ClassName != "Answer")
-                {
-                    throw new InvalidOperationException("获取的对象不是答案类object。");
-                }
-
-                foreach (AVObject ao in aos)
-                {
-                    Answers.Add(new Answer(ao));
-                }
-            }
+            IsLike = isLike;
 
             return this;
         }
@@ -138,6 +178,10 @@ namespace RTCareerAsk.DAL.Domain
             GenerateAnswerObject(ao);
         }
 
+        public int VoteDiff { get; set; }
+
+        public bool? IsLike { get; set; }
+
         public Question ForQuestion { get; set; }
 
         public List<Comment> Comments { get; set; }
@@ -151,6 +195,7 @@ namespace RTCareerAsk.DAL.Domain
 
             GenerateQACObject(ao);
             ForQuestion = ao.Get<AVObject>("forQuestion") != null ? new Question(ao.Get<AVObject>("forQuestion")) : null;
+            VoteDiff = ao.ContainsKey("voteDiff") ? ao.Get<int>("voteDiff") : default(int);
         }
 
         public Answer SetComments(IEnumerable<AVObject> cmts)
@@ -167,6 +212,13 @@ namespace RTCareerAsk.DAL.Domain
                     Comments.Add(new Comment(cmt));
                 }
             }
+
+            return this;
+        }
+
+        public Answer SetVote(bool? isLike)
+        {
+            IsLike = isLike;
 
             return this;
         }

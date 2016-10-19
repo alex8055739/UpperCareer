@@ -182,6 +182,11 @@ namespace RTCareerAsk.DAL
                                 }
 
                                 v.Result["nickname"] = ud.ForUser.Name;
+                                v.Result["title"] = ud.ForUser.Title;
+                                v.Result["gender"] = ud.ForUser.Gender;
+                                v.Result["company"] = ud.ForUser.Company;
+                                v.Result["fieldIndex"] = ud.ForUser.FieldIndex;
+
                                 return v.Result.SaveAsync().ContinueWith(w =>
                                     {
                                         if (w.IsFaulted || w.IsCanceled)
@@ -542,7 +547,11 @@ namespace RTCareerAsk.DAL
         /// <returns>包含用户详细信息的Object</returns>
         public async Task<UserDetail> LoadUserDetail(string userId)
         {
-            return await AVObject.GetQuery("UserDetail").Include("forUser").WhereEqualTo("forUser", AVUser.CreateWithoutData("_User", userId) as AVUser).FindAsync().ContinueWith(async t =>
+            return await AVObject.GetQuery("UserDetail")
+                .Include("forUser")
+                .WhereEqualTo("forUser", AVUser.CreateWithoutData("_User", userId) as AVUser)
+                .FindAsync()
+                .ContinueWith(async t =>
                 {
                     if (t.IsFaulted || t.IsCanceled)
                     {
@@ -849,29 +858,22 @@ namespace RTCareerAsk.DAL
         /// 查找所有的提问。
         /// </summary>
         /// <returns>所有已存在的问题队列</returns>
-        public async Task<IEnumerable<QuestionInfo>> FindPostQuestions()
+        public async Task<IEnumerable<QuestionInfo>> FindQuestionList()
         {
             try
             {
-                IEnumerable<AVObject> qs = await AVObject.GetQuery("Post").Include("createdBy").FindAsync().ContinueWith(t =>
+                return await AVObject.GetQuery("Post").Include("createdBy").FindAsync().ContinueWith(t =>
                     {
                         if (t.IsFaulted || t.IsCanceled)
                         {
                             throw t.Exception;
                         }
 
-                        return t.Result;
-                    });
-
-                return await GetQuestionsWithAnswerCounts(qs).ContinueWith(t =>
-                    {
-                        if (t.IsFaulted || t.IsCanceled)
-                        {
-                            throw t.Exception;
-                        }
-
-                        return t.Result.OrderByDescending(x => x.AnswerCount);
-                    });
+                        return GetQuestionsWithAnswerCounts(t.Result).ContinueWith(s =>
+                            {
+                                return s.Result.OrderByDescending(x => x.AnswerCount);
+                            });
+                    }).Unwrap();
             }
             catch (Exception)
             {
@@ -891,22 +893,14 @@ namespace RTCareerAsk.DAL
                 {
                     if (qs.First().ClassName != "Post")
                     {
-                        throw new InvalidOperationException("获取的对象不是问题类object。");
+                        throw new InvalidOperationException(string.Format("获取的对象{0}不是问题类object。对象类型：{1}", qs.First().ObjectId, qs.First().ClassName));
                     }
 
                     List<Task<QuestionInfo>> tl = new List<Task<QuestionInfo>>();
 
                     foreach (AVObject q in qs)
                     {
-                        tl.Add(GetQuestionWithAnswerCount(q).ContinueWith(t =>
-                            {
-                                if (t.IsFaulted || t.IsCanceled)
-                                {
-                                    throw t.Exception;
-                                }
-
-                                return t.Result;
-                            }));
+                        tl.Add(GetQuestionWithAnswerCount(q));
                     }
 
                     await Task.WhenAll(tl.ToArray());
@@ -942,37 +936,6 @@ namespace RTCareerAsk.DAL
                     throw new InvalidOperationException("获取的对象不是问题类object。");
                 }
 
-                int ac = await FindAnswerCountByQuestion(q).ContinueWith(t =>
-                    {
-                        if (t.IsFaulted || t.IsCanceled)
-                        {
-                            throw t.Exception;
-                        }
-
-                        return t.Result;
-                    });
-
-                return new QuestionInfo(q, ac);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        /// <summary>
-        /// 查询一个问题的答案数量
-        /// </summary>
-        /// <param name="q">问题</param>
-        /// <returns>问题的答案数</returns>
-        public async Task<int> FindAnswerCountByQuestion(AVObject q)
-        {
-            try
-            {
-                if (q.ClassName != "Post")
-                {
-                    throw new InvalidOperationException("获取的对象不是问题类object。");
-                }
-
                 return await AVObject.GetQuery("Answer").WhereEqualTo("forQuestion", q).CountAsync().ContinueWith(t =>
                     {
                         if (t.IsFaulted || t.IsCanceled)
@@ -980,7 +943,104 @@ namespace RTCareerAsk.DAL
                             throw t.Exception;
                         }
 
-                        return t.Result;
+                        return new QuestionInfo(q, t.Result);
+                    });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// 查找所有的答案。
+        /// </summary>
+        /// <returns>所有已存在的答案队列</returns>
+        public async Task<IEnumerable<AnswerInfo>> FindAnswerList()
+        {
+            try
+            {
+                return await AVObject.GetQuery("Answer").Include("forQuestion").Include("createdBy").FindAsync().ContinueWith(t =>
+                    {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        return GetAnswersWithCommentCounts(t.Result).ContinueWith(s =>
+                            {
+                                return s.Result.OrderByDescending(x => x.CommentCount);
+                            });
+                    }).Unwrap();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// 生成一组带有评论数量的答案概述。
+        /// </summary>
+        /// <param name="ans">一组答案</param>
+        /// <returns>一组带有评论数量的答案概述</returns>
+        public async Task<IEnumerable<AnswerInfo>> GetAnswersWithCommentCounts(IEnumerable<AVObject> ans)
+        {
+            try
+            {
+                if (ans.Count() > 0)
+                {
+                    if (ans.First().ClassName != "Answer")
+                    {
+                        throw new InvalidOperationException(string.Format("获取的对象{0}不是答案类object。对象类型：{1}", ans.First().ObjectId, ans.First().ClassName));
+                    }
+
+                    List<Task<AnswerInfo>> tl = new List<Task<AnswerInfo>>();
+
+                    foreach (AVObject a in ans)
+                    {
+                        tl.Add(GetAnswerWithComment(a));
+                    }
+
+                    await Task.WhenAll(tl.ToArray());
+
+                    List<AnswerInfo> ais = new List<AnswerInfo>();
+
+                    foreach (Task<AnswerInfo> t in tl)
+                    {
+                        ais.Add(t.Result);
+                    }
+
+                    return ais;
+                }
+
+                return null;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// 生成一个带有评论数量的答案概述。
+        /// </summary>
+        /// <param name="a">答案</param>
+        /// <returns>带有评论数量的答案概述</returns>
+        public async Task<AnswerInfo> GetAnswerWithComment(AVObject a)
+        {
+            try
+            {
+                if (a.ClassName != "Answer")
+                {
+                    throw new InvalidOperationException(string.Format("获取的对象{0}不是答案类object。对象类型：{1}", a.ObjectId, a.ClassName));
+                }
+
+                return await AVObject.GetQuery("Comment").WhereEqualTo("forAnswer", a).CountAsync().ContinueWith(t =>
+                    {
+                        if (t.IsFaulted||t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        return new AnswerInfo(a, t.Result);
                     });
             }
             catch (Exception)
@@ -994,57 +1054,35 @@ namespace RTCareerAsk.DAL
         /// <summary>
         /// 根据问题ID查找问题详情及答案。
         /// </summary>
+        /// <param name="userId">提出请求的用户ID</param>
         /// <param name="questionId">问题ID</param>
         /// <returns>包含所有答案的问题详情</returns>
-        public async Task<Question> GetQuestionAndAnswersWithComments(string questionId)
+        public async Task<Question> GetQuestionAndAnswersWithComments(string userId, string questionId)
         {
             try
             {
-                IEnumerable<Answer> aos = await FindAnswersByQuestion(questionId).ContinueWith(t =>
+                return await FindAnswersByQuestion(userId, questionId).ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
                     {
-                        if (t.IsFaulted || t.IsCanceled)
+                        throw t.Exception;
+                    }
+
+                    return AVObject.GetQuery("Post").Include("createdBy").GetAsync(questionId).ContinueWith(s =>
+                    {
+                        if (s.IsFaulted || s.IsCanceled)
                         {
-                            throw t.Exception;
+                            throw s.Exception;
                         }
 
-                        return t.Result;
-                    });
+                        UpdateViewCount(s.Result);
 
-                return await GetQuestion(questionId, aos);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        /// <summary>
-        /// 根据问题ID查找问题详情，并封装答案。
-        /// </summary>
-        /// <param name="questionId">问题ID</param>
-        /// <param name="ans">此问题下的所有答案</param>
-        /// <returns></returns>
-        public async Task<Question> GetQuestion(string questionId, IEnumerable<Answer> ans)
-        {
-            try
-            {
-                return await AVObject.GetQuery("Post").Include("createdBy").GetAsync(questionId).ContinueWith(t =>
-                    {
-                        if (t.IsFaulted || t.IsCanceled)
-                        {
-                            throw t.Exception;
-                        }
-
-                        t.Result["viewCount"] = t.Result.ContainsKey("viewCount") ? t.Result.Get<int>("viewCount") + 1 : 1;
-                        t.Result.SaveAsync().ContinueWith(s =>
-                        {
-                            if (s.IsFaulted || s.IsCanceled)
+                        return IsQuestionLikedByUser(userId, s.Result).ContinueWith(r =>
                             {
-                                throw s.Exception;
-                            }
-                        });
-
-                        return new Question(t.Result, ans);
+                                return new Question(s.Result, t.Result).SetVote(r.Result);
+                            });
                     });
+                }).Unwrap().Unwrap();
             }
             catch (Exception)
             {
@@ -1054,20 +1092,25 @@ namespace RTCareerAsk.DAL
         /// <summary>
         /// 通过问题ID查找答案。
         /// </summary>
+        /// <param name="userId">提出请求的用户ID</param>
         /// <param name="questionId">问题ID</param>
         /// <returns>问题下所有回答</returns>
-        public async Task<IEnumerable<Answer>> FindAnswersByQuestion(string questionId)
+        public async Task<IEnumerable<Answer>> FindAnswersByQuestion(string userId, string questionId)
         {
             try
             {
-                return await AVObject.GetQuery("Answer").Include("createdBy").WhereEqualTo("forQuestion", AVObject.CreateWithoutData("Post", questionId)).FindAsync().ContinueWith(t =>
+                return await AVObject.GetQuery("Answer")
+                    .Include("createdBy")
+                    .WhereEqualTo("forQuestion", AVObject.CreateWithoutData("Post", questionId))
+                    .FindAsync()
+                    .ContinueWith(t =>
                     {
                         if (t.IsFaulted || t.IsCanceled)
                         {
                             throw t.Exception;
                         }
 
-                        return GetAnswersWithComments(t.Result);
+                        return GetAnswersWithComments(userId, t.Result);
                     }).Unwrap();
             }
             catch (Exception)
@@ -1078,9 +1121,10 @@ namespace RTCareerAsk.DAL
         /// <summary>
         /// 获取一组带有评论信息的回答。
         /// </summary>
+        /// <param name="userId">提出请求的用户ID</param>
         /// <param name="ans">一组答案数据</param>
         /// <returns>一组加载了评论信息的答案信息</returns>
-        public async Task<IEnumerable<Answer>> GetAnswersWithComments(IEnumerable<AVObject> ans)
+        public async Task<IEnumerable<Answer>> GetAnswersWithComments(string userId, IEnumerable<AVObject> ans)
         {
             try
             {
@@ -1095,15 +1139,15 @@ namespace RTCareerAsk.DAL
 
                     foreach (AVObject a in ans)
                     {
-                        tl.Add(GetAnswerWithComments(a).ContinueWith(t =>
+                        tl.Add(GetAnswerWithComments(userId, a).ContinueWith(t =>
+                        {
+                            if (t.IsFaulted || t.IsCanceled)
                             {
-                                if (t.IsFaulted || t.IsCanceled)
-                                {
-                                    throw t.Exception;
-                                }
+                                throw t.Exception;
+                            }
 
-                                return t.Result;
-                            }));
+                            return t.Result;
+                        }));
                     }
 
                     await Task.WhenAll(tl.ToArray());
@@ -1128,9 +1172,54 @@ namespace RTCareerAsk.DAL
         /// <summary>
         /// 获取一条带有评论信息的回答。
         /// </summary>
+        /// <param name="answerId">答案数据ID</param>
+        /// <returns>加载了评论信息的答案信息</returns>
+        public async Task<Answer> GetAnswerWithComments(string answerId)
+        {
+            AVObject a = AVObject.CreateWithoutData("Answer", answerId);
+
+            Task<Answer> ta = AVObject.GetQuery("Answer")
+                .Include("createdBy")
+                .Include("forQuestion")
+                .GetAsync(answerId)
+                .ContinueWith(t =>
+                    {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        UpdateViewCount(t.Result);
+
+                        return new Answer(t.Result);
+                    });
+
+            Task<IEnumerable<AVObject>> tc = AVObject.GetQuery("Comment")
+                .Include("createdBy")
+                .WhereEqualTo("forAnswer", AVObject.CreateWithoutData("Answer", answerId))
+                .OrderByDescending("createdAt")
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return t.Result;
+                });
+
+            await Task.WhenAll(ta, tc);
+
+            return ta.Result.SetComments(tc.Result);
+        }
+        /// <summary>
+        /// 获取一条带有评论信息的回答。
+        /// </summary>
+        /// <param name="userId">提出请求的用户ID</param>
         /// <param name="a">一条答案数据</param>
         /// <returns>加载了评论信息的答案信息</returns>
-        public async Task<Answer> GetAnswerWithComments(AVObject a)
+        public async Task<Answer> GetAnswerWithComments(string userId, AVObject a)
         {
             try
             {
@@ -1139,7 +1228,12 @@ namespace RTCareerAsk.DAL
                     throw new InvalidOperationException("获取的对象不是答案类object。");
                 }
 
-                IEnumerable<AVObject> cmts = await AVObject.GetQuery("Comment").Include("createdBy").WhereEqualTo("forAnswer", a).FindAsync().ContinueWith(t =>
+                Task<IEnumerable<AVObject>> cmts = AVObject.GetQuery("Comment")
+                    .Include("createdBy")
+                    .WhereEqualTo("forAnswer", a)
+                    .OrderByDescending("createdAt")
+                    .FindAsync()
+                    .ContinueWith(t =>
                     {
                         if (t.IsFaulted || t.IsCanceled)
                         {
@@ -1149,7 +1243,11 @@ namespace RTCareerAsk.DAL
                         return t.Result;
                     });
 
-                return new Answer(a).SetComments(cmts);
+                Task<bool?> userVote = IsAnswerLikedByUser(userId, a);
+
+                await Task.WhenAll(cmts, userVote);
+
+                return new Answer(a).SetComments(cmts.Result).SetVote(userVote.Result);
             }
             catch (Exception)
             {
@@ -1163,7 +1261,12 @@ namespace RTCareerAsk.DAL
         /// <returns>答案下所有评论</returns>
         public async Task<IEnumerable<Comment>> FindCommentsByAnswer(string answerId)
         {
-            return await AVObject.GetQuery("Comment").Include("createdBy").WhereEqualTo("forAnswer", AVObject.CreateWithoutData("Answer", answerId)).FindAsync().ContinueWith(t =>
+            return await AVObject.GetQuery("Comment")
+                .Include("createdBy")
+                .WhereEqualTo("forAnswer", AVObject.CreateWithoutData("Answer", answerId))
+                .OrderByDescending("createdAt")
+                .FindAsync()
+                .ContinueWith(t =>
                 {
                     if (t.IsFaulted || t.IsCanceled)
                     {
@@ -1179,6 +1282,135 @@ namespace RTCareerAsk.DAL
 
                     return cmts;
                 });
+        }
+
+        public async Task<bool?> IsQuestionLikedByUser(string userId, AVObject question)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return null;
+            }
+
+            return await AVObject.GetQuery("VotePost")
+                .WhereEqualTo("voteBy", AVObject.CreateWithoutData("_User", userId) as AVUser)
+                .WhereEqualTo("voteFor", question)
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return t.Result.Count() > 0 ? t.Result.First().Get<bool?>("isLike") : null;
+                });
+        }
+
+        public async Task<bool?> IsAnswerLikedByUser(string userId, AVObject answer)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return null;
+            }
+
+            return await AVObject.GetQuery("VoteAnswer")
+                .WhereEqualTo("voteBy", AVObject.CreateWithoutData("_User", userId) as AVUser)
+                .WhereEqualTo("voteFor", answer)
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return t.Result.Count() > 0 ? t.Result.First().Get<bool?>("isLike") : null;
+                });
+        }
+
+        public async Task UpdateViewCount(AVObject obj)
+        {
+            obj["viewCount"] = obj.ContainsKey("viewCount") ? obj.Get<int>("viewCount") + 1 : 1;
+            await obj.SaveAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+                });
+        }
+        #endregion
+
+        #region Voting
+        /// <summary>
+        /// 保存赞或踩。
+        /// </summary>
+        /// <param name="v">动作信息</param>
+        /// <returns>代表操作是否成功的Boolean值</returns>
+        public async Task<bool> PerformVote(Vote v)
+        {
+            if (v.IsUpdate)
+            {
+                return await AVObject.GetQuery(v.LoadClassName()).WhereEqualTo("voteFor", v.LoadTargetObject()).WhereEqualTo("voteBy", v.LoadVoter()).FirstAsync().ContinueWith(t =>
+                    {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        t.Result["isLike"] = v.IsLike;
+                        return t.Result.SaveAsync().ContinueWith(s =>
+                            {
+                                if (s.IsFaulted || s.IsCanceled)
+                                {
+                                    throw s.Exception;
+                                }
+
+                                return UpdateVoteDiff(v);
+                            });
+                    }).Unwrap().Unwrap();
+            }
+            else
+            {
+                return await v.CreateVoteObject().SaveAsync().ContinueWith(t =>
+                    {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        return UpdateVoteDiff(v);
+                    }).Unwrap();
+            }
+        }
+        /// <summary>
+        /// 更新点赞对象数据中的差票值。
+        /// </summary>
+        /// <param name="v">动作信息</param>
+        /// <returns>代表操作是否成功的Boolean值</returns>
+        public async Task<bool> UpdateVoteDiff(Vote v)
+        {
+            AVObject target = v.LoadTargetObject();
+
+            return await target.FetchAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    int valueChange = v.IsUpdate ? 2 : 1;
+                    target["voteDiff"] = v.IsLike ? target.Get<int>("voteDiff") + valueChange : target.Get<int>("voteDiff") - valueChange;
+                    return target.SaveAsync().ContinueWith(s =>
+                    {
+                        if (s.IsFaulted || s.IsCanceled)
+                        {
+                            throw s.Exception;
+                        }
+
+                        return true;
+                    });
+                }).Unwrap();
         }
         #endregion
 
@@ -1276,7 +1508,11 @@ namespace RTCareerAsk.DAL
                     });
                 }).Unwrap();
         }
-
+        /// <summary>
+        /// 删除一条答案及其包含的评论。
+        /// </summary>
+        /// <param name="ansId">需要删除的答案ID</param>
+        /// <returns>代表操作是否成功的Boolean值</returns>
         public async Task<bool> DeleteAnswerWithComments(string ansId)
         {
             AVObject ans = AVObject.CreateWithoutData("Answer", ansId);
@@ -1287,14 +1523,48 @@ namespace RTCareerAsk.DAL
 
             foreach (AVObject cmt in cmts)
             {
-                ts.Add(cmt.DeleteAsync());
+                ts.Add(cmt.DeleteAsync().ContinueWith(t =>
+                    {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+                    }));
             }
 
-            ts.Add(ans.DeleteAsync());
+            ts.Add(ans.DeleteAsync().ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+            }));
 
             Task.WaitAll(ts.ToArray());
 
             return true;
+        }
+        /// <summary>
+        /// 删除一条评论。
+        /// </summary>
+        /// <param name="cmtId">需要删除的评论ID</param>
+        /// <returns>代表操作是否成功的Boolean值</returns>
+        public async Task<bool> DeleteComment(string cmtId)
+        {
+            return await AVObject.CreateWithoutData("Comment", cmtId).DeleteAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return true;
+                });
+        }
+
+        public async Task UpdateCount(AVObject obj, bool isIncrement)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
@@ -1719,8 +1989,12 @@ namespace RTCareerAsk.DAL
                 return true;
             });
         }
-
-        public async Task<Bug> UpdateBugReport(Bug b)
+        /// <summary>
+        /// 更新一条报告。
+        /// </summary>
+        /// <param name="b">错误报告</param>
+        /// <returns>代表保存是否成功的Boolean值</returns>
+        public async Task<bool> UpdateBugReport(Bug b)
         {
             #region Code for Debug
             //AVObject bug = await AVObject.GetQuery("Bug").Include("reporter").GetAsync(b.ObjectID);
@@ -1739,7 +2013,7 @@ namespace RTCareerAsk.DAL
             //return new Bug(bug);
             #endregion
 
-            return await AVObject.GetQuery("Bug").Include("reporter").GetAsync(b.ObjectID).ContinueWith(t =>
+            return await AVObject.GetQuery("Bug").GetAsync(b.ObjectID).ContinueWith(t =>
                 {
                     if (t.IsFaulted || t.IsCanceled)
                     {
@@ -1757,7 +2031,7 @@ namespace RTCareerAsk.DAL
                             }
                         });
 
-                    return new Bug(t.Result);
+                    return true;
                 });
         }
         #endregion
@@ -1950,6 +2224,38 @@ namespace RTCareerAsk.DAL
 
                     return t.Result;
                 });
+        }
+
+        public async Task<IEnumerable<AVObject>> GetAnswer100TimesAsync(string ansId)
+        {
+            List<Task<AVObject>> ansTasks = new List<Task<AVObject>>();
+            List<AVObject> ansResults = new List<AVObject>();
+
+            for (int i = 0; i < 20; i++)
+            {
+                ansTasks.Add(AVObject.GetQuery("Answer").GetAsync(ansId));
+            }
+
+            await Task.WhenAll(ansTasks.ToArray());
+
+            foreach (Task<AVObject> t in ansTasks)
+            {
+                ansResults.Add(t.Result);
+            }
+
+            return ansResults;
+        }
+
+        public async Task<IEnumerable<AVObject>> GetAnswer100Times(string ansId)
+        {
+            List<AVObject> ansResults = new List<AVObject>();
+
+            for (int i = 0; i < 20; i++)
+            {
+                ansResults.Add(await AVObject.GetQuery("Answer").GetAsync(ansId));
+            }
+
+            return ansResults;
         }
 
         #endregion

@@ -16,14 +16,14 @@ namespace RTCareerAsk.PLtoDA
     /// </summary>
     public class Question2DA : DABase
     {
-        public async Task<QuestionModel> GetQuestionModel(string questionId)
+        public async Task<QuestionModel> GetQuestionModel(string userId, string questionId)
         {
-            return await LCDal.GetQuestionAndAnswersWithComments(questionId).ContinueWith(t => new QuestionModel(t.Result));
+            return await LCDal.GetQuestionAndAnswersWithComments(userId, questionId).ContinueWith(t => new QuestionModel(t.Result));
         }
 
         public async Task<List<QuestionInfoModel>> GetQuestionInfoModels()
         {
-            return await LCDal.FindPostQuestions().ContinueWith(t =>
+            return await LCDal.FindQuestionList().ContinueWith(t =>
                 {
                     List<QuestionInfoModel> qiList = new List<QuestionInfoModel>();
 
@@ -36,9 +36,14 @@ namespace RTCareerAsk.PLtoDA
                 });
         }
 
-        public async Task<List<AnswerModel>> GetAnswerModels(string questionId)
+        public async Task<AnswerModel> GetAnswerModel(string answerId)
         {
-            return await LCDal.FindAnswersByQuestion(questionId).ContinueWith(t =>
+            return await LCDal.GetAnswerWithComments(answerId).ContinueWith(t => new AnswerModel(t.Result));
+        }
+
+        public async Task<List<AnswerModel>> GetAnswerModels(string userId, string questionId)
+        {
+            return await LCDal.FindAnswersByQuestion(userId, questionId).ContinueWith(t =>
                 {
                     List<AnswerModel> ansList = new List<AnswerModel>();
 
@@ -89,6 +94,16 @@ namespace RTCareerAsk.PLtoDA
         public async Task DeleteAnswerWithComments(string ansId)
         {
             await LCDal.DeleteAnswerWithComments(ansId);
+        }
+
+        public async Task DeleteComment(string cmtId)
+        {
+            await LCDal.DeleteComment(cmtId);
+        }
+
+        public async Task SaveOrUpdateVote(VoteModel v)
+        {
+            await LCDal.PerformVote(v.CreateVote());
         }
     }
 }

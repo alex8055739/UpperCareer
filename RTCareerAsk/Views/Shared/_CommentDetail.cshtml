@@ -1,11 +1,56 @@
 ﻿@model List<RTCareerAsk.Models.CommentModel>
 
+@{
+    bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+}
+
 @foreach (RTCareerAsk.Models.CommentModel c in Model)
 {
-    <blockquote class="blockquote-reverse">
+@*<blockquote id="@string.Format("blkCmt{0}", c.ID)" class="blockquote-reverse">
         <p>@c.Content</p>
         <small>
-            @Html.ActionLink(c.Creator.Name, "Index", "User", new { id = c.Creator.UserID }, new { })
-            <cite title="Source Title">@c.TimeDisplay</cite></small>
-    </blockquote>
+            @Html.ActionLink(c.Creator.Name, "Index", "User", new { id = c.Creator.UserID }, new { id = string.Format("aCmtBy{0}", c.Creator.UserID) })
+            <cite title="Source Title">@c.CreateBefore</cite>
+            @if (IsAuthorized)
+            {
+                if (c.IsReplyAllowed)
+                {
+                <a id="@string.Format("btnCmtRply{0}", c.Creator.UserID)" href="#">回复</a>
+                }
+                else
+                {
+                <a id="@string.Format("btnCmtDel{0}", c.ID)" href="#">删除</a>
+                }
+            }
+        </small>
+    </blockquote>*@
+    <div id="@string.Format("blkCmt{0}", c.ID)" class="box">
+        <div class="body">
+            <div class="left">
+                <img src="@c.Creator.Portrait" class="portrait-sm" />
+            </div>
+            <div class="right">
+                <p>
+                    @Html.ActionLink(c.Creator.Name, "Index", "User", new { id = c.Creator.UserID }, new { id = string.Format("aCmtBy{0}", c.Creator.UserID) })
+                    
+                </p>
+                <p>@c.Content</p>
+            </div>
+        </div>
+        <div class="action">
+            <span>@c.CreateBefore</span>
+            @if (IsAuthorized)
+            {
+                if (c.IsReplyAllowed)
+                {
+                <a id="@string.Format("btnCmtRply{0}", c.Creator.UserID)" href="#">回复</a>
+                }
+                else
+                {
+                <a id="@string.Format("btnCmtDel{0}", c.ID)" href="#">删除</a>
+                }
+            }
+
+        </div>
+    </div>
 }

@@ -31,9 +31,9 @@ namespace RTCareerAsk.PLtoDA
                 });
         }
 
-        public async Task<BugModel> UpdateBugReport(BugModel bm)
+        public async Task<bool> UpdateBugReport(BugModel bm)
         {
-            return await LCDal.UpdateBugReport(bm.CreateBugUpdateModel()).ContinueWith(t => new BugModel(t.Result));
+            return await LCDal.UpdateBugReport(bm.CreateBugUpdateModel());
         }
     }
 }

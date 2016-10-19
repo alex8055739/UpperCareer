@@ -12,18 +12,45 @@ namespace RTCareerAsk.Models
 
         public QuestionInfoModel(QuestionInfo qio)
         {
-            ConvertQuestionObjectsToQuestionInfoModels(qio);
+            ConvertQuestionInfoObjectToQuestionInfoModel(qio);
         }
 
         public string Title { get; set; }
 
-        public int AnswerCount { get; set; }
+        public string VoteDiff { get; set; }
 
-        private void ConvertQuestionObjectsToQuestionInfoModels(QuestionInfo qio)
+        public string AnswerCount { get; set; }
+
+        private void ConvertQuestionInfoObjectToQuestionInfoModel(QuestionInfo qio)
         {
             ConvertQACObjectToModel(qio);
             Title = qio.Title;
-            AnswerCount = qio.AnswerCount;
+            VoteDiff = ProcessLargeNumDisplay(qio.VoteDiff);
+            AnswerCount = ProcessLargeNumDisplay(qio.AnswerCount);
+        }
+    }
+
+    public class AnswerInfoModel : UpperQACBaseModel
+    {
+        public AnswerInfoModel() { }
+
+        public AnswerInfoModel(AnswerInfo aio)
+        {
+            ConvertAnswerInfoObjectToAnswerInfoModel(aio);
+        }
+
+        public QuestionModel ForQuestion { get; set; }
+
+        public string VoteDiff { get; set; }
+
+        public string CommentCount { get; set; }
+
+        private void ConvertAnswerInfoObjectToAnswerInfoModel(AnswerInfo aio)
+        {
+            ConvertQACObjectToModel(aio);
+            ForQuestion = aio.ForQuestion != null ? new QuestionModel(aio.ForQuestion) : null;
+            VoteDiff = ProcessLargeNumDisplay(aio.VoteDiff);
+            CommentCount = ProcessLargeNumDisplay(aio.CommentCount);
         }
     }
 
@@ -43,6 +70,10 @@ namespace RTCareerAsk.Models
 
         public string Title { get; set; }
 
+        public int VoteDiff { get; set; }
+
+        public bool? IsLike { get; set; }
+
         public bool IsEditAllowed { get; set; }
 
         public bool IsAnswerAllowed { get; set; }
@@ -53,6 +84,8 @@ namespace RTCareerAsk.Models
         {
             ConvertQACObjectToModel(po);
             Title = po.Title;
+            VoteDiff = po.VoteDiff;
+            IsLike = po.IsLike;
 
             if (po.Answers != null)
             {
@@ -78,6 +111,10 @@ namespace RTCareerAsk.Models
             ConvertAnswerObjectToModel(ao);
         }
 
+        public int VoteDiff { get; set; }
+
+        public bool? IsLike { get; set; }
+
         public QuestionModel ForQuestion { get; set; }
 
         public List<CommentModel> Comments { get; set; }
@@ -88,6 +125,8 @@ namespace RTCareerAsk.Models
         {
             ConvertQACObjectToModel(ao);
             ForQuestion = ao.ForQuestion != null ? new QuestionModel(ao.ForQuestion) : null;
+            VoteDiff = ao.VoteDiff;
+            IsLike = ao.IsLike;
 
             foreach (Comment c in ao.Comments)
             {
@@ -104,6 +143,8 @@ namespace RTCareerAsk.Models
         {
             ConvertCommentObjectToModel(co);
         }
+
+        public bool IsReplyAllowed { get; set; }
 
         private void ConvertCommentObjectToModel(Comment co)
         {

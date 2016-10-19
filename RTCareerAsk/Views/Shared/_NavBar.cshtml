@@ -12,7 +12,7 @@
 }
 
 <nav class="navbar navbar-default">
-    <div class="container-fluid">
+    <div class="container-fluid container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
                 <span class="sr-only">Toggle navigation</span>
@@ -20,7 +20,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            @Html.ActionLink("Upper", "Index", "Home", new { }, new { @class = "navbar-brand" })
+            <a href="@Url.Action("Index", "Home")" class="navbar-brand"><strong>upper<span style="color: #70BF40">career</span></strong></a>
             @Html.Hidden("UserID", um.UserID, new { id = "hdnUserID" })
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
@@ -28,54 +28,55 @@
             {
                 <ul class="nav navbar-nav">
                     <li><a href="#" id="btnBugReport" data-toggle="modal" data-target="#divModal">报错 <span class="sr-only">(current)</span></a></li>
-                    <li>@Html.ActionLink("报告列表", "Index", "Test")</li>
+                    <li class="@Html.IsSelected("Test")">@Html.ActionLink("报告列表", "Index", "Test")</li>
                 </ul>
             }
             @if (IsAuthorized)
             {
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        @if (!string.IsNullOrEmpty(um.Portrait))
-                        {
-                            <a href="@Url.Action("Index", "User", new { id = um.UserID })" style="padding:7.5px 15px">
-                                <img id="imgNavBarPortrait" class="portrait-sm" src="@um.Portrait" />
-                                @um.Name
-                            </a>
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("Index", "User", new { id = um.UserID })">@um.Name</a>
-                        }
-                    </li>
+                    @*<li>
+                        <a href="@Url.Action("Index", "User", new { id = um.UserID })" style="padding:7.5px 15px">
+                            @Html.UpperPortrait(um.Portrait, PortraitSize.Small, new { id = "imgNavBarPortrait" })
+                            @um.Name
+                        </a>
+                    </li>*@
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding:7.5px 15px">
+                            @Html.UpperPortrait(um.Portrait, PortraitSize.Small, new { id = "imgNavBarPortrait" })
+                            @um.Name
+                            <span class="caret" />
+                        </a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("管理账户", "UserManage", "Account")</li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li class="divider"></li>
+                            <li>@Html.ActionLink("个人主页", "Index", "User", new { id = um.UserID }, new { })</li>
+                            <li>@Html.ActionLink("个人设置", "UserManage", "Account")</li>
                             <li>@Html.ActionLink("登出", "LogOff", "Account")</li>
                         </ul>
 
                     </li>
                     <li>
-                        <a href="@Url.Action("Index", "Message")"><span class="glyphicon glyphicon-envelope" data-toggle="tooltip" data-placement="bottom" title="消息">
-                            @if (um.NewMessageCount > 0)
-                            {
-                                <span id="spnNewMsgCnt" class="badge">@(um.NewMessageCount)</span>
-                            }
-                        </span>
-                            <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#" id="btnPostQuestion" data-toggle="modal" data-target="#divModal"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="bottom" title="提问" /></a></li>
+                        <a href="@Url.Action("Index", "Message")" style="padding:10.5px 15px">
+                            <span data-toggle="tooltip" data-placement="bottom" title="消息">
+                                <img src="~/Images/notification.png" alt="" style="width: 24px; height: 24px" />
+                                @if (um.NewMessageCount > 0)
+                                {
+                                    <span id="spnNewMsgCnt" class="badge">@(um.NewMessageCount)</span>
+                                }
+                            </span>
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btnPostQuestion" data-toggle="modal" data-target="#divModal" style="padding: 10.5px 15px">
+                            <span data-toggle="tooltip" data-placement="bottom" title="提问" />
+                            <img src="~/Images/post.png" alt="" style="width: 24px; height: 24px" />
+                        </a>
+                    </li>
                 </ul>
             }
             else
             {
                 <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("登陆 / 注册", "Login", "Account", new { returnUrl = Request.Url.AbsolutePath }, new { })</li>
-                    @*<li>@Html.ActionLink("测试页", "FileListPage", "Home")</li>*@
+                    <li class="@Html.IsSelected("Account", "Login")">@Html.ActionLink("登陆 / 注册", "Login", "Account", new { returnUrl = Request.Url.AbsolutePath }, new { })</li>
                 </ul>                
             }
         </div>
@@ -86,19 +87,19 @@
     <div id="divInfoLoading" class="alert-tag" style="display: none">
         <div class="alert alert-dismissible alert-info">
             <button type="button" class="close">&times;</button>
-            <strong>显示些没用的……</strong>
+            <p>显示些没用的……</p>
         </div>
     </div>
     <div id="divInfoSuccess" class="alert-tag" style="display: none">
         <div class="alert alert-dismissible alert-success">
             <button type="button" class="close">&times;</button>
-            <strong>Well done!</strong>
+            <p>Well done!</p>
         </div>
     </div>
     <div id="divInfoError" class="alert-tag" style="display: none">
         <div class="alert alert-dismissible alert-danger">
             <button type="button" class="close">&times;</button>
-            <strong></strong>
+            <p></p>
         </div>
     </div>
 }

@@ -167,11 +167,11 @@ namespace RTCareerAsk.Models
                 UserDetailID = ud.ObjectId;
                 UserID = ud.ForUser.ObjectID;
                 Name = ud.ForUser.Name;
-                Gender = ud.Gender;
-                Title = ud.Title;
-                Company = ud.Company;
+                Gender = ud.ForUser.Gender;
+                Title = ud.ForUser.Title;
+                Company = ud.ForUser.Company;
                 SelfDescription = ud.SelfDescription;
-                FieldIndex = ud.FieldIndex;
+                FieldIndex = ud.ForUser.FieldIndex;
             }
         }
 
@@ -183,13 +183,13 @@ namespace RTCareerAsk.Models
                 ForUser = new User()
                 {
                     ObjectID = UserID,
-                    Name = Name
+                    Name = Name,
+                    Title = Title,
+                    Gender = Gender,
+                    Company = Company,
+                    FieldIndex = FieldIndex
                 },
-                Title = Title,
-                Gender = Gender,
-                Company = Company,
-                SelfDescription = SelfDescription,
-                FieldIndex = FieldIndex
+                SelfDescription = SelfDescription
             };
         }
     }

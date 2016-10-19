@@ -4,20 +4,21 @@
     ViewBag.Title = "UserManage";
 }
 
-<h2>管理个人信息</h2>
+<div style="max-width: 600px; margin: 0 auto;">
+    <h2>个人设置</h2>
 
-<div style="margin-bottom: 15px">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#divChangePortrait" data-toggle="tab" aria-expanded="false">更换头像</a></li>
-        <li><a href="#divDetailInfo" data-toggle="tab" aria-expanded="true">修改信息</a></li>
-    </ul>
-</div>
-<div id="divTabContent" class="tab-content">
-    <div class="tab-pane fade active in" id="divChangePortrait">
-        @Html.Partial("_ChangePortrait")
+    <div style="margin-bottom: 15px">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#divDetailInfo" data-toggle="tab" aria-expanded="true">个人信息</a></li>
+            <li><a href="#divChangePortrait" data-toggle="tab" aria-expanded="false">用户头像</a></li>
+        </ul>
     </div>
-    <div class="tab-pane fade" id="divDetailInfo">
-        @using (Ajax.BeginForm("UserManage", "Account", new { }, new AjaxOptions
+    <div id="divTabContent" class="tab-content">
+        <div class="tab-pane fade" id="divChangePortrait">
+            @Html.Partial("_ChangePortrait")
+        </div>
+        <div class="tab-pane fade active in" id="divDetailInfo">
+            @using (Ajax.BeginForm("UserManage", "Account", new { }, new AjaxOptions
         {
             LoadingElementId = "divInfoLoading",
             UpdateTargetId = "divNavBar",
@@ -25,73 +26,74 @@
             OnSuccess = "OnProfileSuccess",
             OnComplete = "OnProfileComplete",
             OnFailure = "OnProfileFailure"
-        }, new { id = "formDetailInfo", @class = "form-horizontal col-lg-6" }))
-        {
-            @Html.ValidationSummary()
-            @Html.HiddenFor(m => m.UserDetailID)
-            @Html.HiddenFor(m => m.UserID)
+        }, new { id = "formDetailInfo", @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary()
+                @Html.HiddenFor(m => m.UserDetailID)
+                @Html.HiddenFor(m => m.UserID)
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.Name, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "请输入称谓" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Title, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "请输入头衔" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Gender, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    <div class="radio">
-                        <label>
-                            @Html.RadioButtonFor(m => m.Gender, 0)
-                            保密
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            @Html.RadioButtonFor(m => m.Gender, 1)
-                            男
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            @Html.RadioButtonFor(m => m.Gender, 2)
-                            女
-                        </label>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "请输入称谓" })
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Company, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.TextBoxFor(m => m.Company, new { @class = "form-control", placeholder = "请输入公司名称" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Title, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "请输入头衔" })
+                    </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Gender, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButtonFor(m => m.Gender, 0)
+                                保密
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButtonFor(m => m.Gender, 1)
+                                男
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButtonFor(m => m.Gender, 2)
+                                女
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Company, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(m => m.Company, new { @class = "form-control", placeholder = "请输入公司名称" })
+                    </div>
+                </div>
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.FieldIndex, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DropDownListFor(m => m.FieldIndex, ViewBag.FieldList as List<SelectListItem>, new { multiple = "", @class = "form-control" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.FieldIndex, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.DropDownListFor(m => m.FieldIndex, ViewBag.FieldList as List<SelectListItem>, new { multiple = "", @class = "form-control" })
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.SelfDescription, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.TextAreaFor(m => m.SelfDescription, new { @class = "form-control", rows = "5" })
-                    @*<span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>*@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.SelfDescription, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextAreaFor(m => m.SelfDescription, new { @class = "form-control", rows = "5" })
+                        @*<span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>*@
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                    <button type="submit" class="btn btn-success">保存</button>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="submit" class="btn btn-success">保存</button>
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
 </div>
 

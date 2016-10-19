@@ -19,7 +19,24 @@ namespace RTCareerAsk.Controllers
                 ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
                 ViewBag.IsAdmin = IsUserAuthorized("Admin");
 
-                return View(SetFlagsForActions(await QuestionDa.GetQuestionModel(id)));
+                return View(SetFlagsForActions(await QuestionDa.GetQuestionModel(HasUserInfo ? GetUserID() : string.Empty, id)));
+                //return View(SetFlagsForActions(await QuestionDa.GetQuestionModel(id)));
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+        public async Task<ActionResult> AnswerDetail(string id)
+        {
+            try
+            {
+                ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
+                ViewBag.IsAdmin = IsUserAuthorized("Admin");
+
+                return View(SetFlagsForActions(await QuestionDa.GetAnswerModel(id)));
             }
             catch (Exception e)
             {
@@ -34,6 +51,20 @@ namespace RTCareerAsk.Controllers
             try
             {
                 return PartialView("_PostModal", new QuestionPostModel());
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult CreateCommentForm(string ansId, string ntfyId, string prefixText = "")
+        {
+            try
+            {
+                return PartialView("_CommentForm", new CommentPostModel() { AnswerID = ansId, NotifyUserID = ntfyId, PostContent = prefixText });
             }
             catch (Exception e)
             {
@@ -88,7 +119,7 @@ namespace RTCareerAsk.Controllers
                     ViewBag.IsAdmin = IsUserAuthorized("Admin");
 
                     //Placeholder: Send a notify message to original poster, a.NotifyUserID.
-                    return PartialView("_AnswersDetail", SetFlagsForActions(await QuestionDa.GetAnswerModels(a.QuestionID)));
+                    return PartialView("_AnswersDetail", SetFlagsForActions(await QuestionDa.GetAnswerModels(GetUserID(), a.QuestionID)));
                 }
 
                 throw new InvalidOperationException("保存答案失败，请再次尝试");
@@ -119,7 +150,7 @@ namespace RTCareerAsk.Controllers
 
                     //Placeholder: Send a notify message to original poster, a.NotifyUserID.
                     List<CommentModel> model = await QuestionDa.GetCommentModels(c.AnswerID);
-                    return PartialView("_CommentDetail", model);
+                    return PartialView("_CommentDetail", SetFlagsForActions(model));
                     //return PartialView("_CommentDetail", await QuestionDa.GetCommentModels(c.AnswerID));
                 }
 
@@ -144,6 +175,28 @@ namespace RTCareerAsk.Controllers
             await QuestionDa.DeleteAnswerWithComments(ansId);
         }
 
+        [HttpPost]
+        public async Task DeleteComment(string cmtId)
+        {
+            await QuestionDa.DeleteComment(cmtId);
+        }
+
+        [HttpPost]
+        public async Task SaveVote(VoteModel model)
+        {
+            try
+            {
+                model.VoterID = GetUserID();
+
+                await QuestionDa.SaveOrUpdateVote(model);
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
         private QuestionModel SetFlagsForActions(QuestionModel model)
         {
             if (HasUserInfo)
@@ -161,6 +214,34 @@ namespace RTCareerAsk.Controllers
                         model.Answers.Where(x => x.ID == ans.ID).First().IsEditAllowed = true;
                     }
                 }
+
+                foreach (AnswerModel ans in model.Answers)
+                {
+                    if (ans.Comments.Count > 0)
+                    {
+                        ans.Comments = SetFlagsForActions(ans.Comments);
+                    }
+                }
+            }
+
+            return model;
+        }
+
+        private AnswerModel SetFlagsForActions(AnswerModel model)
+        {
+            if (!HasUserInfo)
+            {
+                return model;
+            }
+
+            if (model.Creator.UserID == GetUserID())
+            {
+                model.IsEditAllowed = true;
+            }
+
+            if (model.Comments.Count > 0)
+            {
+                model.Comments = SetFlagsForActions(model.Comments);
             }
 
             return model;
@@ -173,6 +254,24 @@ namespace RTCareerAsk.Controllers
                 if (ans.Creator.UserID == GetUserID())
                 {
                     ans.IsEditAllowed = true;
+                }
+
+                if (ans.Comments.Count > 0)
+                {
+                    ans.Comments = SetFlagsForActions(ans.Comments);
+                }
+            }
+
+            return models;
+        }
+
+        private List<CommentModel> SetFlagsForActions(List<CommentModel> models)
+        {
+            foreach (CommentModel cmt in models)
+            {
+                if (cmt.Creator.UserID != GetUserID())
+                {
+                    cmt.IsReplyAllowed = true;
                 }
             }
 

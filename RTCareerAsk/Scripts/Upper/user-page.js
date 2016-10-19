@@ -51,3 +51,11 @@ function OnUnfollowComplete() {
 function OnUnfollowFailure() {
     DisplayErrorInfo('取消关注出现问题，请您查看……');
 }
+
+function OnUpdateContentComplete() {
+    Resize('content');
+}
+
+$(document).ready(function () {
+    $('.upper-tab').uppertabs();
+});

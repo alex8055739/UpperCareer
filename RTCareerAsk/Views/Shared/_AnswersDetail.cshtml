@@ -2,14 +2,13 @@
 
 @{
     bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
-    bool IsAdmin = ViewBag.IsAdmin != null ? Convert.ToBoolean(ViewBag.IsAdmin) : false;
 }
 
-<div class="answers-title">
-    <div class="box">
+<div>
+    <div class="header">
         @if (@Model.Count > 0)
         {
-            <h3>为您找到 @Model.Count 条答案</h3>
+            <h3>为您找到<span class="marked-number">@(Model.Count)</span>条答案</h3>
         }
         else
         {
@@ -19,25 +18,40 @@
 </div>
 @foreach (RTCareerAsk.Models.AnswerModel a in Model)
 {
-    <div class="answer">
-        <div class="bs-component clearfix">
+    <div class="body">
+        <div id="@string.Format("divAns{0}", a.ID)" class="clearfix">
+            @Html.Hidden(string.Format("hdnAnsBy{0}", a.ID), a.Creator.UserID)
             <blockquote>
-                <div id="@string.Format("divAnsTxt{0}", a.ID)">
+                @Html.UpperNameTag(a.Creator)
+                <div id="@string.Format("divAnsTxt{0}", a.ID)" class="content @Html.IsSelf(a.IsEditAllowed)">
                     @Html.Raw(HttpUtility.HtmlDecode(a.Content))
                 </div>
-                <small>由<a href="@Url.Action("Index", "User", new { id = a.Creator.UserID })">@a.Creator.Name</a> 于 <cite title="Source Title">@a.TimeDisplay</cite> 回答</small>
+                <div class="extra">
+                    @a.CreateBefore
+                    <span>@Html.ActionLink("查看详情", "AnswerDetail", "Question", new { id = a.ID }, new { })</span>
+                    <div id="@string.Format("divAnsVote{0}", a.ID)" style="display:inline">
+                        @if (IsAuthorized)
+                        {
+                            <span><a href="#" class="@Html.IsActive(true, a)">赞</a></span>
+                        }
+                        <span id="spnVoteDiff" style="color: #f00">@a.VoteDiff</span>
+                        @if (IsAuthorized)
+                        {
+                            <span><a href="#" class="@Html.IsActive(false, a)">踩</a></span>
+                        }
+                    </div>
+                </div>
                 @if (IsAuthorized)
                 {
                     <div class="float-right">
-                        <ul class="breadcrumb" style="font-size: 5px">
+                        <ul class="breadcrumb">
                             @if (a.IsEditAllowed)
                             {
                                 <li><a href="#" role="button" id="@string.Format("btnAnsEdt{0}", a.ID)">编辑</a></li>
                                 <li><a href="#" role="button" id="@string.Format("btnAnsDel{0}", a.ID)">删除</a></li>
                             }
-                            <li><a href="@string.Format("#divCmtForm{0}", a.ID)" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">评一下</a></li>
-                            <li><a href="@string.Format("#divCmtList{0}", a.ID)" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" class="CmtCount">
-                                <span class="badge">@a.Comments.Count</span>条评论
+                            <li><a href="#" id="@string.Format("btnWrtCmt{0}", a.ID)">评一下</a></li>
+                            <li><a href="@string.Format("#divCmtList{0}", a.ID)" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" class="CmtCount">评论<span style="font-size: 13px">(@a.Comments.Count)</span>
                             </a></li>
                         </ul>
                     </div>
@@ -46,9 +60,13 @@
         </div>
         @if (IsAuthorized)
         {
-            @Html.Partial("_CommentForm", new RTCareerAsk.Models.CommentPostModel() { AnswerID = a.ID, NotifyUserID = a.Creator.UserID })
+            <div id="@string.Format("divCmtForm{0}", a.ID)" class="collapse">
+                <div class="clearfix">
+                    @Html.Partial("_CommentForm", new RTCareerAsk.Models.CommentPostModel() { AnswerID = a.ID, NotifyUserID = a.Creator.UserID })
+                </div>
+            </div>
         }
-        <div id="@string.Format("divCmtList{0}", a.ID)" class="ans-outter-box collapse">
+        <div id="@string.Format("divCmtList{0}", a.ID)" class="collapse comment-list">
             @if (a.Comments != null && a.Comments.Count > 0)
             {
                 @Html.Partial("_CommentDetail", a.Comments)

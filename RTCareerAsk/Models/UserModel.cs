@@ -24,7 +24,15 @@ namespace RTCareerAsk.Models
 
         public string Name { get; set; }
 
+        public string Title { get; set; }
+
+        public int Gender { get; set; }
+
         public string Portrait { get; set; }
+
+        public string Company { get; set; }
+
+        public int FieldIndex { get; set; }
 
         public List<RoleModel> Roles { get; set; }
 
@@ -34,7 +42,11 @@ namespace RTCareerAsk.Models
             {
                 UserID = u.ObjectID;
                 Name = u.Name;
+                Title = u.Title;
+                Gender = u.Gender;
                 Portrait = u.Portrait;
+                Company = u.Company;
+                FieldIndex = u.FieldIndex;
 
                 if (u.Roles.Count > 0)
                 {

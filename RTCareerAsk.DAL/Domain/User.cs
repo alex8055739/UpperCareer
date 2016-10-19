@@ -27,9 +27,17 @@ namespace RTCareerAsk.DAL.Domain
 
         public string Name { get; set; }
 
+        public string Title { get; set; }
+
+        public int Gender { get; set; }
+
         public string Portrait { get; set; }
 
         public string Email { get; set; }
+
+        public string Company { get; set; }
+
+        public int FieldIndex { get; set; }
 
         public bool EmailVerified { get; set; }
 
@@ -45,8 +53,12 @@ namespace RTCareerAsk.DAL.Domain
             {
                 ObjectID = uo.ObjectId;
                 Name = uo.ContainsKey("nickname") ? uo.Get<string>("nickname") : null;
+                Title = uo.ContainsKey("title") ? uo.Get<string>("title") : null;
+                Gender = uo.ContainsKey("gender") ? uo.Get<int>("gender") : 0;
                 Portrait = uo.ContainsKey("portrait") ? uo.Get<string>("portrait") : null;
                 Email = uo.Email;
+                Company = uo.ContainsKey("company") ? uo.Get<string>("company") : null;
+                FieldIndex = uo.ContainsKey("fieldIndex") ? uo.Get<int>("fieldIndex") : 0;
                 EmailVerified = uo.ContainsKey("emailVerified") ? uo.Get<bool>("emailVerified") : false;
                 MobileVerified = uo.MobilePhoneVerified;
                 DateCreate = Convert.ToDateTime(uo.CreatedAt);
@@ -129,15 +141,7 @@ namespace RTCareerAsk.DAL.Domain
 
         public User ForUser { get; set; }
 
-        public string Title { get; set; }
-
-        public int Gender { get; set; }
-
-        public string Company { get; set; }
-
         public string SelfDescription { get; set; }
-
-        public int FieldIndex { get; set; }
 
         private void CreateNewUserDetailObject(AVUser uo)
         {
@@ -157,11 +161,7 @@ namespace RTCareerAsk.DAL.Domain
 
             ObjectId = udo.ObjectId;
             ForUser = new User(udo.Get<AVUser>("forUser"));
-            Title = udo.Get<string>("title");
-            Gender = udo.Get<int>("gender");
-            Company = udo.Get<string>("company");
             SelfDescription = udo.Get<string>("selfDescription");
-            FieldIndex = udo.Get<int>("fieldIndex");
         }
 
         public AVObject CreateUserDetailObjectForSave()
@@ -169,11 +169,7 @@ namespace RTCareerAsk.DAL.Domain
             AVObject userDetail = new AVObject("UserDetail");
 
             userDetail.Add("forUser", ForUser.LoadUserObject());
-            userDetail.Add("title", Title);
-            userDetail.Add("gender", Gender);
-            userDetail.Add("company", Company);
             userDetail.Add("selfDescription", SelfDescription);
-            userDetail.Add("fieldIndex", FieldIndex);
 
             return userDetail;
         }
@@ -185,11 +181,7 @@ namespace RTCareerAsk.DAL.Domain
                 throw new InvalidOperationException("获取的对象不是用户信息类object。");
             }
 
-            udo["title"] = Title;
-            udo["gender"] = Gender;
-            udo["company"] = Company;
             udo["selfDescription"] = SelfDescription;
-            udo["fieldIndex"] = FieldIndex;
 
             return udo;
         }

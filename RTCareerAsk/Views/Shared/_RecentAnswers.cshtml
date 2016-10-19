@@ -1,15 +1,19 @@
 ﻿@model List<RTCareerAsk.Models.AnswerModel>
 
-<div class="question-info">
-    @foreach (RTCareerAsk.Models.AnswerModel a in Model)
-    {
-        <div class="list-group box">
-            <a href="@Url.Action("Index", "Question", new { id = a.ForQuestion.ID })" class="list-group-item">
-                <p class="list-group-item-text lead">@Html.Raw(HttpUtility.HtmlDecode(a.Content))</p>
-                <p class="divider" />
-                <h5 class="list-group-item-heading">@a.ForQuestion.Title</h5>
-                <p class="list-group-item-text extra">@a.TimeDisplay</p>
-            </a>
-        </div>
-    }
+<div class="content-info">
+    <div class="list-group box">
+        @foreach (RTCareerAsk.Models.AnswerModel a in Model)
+        {
+            <div class="list-group-item">
+                <a href="@Url.Action("AnswerDetail", "Question", new { id = a.ID })" style="color:#70BF40">
+                    <h4 class="list-group-item-heading">@a.ForQuestion.Title</h4>
+                </a>
+                <div class="list-group-item-text">@Html.Raw(HttpUtility.HtmlDecode(a.Content))</div>
+                <p class="extra">@a.CreateBefore</p>
+            </div>
+        }
+    </div>
 </div>
+<script type="text/javascript">
+    $('.list-group-item-text').uppershorten();
+</script>

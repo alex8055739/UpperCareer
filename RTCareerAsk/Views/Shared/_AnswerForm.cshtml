@@ -1,7 +1,7 @@
 ﻿@model RTCareerAsk.Models.AnswerPostModel
 
 <div id="divAnsForm" class="collapse">
-    <div class="well">
+    <div>
         @using (Ajax.BeginForm("PostAnswer", "Question", new { }, new AjaxOptions
         {
             LoadingElementId = "divInfoLoading",
@@ -30,9 +30,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="btn-group col-lg-offset-10">
+                <div class="btn-group col-lg-offset-9">
                     <button type="reset" class="btn btn-default" data-toggle="collapse" data-target="#divAnsForm" aria-expanded="false" aria-controls="collapseExample">放弃</button>
-                    <button type="submit" class="btn btn-primary" id="btnSubmitAns">提交</button>
+                    <button type="submit" class="btn btn-warning" id="btnSubmitAns">提交</button>
                 </div>
             </div>
         }

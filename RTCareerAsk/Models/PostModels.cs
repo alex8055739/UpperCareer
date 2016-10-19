@@ -15,7 +15,7 @@ namespace RTCareerAsk.Models
         [DisplayName("标题：")]
         public string PostTitle { get; set; }
         [DisplayName("正文：")]
-        [StringLength(1000, ErrorMessage ="超过字数上限，正文请不要超过1000字")]
+        [StringLength(1500, ErrorMessage ="超过字数上限，正文请不要超过1000字")]
         public string PostContent { get; set; }
 
         public string UserID { get; set; }
@@ -35,7 +35,7 @@ namespace RTCareerAsk.Models
     {
         [Required(ErrorMessage="请您输入答案正文")]
         [DisplayName("答案内容：")]
-        [StringLength(5000, ErrorMessage = "超过字数上限，答案请不要超过20000字")]
+        [StringLength(6000, ErrorMessage = "超过字数上限，答案请不要超过5000字")]
         public string PostContent { get; set; }
 
         public string QuestionID { get; set; }
@@ -59,6 +59,7 @@ namespace RTCareerAsk.Models
     {
         [Required(ErrorMessage = "请您输入评论正文")]
         [DisplayName("评论内容：")]
+        [StringLength(140, ErrorMessage = "超过字数上限，答案请不要超过140字")]
         public string PostContent { get; set; }
 
         public string AnswerID { get; set; }

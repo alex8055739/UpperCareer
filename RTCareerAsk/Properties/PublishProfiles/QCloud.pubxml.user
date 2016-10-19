@@ -110,13 +110,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/04/2016 14:38:42</publishTime>
     </File>
     <File Include="bin/RTCareerAsk.BL.dll">
-      <publishTime>08/27/2016 13:51:30</publishTime>
+      <publishTime>10/18/2016 11:35:16</publishTime>
     </File>
     <File Include="bin/RTCareerAsk.DAL.dll">
-      <publishTime>08/27/2016 13:51:30</publishTime>
+      <publishTime>10/18/2016 11:35:15</publishTime>
     </File>
     <File Include="bin/RTCareerAsk.dll">
-      <publishTime>08/27/2016 13:51:31</publishTime>
+      <publishTime>10/18/2016 11:35:19</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.Data.Edm.resources.dll">
       <publishTime>04/28/2016 17:20:30</publishTime>
@@ -194,10 +194,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2016 17:20:29</publishTime>
     </File>
     <File Include="ckeditor/adapters/jquery.js">
-      <publishTime>08/27/2016 12:02:30</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/build-config.js">
-      <publishTime>08/27/2016 12:02:40</publishTime>
+      <publishTime>08/30/2016 15:53:51</publishTime>
     </File>
     <File Include="ckeditor/CHANGES.md">
       <publishTime>08/27/2016 12:02:30</publishTime>
@@ -206,268 +206,454 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/27/2016 12:02:42</publishTime>
     </File>
     <File Include="ckeditor/config.js">
-      <publishTime>08/27/2016 15:01:14</publishTime>
+      <publishTime>09/21/2016 14:03:55</publishTime>
     </File>
     <File Include="ckeditor/contents.css">
-      <publishTime>08/27/2016 12:02:30</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/lang/en.js">
-      <publishTime>08/27/2016 12:02:42</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/lang/zh-cn.js">
-      <publishTime>08/27/2016 12:02:42</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/LICENSE.md">
       <publishTime>08/27/2016 12:02:30</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/a11yhelp.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/af.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/ar.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/bg.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/ca.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/cs.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/cy.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/da.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/de-ch.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/de.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/el.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/en-gb.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/en.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/eo.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/es.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/et.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/eu.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/fa.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/fi.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/fo.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/fr-ca.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/fr.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/gl.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/gu.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/he.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/hi.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/hr.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/hu.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/id.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/it.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/ja.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/km.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/ko.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/ku.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/lt.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/lv.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/mk.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/mn.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/nb.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/nl.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/no.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/pl.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/pt-br.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/pt.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/ro.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/ru.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/si.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/sk.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/sl.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/sq.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/sr-latn.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/sr.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/sv.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/th.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/tr.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/tt.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/ug.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/uk.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/vi.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/zh-cn.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/zh.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/a11yhelp/dialogs/lang/_translationstatus.txt">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/about/dialogs/about.js">
-      <publishTime>08/27/2016 12:02:37</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/about/dialogs/hidpi/logo_ckeditor.png">
-      <publishTime>08/27/2016 12:02:37</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/about/dialogs/logo_ckeditor.png">
-      <publishTime>08/27/2016 12:02:37</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/clipboard/dialogs/paste.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/dialog/dialogDefinition.js">
-      <publishTime>08/27/2016 12:02:37</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/icons.png">
-      <publishTime>08/27/2016 12:02:42</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/icons_hidpi.png">
-      <publishTime>08/27/2016 12:02:42</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/image/dialogs/image.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/image/images/noimage.png">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageresize/LICENSE.md">
+      <publishTime>01/29/2014 17:56:35</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageresize/plugin.js">
+      <publishTime>11/03/2014 16:59:02</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageresize/README.md">
+      <publishTime>11/26/2014 16:09:23</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/check_permission.php">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/create.php">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/dist/jquery.lazyload.min.js">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/dist/js.cookie-2.0.3.min.js">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/dist/sweetalert.css">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/dist/sweetalert.min.js">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/function.js">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/function.php">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-ico-browser.ico">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-block.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-browser.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-bug.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-close-black.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-close-grey.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-close.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-coffee.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-credits.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-delete.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-disable.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-done.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-download.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-edit.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-english.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-faq.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-german.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-hideext.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-image.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-images.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-list.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-logout.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-password.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-polish.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-qedit.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-qtrash.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-refresh.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-select.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-settings.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-showext.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-translate.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-updates.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-upload-big.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-upload-grey.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-upload.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-use.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-version.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/img/cd-icon-warning.png">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/imgbrowser.php">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/imgdelete.php">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/imgupload.php">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/LICENSE.md">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/login.php">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/loginindex.php">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/logout.php">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/new.php">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/pluginconfig.php">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/README.md">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/styles.css">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/styles.min.css">
+      <publishTime>08/25/2016 12:38:43</publishTime>
+    </File>
+    <File Include="ckeditor/plugins/imageuploader/uploads/placeholder.jpg">
+      <publishTime>08/25/2016 12:38:43</publishTime>
     </File>
     <File Include="ckeditor/plugins/link/dialogs/anchor.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/link/dialogs/link.js">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/link/images/anchor.png">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/link/images/hidpi/anchor.png">
-      <publishTime>08/27/2016 12:02:38</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/magicline/images/hidpi/icon-rtl.png">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/magicline/images/hidpi/icon.png">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/magicline/images/icon-rtl.png">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/magicline/images/icon.png">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/pastefromword/filter/default.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/scayt/CHANGELOG.md">
       <publishTime>08/27/2016 12:02:39</publishTime>
     </File>
     <File Include="ckeditor/plugins/scayt/dialogs/options.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/scayt/dialogs/toolbar.css">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/scayt/LICENSE.md">
       <publishTime>08/27/2016 12:02:39</publishTime>
@@ -476,172 +662,172 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/27/2016 12:02:39</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/af.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/ar.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/bg.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/ca.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/cs.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/cy.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/da.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/de-ch.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/de.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/el.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/en-gb.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/en.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/eo.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/es.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/et.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/eu.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/fa.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/fi.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/fr-ca.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/fr.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/gl.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/he.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/hr.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/hu.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/id.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/it.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/ja.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/km.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/ko.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/ku.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/lt.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/lv.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/nb.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/nl.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/no.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/pl.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/pt-br.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/pt.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/ru.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/si.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/sk.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/sl.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/sq.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/sv.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/th.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/tr.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/tt.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/ug.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/uk.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/vi.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/zh-cn.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/zh.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/lang/_translationstatus.txt">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/specialchar/dialogs/specialchar.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/table/dialogs/table.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/tabletools/dialogs/tableCell.js">
-      <publishTime>08/27/2016 12:02:39</publishTime>
+      <publishTime>08/30/2016 16:43:59</publishTime>
     </File>
     <File Include="ckeditor/plugins/uploadimage/plugin.js">
       <publishTime>07/13/2016 22:15:36</publishTime>
@@ -1246,14 +1432,26 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/bootstrap.min.css.map">
       <publishTime>06/23/2016 17:02:51</publishTime>
     </File>
+    <File Include="Content/bootstrap.readable.css">
+      <publishTime>09/09/2016 15:55:38</publishTime>
+    </File>
+    <File Include="Content/bootstrap.readable.min.css">
+      <publishTime>09/10/2016 12:40:41</publishTime>
+    </File>
+    <File Include="Content/bootstrap.upper.css">
+      <publishTime>09/22/2016 19:10:42</publishTime>
+    </File>
     <File Include="Content/bootstrap.yeti.css">
-      <publishTime>08/12/2016 10:38:38</publishTime>
+      <publishTime>09/22/2016 12:33:12</publishTime>
     </File>
     <File Include="Content/cropper.css">
       <publishTime>08/10/2016 18:44:10</publishTime>
     </File>
     <File Include="Content/cropper.min.css">
       <publishTime>08/10/2016 18:44:10</publishTime>
+    </File>
+    <File Include="Content/readable.copy.css">
+      <publishTime>09/21/2016 16:38:59</publishTime>
     </File>
     <File Include="Content/Site.css">
       <publishTime>04/28/2016 17:19:39</publishTime>
@@ -1421,7 +1619,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2016 17:20:14</publishTime>
     </File>
     <File Include="Content/Upper.css">
-      <publishTime>08/23/2016 15:45:36</publishTime>
+      <publishTime>10/18/2016 16:42:35</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>04/28/2016 17:19:39</publishTime>
@@ -1450,8 +1648,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Images/bullet.png">
       <publishTime>04/28/2016 17:19:39</publishTime>
     </File>
+    <File Include="Images/defaultPortrait.png">
+      <publishTime>09/10/2016 13:06:54</publishTime>
+    </File>
     <File Include="Images/heroAccent.png">
       <publishTime>04/28/2016 17:19:39</publishTime>
+    </File>
+    <File Include="Images/notification.png">
+      <publishTime>09/22/2016 12:37:47</publishTime>
     </File>
     <File Include="Images/orderedList0.png">
       <publishTime>04/28/2016 17:19:39</publishTime>
@@ -1482,6 +1686,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Images/orderedList9.png">
       <publishTime>04/28/2016 17:19:39</publishTime>
+    </File>
+    <File Include="Images/post.png">
+      <publishTime>09/22/2016 12:12:49</publishTime>
     </File>
     <File Include="Images/spin.gif">
       <publishTime>07/24/2016 19:10:10</publishTime>
@@ -1555,6 +1762,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>04/28/2016 17:20:16</publishTime>
     </File>
+    <File Include="Scripts/upper-shorten.js">
+      <publishTime>09/09/2016 17:14:43</publishTime>
+    </File>
     <File Include="Scripts/Upper/bug-report.js">
       <publishTime>08/16/2016 17:07:27</publishTime>
     </File>
@@ -1562,25 +1772,37 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/25/2016 14:41:19</publishTime>
     </File>
     <File Include="Scripts/Upper/fix-image-display.js">
-      <publishTime>08/16/2016 15:04:19</publishTime>
+      <publishTime>10/18/2016 13:47:57</publishTime>
     </File>
     <File Include="Scripts/Upper/message-index.js">
       <publishTime>08/16/2016 17:18:09</publishTime>
     </File>
     <File Include="Scripts/Upper/new-post.js">
-      <publishTime>08/20/2016 17:49:51</publishTime>
+      <publishTime>09/09/2016 12:37:07</publishTime>
     </File>
     <File Include="Scripts/Upper/question-answer-edit.js">
-      <publishTime>08/29/2016 15:22:23</publishTime>
+      <publishTime>09/22/2016 00:07:08</publishTime>
+    </File>
+    <File Include="Scripts/Upper/question-list.js">
+      <publishTime>10/18/2016 12:43:04</publishTime>
     </File>
     <File Include="Scripts/Upper/upper-base.js">
-      <publishTime>08/19/2016 15:37:41</publishTime>
+      <publishTime>09/21/2016 16:09:42</publishTime>
+    </File>
+    <File Include="Scripts/Upper/upper-shorten.js">
+      <publishTime>10/18/2016 16:35:40</publishTime>
+    </File>
+    <File Include="Scripts/Upper/upper-tab.js">
+      <publishTime>09/02/2016 15:53:35</publishTime>
+    </File>
+    <File Include="Scripts/Upper/upper-tabs.js">
+      <publishTime>10/13/2016 22:49:19</publishTime>
     </File>
     <File Include="Scripts/Upper/user-manage.js">
-      <publishTime>08/24/2016 15:43:36</publishTime>
+      <publishTime>10/18/2016 16:47:44</publishTime>
     </File>
     <File Include="Scripts/Upper/user-page.js">
-      <publishTime>08/19/2016 15:32:14</publishTime>
+      <publishTime>10/18/2016 12:16:40</publishTime>
     </File>
     <File Include="Scripts/_references.js">
       <publishTime>06/23/2016 17:02:51</publishTime>
@@ -1595,7 +1817,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2016 17:19:39</publishTime>
     </File>
     <File Include="Views/Account/Login.cshtml">
-      <publishTime>07/26/2016 13:51:38</publishTime>
+      <publishTime>09/21/2016 12:53:07</publishTime>
     </File>
     <File Include="Views/Account/Manage.cshtml">
       <publishTime>04/28/2016 17:19:39</publishTime>
@@ -1604,7 +1826,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2016 17:19:39</publishTime>
     </File>
     <File Include="Views/Account/UserManage.cshtml">
-      <publishTime>08/19/2016 21:30:13</publishTime>
+      <publishTime>10/17/2016 10:32:39</publishTime>
     </File>
     <File Include="Views/Account/_ChangePasswordPartial.cshtml">
       <publishTime>04/28/2016 17:19:39</publishTime>
@@ -1625,7 +1847,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/18/2016 22:55:30</publishTime>
     </File>
     <File Include="Views/Home/QuestionList.cshtml">
-      <publishTime>08/19/2016 21:37:08</publishTime>
+      <publishTime>10/14/2016 00:13:43</publishTime>
     </File>
     <File Include="Views/Home/RegisterSuccess.cshtml">
       <publishTime>07/26/2016 16:18:32</publishTime>
@@ -1636,38 +1858,47 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Message/Index.cshtml">
       <publishTime>07/30/2016 16:47:08</publishTime>
     </File>
+    <File Include="Views/Question/AnswerDetail.cshtml">
+      <publishTime>09/21/2016 15:25:34</publishTime>
+    </File>
     <File Include="Views/Question/Index.cshtml">
-      <publishTime>08/19/2016 21:37:14</publishTime>
+      <publishTime>09/21/2016 12:41:28</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>04/28/2016 17:19:39</publishTime>
     </File>
+    <File Include="Views/Shared/_AnswerDetail.cshtml">
+      <publishTime>09/13/2016 19:14:51</publishTime>
+    </File>
     <File Include="Views/Shared/_AnswerForm.cshtml">
-      <publishTime>08/29/2016 11:25:36</publishTime>
+      <publishTime>09/07/2016 15:34:12</publishTime>
+    </File>
+    <File Include="Views/Shared/_AnswerList.cshtml">
+      <publishTime>10/18/2016 13:47:19</publishTime>
     </File>
     <File Include="Views/Shared/_AnswersDetail.cshtml">
-      <publishTime>08/29/2016 14:58:31</publishTime>
+      <publishTime>09/21/2016 23:48:45</publishTime>
     </File>
     <File Include="Views/Shared/_BugReportModal.cshtml">
       <publishTime>07/28/2016 17:20:23</publishTime>
     </File>
     <File Include="Views/Shared/_ChangePortrait.cshtml">
-      <publishTime>08/18/2016 14:41:54</publishTime>
+      <publishTime>10/18/2016 16:49:55</publishTime>
     </File>
     <File Include="Views/Shared/_CommentDetail.cshtml">
-      <publishTime>08/25/2016 16:51:45</publishTime>
+      <publishTime>09/13/2016 17:19:59</publishTime>
     </File>
     <File Include="Views/Shared/_CommentForm.cshtml">
-      <publishTime>07/23/2016 10:42:31</publishTime>
+      <publishTime>09/09/2016 16:00:21</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>08/24/2016 20:54:17</publishTime>
+      <publishTime>10/18/2016 16:26:13</publishTime>
     </File>
     <File Include="Views/Shared/_LetterModal.cshtml">
       <publishTime>07/28/2016 21:54:42</publishTime>
     </File>
     <File Include="Views/Shared/_Login.cshtml">
-      <publishTime>08/18/2016 15:29:50</publishTime>
+      <publishTime>09/21/2016 12:51:11</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>04/28/2016 17:19:39</publishTime>
@@ -1676,28 +1907,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/28/2016 16:29:18</publishTime>
     </File>
     <File Include="Views/Shared/_NavBar.cshtml">
-      <publishTime>08/20/2016 12:59:41</publishTime>
+      <publishTime>09/22/2016 13:32:31</publishTime>
     </File>
     <File Include="Views/Shared/_PostModal.cshtml">
-      <publishTime>08/23/2016 15:45:14</publishTime>
+      <publishTime>08/30/2016 17:02:20</publishTime>
     </File>
     <File Include="Views/Shared/_QuestionDetail.cshtml">
-      <publishTime>08/27/2016 17:12:21</publishTime>
+      <publishTime>09/21/2016 18:19:46</publishTime>
     </File>
     <File Include="Views/Shared/_QuestionList.cshtml">
-      <publishTime>08/27/2016 15:27:24</publishTime>
+      <publishTime>09/22/2016 19:57:46</publishTime>
     </File>
     <File Include="Views/Shared/_RecentAnswers.cshtml">
-      <publishTime>08/25/2016 17:02:55</publishTime>
+      <publishTime>10/14/2016 22:36:56</publishTime>
     </File>
     <File Include="Views/Shared/_RecentQuestions.cshtml">
-      <publishTime>08/25/2016 17:03:08</publishTime>
+      <publishTime>09/22/2016 18:05:44</publishTime>
     </File>
     <File Include="Views/Shared/_Register.cshtml">
-      <publishTime>08/18/2016 15:06:23</publishTime>
+      <publishTime>09/21/2016 12:53:57</publishTime>
+    </File>
+    <File Include="Views/Shared/_UpperTab.cshtml">
+      <publishTime>09/03/2016 15:34:55</publishTime>
     </File>
     <File Include="Views/Shared/_UserDetail.cshtml">
-      <publishTime>08/19/2016 15:28:00</publishTime>
+      <publishTime>09/22/2016 11:55:25</publishTime>
     </File>
     <File Include="Views/Test/Index.cshtml">
       <publishTime>07/30/2016 16:47:45</publishTime>
@@ -1706,16 +1940,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/30/2016 12:37:43</publishTime>
     </File>
     <File Include="Views/User/Index.cshtml">
-      <publishTime>07/27/2016 03:47:45</publishTime>
+      <publishTime>10/14/2016 22:16:32</publishTime>
     </File>
     <File Include="Views/Web.config">
-      <publishTime>07/07/2016 20:15:52</publishTime>
+      <publishTime>08/31/2016 12:44:40</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
       <publishTime>07/19/2016 23:05:47</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/25/2016 15:51:20</publishTime>
+      <publishTime>08/31/2016 18:54:55</publishTime>
     </File>
   </ItemGroup>
 </Project>

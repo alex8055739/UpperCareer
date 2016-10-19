@@ -188,6 +188,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_DLL\UpperHtmlHelpers.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -213,8 +214,10 @@
     <Compile Include="Models\QuestionModels.cs" />
     <Compile Include="Models\TestModels.cs" />
     <Compile Include="Models\UpperBaseModels.cs" />
+    <Compile Include="Models\UpperControlModels.cs" />
     <Compile Include="Models\UserInfoModels.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\VoteModel.cs" />
     <Compile Include="PLtoDA\Account2DA.cs" />
     <Compile Include="PLtoDA\DABase.cs" />
     <Compile Include="PLtoDA\Home2DA.cs" />
@@ -301,6 +304,66 @@
     <Content Include="ckeditor\plugins\dialog\dialogDefinition.js" />
     <Content Include="ckeditor\plugins\icons.png" />
     <Content Include="ckeditor\plugins\icons_hidpi.png" />
+    <Content Include="ckeditor\plugins\imageresize\LICENSE.md" />
+    <Content Include="ckeditor\plugins\imageresize\plugin.js" />
+    <Content Include="ckeditor\plugins\imageresize\README.md" />
+    <Content Include="ckeditor\plugins\imageuploader\check_permission.php" />
+    <Content Include="ckeditor\plugins\imageuploader\create.php" />
+    <Content Include="ckeditor\plugins\imageuploader\dist\jquery.lazyload.min.js" />
+    <Content Include="ckeditor\plugins\imageuploader\dist\js.cookie-2.0.3.min.js" />
+    <Content Include="ckeditor\plugins\imageuploader\dist\sweetalert.css" />
+    <Content Include="ckeditor\plugins\imageuploader\dist\sweetalert.min.js" />
+    <Content Include="ckeditor\plugins\imageuploader\function.js" />
+    <Content Include="ckeditor\plugins\imageuploader\function.php" />
+    <Content Include="ckeditor\plugins\imageuploader\imgbrowser.php" />
+    <Content Include="ckeditor\plugins\imageuploader\imgdelete.php" />
+    <Content Include="ckeditor\plugins\imageuploader\imgupload.php" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-ico-browser.ico" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-block.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-browser.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-bug.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-close-black.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-close-grey.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-close.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-coffee.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-credits.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-delete.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-disable.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-done.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-download.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-edit.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-english.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-faq.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-german.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-hideext.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-image.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-images.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-list.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-logout.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-password.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-polish.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-qedit.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-qtrash.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-refresh.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-select.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-settings.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-showext.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-translate.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-updates.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-upload-big.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-upload-grey.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-upload.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-use.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-version.png" />
+    <Content Include="ckeditor\plugins\imageuploader\img\cd-icon-warning.png" />
+    <Content Include="ckeditor\plugins\imageuploader\login.php" />
+    <Content Include="ckeditor\plugins\imageuploader\loginindex.php" />
+    <Content Include="ckeditor\plugins\imageuploader\logout.php" />
+    <Content Include="ckeditor\plugins\imageuploader\new.php" />
+    <Content Include="ckeditor\plugins\imageuploader\pluginconfig.php" />
+    <Content Include="ckeditor\plugins\imageuploader\styles.css" />
+    <Content Include="ckeditor\plugins\imageuploader\styles.min.css" />
+    <Content Include="ckeditor\plugins\imageuploader\uploads\placeholder.jpg" />
     <Content Include="ckeditor\plugins\image\dialogs\image.js" />
     <Content Include="ckeditor\plugins\image\images\noimage.png" />
     <Content Include="ckeditor\plugins\link\dialogs\anchor.js" />
@@ -463,11 +526,12 @@
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.journal.css" />
-    <Content Include="Content\bootstrap.journal.min.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.readable.min.css" />
+    <Content Include="Content\bootstrap.upper.css" />
     <Content Include="Content\cropper.css" />
     <Content Include="Content\cropper.min.css" />
+    <Content Include="Content\readable.copy.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -550,11 +614,17 @@
     <Content Include="ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="Content\bootstrap.yeti.css" />
     <Content Include="ckeditor\skins\minimalist\readme.md" />
+    <Content Include="ckeditor\plugins\imageuploader\LICENSE.md" />
+    <Content Include="ckeditor\plugins\imageuploader\README.md" />
+    <Content Include="Content\bootstrap.readable.css" />
     <None Include="Properties\PublishProfiles\Desktop.pubxml" />
     <None Include="Properties\PublishProfiles\Host.pubxml" />
     <None Include="Properties\PublishProfiles\QCloud.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Images\spin.gif" />
+    <Content Include="Images\post.png" />
+    <Content Include="Images\notification.png" />
+    <Content Include="Images\defaultPortrait.png" />
     <Content Include="Scripts\Blob.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -576,6 +646,10 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Upper\upper-scrollpaging.js" />
+    <Content Include="Scripts\Upper\upper-shorten.js" />
+    <Content Include="Scripts\Upper\question-list.js" />
+    <Content Include="Scripts\Upper\upper-tab.js" />
     <Content Include="Scripts\Upper\bug-report.js" />
     <Content Include="Scripts\canvas-to-blob.js" />
     <Content Include="Scripts\canvas-to-blob.min.js" />
@@ -585,10 +659,13 @@
     <Content Include="Scripts\Upper\question-answer-edit.js" />
     <Content Include="Scripts\Upper\upper-base.js" />
     <Content Include="Scripts\Upper\new-post.js" />
+    <Content Include="Scripts\Upper\upper-tabs.js" />
     <Content Include="Scripts\Upper\user-manage.js" />
     <Content Include="Scripts\Upper\user-page.js" />
     <Content Include="upper_logo_64px.ico" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -652,10 +729,12 @@
     <Content Include="Views\Test\_BugInfoForm.cshtml" />
     <Content Include="Views\Account\UserManage.cshtml" />
     <Content Include="Views\Shared\_ChangePortrait.cshtml" />
+    <Content Include="Views\Question\AnswerDetail.cshtml" />
+    <Content Include="Views\Shared\_AnswerDetail.cshtml" />
+    <Content Include="Views\Shared\_AnswerList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="App_DLL\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

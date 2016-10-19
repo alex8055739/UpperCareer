@@ -5,18 +5,21 @@
     <title>@ViewBag.Title</title>
     <link href="~/upper_logo_64px.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript">
+        var updateMsgCount = "@Url.Action("UpdateMsgCount", "Message")",
+            loadQuestionForm = "@Url.Action("CreateQuestionForm", "Question")",
+            changePortrait = "@Url.Action("ChangePortrait", "Home")",
+            updateContent = "@Url.Action("UpdateContent", "Question")",
+            deleteAnswer = "@Url.Action("DeleteAnswer", "Question")",
+            deleteComment = "@Url.Action("DeleteComment","Question")"
+
+        var pageTopOffset = 90;
+    </script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/base")
     <script src="~/ckeditor/ckeditor.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-        var updateMsgCount = "@Url.Action("UpdateMsgCount", "Message")"
-        var loadQuestionForm = "@Url.Action("CreateQuestionForm", "Question")"
-        var changePortrait = "@Url.Action("ChangePortrait", "Home")"
-        var updateContent = "@Url.Action("UpdateContent","Question")"
-        var deleteAnswer = "@Url.Action("DeleteAnswer","Question")";
-    </script>
 </head>
 <body>
     <div id="container">

@@ -279,7 +279,7 @@ namespace RTCareerAsk.DAL.Tests
         [TestMethod]
         public void FindPostObjectsTest()
         {
-            Assert.AreEqual(1, LCDal.FindPostQuestions().Result.Count());
+            Assert.AreEqual(1, LCDal.FindQuestionList().Result.Count());
         }
 
         [TestMethod]
@@ -311,26 +311,9 @@ namespace RTCareerAsk.DAL.Tests
         }
 
         [TestMethod]
-        public async Task FindAnswersByQuestionTest()
-        {
-            Assert.AreEqual(1, await LCDal.FindAnswersByQuestion(PostId).ContinueWith(t => t.Result.Count()));
-        }
-
-        [TestMethod]
-        public async Task GetQuestionAndAnswersWithCommentsTest()
-        {
-            Question q = await LCDal.GetQuestionAndAnswersWithComments(PostId);
-            IEnumerable<Answer> ans = q.Answers.Where(x => x.Comments.Count() == 2);
-
-            Assert.AreEqual(PostId, q.ObjectID);
-            Assert.AreEqual(2, q.Answers.Count());
-            Assert.AreEqual(2, q.Answers.Where(x => x.Comments.Count() > 0).First().Comments.Count());
-        }
-
-        [TestMethod]
         public async Task FindPostQuestionsTest()
         {
-            IEnumerable<QuestionInfo> qis = await LCDal.FindPostQuestions();
+            IEnumerable<QuestionInfo> qis = await LCDal.FindQuestionList();
 
             Assert.AreEqual(1, qis.Count());
             Assert.AreEqual(2, qis.First().AnswerCount);
@@ -379,20 +362,35 @@ namespace RTCareerAsk.DAL.Tests
             UserDetail ud = await LCDal.LoadUserDetail(UserId);
 
             ud.ForUser.Name = "老司机阿来";
-            ud.Title = "全国失眠达人";
-            ud.Gender = 1;
-            ud.Company = "拉夫德尔网络科技";
+            ud.ForUser.Title = "全国失眠达人";
+            ud.ForUser.Gender = 1;
+            ud.ForUser.Company = "拉夫德尔网络科技";
             ud.SelfDescription = "激动得不知道说些什么好";
 
             Assert.IsTrue(await LCDal.SaveUserDetail(ud));
         }
 
         [TestMethod]
-        public async Task DeleteAnswerWithComments()
+        public async Task DeleteAnswerWithCommentsTest()
         {
             string ansId = "57bd740cdf0eea005c6fa262";
 
             Assert.IsTrue(await LCDal.DeleteAnswerWithComments(ansId));
+        }
+
+        [TestMethod]
+        public async Task PerformVoteTest()
+        {
+            Vote v = new Vote()
+            {
+                TargetID = "57d4265e7db2a20068352cfa",
+                Type = VoteType.Answer,
+                VoterID = UserId,
+                IsLike = true,
+                IsUpdate = false
+            };
+
+            Assert.IsTrue(await LCDal.PerformVote(v));
         }
 
         #endregion
@@ -500,6 +498,22 @@ namespace RTCareerAsk.DAL.Tests
             string content = "我知道错了，下次不写这么长的答案了。";
 
             Assert.IsTrue(await LCDal.UpdateAnswerContent(ansId, content));
+        }
+
+        [TestMethod]
+        public async Task GetAnswer100TimesAsyncTst()
+        {
+            string ansId = "57e222fb0e3dd90069863233";
+
+            await LCDal.GetAnswer100TimesAsync(ansId);
+        }
+
+        [TestMethod]
+        public async Task GetAnswer100TimesTst()
+        {
+            string ansId = "57e222fb0e3dd90069863233";
+
+            await LCDal.GetAnswer100Times(ansId);
         }
 
         #endregion

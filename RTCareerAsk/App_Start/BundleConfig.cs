@@ -13,16 +13,31 @@ namespace RTCareerAsk
 
             bundles.Add(new ScriptBundle("~/bundles/base").Include(
                         "~/Scripts/bootstrap*",
-                        "~/Scripts/Upper/upper-base.js",
+                        "~/Scripts/Upper/upper-base*",
                         "~/Scripts/Upper/new-post.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/ask").Include(
+            bundles.Add(new ScriptBundle("~/bundles/homepage").Include(
+                        "~/Scripts/Upper/fix-image-display.js",
+                        "~/Scripts/Upper/upper-tabs.js",
+                        "~/Scripts/Upper/question-list.js",
+                        "~/Scripts/Upper/upper-shorten.js",
+                        "~/Scripts/Upper/upper-scrollpaging.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/question").Include(
+                        "~/Scripts/Upper/fix-image-display.js",
+                        "~/Scripts/Upper/upper-shorten.js",
+                        "~/Scripts/Upper/question-answer-edit.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/answer").Include(
                         "~/Scripts/Upper/fix-image-display.js",
                         "~/Scripts/Upper/question-answer-edit.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/user").Include(
                         "~/Scripts/Upper/user-page.js",
-                        "~/Scripts/Upper/fix-image-display.js"));
+                        "~/Scripts/Upper/upper-tabs.js",
+                        "~/Scripts/Upper/fix-image-display.js",
+                        "~/Scripts/Upper/upper-shorten.js"
+                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/message").Include(
                         "~/Scripts/Upper/message-index.js"));
@@ -45,7 +60,7 @@ namespace RTCareerAsk
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                        "~/Content/bootstrap.yeti.css",
+                        "~/Content/bootstrap.upper.css",
                         "~/Content/Upper.css"));
 
             bundles.Add(new StyleBundle("~/Content/cropper").Include(

@@ -1,25 +1,25 @@
-﻿@model List<RTCareerAsk.Models.QuestionInfoModel>
+﻿@model IEnumerable<RTCareerAsk.Models.QuestionInfoModel>
 
-@{
-
-}
-
-<div id="divQuestionList" class="question-info">
-    @foreach (RTCareerAsk.Models.QuestionInfoModel q in Model)
-    {
-        <div class="list-group box">
+<div class="content-info">
+    <div class="list-group box">
+        @foreach (RTCareerAsk.Models.QuestionInfoModel q in Model)
+        {
             <div class="list-group-item">
-                <a href="@Url.Action("Index", "Question", new { id = q.ID })">
-                    <h4 class="list-group-item-heading">@q.Title</h4>
-                    <p class="list-group-item-text">@Html.Raw(HttpUtility.HtmlDecode(q.Content))</p>
-                </a>
+                <div class="section-wrap">
+                    <div class="section number">
+                        <span class="marked-number">@q.VoteDiff</span>
+                        <span>推荐</span>
+                    </div>
+                    <div class="section number">
+                        <span class="marked-number">@q.AnswerCount</span>
+                        <span>回答</span>
+                    </div>
+                    <div class="section text">
+                        <a href="@Url.Action("Index", "Question", new { id = q.ID })" style="font-size:16px">@q.Title</a>
+                        @Html.UpperAuthor(q.Creator.Name, q.CreateBefore)
+                    </div>
+                </div>
             </div>
-            <div class="list-group-item">
-                <p class="list-group-item-text extra">
-                    @Html.ActionLink(q.Creator.Name, "Index", "User", new { id = q.Creator.UserID }, new { })
-                    于 @q.TimeDisplay 提问 <span class="float-right">@q.AnswerCount 个回答</span>
-                </p>
-            </div>
-        </div>
-    }
+        }
+    </div>
 </div>

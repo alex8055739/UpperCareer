@@ -72,5 +72,21 @@ namespace RTCareerAsk.Controllers
                 throw e;
             }
         }
+
+        public async Task<PartialViewResult> RecentRecord(int id, string targetId)
+        {
+            if (id == 1)
+            {
+                return PartialView("_RecentQuestions", await UserDa.GetRecentQuestions(targetId));
+            }
+            else if (id == 2)
+            {
+                return PartialView("_RecentAnswers", await UserDa.GetRecentAnswers(targetId));
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("所提供的操作代码不符合要求。");
+            }
+        }
     }
 }

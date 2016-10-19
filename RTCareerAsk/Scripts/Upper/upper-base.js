@@ -35,18 +35,48 @@ function UpdateNewMsgCount() {
     });
 }
 
+function UpdateCmtCount() {
+    //For QuestionDetail page.
+    if ($('.CmtCount').length) {
+        $('.CmtCount').each(function () {
+            var cmtCount = $(this).closest('.body').find('.comment-list').find('.box').length;
+            if (cmtCount > 0) {
+                $(this).find('span').html('(' + cmtCount + ')');
+            }
+        });
+    }
+    //For AnswerDetail page.
+    else if ($('span.cmt-count')) {
+        var count = $('span.cmt-count').parent().siblings('div[id^="divCmtList"]').first().children('div[id^="blkCmt"]:visible').length;
+        $('span.cmt-count').text(count);
+    }
+}
+
+function WrapImageContent(content) {
+    alert($(this).find('img').length)
+
+    return content;
+}
+
 function DisplaySuccessInfo(infoText) {
-    var successTab = $('#divInfoSuccess').find('strong');
+    var successTab = $('#divInfoSuccess').find('p');
     $('div[id^="divInfo"]').hide();
     successTab.text(infoText);
     successTab.closest('.alert-tag').fadeIn('slow').delay(2000).fadeOut('slow');
 }
 
 function DisplayErrorInfo(infoText) {
-    var errorTab = $('#divInfoError').find('strong');
+    var errorTab = $('#divInfoError').find('p');
     $('div[id^="divInfo"]').hide();
     errorTab.text(infoText);
     errorTab.closest('.alert-tag').fadeIn('slow').delay(2000).fadeOut('slow');
+}
+
+function RemoveHtml(originString) {
+    var container = document.createElement('div');
+    var text = document.createTextNode(originString);
+    container.appendChild(text);
+    return container.innerHTML.replace(/&nbsp;/g, '').trim(); // innerHTML will be a xss safe string
 }
 
 $(document).ready(function () {
@@ -83,4 +113,11 @@ $(document).ready(function () {
             }
         });
     })
+
+    //Enable nav bar dropdown list with hover event.
+    //$('ul.nav li.dropdown').hover(function () {
+    //    $(this).find('.dropdown-menu').stop(true, true).delay(200).slideDown(200);
+    //}, function () {
+    //    $(this).find('.dropdown-menu').stop(true, true).delay(200).slideUp(200);
+    //});
 });

@@ -1,20 +1,27 @@
 ﻿@model RTCareerAsk.Models.UserDetailModel
 
 @{
-
+    RTCareerAsk.Models.TabModel tabModel = new RTCareerAsk.Models.TabModel();
+    tabModel.TabItems.Add("TA的问题", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "RecentRecord", ControllerName = "User", RouteValues = new { id = 1, targetId = Model.UserID } });
+    tabModel.TabItems.Add("TA的回答", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "RecentRecord", ControllerName = "User", RouteValues = new { id = 2, targetId = Model.UserID } });
+    tabModel.ActiveItem = "TA的问题";
+    tabModel.AjaxOptns = new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "divUserRecord", OnComplete = "OnUpdateContentComplete" };
 }
 
-<div id="divUserInfo">
-    @Html.Partial("_UserDetail", Model)
-</div>
-<div id="divUserActivity">
-    <div id="divRecentQandA">
-        <div id="divRecentQ" class="col-lg-6">
-            @Html.Partial("_RecentQuestions", Model.RecentQuestions)
-        </div>
-        <div id="divRecentA" class="col-lg-6">
-            @Html.Partial("_RecentAnswers", Model.RecentAnswers)
+<div class="user-page">
+    <div class="info">
+        @Html.Partial("_UserDetail", Model)
+    </div>
+    <div class="record">
+        <div class="wrap">
+            @Ajax.UpperTab(tabModel, null)
+            <div id="divUserRecord">
+                @Html.Partial("_RecentQuestions", Model.RecentQuestions)
+            </div>
         </div>
     </div>
 </div>
-@Scripts.Render("~/bundles/user")
+
+@section scripts{
+    @Scripts.Render("~/bundles/user")
+}

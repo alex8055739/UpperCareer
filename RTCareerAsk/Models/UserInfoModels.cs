@@ -67,14 +67,6 @@ namespace RTCareerAsk.Models
             RecentAnswers = new List<AnswerModel>();
         }
 
-        public UserDetailModel(User u)
-        {
-            RecentQuestions = new List<QuestionInfoModel>();
-            RecentAnswers = new List<AnswerModel>();
-
-            ConvertUserObjectToModel(u);
-        }
-
         public UserDetailModel(UserDetail ud)
         {
             RecentQuestions = new List<QuestionInfoModel>();
@@ -113,17 +105,6 @@ namespace RTCareerAsk.Models
 
         public List<AnswerModel> RecentAnswers { get; set; }
 
-        //Will be removed after complete.
-        private void ConvertUserObjectToModel(User u)
-        {
-            if (u != null)
-            {
-                UserID = u.ObjectID;
-                Name = u.Name;
-                DateCreate = u.DateCreate;
-            }
-        }
-
         private void ConvertUserDetailObjectToModel(UserDetail ud)
         {
             if (ud != null)
@@ -131,12 +112,13 @@ namespace RTCareerAsk.Models
                 UserDetailID = ud.ObjectId;
                 UserID = ud.ForUser.ObjectID;
                 Name = ud.ForUser.Name;
-                Gender = ud.Gender;
+                Gender = ud.ForUser.Gender;
                 Portrait = ud.ForUser.Portrait;
-                Title = ud.Title;
-                Company = ud.Company;
+                Title = ud.ForUser.Title;
+                Company = ud.ForUser.Company;
                 SelfDescription = ud.SelfDescription;
-                FieldIndex = ud.FieldIndex;
+                FieldIndex = ud.ForUser.FieldIndex;
+                DateCreate = ud.ForUser.DateCreate;
             }
         }
 

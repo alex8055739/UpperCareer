@@ -38,6 +38,8 @@
 //};
 
 CKEDITOR.editorConfig = function (config) {
+    config.extraPlugins = "imageresize";
+
     config.toolbarGroups = [
 		{ name: 'links', groups: ['links'] },
 		{ name: 'insert', groups: ['insert'] },
@@ -48,16 +50,17 @@ CKEDITOR.editorConfig = function (config) {
 		{ name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph'] },
     ];
 
-    config.removeButtons = 'Subscript,Superscript,Cut,PasteText,Undo,Redo,PasteFromWord,Copy,Paste,Scayt,SpecialChar,Source,Underline,RemoveFormat,Anchor,Unlink,Outdent,Indent,Styles,Format,About';
+    config.removeButtons = 'Subscript,Superscript,Cut,PasteText,Link,Undo,Redo,PasteFromWord,Copy,Paste,Scayt,SpecialChar,Source,Underline,RemoveFormat,Anchor,Unlink,Outdent,Indent,Styles,Format,About';
     config.filebrowserImageUploadUrl = "/Home/UploadImage";
 
-    config.extraPlugins = 'uploadimage,wordcount,notification';
     config.uploadUrl = '/Home/UploadDroppedAndPastedImage';
     config.wordcount = {
         showWordCount: false,
         showCharCount: true,
         maxCharCount: 1000
     };
+    //config.imageResize.maxHeight = 800;
+    //config.imageResize.maxWidth = 800;
 
     config.contentsCss = ['/Content/bootstrap.css', '/Content/Upper.css'];
 };

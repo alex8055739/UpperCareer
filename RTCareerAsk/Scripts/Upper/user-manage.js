@@ -8,19 +8,19 @@ function DragOver(e) {
 function DragEnter(e) {
     e.stopPropagation();
     e.preventDefault();
-    $(e.target).addClass('file-hover');
+    $(e.target).parent().addClass('file-hover');
 }
 
 function DragLeave(e) {
     e.stopPropagation();
     e.preventDefault();
-    $(e.target).removeClass('file-hover');
+    $(e.target).parent().removeClass('file-hover');
 }
 
 function FileDropped(e) {
     e.stopPropagation();
     e.preventDefault();
-    $(e.target).removeClass('file-hover');
+    $(e.target).parent().removeClass('file-hover').removeClass('file-await');
 
     if (window.File && window.FileReader && window.FileList && window.Blob) {
         var files = e.originalEvent.dataTransfer.files;
@@ -47,8 +47,8 @@ function FileDropped(e) {
 }
 
 function ResizePortrait() {
-    var portrait = $('#imgPortraitPreview');
-    var container = portrait.parent();
+    var portrait = $('#imgPortraitPreview'),
+        container = portrait.parent();
 
     var imgRatio = portrait.width() / portrait.height();
 
@@ -72,7 +72,7 @@ function CropPortrait() {
     var portrait = $('#imgPortraitPreview');
 
     $('#divActions').show();
-    portrait.cropper({ aspectRatio: 1 / 1, preview: $('div[class^="preview"]') });
+    portrait.cropper({ aspectRatio: 1 / 1, preview: $('.preview') });
 }
 
 //Profile operations
@@ -108,6 +108,9 @@ $(document).ready(function () {
     dropTarget.on('drop', FileDropped);
 
     $('#btnUpload').click(function () {
+        var btn = $(this);
+        btn.addClass('disabled').text('头像保存中...');
+
         $('#imgPortraitPreview').cropper('getCroppedCanvas', { width: 128, height: 128 }).toBlob(function (blob) {
             var formData = new FormData();
 
@@ -131,6 +134,9 @@ $(document).ready(function () {
                 },
                 error: function (e) {
                     DisplayErrorInfo('更换头像出现问题，请您查看……');
+                },
+                complete: function myfunction() {
+                    btn.removeClass('disabled').text('保存并更改头像');
                 }
             });
         },

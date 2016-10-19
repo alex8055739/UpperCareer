@@ -84,6 +84,7 @@ C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCaree
 C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk\obj\Debug\RTCareerAsk.csprojResolveAssemblyReference.cache
 C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk\obj\Debug\RTCareerAsk.dll
 C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk\obj\Debug\RTCareerAsk.pdb
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\Microsoft.Data.Edm.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\RTCareerAsk.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\RTCareerAsk.pdb
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\Antlr3.Runtime.dll
@@ -95,7 +96,6 @@ C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\DotNetOpenAu
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\DotNetOpenAuth.OpenId.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\DotNetOpenAuth.OpenId.RelyingParty.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\EntityFramework.dll
-C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\Microsoft.Data.Edm.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\Microsoft.Data.OData.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
