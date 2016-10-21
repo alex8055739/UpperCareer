@@ -112,7 +112,7 @@ a.not-active {
     }
 
     .content-info .box {
-        padding: 15px 0px;
+        padding: 15px;
     }
 
     .content-info .extra {
@@ -164,7 +164,7 @@ a.not-active {
                 }*/
 
 .content-info .section.text {
-    margin-left: 1em;
+    margin-left: 2em;
     overflow: hidden;
 }
 
