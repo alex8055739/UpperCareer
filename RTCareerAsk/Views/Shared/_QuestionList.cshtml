@@ -23,3 +23,12 @@
         }
     </div>
 </div>
+<script type="text/javascript">
+    var url = '@Url.Action("LoadContentUpdate", "Home")';
+
+    $(document).ready(function () {
+        $('.content-info').upperscrollpaging(url, {
+            contentType: GetContentTypeId()
+        });
+    });
+</script>

@@ -23,7 +23,7 @@ namespace RTCareerAsk.Controllers
                 ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
                 ViewBag.IsAdmin = IsUserAuthorized("Admin");
 
-                return View("QuestionList", await HomeDa.GetQuestionInfoModels());
+                return View("QuestionList", await HomeDa.LoadQuestionListByPage(0));
             }
             catch (Exception e)
             {
@@ -42,6 +42,30 @@ namespace RTCareerAsk.Controllers
             return View();
         }
 
+        //[HttpPost]
+        //public async Task<PartialViewResult> LoadContentInfo(int id)
+        //{
+        //    try
+        //    {
+        //        switch (id)
+        //        {
+        //            case 1:
+        //            case 2:
+        //                return PartialView("_QuestionList", await HomeDa.GetQuestionInfoModels(id));
+        //            case 3:
+        //            case 4:
+        //                return PartialView("_AnswerList", await HomeDa.GetAnswerInfoModels(id));
+        //            default:
+        //                throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        while (e.InnerException != null) e = e.InnerException;
+        //        throw e;
+        //    }
+        //}
+
         [HttpPost]
         public async Task<PartialViewResult> LoadContentInfo(int id)
         {
@@ -51,10 +75,35 @@ namespace RTCareerAsk.Controllers
                 {
                     case 1:
                     case 2:
-                        return PartialView("_QuestionList", await HomeDa.GetQuestionInfoModels(id));
+                        return PartialView("_QuestionList", await HomeDa.LoadQuestionListByPage(0, id));
                     case 3:
                     case 4:
-                        return PartialView("_AnswerList", await HomeDa.GetAnswerInfoModels(id));
+                        return PartialView("_AnswerList", await HomeDa.LoadAnswerListByPage(0, id));
+                    default:
+                        throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
+                }
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<PartialViewResult> LoadContentUpdate(int id, int pageIndex)
+        {
+            try
+            {
+                switch (id)
+                {
+                    case 1:
+                    case 2:
+                        return PartialView("_QuestionList", await HomeDa.LoadQuestionListByPage(pageIndex, id));
+                    case 3:
+                    case 4:
+                        return PartialView("_AnswerList", await HomeDa.LoadAnswerListByPage(pageIndex, id));
                     default:
                         throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
                 }

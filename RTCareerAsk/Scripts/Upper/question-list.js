@@ -27,6 +27,13 @@ function OnUpdateListComplete() {
     });
 }
 
+function GetContentTypeId() {
+    var indexBase = parseInt($('.active-nav > .tab-content').attr('href').slice(-1)),
+        index = parseInt($('.active-nav > .tab-sorting').attr('href').slice(-1));
+
+    return (index + indexBase);
+}
+
 function ResizeCarousel() {
     var windowWidth = $(window).width(),
         sectionWidth = $('.featured-section').width(),

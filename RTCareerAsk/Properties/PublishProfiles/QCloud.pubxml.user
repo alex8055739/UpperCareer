@@ -110,13 +110,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/04/2016 14:38:42</publishTime>
     </File>
     <File Include="bin/RTCareerAsk.BL.dll">
-      <publishTime>10/18/2016 11:35:16</publishTime>
+      <publishTime>10/20/2016 17:32:11</publishTime>
     </File>
     <File Include="bin/RTCareerAsk.DAL.dll">
-      <publishTime>10/18/2016 11:35:15</publishTime>
+      <publishTime>10/20/2016 17:32:11</publishTime>
     </File>
     <File Include="bin/RTCareerAsk.dll">
-      <publishTime>10/18/2016 11:35:19</publishTime>
+      <publishTime>10/20/2016 17:32:14</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.Data.Edm.resources.dll">
       <publishTime>04/28/2016 17:20:30</publishTime>
@@ -1784,13 +1784,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2016 00:07:08</publishTime>
     </File>
     <File Include="Scripts/Upper/question-list.js">
-      <publishTime>10/18/2016 12:43:04</publishTime>
+      <publishTime>10/19/2016 15:21:57</publishTime>
     </File>
     <File Include="Scripts/Upper/upper-base.js">
-      <publishTime>09/21/2016 16:09:42</publishTime>
+      <publishTime>10/21/2016 11:30:01</publishTime>
+    </File>
+    <File Include="Scripts/Upper/upper-scrollpaging.js">
+      <publishTime>10/21/2016 11:38:34</publishTime>
     </File>
     <File Include="Scripts/Upper/upper-shorten.js">
-      <publishTime>10/18/2016 16:35:40</publishTime>
+      <publishTime>10/20/2016 21:31:05</publishTime>
     </File>
     <File Include="Scripts/Upper/upper-tab.js">
       <publishTime>09/02/2016 15:53:35</publishTime>
@@ -1847,7 +1850,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/18/2016 22:55:30</publishTime>
     </File>
     <File Include="Views/Home/QuestionList.cshtml">
-      <publishTime>10/14/2016 00:13:43</publishTime>
+      <publishTime>10/20/2016 16:47:03</publishTime>
     </File>
     <File Include="Views/Home/RegisterSuccess.cshtml">
       <publishTime>07/26/2016 16:18:32</publishTime>
@@ -1874,7 +1877,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/07/2016 15:34:12</publishTime>
     </File>
     <File Include="Views/Shared/_AnswerList.cshtml">
-      <publishTime>10/18/2016 13:47:19</publishTime>
+      <publishTime>10/20/2016 21:50:16</publishTime>
     </File>
     <File Include="Views/Shared/_AnswersDetail.cshtml">
       <publishTime>09/21/2016 23:48:45</publishTime>
@@ -1907,7 +1910,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/28/2016 16:29:18</publishTime>
     </File>
     <File Include="Views/Shared/_NavBar.cshtml">
-      <publishTime>09/22/2016 13:32:31</publishTime>
+      <publishTime>10/20/2016 19:50:31</publishTime>
     </File>
     <File Include="Views/Shared/_PostModal.cshtml">
       <publishTime>08/30/2016 17:02:20</publishTime>
@@ -1916,7 +1919,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/21/2016 18:19:46</publishTime>
     </File>
     <File Include="Views/Shared/_QuestionList.cshtml">
-      <publishTime>09/22/2016 19:57:46</publishTime>
+      <publishTime>10/20/2016 21:48:22</publishTime>
     </File>
     <File Include="Views/Shared/_RecentAnswers.cshtml">
       <publishTime>10/14/2016 22:36:56</publishTime>
