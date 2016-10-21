@@ -2000,8 +2000,8 @@ pre {
 .container {
     margin-right: auto;
     margin-left: auto;
-    /*padding-left: 15px;
-    padding-right: 15px;*/
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 @media (min-width: 768px) {
@@ -6428,10 +6428,7 @@ a.thumbnail.active {
 .list-group-item {
     position: relative;
     display: block;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: 10px 10px;
     margin-bottom: -1px;
     background-color: #ffffff;
     border-bottom: 1px solid #dddddd;
@@ -8495,8 +8492,8 @@ input[type="checkbox"] {
 }
 
 .list-group {
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 12px;
+    font-weight: 300;
 }
 
 .close {
