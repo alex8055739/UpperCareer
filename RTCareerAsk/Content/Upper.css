@@ -145,26 +145,32 @@ a.not-active {
             font-size: 16px;
         }
 
-            .content-info .section.number span {
-                display: block;
-            }
+@media screen and (max-width: 768px) {
+    .content-info .section.reply-count {
+        display: none;
+    }
+}
 
-                .content-info .section.number span:last-child {
-                    font-size: 12px;
-                }
+.content-info .section.number span {
+    display: block;
+}
 
-        /*.content-info .section.number span:last-child {
+    .content-info .section.number span:last-child {
+        font-size: 12px;
+    }
+
+/*.content-info .section.number span:last-child {
                     line-height: 1.6;
                 }*/
 
-        .content-info .section.text {
-            margin-left: 2em;
-            overflow: hidden;
-        }
+.content-info .section.text {
+    margin-left: 2em;
+    overflow: hidden;
+}
 
-            .content-info .section.text a {
-                display: block;
-            }
+    .content-info .section.text a {
+        display: block;
+    }
 
 a:hover,
 a:focus .content-info {

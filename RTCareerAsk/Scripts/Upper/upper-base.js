@@ -81,7 +81,7 @@ function RemoveHtml(originString) {
 
 $(document).ready(function () {
     $(document).on('click', 'button.close', function () {
-        $(this).closest('.alert-tag').hide('slow');
+        $(this).closest('.alert-tag').stop(true, true).fadeOut('fast');
     });
 
     $('#btnPostQuestion').click(function (e) {
