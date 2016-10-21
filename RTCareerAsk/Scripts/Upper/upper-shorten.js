@@ -1,5 +1,5 @@
 ﻿/*
- * jQuery Shorten plugin for Upper v 1.0.0
+ * Upper Shorten plugin for Upper v 1.0.0
  * 
  * Developed by Lai Wei, 2016
  * http://www.uppernews.com
@@ -47,7 +47,7 @@
             //Actions on toggle bref section and original section
             briefTxt.toggle();
             briefTxt.prev().toggle();
-            Resize('text');
+            //Resize('text');
         })
 
         $(document).on('click', '.lesstext', function (e) {
@@ -59,7 +59,10 @@
             //Actions on toggle bref section and original section
             briefTxt.toggle();
             briefTxt.prev().toggle();
-            $('html,body').animate({ scrollTop: offset }, 300);
+
+            if ($(window).scrollTop() > offset) {
+                $('html,body').animate({ scrollTop: offset }, 300);
+            }
         })
 
         return this.not(config.exception).each(function (i) {
@@ -73,7 +76,6 @@
             if (content.length > config.showChar || imgCount > 0) {
                 var briefWrap = $(document.createElement('div')).attr('id', 'divBrief' + i).addClass('clearfix').addClass('brief'),
                     text = $(document.createElement('p')).text(content.length > config.showChar ? content.substr(0, config.showChar) + config.ellipsesText : content),
-                    //btn = $(document.createElement('a')).attr('href', '#').attr('id', 'aBrief' + i).text(config.expandBtnText).addClass('moretext'),
                     btnMore = $(document.createElement('span')).attr('id', 'spnMore' + i).addClass('moretext').html($(document.createElement('a')).attr('href', '#').text(config.expandBtnText)),
                     btnLess = $(document.createElement('span')).attr('id', 'spnLess' + i).addClass('lesstext').html($(document.createElement('a')).attr('href', '#').text(config.collapseBtnText));
 
@@ -101,7 +103,6 @@
                 briefWrap.append(text);
                 $this.after(briefWrap);
                 $this.append(btnLess);
-                //briefWrap.after(btn);
                 text.append(btnMore);
                 $this.hide();
             }

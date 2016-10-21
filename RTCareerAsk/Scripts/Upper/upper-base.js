@@ -45,7 +45,7 @@ function UpdateCmtCount() {
             }
         });
     }
-    //For AnswerDetail page.
+        //For AnswerDetail page.
     else if ($('span.cmt-count')) {
         var count = $('span.cmt-count').parent().siblings('div[id^="divCmtList"]').first().children('div[id^="blkCmt"]:visible').length;
         $('span.cmt-count').text(count);
@@ -60,15 +60,15 @@ function WrapImageContent(content) {
 
 function DisplaySuccessInfo(infoText) {
     var successTab = $('#divInfoSuccess').find('p');
-    $('div[id^="divInfo"]').hide();
-    successTab.text(infoText);
+    $('div[id^="divInfo"]').stop(true, true).hide();
+    successTab.html(infoText);
     successTab.closest('.alert-tag').fadeIn('slow').delay(2000).fadeOut('slow');
 }
 
 function DisplayErrorInfo(infoText) {
     var errorTab = $('#divInfoError').find('p');
-    $('div[id^="divInfo"]').hide();
-    errorTab.text(infoText);
+    $('div[id^="divInfo"]').stop(true, true).hide();
+    errorTab.html(infoText);
     errorTab.closest('.alert-tag').fadeIn('slow').delay(2000).fadeOut('slow');
 }
 

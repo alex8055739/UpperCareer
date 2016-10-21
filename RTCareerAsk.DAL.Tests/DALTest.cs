@@ -311,12 +311,37 @@ namespace RTCareerAsk.DAL.Tests
         }
 
         [TestMethod]
-        public async Task FindPostQuestionsTest()
+        public async Task LoadQuestionListTest()
         {
-            IEnumerable<QuestionInfo> qis = await LCDal.FindQuestionList();
+            IEnumerable<QuestionInfo> qis;
 
-            Assert.AreEqual(1, qis.Count());
-            Assert.AreEqual(2, qis.First().AnswerCount);
+            qis = await LCDal.LoadQuestionList(3, false);
+            Assert.AreEqual(0, qis.Count());
+
+            qis = await LCDal.LoadQuestionList(1, false);
+            Assert.AreEqual(20, qis.Count());
+            Assert.AreEqual(8, qis.First().DateCreate.Day);
+
+            qis = await LCDal.LoadQuestionList(0, true);
+            Assert.AreEqual(20, qis.Count());
+            Assert.AreEqual(13, qis.First().AnswerCount);
+        }
+
+        [TestMethod]
+        public async Task LoadAnswerListTest()
+        {
+            IEnumerable<AnswerInfo> ais;
+
+            ais = await LCDal.LoadAnswerList(3, false);
+            Assert.AreEqual(0, ais.Count());
+
+            ais = await LCDal.LoadAnswerList(1, false);
+            Assert.AreEqual(18, ais.Count());
+            Assert.AreEqual(27, ais.First().DateCreate.Day);
+
+            ais = await LCDal.LoadAnswerList(0, true);
+            Assert.AreEqual(20, ais.Count());
+            Assert.AreEqual(9, ais.First().CommentCount);
         }
 
         [TestMethod]
@@ -514,6 +539,18 @@ namespace RTCareerAsk.DAL.Tests
             string ansId = "57e222fb0e3dd90069863233";
 
             await LCDal.GetAnswer100Times(ansId);
+        }
+
+        [TestMethod]
+        public async Task UpdateSubpostCountForQuestionsTst()
+        {
+            Assert.IsTrue(await LCDal.UpdateSubpostCountForQuestions());
+        }
+
+        [TestMethod]
+        public async Task UpdateSubpostCountForAnswersTst()
+        {
+            Assert.IsTrue(await LCDal.UpdateSubpostCountForAnswers());
         }
 
         #endregion

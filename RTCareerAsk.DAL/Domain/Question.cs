@@ -39,6 +39,7 @@ namespace RTCareerAsk.DAL.Domain
             GenerateQACObject(po);
             Title = po.Get<string>("title");
             VoteDiff = po.ContainsKey("voteDiff") ? po.Get<int>("voteDiff") : default(int);
+            AnswerCount = po.ContainsKey("subPostCount") ? po.Get<int>("subPostCount") : default(int);
         }
 
         public QuestionInfo SetAnswerCount(int ansCnt)
@@ -81,6 +82,7 @@ namespace RTCareerAsk.DAL.Domain
             GenerateQACObject(ao);
             ForQuestion = ao.Get<AVObject>("forQuestion") != null ? new Question(ao.Get<AVObject>("forQuestion")) : null;
             VoteDiff = ao.ContainsKey("voteDiff") ? ao.Get<int>("voteDiff") : default(int);
+            CommentCount = ao.ContainsKey("subPostCount") ? ao.Get<int>("subPostCount") : default(int);
         }
 
         public AnswerInfo SetCommentCount(int cmtCnt)

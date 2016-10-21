@@ -997,7 +997,7 @@ namespace RTCareerAsk.DAL
 
                     foreach (AVObject a in ans)
                     {
-                        tl.Add(GetAnswerWithComment(a));
+                        tl.Add(GetAnswerWithCommentCount(a));
                     }
 
                     await Task.WhenAll(tl.ToArray());
@@ -1024,7 +1024,7 @@ namespace RTCareerAsk.DAL
         /// </summary>
         /// <param name="a">答案</param>
         /// <returns>带有评论数量的答案概述</returns>
-        public async Task<AnswerInfo> GetAnswerWithComment(AVObject a)
+        public async Task<AnswerInfo> GetAnswerWithCommentCount(AVObject a)
         {
             try
             {
@@ -1035,7 +1035,7 @@ namespace RTCareerAsk.DAL
 
                 return await AVObject.GetQuery("Comment").WhereEqualTo("forAnswer", a).CountAsync().ContinueWith(t =>
                     {
-                        if (t.IsFaulted||t.IsCanceled)
+                        if (t.IsFaulted || t.IsCanceled)
                         {
                             throw t.Exception;
                         }
@@ -1047,6 +1047,64 @@ namespace RTCareerAsk.DAL
             {
                 throw;
             }
+        }
+
+        public async Task<IEnumerable<QuestionInfo>> LoadQuestionList(int pageIndex, bool isHottestFirst)
+        {
+            int pageItemCount = 20;
+
+            return await AVObject.GetQuery("Post")
+                .Include("createdBy")
+                .Skip(pageIndex * pageItemCount)
+                .Limit(pageItemCount)
+                .OrderByDescending(isHottestFirst ? "subPostCount" : "createdAt")
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    List<QuestionInfo> questions = new List<QuestionInfo>();
+
+                    foreach (AVObject obj in t.Result)
+                    {
+                        questions.Add(new QuestionInfo(obj));
+                    }
+
+                    return questions;
+                });
+        }
+
+        public async Task<IEnumerable<AnswerInfo>> LoadAnswerList(int pageIndex, bool isHottestFirst)
+        {
+            int pageItemCount = 20;
+
+            return await AVObject.GetQuery("Answer")
+                .Include("forQuestion")
+                .Include("createdBy")
+                .Skip(pageIndex * pageItemCount)
+                .Limit(pageItemCount)
+                .OrderByDescending(isHottestFirst ? "subPostCount" : "createdAt")
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        List<AnswerInfo> answers = new List<AnswerInfo>();
+
+                        foreach (AVObject obj in t.Result)
+                        {
+                            answers.Add(new AnswerInfo(obj));
+                        }
+
+                        return answers;
+                });
+
         }
         #endregion
 
@@ -1283,7 +1341,12 @@ namespace RTCareerAsk.DAL
                     return cmts;
                 });
         }
-
+        /// <summary>
+        /// 查询特定用户对于一条问题的点赞状态。
+        /// </summary>
+        /// <param name="userId">特定用户的ID</param>
+        /// <param name="question">指定的问题条目</param>
+        /// <returns>点赞情况：“true”为赞，“false”为踩，空值为未表态</returns>
         public async Task<bool?> IsQuestionLikedByUser(string userId, AVObject question)
         {
             if (string.IsNullOrEmpty(userId))
@@ -1305,7 +1368,12 @@ namespace RTCareerAsk.DAL
                     return t.Result.Count() > 0 ? t.Result.First().Get<bool?>("isLike") : null;
                 });
         }
-
+        /// <summary>
+        /// 查询特定用户对于一条答案的点赞状态
+        /// </summary>
+        /// <param name="userId">特定用户的</param>
+        /// <param name="answer">指定的答案条目</param>
+        /// <returns>点赞情况：“true”为赞，“false”为踩，空值为未表态</returns>
         public async Task<bool?> IsAnswerLikedByUser(string userId, AVObject answer)
         {
             if (string.IsNullOrEmpty(userId))
@@ -1327,7 +1395,11 @@ namespace RTCareerAsk.DAL
                     return t.Result.Count() > 0 ? t.Result.First().Get<bool?>("isLike") : null;
                 });
         }
-
+        /// <summary>
+        /// 为问题或者答案条目更新浏览量。
+        /// </summary>
+        /// <param name="obj">目标问题或答案</param>
+        /// <returns></returns>
         public async Task UpdateViewCount(AVObject obj)
         {
             obj["viewCount"] = obj.ContainsKey("viewCount") ? obj.Get<int>("viewCount") + 1 : 1;
@@ -1451,11 +1523,25 @@ namespace RTCareerAsk.DAL
                 {
                     throw t.Exception;
                 }
-                else
-                {
-                    return true;
-                }
-            });
+
+                return a.Get<AVObject>("forQuestion").FetchAsync().ContinueWith(s =>
+                    {
+                        if (s.IsFaulted || s.IsCanceled)
+                        {
+                            throw s.Exception;
+                        }
+
+                        UpdateSubpostCount(s.Result, true).ContinueWith(x =>
+                        {
+                            if (x.IsFaulted || x.IsCanceled)
+                            {
+                                throw x.Exception;
+                            }
+                        });
+
+                        return true;
+                    });
+            }).Unwrap();
         }
         /// <summary>
         /// 保存一个评论到数据库。
@@ -1472,11 +1558,25 @@ namespace RTCareerAsk.DAL
                 {
                     throw t.Exception;
                 }
-                else
-                {
-                    return true;
-                }
-            });
+
+                return c.Get<AVObject>("forAnswer").FetchAsync().ContinueWith(s =>
+                    {
+                        if (s.IsFaulted || s.IsCanceled)
+                        {
+                            throw s.Exception;
+                        }
+
+                        UpdateSubpostCount(s.Result, true).ContinueWith(x =>
+                            {
+                                if (x.IsFaulted || s.IsCanceled)
+                                {
+                                    throw x.Exception;
+                                }
+                            });
+
+                        return true;
+                    });
+            }).Unwrap();
         }
         /// <summary>
         /// 保存用户对自己发过的问题或答案内容的更新。
@@ -1515,11 +1615,11 @@ namespace RTCareerAsk.DAL
         /// <returns>代表操作是否成功的Boolean值</returns>
         public async Task<bool> DeleteAnswerWithComments(string ansId)
         {
-            AVObject ans = AVObject.CreateWithoutData("Answer", ansId);
-
-            IEnumerable<AVObject> cmts = await AVObject.GetQuery("Comment").WhereEqualTo("forAnswer", ans).FindAsync();
-
+            //AVObject ans = AVObject.CreateWithoutData("Answer", ansId);
             List<Task> ts = new List<Task>();
+
+            AVObject ans = await AVObject.GetQuery("Answer").Include("forQuestion").GetAsync(ansId);
+            IEnumerable<AVObject> cmts = await AVObject.GetQuery("Comment").WhereEqualTo("forAnswer", ans).FindAsync();
 
             foreach (AVObject cmt in cmts)
             {
@@ -1538,6 +1638,14 @@ namespace RTCareerAsk.DAL
                 {
                     throw t.Exception;
                 }
+
+                UpdateSubpostCount(ans.Get<AVObject>("forQuestion"), false).ContinueWith(s =>
+                    {
+                        if (s.IsFaulted || s.IsCanceled)
+                        {
+                            throw s.Exception;
+                        }
+                    });
             }));
 
             Task.WaitAll(ts.ToArray());
@@ -1551,20 +1659,62 @@ namespace RTCareerAsk.DAL
         /// <returns>代表操作是否成功的Boolean值</returns>
         public async Task<bool> DeleteComment(string cmtId)
         {
-            return await AVObject.CreateWithoutData("Comment", cmtId).DeleteAsync().ContinueWith(t =>
+            return await AVObject.GetQuery("Comment").Include("forAnswer").GetAsync(cmtId).ContinueWith(t =>
                 {
                     if (t.IsFaulted || t.IsCanceled)
                     {
                         throw t.Exception;
                     }
 
-                    return true;
-                });
-        }
+                    UpdateSubpostCount(t.Result.Get<AVObject>("forAnswer"), false).ContinueWith(s =>
+                        {
+                            if (s.IsFaulted || s.IsCanceled)
+                            {
+                                throw s.Exception;
+                            }
+                        });
 
-        public async Task UpdateCount(AVObject obj, bool isIncrement)
+                    return t.Result.DeleteAsync().ContinueWith(s =>
+                        {
+                            if (s.IsFaulted || s.IsCanceled)
+                            {
+                                throw s.Exception;
+                            }
+                            return true;
+                        });
+                }).Unwrap();
+
+            //return await AVObject.CreateWithoutData("Comment", cmtId).DeleteAsync().ContinueWith(t =>
+            //    {
+            //        if (t.IsFaulted || t.IsCanceled)
+            //        {
+            //            throw t.Exception;
+            //        }
+
+            //        return true;
+            //    });
+        }
+        /// <summary>
+        /// 为问题或答案更新回复数量。
+        /// </summary>
+        /// <param name="obj">目标问题或答案</param>
+        /// <param name="isIncrement">是否为增加操作</param>
+        /// <returns></returns>
+        public async Task UpdateSubpostCount(AVObject obj, bool isIncrement)
         {
-            throw new NotImplementedException();
+            if (!obj.ContainsKey("subPostCount") && !isIncrement)
+            {
+                throw new InvalidOperationException("没有可操作的次级内容！");
+            }
+
+            obj["subPostCount"] = isIncrement ? (obj.ContainsKey("subPostCount") ? obj.Get<int>("subPostCount") + 1 : 1) : (obj.Get<int>("subPostCount") - 1);
+            await obj.SaveAsync().ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+            });
         }
         #endregion
 
@@ -2256,6 +2406,88 @@ namespace RTCareerAsk.DAL
             }
 
             return ansResults;
+        }
+
+        public async Task UpdateSubpostCountForQuestion(AVObject question)
+        {
+            if (question.ClassName != "Post")
+            {
+                throw new InvalidOperationException("对象类型不是问题类别，实际类型：" + question.ClassName);
+            }
+
+            await AVObject.GetQuery("Answer").WhereEqualTo("forQuestion", question).CountAsync().ContinueWith(async t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+
+                question["subPostCount"] = t.Result;
+                await question.SaveAsync().ContinueWith(s =>
+                    {
+                        if (s.IsFaulted || s.IsCanceled)
+                        {
+                            throw s.Exception;
+                        }
+                    });
+            });
+        }
+
+        public async Task UpdateSubpostCountForAnswer(AVObject answer)
+        {
+            if (answer.ClassName != "Answer")
+            {
+                throw new InvalidOperationException("对象类型不是答案类别，实际类型：" + answer.ClassName);
+            }
+
+            await AVObject.GetQuery("Comment").WhereEqualTo("forAnswer", answer).CountAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    answer["subPostCount"] = t.Result;
+                    answer.SaveAsync().ContinueWith(s =>
+                        {
+                            if (s.IsFaulted || s.IsCanceled)
+                            {
+                                throw s.Exception;
+                            }
+                        });
+                });
+        }
+
+        public async Task<bool> UpdateSubpostCountForQuestions()
+        {
+            List<Task> updateTask = new List<Task>();
+
+            IEnumerable<AVObject> questions = await AVObject.GetQuery("Post").FindAsync();
+
+            foreach (AVObject qsn in questions)
+            {
+                updateTask.Add(UpdateSubpostCountForQuestion(qsn));
+            }
+
+            await Task.WhenAll(updateTask.ToArray());
+
+            return true;
+        }
+
+        public async Task<bool> UpdateSubpostCountForAnswers()
+        {
+            List<Task> updateTask = new List<Task>();
+
+            IEnumerable<AVObject> answers = await AVObject.GetQuery("Answer").FindAsync();
+
+            foreach (AVObject ans in answers)
+            {
+                updateTask.Add(UpdateSubpostCountForAnswer(ans));
+            }
+
+            await Task.WhenAll(updateTask.ToArray());
+
+            return true;
         }
 
         #endregion
