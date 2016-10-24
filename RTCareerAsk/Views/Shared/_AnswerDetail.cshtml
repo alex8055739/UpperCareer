@@ -4,7 +4,7 @@
     bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
 }
 
-<div id="@string.Format("divAns{0}", Model.ID)" class="answer">
+<div id="@string.Format("divAns{0}", Model.ID)">
     <div class="heading">
         @Html.UpperPortrait(Model.Creator.Portrait, PortraitSize.Small)
         <p>
