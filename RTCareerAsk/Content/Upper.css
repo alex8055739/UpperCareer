@@ -476,7 +476,7 @@ a:focus .content-info {
 
 .clearfix {
     overflow: auto;
-    padding-bottom: 10px;
+    padding-bottom: 0px;
 }
 
 .CmtCount div {
