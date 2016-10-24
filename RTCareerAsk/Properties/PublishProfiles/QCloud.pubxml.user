@@ -1619,7 +1619,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2016 17:20:14</publishTime>
     </File>
     <File Include="Content/Upper.css">
-      <publishTime>10/18/2016 16:42:35</publishTime>
+      <publishTime>10/21/2016 12:39:08</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>04/28/2016 17:19:39</publishTime>
@@ -1787,7 +1787,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/19/2016 15:21:57</publishTime>
     </File>
     <File Include="Scripts/Upper/upper-base.js">
-      <publishTime>10/21/2016 11:30:01</publishTime>
+      <publishTime>10/21/2016 12:13:51</publishTime>
     </File>
     <File Include="Scripts/Upper/upper-scrollpaging.js">
       <publishTime>10/21/2016 11:38:34</publishTime>
@@ -1877,7 +1877,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/07/2016 15:34:12</publishTime>
     </File>
     <File Include="Views/Shared/_AnswerList.cshtml">
-      <publishTime>10/20/2016 21:50:16</publishTime>
+      <publishTime>10/21/2016 12:38:48</publishTime>
     </File>
     <File Include="Views/Shared/_AnswersDetail.cshtml">
       <publishTime>09/21/2016 23:48:45</publishTime>
@@ -1901,7 +1901,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/28/2016 21:54:42</publishTime>
     </File>
     <File Include="Views/Shared/_Login.cshtml">
-      <publishTime>09/21/2016 12:51:11</publishTime>
+      <publishTime>10/21/2016 12:22:59</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>04/28/2016 17:19:39</publishTime>
@@ -1919,7 +1919,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/21/2016 18:19:46</publishTime>
     </File>
     <File Include="Views/Shared/_QuestionList.cshtml">
-      <publishTime>10/20/2016 21:48:22</publishTime>
+      <publishTime>10/21/2016 12:39:17</publishTime>
     </File>
     <File Include="Views/Shared/_RecentAnswers.cshtml">
       <publishTime>10/14/2016 22:36:56</publishTime>

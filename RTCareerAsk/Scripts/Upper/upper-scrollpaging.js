@@ -20,7 +20,25 @@
         var $this = $(this),
             pageIndex = 1,
             onLoading = false,
+            pageInfo = "未知内容",
             spinner = $(document.createElement('img')).attr('src', '/Images/spin.gif').css('margin', '0 auto').css('display', 'block').hide();
+
+        switch (config.contentType) {
+            case 1:
+                pageInfo = "最热问题";
+                break;
+            case 2:
+                pageInfo = "最新问题";
+                break;
+            case 3:
+                pageInfo = "最热答案";
+                break;
+            case 4:
+                pageInfo = "最新答案";
+                break;
+            default:
+                break;
+        }
 
         if ($this.length > 1) {
             alert('Cannot bind scroll paging to multiple targets!');
@@ -28,6 +46,8 @@
         }
 
         $this.after(spinner)
+
+        $(window).off('scroll');
 
         $(window).scroll(function () {
             if ($(window).scrollTop() + $(window).height() >= $this.height() + $this.offset().top && !onLoading) {
@@ -49,13 +69,13 @@
 
                         if (resultCount > 0) {
                             pageIndex++;
-                            DisplaySuccessInfo('更新了<strong>' + resultCount + '</strong>条新内容，当前页面：<strong>' + pageIndex + '</strong>');
+                            DisplaySuccessInfo('<strong>' + pageInfo + '</strong> 更新了<strong>' + resultCount + '</strong>条新内容，当前页面：<strong>' + pageIndex + '</strong>');
                             $this.find(config.itemSelector).parent().append($(result).find(config.itemSelector));
                             onLoading = false;
                             config.postAction();
                         }
                         else {
-                            DisplayErrorInfo('没有更多新内容了，当前页面：<strong>' + pageIndex + '</strong>');
+                            DisplayErrorInfo('<strong>' + pageInfo + '</strong> 没有更多新内容了，当前页面：<strong>' + pageIndex + '</strong>');
                         }
                     },
                     error: function () {
