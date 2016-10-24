@@ -47,6 +47,8 @@
 
         $this.after(spinner)
 
+        $(window).off('scroll');
+
         $(window).scroll(function () {
             if ($(window).scrollTop() + $(window).height() >= $this.height() + $this.offset().top && !onLoading) {
                 var data = new Object();
