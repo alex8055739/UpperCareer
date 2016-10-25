@@ -249,7 +249,7 @@ a:focus .content-info {
 .answer {
     background-color: #fff;
     margin: 0 auto;
-    padding: 15px 25px;
+    padding: 0px 15px;
     max-width: 800px;
 }
 
@@ -269,11 +269,12 @@ a:focus .content-info {
         }
 
     .answer .content {
+        background-color:#f7f7f7;
         padding: 15px;
     }
 
     .answer .info-group {
-        padding: 0 15px;
+        padding: 0 0px;
         display: flex;
         -ms-flex-flow: row;
         -webkit-flex-flow: row;
@@ -290,7 +291,7 @@ a:focus .content-info {
 .comment-list {
     background-color: #f7f7f7;
     margin-bottom: 15px;
-    padding: 22px;
+    padding: 15px;
     font-size: 14px;
 }
 
