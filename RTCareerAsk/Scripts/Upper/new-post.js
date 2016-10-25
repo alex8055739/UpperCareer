@@ -21,6 +21,9 @@ function OnCmtBegin() {
 
 function OnPostSuccess() {
     DisplaySuccessInfo('恭喜，您已成功发布问题！')
+
+    $('.tab-content:contains("问题")').parent().trigger('click');
+    $('.tab-sorting:contains("最新")').parent().trigger('click');
 }
 
 function OnAnsSuccess() {
