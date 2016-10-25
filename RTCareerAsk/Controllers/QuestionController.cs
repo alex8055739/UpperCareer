@@ -88,7 +88,7 @@ namespace RTCareerAsk.Controllers
 
                 if (await QuestionDa.PostNewQuestion(p))
                 {
-                    return PartialView("_QuestionList", await QuestionDa.GetQuestionInfoModels());
+                    return PartialView("_QuestionList", await QuestionDa.LoadNewQuestions());
                 }
 
                 throw new InvalidOperationException("保存问题失败，请再次尝试");

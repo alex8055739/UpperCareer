@@ -21,9 +21,9 @@ namespace RTCareerAsk.PLtoDA
             return await LCDal.GetQuestionAndAnswersWithComments(userId, questionId).ContinueWith(t => new QuestionModel(t.Result));
         }
 
-        public async Task<List<QuestionInfoModel>> GetQuestionInfoModels()
+        public async Task<List<QuestionInfoModel>> LoadNewQuestions()
         {
-            return await LCDal.FindQuestionList().ContinueWith(t =>
+            return await LCDal.LoadQuestionList(0, false).ContinueWith(t =>
                 {
                     List<QuestionInfoModel> qiList = new List<QuestionInfoModel>();
 
