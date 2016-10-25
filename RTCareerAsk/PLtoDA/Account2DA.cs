@@ -31,6 +31,11 @@ namespace RTCareerAsk.PLtoDA
                 });
         }
 
+        public async Task<bool> ResetPasswordByEmail(string email)
+        {
+            return await LCDal.ResetPassword(email);
+        }
+
         public async Task<UserManageModel> LoadUserManageInfo(string userId)
         {
             return await LCDal.LoadUserDetail(userId).ContinueWith(t =>

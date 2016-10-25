@@ -116,7 +116,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/24/2016 12:56:31</publishTime>
     </File>
     <File Include="bin/RTCareerAsk.dll">
-      <publishTime>10/24/2016 20:32:19</publishTime>
+      <publishTime>10/25/2016 12:10:41</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.Data.Edm.resources.dll">
       <publishTime>04/28/2016 17:20:30</publishTime>
@@ -1784,13 +1784,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/24/2016 18:48:41</publishTime>
     </File>
     <File Include="Scripts/Upper/new-post.js">
-      <publishTime>09/09/2016 12:37:07</publishTime>
+      <publishTime>10/25/2016 12:05:00</publishTime>
     </File>
     <File Include="Scripts/Upper/question-answer-edit.js">
       <publishTime>09/22/2016 00:07:08</publishTime>
     </File>
     <File Include="Scripts/Upper/question-list.js">
-      <publishTime>10/19/2016 15:21:57</publishTime>
+      <publishTime>10/25/2016 12:08:45</publishTime>
     </File>
     <File Include="Scripts/Upper/upper-base.js">
       <publishTime>10/21/2016 12:13:51</publishTime>
@@ -1856,7 +1856,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/18/2016 22:55:30</publishTime>
     </File>
     <File Include="Views/Home/QuestionList.cshtml">
-      <publishTime>10/24/2016 11:48:05</publishTime>
+      <publishTime>10/25/2016 12:09:22</publishTime>
     </File>
     <File Include="Views/Home/RegisterSuccess.cshtml">
       <publishTime>07/26/2016 16:18:32</publishTime>
