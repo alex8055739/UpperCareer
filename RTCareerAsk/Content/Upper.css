@@ -356,8 +356,8 @@ a:focus .content-info {
 
 .user-detail {
     margin: 0 15px;
-    padding: 60px 40px 30px;
-    background-color: #fff;
+    padding: 40px 30px;
+    background-color: #f5ffef;
 }
 
     .user-detail .basic {

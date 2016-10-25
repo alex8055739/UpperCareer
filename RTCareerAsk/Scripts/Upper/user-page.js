@@ -7,8 +7,8 @@
 }
 
 function OnFollowSuccess() {
-    $('#btnFollow').toggle('fast');
-    $('#btnUnfollow').toggle('fast');
+    $('#btnFollow').toggle();
+    $('#btnUnfollow').toggle();
     $('#btnWriteLetter').removeClass('disabled').text('发消息');
 
     DisplaySuccessInfo('恭喜，您已成功关注用户！')
@@ -34,8 +34,8 @@ function OnUnfollowBegin() {
 }
 
 function OnUnfollowSuccess() {
-    $('#btnFollow').toggle('fast');
-    $('#btnUnfollow').toggle('fast');
+    $('#btnFollow').toggle();
+    $('#btnUnfollow').toggle();
     $('#btnWriteLetter').addClass('disabled').text('关注后发消息');
 
     DisplaySuccessInfo('恭喜，您已取消关注用户！')

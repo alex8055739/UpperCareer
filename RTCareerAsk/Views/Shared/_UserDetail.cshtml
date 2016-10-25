@@ -84,14 +84,14 @@
                OnSuccess = "OnUnfollowSuccess",
                OnComplete = "OnUnfollowComplete",
                OnFailure = "OnUnfollowFailure"
-           }, new { @class = "btn btn-warning", id = "btnUnfollow", style = Model.HasFollowed ? "" : "display:none" })
+           }, new { @class = "btn btn-success", id = "btnUnfollow", style = Model.HasFollowed ? "" : "display:none" })
             @Ajax.ActionLink("关注TA", "FollowUser", "User", new { id = Model.UserID }, new AjaxOptions
            {
                OnBegin = "OnFollowBegin",
                OnSuccess = "OnFollowSuccess",
                OnComplete = "OnFollowComplete",
                OnFailure = "OnFollowFailure"
-           }, new { @class = "btn btn-warning", id = "btnFollow", style = Model.HasFollowed ? "display:none" : "" })
+           }, new { @class = "btn btn-success", id = "btnFollow", style = Model.HasFollowed ? "display:none" : "" })
                 
             <a href="#" class="btn btn-info @(Model.HasFollowed ? "" : "disabled")" id="btnWriteLetter" data-toggle="modal" data-target="#divModal">@(Model.HasFollowed ? "发消息" : "关注后发消息")</a>
             }
