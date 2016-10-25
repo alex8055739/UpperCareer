@@ -70,6 +70,13 @@ namespace RTCareerAsk.Models
         public bool RememberMe { get; set; }
     }
 
+    public class ForgetPasswordModel
+    {
+        [Required(ErrorMessage="电子邮箱不能为空")]
+        [EmailAddress(ErrorMessage="输入不符合电子邮箱格式")]
+        public string Email { get; set; }
+    }
+
     public class RegisterModel
     {
         [Required]
@@ -87,8 +94,10 @@ namespace RTCareerAsk.Models
         [Display(Name = "邀请码")]
         public string InviteCode { get; set; }
 
+        [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "电子邮箱")]
+        [EmailAddress(ErrorMessage = "电子邮箱格式不正确")]
         public string Email { get; set; }
 
         [Required]

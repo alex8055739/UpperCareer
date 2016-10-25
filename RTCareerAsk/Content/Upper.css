@@ -589,6 +589,11 @@ a:focus .content-info {
     margin: 0 auto;
 }
 
+.nav-img {
+    width: 24px;
+    height: 24px;
+}
+
 .file-await {
     background-color: #add8e6;
 }

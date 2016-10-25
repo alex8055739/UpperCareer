@@ -21,7 +21,7 @@
             pageIndex = 1,
             onLoading = false,
             pageInfo = "未知内容",
-            spinner = $(document.createElement('img')).attr('src', '/Images/spin.gif').css('margin', '0 auto').css('display', 'block').hide();
+            loader = $(document.createElement('div')).addClass('preload-box').html($(document.createElement('div')).addClass('preload-3')).hide();
 
         switch (config.contentType) {
             case 1:
@@ -45,7 +45,7 @@
             return false;
         }
 
-        $this.after(spinner)
+        $this.after(loader)
 
         $(window).off('scroll');
 
@@ -61,7 +61,7 @@
                     contentType: 'application/json',
                     dataType: 'html',
                     beforeSend: function () {
-                        spinner.fadeIn(1000);
+                        loader.fadeIn(1000);
                         onLoading = true;
                     },
                     success: function (result) {
@@ -83,7 +83,7 @@
                         onLoading = false;
                     },
                     complete: function () {
-                        spinner.stop(true, true).hide();
+                        loader.stop(true, true).hide();
                     }
                 })
             }

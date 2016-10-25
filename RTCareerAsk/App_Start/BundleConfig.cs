@@ -23,6 +23,10 @@ namespace RTCareerAsk
                         "~/Scripts/Upper/upper-shorten.js",
                         "~/Scripts/Upper/upper-scrollpaging.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/login").Include(
+                        "~/Scripts/Upper/login.js")); ;
+
+
             bundles.Add(new ScriptBundle("~/bundles/question").Include(
                         "~/Scripts/Upper/fix-image-display.js",
                         "~/Scripts/Upper/upper-shorten.js",
@@ -61,7 +65,8 @@ namespace RTCareerAsk
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/bootstrap.upper.css",
-                        "~/Content/Upper.css"));
+                        "~/Content/Upper.css",
+                        "~/Content/preloader.css"));
 
             bundles.Add(new StyleBundle("~/Content/cropper").Include(
                         "~/Content/cropper*"));

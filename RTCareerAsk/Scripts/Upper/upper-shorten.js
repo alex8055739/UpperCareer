@@ -47,7 +47,6 @@
             //Actions on toggle bref section and original section
             briefTxt.toggle();
             briefTxt.prev().toggle();
-            //Resize('text');
         })
 
         $(document).on('click', '.lesstext', function (e) {

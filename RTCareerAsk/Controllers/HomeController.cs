@@ -90,7 +90,6 @@ namespace RTCareerAsk.Controllers
             }
         }
 
-
         [HttpPost]
         public async Task<PartialViewResult> LoadContentUpdate(int id, int pageIndex)
         {

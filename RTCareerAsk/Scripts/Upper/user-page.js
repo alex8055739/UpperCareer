@@ -1,8 +1,4 @@
 ﻿function OnFollowBegin() {
-    //var loadingTab = $('#divInfoLoading').find('strong');
-    //loadingTab.text('正在提交申请，请您耐心等待');
-    //loadingTab.append('<div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: 100%"></div></div>');
-
     $('#btnFollow').addClass('disabled').text('关注中...');
 }
 
@@ -26,10 +22,6 @@ function OnFollowFailure() {
 }
 
 function OnUnfollowBegin() {
-    //var loadingTab = $('#divInfoLoading').find('strong');
-    //loadingTab.text('正在提交申请，请您耐心等待');
-    //loadingTab.append('<div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: 100%"></div></div>');
-
     $('#btnUnfollow').addClass('disabled').text('取关中...');
 }
 
@@ -52,9 +44,7 @@ function OnUnfollowFailure() {
     DisplayErrorInfo('取消关注出现问题，请您查看……');
 }
 
-function OnUpdateContentComplete() {
-    Resize('content');
-}
+function OnUpdateContentComplete() { }
 
 $(document).ready(function () {
     $('.upper-tab').uppertabs();

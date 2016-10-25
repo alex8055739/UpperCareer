@@ -531,6 +531,7 @@
     <Content Include="Content\bootstrap.upper.css" />
     <Content Include="Content\cropper.css" />
     <Content Include="Content\cropper.min.css" />
+    <Content Include="Content\preloader.css" />
     <Content Include="Content\readable.copy.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -646,6 +647,7 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Upper\login.js" />
     <Content Include="Scripts\Upper\upper-scrollpaging.js" />
     <Content Include="Scripts\Upper\upper-shorten.js" />
     <Content Include="Scripts\Upper\question-list.js" />
@@ -732,6 +734,7 @@
     <Content Include="Views\Question\AnswerDetail.cshtml" />
     <Content Include="Views\Shared\_AnswerDetail.cshtml" />
     <Content Include="Views\Shared\_AnswerList.cshtml" />
+    <Content Include="Views\Shared\_ForgetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

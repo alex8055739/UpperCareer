@@ -21,7 +21,7 @@
 }
 
 function Resize(containerClass) {
-    $('img').not('img[class^="portrait"]').each(function () {
+    $('img').not('img[class^="portrait"]').not('.nav-img').each(function () {
         ResizeImage($(this), containerClass);
     });
 }
