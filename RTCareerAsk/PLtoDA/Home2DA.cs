@@ -16,64 +16,6 @@ namespace RTCareerAsk.PLtoDA
     /// </summary>
     public class Home2DA : DABase
     {
-        public async Task<List<QuestionInfoModel>> GetQuestionInfoModels(int id = 1)
-        {
-            return await LCDal.FindQuestionList().ContinueWith(t =>
-            {
-                IEnumerable<QuestionInfo> qis = new List<QuestionInfo>();
-
-                switch (id)
-                {
-                    case 1:
-                        qis = t.Result;
-                        break;
-                    case 2:
-                        qis = t.Result.OrderByDescending(x => x.DateCreate);
-                        break;
-                    default:
-                        throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
-                }
-
-                List<QuestionInfoModel> qiList = new List<QuestionInfoModel>();
-
-                foreach (QuestionInfo q in qis)
-                {
-                    qiList.Add(new QuestionInfoModel(q));
-                }
-
-                return qiList;
-            });
-        }
-
-        public async Task<List<AnswerInfoModel>> GetAnswerInfoModels(int id = 3)
-        {
-            return await LCDal.FindAnswerList().ContinueWith(t =>
-                {
-                    IEnumerable<AnswerInfo> ais = new List<AnswerInfo>();
-
-                    switch (id)
-                    {
-                        case 3:
-                            ais = t.Result;
-                            break;
-                        case 4:
-                            ais = t.Result.OrderByDescending(x => x.DateCreate);
-                            break;
-                        default:
-                            throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
-                    }
-
-                    List<AnswerInfoModel> aiList = new List<AnswerInfoModel>();
-
-                    foreach (AnswerInfo a in ais)
-                    {
-                        aiList.Add(new AnswerInfoModel(a));
-                    }
-
-                    return aiList;
-                });
-        }
-
         public async Task<List<QuestionInfoModel>> LoadQuestionListByPage(int pageIndex, int id = 1)
         {
             bool isHottestFirst = true;
@@ -159,5 +101,67 @@ namespace RTCareerAsk.PLtoDA
         {
             return await LCDal.DownloadFileByID(fileId).ContinueWith(t => new FileModel(t.Result));
         }
+
+        #region Trunk
+
+        //public async Task<List<QuestionInfoModel>> GetQuestionInfoModels(int id = 1)
+        //{
+        //    return await LCDal.FindQuestionList().ContinueWith(t =>
+        //    {
+        //        IEnumerable<QuestionInfo> qis = new List<QuestionInfo>();
+
+        //        switch (id)
+        //        {
+        //            case 1:
+        //                qis = t.Result;
+        //                break;
+        //            case 2:
+        //                qis = t.Result.OrderByDescending(x => x.DateCreate);
+        //                break;
+        //            default:
+        //                throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
+        //        }
+
+        //        List<QuestionInfoModel> qiList = new List<QuestionInfoModel>();
+
+        //        foreach (QuestionInfo q in qis)
+        //        {
+        //            qiList.Add(new QuestionInfoModel(q));
+        //        }
+
+        //        return qiList;
+        //    });
+        //}
+
+        //public async Task<List<AnswerInfoModel>> GetAnswerInfoModels(int id = 3)
+        //{
+        //    return await LCDal.FindAnswerList().ContinueWith(t =>
+        //        {
+        //            IEnumerable<AnswerInfo> ais = new List<AnswerInfo>();
+
+        //            switch (id)
+        //            {
+        //                case 3:
+        //                    ais = t.Result;
+        //                    break;
+        //                case 4:
+        //                    ais = t.Result.OrderByDescending(x => x.DateCreate);
+        //                    break;
+        //                default:
+        //                    throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
+        //            }
+
+        //            List<AnswerInfoModel> aiList = new List<AnswerInfoModel>();
+
+        //            foreach (AnswerInfo a in ais)
+        //            {
+        //                aiList.Add(new AnswerInfoModel(a));
+        //            }
+
+        //            return aiList;
+        //        });
+        //}
+
+        #endregion
     }
 }

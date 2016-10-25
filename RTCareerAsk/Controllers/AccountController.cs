@@ -241,13 +241,16 @@ namespace RTCareerAsk.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ForgetPassword(ForgetPasswordModel model)
+        public async Task<ActionResult> ResetPassword(ForgetPasswordModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Index", "Home");
+                    await AccountDa.ResetPasswordByEmail(model.Email);
+                    ViewBag.Email = model.Email;
+
+                    return View("ResetPasswordSuccess");
                 }
                 else
                 {

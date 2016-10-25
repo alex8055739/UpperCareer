@@ -277,12 +277,6 @@ namespace RTCareerAsk.DAL.Tests
         }
 
         [TestMethod]
-        public void FindPostObjectsTest()
-        {
-            Assert.AreEqual(1, LCDal.FindQuestionList().Result.Count());
-        }
-
-        [TestMethod]
         public async Task SaveAnswerTest()
         {
             string ansContent = "……原来问题是我自己提的，这他妈就有点尴尬了。";
