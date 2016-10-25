@@ -21,7 +21,7 @@ function OnMsgFailure(e) {
 
 function OnDeleteBegin() {
     $('#divMsgBody').empty();
-    $('#imgMsgLoading').show();
+    $('#divLoader').show();
 }
 
 function OnDeleteSuccess(e) {
@@ -33,7 +33,7 @@ function OnDeleteSuccess(e) {
 }
 
 function OnDeleteComplete() {
-    $('#imgMsgLoading').hide();
+    $('#divLoader').hide();
 }
 
 function OnDeleteFailure(e) {

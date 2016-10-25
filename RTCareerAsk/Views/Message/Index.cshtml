@@ -16,7 +16,7 @@
                     }
                     <h5>@Ajax.ActionLink(msg.Content.Title, "LoadMessageContent", new { Id = msg.MessageID }, new AjaxOptions
                    {
-                       LoadingElementId = "imgMsgLoading",
+                       LoadingElementId = "divLoader",
                        UpdateTargetId = "divMsgBody",
                        OnBegin = "OnMsgBegin",
                        OnSuccess = "OnMsgSuccess",
@@ -40,6 +40,9 @@
     </div>
     <div class="col-lg-8 body">
         <img id="imgMsgLoading" src="~/Images/spin.gif" class="loading" style="display: none" />
+        <div id="divLoader" class="preload-box" style="display: none">
+            <div class="preload-3"></div>
+        </div>
         <div id="divMsgBody">
             @if (openMessage)
             {

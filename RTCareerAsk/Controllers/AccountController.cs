@@ -225,6 +225,42 @@ namespace RTCareerAsk.Controllers
                 throw e;
             }
         }
+
+        [HttpPost]
+        public PartialViewResult ForgetPasswordForm()
+        {
+            try
+            {
+                return PartialView("_ForgetPassword", new ForgetPasswordModel());
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ForgetPassword(ForgetPasswordModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
         #endregion
 
         #region Upper Excluded
