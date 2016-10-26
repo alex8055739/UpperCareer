@@ -6,7 +6,7 @@
 
 <div id="@string.Format("divAns{0}", Model.ID)">
     <div class="heading">
-        @Html.UpperPortrait(Model.Creator.Portrait, PortraitSize.Small)
+        @Html.UpperPortrait(Model.Creator.Portrait, PortraitSize.Small, new { style = "flex-grow:0" })
         <p>
             @Html.ActionLink(Model.Creator.Name, "Index", "User", new { id = Model.Creator.UserID }, new { })
             ，在问题

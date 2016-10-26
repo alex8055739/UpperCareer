@@ -262,5 +262,5 @@ $(document).ready(function () {
         $('#btnWrtCmt' + ansId).text('评一下');
     });
 
-    $('blockquote > .content').uppershorten();
+    $('div[id^="divAnsTxt"]').uppershorten();
 });
