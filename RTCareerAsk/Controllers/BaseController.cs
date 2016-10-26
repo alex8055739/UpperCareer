@@ -204,6 +204,11 @@ namespace RTCareerAsk.Controllers
             };
         }
 
+        protected string ModifyTextareaData(string input, bool isSave)
+        {
+            return isSave ? input.Replace("\r\n", "</br>") : input.Replace("</br>", "\r\n");
+        }
+
         #endregion
 
         #region Authorization

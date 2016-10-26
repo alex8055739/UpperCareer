@@ -14,7 +14,7 @@
             下回答道：
         </p>
     </div>
-    <div class="content">
+    <div id="@string.Format("divAnsTxt{0}", Model.ID)" class="content">
         @Html.Raw(HttpUtility.HtmlDecode(Model.Content))
     </div>
     <div class="info-group">

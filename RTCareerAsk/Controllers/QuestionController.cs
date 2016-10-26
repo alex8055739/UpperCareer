@@ -142,6 +142,7 @@ namespace RTCareerAsk.Controllers
                 }
 
                 c.UserID = GetUserID();
+                c.PostContent = ModifyTextareaData(c.PostContent, true);
 
                 if (await QuestionDa.PostNewComment(c))
                 {

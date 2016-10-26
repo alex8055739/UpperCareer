@@ -34,7 +34,7 @@
                     @Html.ActionLink(c.Creator.Name, "Index", "User", new { id = c.Creator.UserID }, new { id = string.Format("aCmtBy{0}", c.Creator.UserID) })
                     
                 </p>
-                <p>@c.Content</p>
+                <p>@Html.Raw(HttpUtility.HtmlDecode(c.Content))</p>
             </div>
         </div>
         <div class="action">
