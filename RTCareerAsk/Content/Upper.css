@@ -626,6 +626,8 @@ a:focus .content-info {
 .portrait-lg {
     width: 128px;
     height: 128px;
+    min-width: 128px;
+    min-height: 128px;
     -moz-border-radius: 128px;
     -webkit-border-radius: 128px;
     border-radius: 128px;
@@ -634,6 +636,8 @@ a:focus .content-info {
 .portrait-md {
     width: 64px;
     height: 64px;
+    min-width: 64px;
+    min-height: 64px;
     -moz-border-radius: 64px;
     -webkit-border-radius: 64px;
     border-radius: 64px;
@@ -642,6 +646,8 @@ a:focus .content-info {
 .portrait-sm {
     width: 30px;
     height: 30px;
+    min-width: 30px;
+    min-height: 30px;
     -moz-border-radius: 30px;
     -webkit-border-radius: 30px;
     border-radius: 30px;
@@ -649,11 +655,6 @@ a:focus .content-info {
 
 /*Upper tab styles*/
 @import url(https://fonts.googleapis.com/css?family=Roboto);
-/*body {
-  margin: 0;
-  font-family: "Roboto", "Helvetica Neue", "Helvetica",  "Arial", sans-serif;
-  background: #eaeaea;
-}*/
 
 div.upper-tab {
     display: -webkit-box;
@@ -739,3 +740,70 @@ div.upper-tab {
         font-weight: 500;
         color: #212121;
     }
+
+/*Upper Arrows*/
+
+.arrow {
+    width: 30px;
+    margin: 5px 15px 10px;
+}
+
+    .arrow * {
+        text-align: center;
+        -moz-transition: all 150ms ease-in-out;
+        -o-transition: all 150ms ease-in-out;
+        -webkit-transition: all 150ms ease-in-out;
+        transition: all 150ms ease-in-out;
+    }
+
+    .arrow .up {
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 15px solid #aaaaaa;
+    }
+
+        .arrow .up:hover,
+        .arrow .up:focus {
+            border-bottom: 15px solid #444444;
+        }
+
+    .arrow .down {
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-top: 15px solid #aaaaaa;
+    }
+
+        .arrow .down:hover,
+        .arrow .down:focus {
+            border-top: 15px solid #444444;
+        }
+
+    .arrow .right {
+        width: 0;
+        height: 0;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-left: 15px solid #aaaaaa;
+    }
+
+        .arrow .right:hover,
+        .arrow .right:focus {
+            border-left: 15px solid #444444;
+        }
+
+    .arrow .left {
+        width: 0;
+        height: 0;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-right: 15px solid #aaaaaa;
+    }
+
+        .arrow .left:hover,
+        .arrow .left:focus {
+            border-right: 15px solid #444444;
+        }

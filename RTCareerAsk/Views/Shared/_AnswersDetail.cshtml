@@ -18,10 +18,16 @@
 </div>
 @foreach (RTCareerAsk.Models.AnswerModel a in Model)
 {
-    <div class="body">
-        <div id="@string.Format("divAns{0}", a.ID)" class="clearfix">
+    <div>
+        <div id="@string.Format("divAns{0}", a.ID)" class="clearfix" style="display:flex; flex-flow:row nowrap;">
+            <div class="arrow">
+                <div class="up"><a href="#"></a></div>
+                <div>@a.VoteDiff</div>
+                <div>@a.VoteDiff</div>
+                <div class="down"><a href="#"></a></div>
+            </div>
             @Html.Hidden(string.Format("hdnAnsBy{0}", a.ID), a.Creator.UserID)
-            <blockquote>
+            <div>
                 @Html.UpperNameTag(a.Creator)
                 <div id="@string.Format("divAnsTxt{0}", a.ID)" class="content @Html.IsSelf(a.IsEditAllowed)">
                     @Html.Raw(HttpUtility.HtmlDecode(a.Content))
@@ -56,7 +62,7 @@
                         </ul>
                     </div>
                 }
-            </blockquote>
+            </div>
         </div>
         @if (IsAuthorized)
         {
