@@ -28,3 +28,13 @@ D:\工作\Github Repo\UpperCareer\RTCareerAsk.BL\bin\Debug\AVOSCloud.NetFx45.xml
 D:\工作\Github Repo\UpperCareer\RTCareerAsk.BL\obj\Debug\RTCareerAsk.BL.csprojResolveAssemblyReference.cache
 D:\工作\Github Repo\UpperCareer\RTCareerAsk.BL\obj\Debug\RTCareerAsk.BL.dll
 D:\工作\Github Repo\UpperCareer\RTCareerAsk.BL\obj\Debug\RTCareerAsk.BL.pdb
+D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.BL\bin\Debug\RTCareerAsk.BL.dll
+D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.BL\bin\Debug\RTCareerAsk.BL.pdb
+D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.BL\bin\Debug\RTCareerAsk.DAL.dll
+D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.BL\bin\Debug\AVOSCloud.NetFx45.dll
+D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.BL\bin\Debug\websocket-sharp.dll
+D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.BL\bin\Debug\RTCareerAsk.DAL.pdb
+D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.BL\bin\Debug\AVOSCloud.NetFx45.xml
+D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.BL\obj\Debug\RTCareerAsk.BL.csprojResolveAssemblyReference.cache
+D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.BL\obj\Debug\RTCareerAsk.BL.dll
+D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.BL\obj\Debug\RTCareerAsk.BL.pdb
