@@ -26,7 +26,7 @@
             OnSuccess = "OnProfileSuccess",
             OnComplete = "OnProfileComplete",
             OnFailure = "OnProfileFailure"
-        }, new { id = "formDetailInfo", @class = "form-horizontal" }))
+        }, new { id = "formDetailInfo", @class = "form-horizontal include-textarea" }))
             {
                 @Html.ValidationSummary()
                 @Html.HiddenFor(m => m.UserDetailID)

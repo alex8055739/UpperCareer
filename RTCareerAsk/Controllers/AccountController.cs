@@ -196,6 +196,7 @@ namespace RTCareerAsk.Controllers
                 ViewBag.FieldList = GetFieldList();
 
                 UserManageModel model = await AccountDa.LoadUserManageInfo(GetUserID());
+                model.SelfDescription = ModifyTextareaData(model.SelfDescription, false);
 
                 return View(model);
             }
@@ -212,6 +213,8 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
+                model.SelfDescription = ModifyTextareaData(model.SelfDescription, true);
+
                 if (await AccountDa.UpdateProfile(model))
                 {
                     await UpdateUserInfo(new Dictionary<string, object>() { { "Name", model.Name } });

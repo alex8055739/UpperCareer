@@ -53,7 +53,7 @@ function UpdateCmtCount() {
 }
 
 function WrapImageContent(content) {
-    alert($(this).find('img').length)
+    //alert($(this).find('img').length)
 
     return content;
 }
@@ -113,6 +113,13 @@ $(document).ready(function () {
             }
         });
     })
+
+    //$(document).on('submit', '.include-textarea', function (e) {
+    //    e.preventDefault();
+    //    var textArea = $(this).find('textarea');
+    //    textArea.val(textArea.val().replace(/\r?\n/g, '&#13;&#10;'))
+    //    alert(textArea.val())
+    //});
 
     //Enable nav bar dropdown list with hover event.
     //$('ul.nav li.dropdown').hover(function () {

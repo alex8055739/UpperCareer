@@ -14,7 +14,7 @@
             下回答道：
         </p>
     </div>
-    <div class="content">
+    <div id="@string.Format("divAnsTxt{0}", Model.ID)" class="content">
         @Html.Raw(HttpUtility.HtmlDecode(Model.Content))
     </div>
     <div class="info-group">
@@ -33,8 +33,8 @@
                         <li><a href="#" role="button" id="@string.Format("btnAnsDel{0}", Model.ID)">删除</a></li>
                     }
                     <li><a href="#" id="@string.Format("btnWrtCmt{0}", Model.ID)">评一下</a></li>
-                    <li class="active"><a href="#">收藏</a></li>
-                    <li><a href="#">举报</a></li>
+                    @*<li class="active"><a href="#">收藏</a></li>
+                    <li><a href="#">举报</a></li>*@
                 </ul>
             }
         </div>

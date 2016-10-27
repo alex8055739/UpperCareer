@@ -745,7 +745,7 @@ div.upper-tab {
 
 .arrow {
     width: 30px;
-    margin: 5px 15px 10px;
+    margin: 5px 15px 0 0;
 }
 
     .arrow * {
