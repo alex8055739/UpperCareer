@@ -232,6 +232,7 @@ a:focus .content-info {
         -ms-flex-flow: row nowrap;
         -webkit-flex-flow: row nowrap;
         flex-flow: row nowrap;
+        align-items: flex-start;
     }
 
     .answer-detail .header {
@@ -471,6 +472,80 @@ a:focus .content-info {
         -ms-word-break: break-all;
         word-break: break-all;
     }
+
+/*Upper Arrows*/
+
+.arrow {
+    width: 40px;
+    margin: 5px 15px 0 0;
+    padding: 5px;
+    background-color: lightblue;
+}
+
+    .arrow * {
+        text-align: center;
+        -moz-transition: all 150ms ease-in-out;
+        -o-transition: all 150ms ease-in-out;
+        -webkit-transition: all 150ms ease-in-out;
+        transition: all 150ms ease-in-out;
+    }
+
+    .arrow .up *:first-child {
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 15px solid #aaaaaa;
+    }
+
+    .arrow .up:hover,
+    .arrow .up:focus {
+        background-color: white;
+    }
+
+        .arrow .up:hover *:first-child,
+        .arrow .up:focus *:first-child {
+            border-bottom: 15px solid #444444;
+        }
+
+    .arrow .down *:last-child {
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-top: 15px solid #aaaaaa;
+    }
+
+    .arrow .down:hover *:last-child,
+    .arrow .down:focus *:last-child {
+        border-top: 15px solid #444444;
+    }
+
+    .arrow .right {
+        width: 0;
+        height: 0;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-left: 15px solid #aaaaaa;
+    }
+
+        .arrow .right:hover,
+        .arrow .right:focus {
+            border-left: 15px solid #444444;
+        }
+
+    .arrow .left {
+        width: 0;
+        height: 0;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-right: 15px solid #aaaaaa;
+    }
+
+        .arrow .left:hover,
+        .arrow .left:focus {
+            border-right: 15px solid #444444;
+        }
 
 .float-left {
     float: left;
@@ -751,70 +826,3 @@ div.upper-tab {
         font-weight: 500;
         color: #212121;
     }
-
-/*Upper Arrows*/
-
-.arrow {
-    width: 30px;
-    margin: 5px 15px 0 0;
-}
-
-    .arrow * {
-        text-align: center;
-        -moz-transition: all 150ms ease-in-out;
-        -o-transition: all 150ms ease-in-out;
-        -webkit-transition: all 150ms ease-in-out;
-        transition: all 150ms ease-in-out;
-    }
-
-    .arrow .up {
-        width: 0;
-        height: 0;
-        border-left: 15px solid transparent;
-        border-right: 15px solid transparent;
-        border-bottom: 15px solid #aaaaaa;
-    }
-
-        .arrow .up:hover,
-        .arrow .up:focus {
-            border-bottom: 15px solid #444444;
-        }
-
-    .arrow .down {
-        width: 0;
-        height: 0;
-        border-left: 15px solid transparent;
-        border-right: 15px solid transparent;
-        border-top: 15px solid #aaaaaa;
-    }
-
-        .arrow .down:hover,
-        .arrow .down:focus {
-            border-top: 15px solid #444444;
-        }
-
-    .arrow .right {
-        width: 0;
-        height: 0;
-        border-top: 15px solid transparent;
-        border-bottom: 15px solid transparent;
-        border-left: 15px solid #aaaaaa;
-    }
-
-        .arrow .right:hover,
-        .arrow .right:focus {
-            border-left: 15px solid #444444;
-        }
-
-    .arrow .left {
-        width: 0;
-        height: 0;
-        border-top: 15px solid transparent;
-        border-bottom: 15px solid transparent;
-        border-right: 15px solid #aaaaaa;
-    }
-
-        .arrow .left:hover,
-        .arrow .left:focus {
-            border-right: 15px solid #444444;
-        }
