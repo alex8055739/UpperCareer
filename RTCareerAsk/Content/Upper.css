@@ -64,7 +64,9 @@ nav {
 }
 
 img {
-    /*width: 100%;*/
+    /*max-width: 100%;
+    height: auto;*/
+    display: block;
 }
 
 p {
@@ -224,6 +226,14 @@ a:focus .content-info {
     padding: 15px;
 }
 
+    .answer-detail .wrap {
+        display: flex;
+        display: -webkit-flex;
+        -ms-flex-flow: row nowrap;
+        -webkit-flex-flow: row nowrap;
+        flex-flow: row nowrap;
+    }
+
     .answer-detail .header {
         margin-bottom: 20px;
         border-bottom: 1px #aaaaaa solid;
@@ -270,7 +280,7 @@ a:focus .content-info {
         }
 
     .answer .content {
-        background-color:#f7f7f7;
+        background-color: #f7f7f7;
         padding: 15px;
     }
 
@@ -621,6 +631,7 @@ a:focus .content-info {
 
 .portrait-lg, .portrait-md, .portrait-sm {
     overflow: hidden;
+    display: inline;
 }
 
 .portrait-lg {

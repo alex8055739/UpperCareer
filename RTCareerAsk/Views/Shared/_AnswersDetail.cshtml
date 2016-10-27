@@ -19,7 +19,7 @@
 @foreach (RTCareerAsk.Models.AnswerModel a in Model)
 {
     <div class="body">
-        <div id="@string.Format("divAns{0}", a.ID)" class="clearfix" style="display:flex; -ms-flex-flow:row nowrap;-webkit-flex-flow:row nowrap;flex-flow:row nowrap;">
+        <div id="@string.Format("divAns{0}", a.ID)" class="wrap clearfix">
             <div class="arrow">
                 <div class="up"><a href="#"></a></div>
                 <div>@a.VoteDiff</div>
@@ -27,7 +27,7 @@
                 <div class="down"><a href="#"></a></div>
             </div>
             @Html.Hidden(string.Format("hdnAnsBy{0}", a.ID), a.Creator.UserID)
-            <div style="flex-grow: 1">
+            <div class="clearfix" style="flex-grow: 1">
                 @Html.UpperNameTag(a.Creator)
                 <div id="@string.Format("divAnsTxt{0}", a.ID)" class="content @Html.IsSelf(a.IsEditAllowed)">
                     @Html.Raw(HttpUtility.HtmlDecode(a.Content))
