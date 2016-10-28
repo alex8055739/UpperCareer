@@ -1622,7 +1622,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2016 17:20:14</publishTime>
     </File>
     <File Include="Content/Upper.css">
-      <publishTime>10/26/2016 15:52:06</publishTime>
+      <publishTime>10/27/2016 18:19:06</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>04/28/2016 17:19:39</publishTime>
@@ -1775,7 +1775,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/25/2016 14:41:19</publishTime>
     </File>
     <File Include="Scripts/Upper/fix-image-display.js">
-      <publishTime>10/26/2016 11:31:25</publishTime>
+      <publishTime>10/27/2016 15:28:44</publishTime>
     </File>
     <File Include="Scripts/Upper/login.js">
       <publishTime>10/26/2016 11:31:25</publishTime>
@@ -1787,7 +1787,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/26/2016 11:31:26</publishTime>
     </File>
     <File Include="Scripts/Upper/question-answer-edit.js">
-      <publishTime>10/26/2016 14:25:39</publishTime>
+      <publishTime>10/27/2016 15:53:12</publishTime>
     </File>
     <File Include="Scripts/Upper/question-list.js">
       <publishTime>10/25/2016 13:18:10</publishTime>
@@ -1880,16 +1880,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2016 17:19:39</publishTime>
     </File>
     <File Include="Views/Shared/_AnswerDetail.cshtml">
-      <publishTime>10/26/2016 14:25:09</publishTime>
+      <publishTime>10/26/2016 17:09:37</publishTime>
     </File>
     <File Include="Views/Shared/_AnswerForm.cshtml">
       <publishTime>09/07/2016 15:34:12</publishTime>
     </File>
     <File Include="Views/Shared/_AnswerList.cshtml">
-      <publishTime>10/21/2016 12:38:48</publishTime>
+      <publishTime>10/27/2016 14:38:41</publishTime>
     </File>
     <File Include="Views/Shared/_AnswersDetail.cshtml">
-      <publishTime>10/26/2016 15:49:08</publishTime>
+      <publishTime>10/27/2016 18:09:09</publishTime>
     </File>
     <File Include="Views/Shared/_BugReportModal.cshtml">
       <publishTime>07/28/2016 17:20:23</publishTime>
@@ -1934,7 +1934,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/21/2016 12:39:17</publishTime>
     </File>
     <File Include="Views/Shared/_RecentAnswers.cshtml">
-      <publishTime>10/26/2016 11:31:26</publishTime>
+      <publishTime>10/27/2016 14:39:00</publishTime>
     </File>
     <File Include="Views/Shared/_RecentQuestions.cshtml">
       <publishTime>09/22/2016 18:05:44</publishTime>

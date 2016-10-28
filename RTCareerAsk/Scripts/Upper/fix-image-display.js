@@ -1,8 +1,7 @@
-﻿function ResizeImage(img, containerClass) {
-    var parent = img.parent(),
-        container = img.closest('.' + containerClass);
+﻿function ResizeImage(img) {
+    var parent = img.parent();
 
-    if (container.is(':hidden')) {
+    if (img.is(':hidden')) {
         return false
     }
 
@@ -21,15 +20,15 @@
 }
 
 function Resize(containerClass) {
-    $('img').not('img[class^="portrait"]').not('.nav-img').each(function () {
-        ResizeImage($(this), containerClass);
+    $('img').not('img[class^="portrait"]').not('.photo').not('.nav-img').each(function () {
+        ResizeImage($(this));
     });
 }
 
 $(document).ready(function () {
-    Resize('content');
+    Resize();
 });
 
 $(window).resize(function () {
-    Resize('content');
+    Resize();
 });

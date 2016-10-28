@@ -27,7 +27,7 @@
 <script type="text/javascript">
     var url = '@Url.Action("LoadContentUpdate", "Home")';
     function AfterAnswerListLoad() {
-        Resize('content');
+        Resize();
         $('.list-group-item > .section-wrap > .text > div').uppershorten();
         $('.brief').css('margin', 0);
     }
