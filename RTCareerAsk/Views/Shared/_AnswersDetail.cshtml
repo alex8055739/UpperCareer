@@ -20,16 +20,16 @@
 {
     <div class="body">
         <div id="@string.Format("divAns{0}", a.ID)" class="wrap clearfix">
-            <div>
-                <div class="arrow">
+            <div data-id="@a.ID" data-type="1">
+                <div class="arrow @Html.IsActive(true, a)">
                     <a href="#" class="up">
                         <div></div>
-                        <div>@a.VoteDiff</div>
+                        <div class="votes">@a.VotePositive</div>
                     </a>
                 </div>
-                <div class="arrow">
+                <div class="arrow @Html.IsActive(false, a)">
                     <a href="#" class="down">
-                        <div>@a.VoteDiff</div>
+                        <div class="votes">@a.VoteNegative</div>
                         <div></div>
                     </a>
                 </div>

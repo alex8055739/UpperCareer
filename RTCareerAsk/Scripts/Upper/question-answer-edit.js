@@ -252,6 +252,50 @@ $(document).ready(function () {
         });
     });
 
+    $(document).on('click', '.arrow', function (e) {
+        e.preventDefault();
+        var $this = $(this),
+            classNonActive = 'not-active',
+            classNew = 'new',
+            wrap = $this.parent(),
+            opposite = $this.siblings('.arrow'),
+            isLike = $this.children('a').hasClass('up'),
+            isUpdate = !$this.hasClass(classNew),
+            data = new Object();
+
+        data.TargetID = wrap.data('id');
+        data.Type = wrap.data('type');
+        data.IsLike = isLike;
+        data.IsUpdate = isUpdate;
+
+        $.ajax({
+            type: "POST",
+            url: "/Question/SaveVote",
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            beforeSend: function () {
+                wrap.children('.arrow').addClass(classNonActive);
+            },
+            success: function () {
+                wrap.children('.new').removeClass(classNew);
+                opposite.removeClass(classNonActive);
+                $this.find('.votes').html(parseInt($this.find('.votes').html()) + 1);
+                if (isUpdate) {
+                    opposite.find('.votes').html(parseInt(opposite.find('.votes').html()) - 1);
+                }
+            },
+            error: function () {
+                DisplayErrorInfo('投票操作出现问题……');
+                if (isUpdate) {
+                    $this.removeClass(classNonActive);
+                }
+                else {
+                    wrap.children().removeClass(classNonActive);
+                }
+            }
+        });
+    })
+
     $(document).on('submit', 'form[id^="formCmt"]', function (e) {
         e.preventDefault();
 

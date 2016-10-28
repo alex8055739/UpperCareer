@@ -504,23 +504,23 @@ a:focus .content-info {
         transition: all 150ms ease-in-out;
     }
 
+    .arrow.not-active {
+        pointer-events: none;
+        cursor: default;
+        opacity: 1;
+    }
+
     .arrow .up *:first-child {
         width: 0;
         height: 0;
         border-left: 15px solid transparent;
         border-right: 15px solid transparent;
         border-bottom: 15px solid #444444;
-        opacity: 0.35;
     }
 
     .arrow .up:hover,
     .arrow .up:focus {
         background-color: white;
-    }
-
-    .arrow:hover .up *:first-child,
-    .arrow:focus .up *:first-child {
-        opacity: 1;
     }
 
     .arrow .down *:last-child {
@@ -529,12 +529,6 @@ a:focus .content-info {
         border-left: 15px solid transparent;
         border-right: 15px solid transparent;
         border-top: 15px solid #444444;
-        opacity: 0.35;
-    }
-
-    .arrow:hover .down *:last-child,
-    .arrow:focus .down *:last-child {
-        opacity: 1;
     }
 
     .arrow .right {
