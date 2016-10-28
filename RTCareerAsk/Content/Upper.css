@@ -477,10 +477,24 @@ a:focus .content-info {
 
 .arrow {
     width: 40px;
-    margin: 5px 15px 0 0;
+    margin-right: 15px;
     padding: 5px;
     background-color: lightblue;
+    opacity: 0.35;
+    -moz-transition: all 150ms ease-in-out;
+    -o-transition: all 150ms ease-in-out;
+    -webkit-transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
 }
+
+    .arrow:hover,
+    .arrow:focus {
+        opacity: 1;
+    }
+
+    .arrow:first-child {
+        margin-top: 2px;
+    }
 
     .arrow * {
         text-align: center;
@@ -495,7 +509,8 @@ a:focus .content-info {
         height: 0;
         border-left: 15px solid transparent;
         border-right: 15px solid transparent;
-        border-bottom: 15px solid #aaaaaa;
+        border-bottom: 15px solid #444444;
+        opacity: 0.35;
     }
 
     .arrow .up:hover,
@@ -503,22 +518,23 @@ a:focus .content-info {
         background-color: white;
     }
 
-        .arrow .up:hover *:first-child,
-        .arrow .up:focus *:first-child {
-            border-bottom: 15px solid #444444;
-        }
+    .arrow:hover .up *:first-child,
+    .arrow:focus .up *:first-child {
+        opacity: 1;
+    }
 
     .arrow .down *:last-child {
         width: 0;
         height: 0;
         border-left: 15px solid transparent;
         border-right: 15px solid transparent;
-        border-top: 15px solid #aaaaaa;
+        border-top: 15px solid #444444;
+        opacity: 0.35;
     }
 
-    .arrow .down:hover *:last-child,
-    .arrow .down:focus *:last-child {
-        border-top: 15px solid #444444;
+    .arrow:hover .down *:last-child,
+    .arrow:focus .down *:last-child {
+        opacity: 1;
     }
 
     .arrow .right {

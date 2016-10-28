@@ -20,26 +20,20 @@
 {
     <div class="body">
         <div id="@string.Format("divAns{0}", a.ID)" class="wrap clearfix">
-            <div class="arrow">
-                <a href="#" class="up">
-                    <div></div>
-                    <div>@a.VoteDiff</div>
-                </a>
-                <a href="#" class="down">
-                    <div>@a.VoteDiff</div>
-                    <div></div>
-                </a>
+            <div>
+                <div class="arrow">
+                    <a href="#" class="up">
+                        <div></div>
+                        <div>@a.VoteDiff</div>
+                    </a>
+                </div>
+                <div class="arrow">
+                    <a href="#" class="down">
+                        <div>@a.VoteDiff</div>
+                        <div></div>
+                    </a>
+                </div>
             </div>
-            @*<div class="vote">
-                <a href="#" style="text-align: center">
-                    <div></div>
-                    <div>@a.VoteDiff</div>
-                </a>
-                <a href="#" style="text-align: center">
-                    <div>@a.VoteDiff</div>
-                    <div></div>
-                </a>
-            </div>*@
             @Html.Hidden(string.Format("hdnAnsBy{0}", a.ID), a.Creator.UserID)
             <div class="clearfix" style="flex-grow: 1">
                 @Html.UpperNameTag(a.Creator)
