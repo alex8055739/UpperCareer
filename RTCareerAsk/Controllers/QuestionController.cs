@@ -7,20 +7,18 @@ using System.Web.Mvc;
 using System.Threading.Tasks;
 using RTCareerAsk.Models;
 using RTCareerAsk.PLtoDA;
+using RTCareerAsk.Filters;
 
 namespace RTCareerAsk.Controllers
 {
     public class QuestionController : UpperBaseController
     {
+        [UpperResult]
         public async Task<ActionResult> Index(string id)
         {
             try
             {
-                ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-                ViewBag.IsAdmin = IsUserAuthorized("Admin");
-
                 return View(SetFlagsForActions(await QuestionDa.GetQuestionModel(HasUserInfo ? GetUserID() : string.Empty, id)));
-                //return View(SetFlagsForActions(await QuestionDa.GetQuestionModel(id)));
             }
             catch (Exception e)
             {
@@ -29,13 +27,11 @@ namespace RTCareerAsk.Controllers
             }
         }
 
+        [UpperResult]
         public async Task<ActionResult> AnswerDetail(string id)
         {
             try
             {
-                ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-                ViewBag.IsAdmin = IsUserAuthorized("Admin");
-
                 return View(SetFlagsForActions(await QuestionDa.GetAnswerModel(id)));
             }
             catch (Exception e)
@@ -100,6 +96,7 @@ namespace RTCareerAsk.Controllers
             }
         }
 
+        [UpperResult]
         [HttpPost]
         [ValidateInput(false)]
         public async Task<PartialViewResult> PostAnswer(AnswerPostModel a)
@@ -115,10 +112,6 @@ namespace RTCareerAsk.Controllers
 
                 if (await QuestionDa.PostNewAnswer(a))
                 {
-                    ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-                    ViewBag.IsAdmin = IsUserAuthorized("Admin");
-
-                    //Placeholder: Send a notify message to original poster, a.NotifyUserID.
                     return PartialView("_AnswersDetail", SetFlagsForActions(await QuestionDa.GetAnswerModels(GetUserID(), a.QuestionID)));
                 }
 
@@ -131,6 +124,7 @@ namespace RTCareerAsk.Controllers
             }
         }
 
+        [UpperResult]
         [HttpPost]
         public async Task<PartialViewResult> PostComment(CommentPostModel c)
         {
@@ -146,13 +140,9 @@ namespace RTCareerAsk.Controllers
 
                 if (await QuestionDa.PostNewComment(c))
                 {
-                    ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-                    ViewBag.IsAdmin = IsUserAuthorized("Admin");
-
-                    //Placeholder: Send a notify message to original poster, a.NotifyUserID.
                     List<CommentModel> model = await QuestionDa.GetCommentModels(c.AnswerID);
+
                     return PartialView("_CommentDetail", SetFlagsForActions(model));
-                    //return PartialView("_CommentDetail", await QuestionDa.GetCommentModels(c.AnswerID));
                 }
 
                 throw new InvalidOperationException("保存评论失败，请再次尝试");

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Threading.Tasks;
 using RTCareerAsk.BL;
 using RTCareerAsk.Models;
+using RTCareerAsk.Filters;
 
 namespace RTCareerAsk.Controllers
 {
@@ -13,6 +14,7 @@ namespace RTCareerAsk.Controllers
     {
         public string SessionCopyName { get { return "MessageCopy"; } }
 
+        [UpperResult]
         public async Task<ActionResult> Index(string Id = "")
         {
             try
@@ -20,8 +22,6 @@ namespace RTCareerAsk.Controllers
                 if (IsUserAuthorized("User,Admin"))
                 {
                     ViewBag.Title = "消息列表";
-                    ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-                    ViewBag.IsAdmin = IsUserAuthorized("Admin");
 
                     if (!string.IsNullOrEmpty(Id))
                     {
@@ -76,13 +76,11 @@ namespace RTCareerAsk.Controllers
             }
         }
 
+        [UpperResult]
         [HttpPost]
         public async Task<PartialViewResult> UpdateMsgCount()
         {
             await UpdateUserInfo(new Dictionary<string, object>() { { "NewMessageCount", null } });
-
-            ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-            ViewBag.IsAdmin = IsUserAuthorized("Admin");
 
             return PartialView("_NavBar");
         }

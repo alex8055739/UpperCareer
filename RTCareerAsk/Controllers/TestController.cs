@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using RTCareerAsk.Models;
+using RTCareerAsk.Filters;
 
 namespace RTCareerAsk.Controllers
 {
@@ -12,6 +13,7 @@ namespace RTCareerAsk.Controllers
     {
         public string SessionCopyName { get { return "BugReportCopy"; } }
 
+        [UpperResult]
         public async Task<ActionResult> Index()
         {
             if (!IsUserAuthorized("Admin"))
@@ -20,8 +22,6 @@ namespace RTCareerAsk.Controllers
             }
 
             ViewBag.Title = "浏览错误报告";
-            ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-            ViewBag.IsAdmin = IsUserAuthorized("Admin");
             ViewBag.Priorities = GetPriorities();
             ViewBag.StatusCodes = GetStatusCodes();
 
