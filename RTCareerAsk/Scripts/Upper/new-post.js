@@ -32,7 +32,8 @@ function OnAnsSuccess() {
     DisplaySuccessInfo('恭喜，您已成功发布答案！')
 
     $('#btnSubmitAns').addClass('disabled');
-    $('#btnWriteAnswer').fadeOut('slow');
+    $('#btnWriteAnswer').addClass('not-active');
+    //$('#btnWriteAnswer').parent().fadeOut('slow');
 }
 
 function OnCmtSuccess(ansId) {

@@ -212,8 +212,9 @@ a:focus .content-info {
     }
 
     .question-detail .action {
-        margin: 0 auto;
-        text-align: center;
+        /*margin: 0 auto;*/
+        /*text-align: center;*/
+        float: right;
     }
 
     .question-detail .editor {
@@ -686,6 +687,7 @@ a:focus .content-info {
 }
 
 .nav-img {
+    display: inline;
     width: 24px;
     height: 24px;
 }
