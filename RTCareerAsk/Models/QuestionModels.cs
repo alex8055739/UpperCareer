@@ -74,6 +74,10 @@ namespace RTCareerAsk.Models
 
         public bool? IsLike { get; set; }
 
+        public int VotePositive { get; set; }
+
+        public int VoteNegative { get; set; }
+
         public bool IsEditAllowed { get; set; }
 
         public bool IsAnswerAllowed { get; set; }
@@ -86,6 +90,8 @@ namespace RTCareerAsk.Models
             Title = po.Title;
             VoteDiff = po.VoteDiff;
             IsLike = po.IsLike;
+            VotePositive = po.VotePositive;
+            VoteNegative = po.VoteNegative;
 
             if (po.Answers != null)
             {
@@ -115,6 +121,10 @@ namespace RTCareerAsk.Models
 
         public bool? IsLike { get; set; }
 
+        public int VotePositive { get; set; }
+
+        public int VoteNegative { get; set; }
+        
         public QuestionModel ForQuestion { get; set; }
 
         public List<CommentModel> Comments { get; set; }
@@ -127,6 +137,8 @@ namespace RTCareerAsk.Models
             ForQuestion = ao.ForQuestion != null ? new QuestionModel(ao.ForQuestion) : null;
             VoteDiff = ao.VoteDiff;
             IsLike = ao.IsLike;
+            VotePositive = ao.VotePositive;
+            VoteNegative = ao.VoteNegative;
 
             foreach (Comment c in ao.Comments)
             {

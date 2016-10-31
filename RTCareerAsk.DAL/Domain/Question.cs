@@ -123,6 +123,10 @@ namespace RTCareerAsk.DAL.Domain
 
         public bool? IsLike { get; set; }
 
+        public int VotePositive { get; set; }
+
+        public int VoteNegative { get; set; }
+
         public List<Answer> Answers { get; set; }
 
         private void GenerateQuestionObject(AVObject po)
@@ -137,9 +141,17 @@ namespace RTCareerAsk.DAL.Domain
             VoteDiff = po.ContainsKey("voteDiff") ? po.Get<int>("voteDiff") : default(int);
         }
 
-        public Question SetVote(bool? isLike)
+        public Question SetUserVote(bool? isLike)
         {
             IsLike = isLike;
+
+            return this;
+        }
+
+        public Question SetVoteCounts(Dictionary<string, int> voteCounts)
+        {
+            VotePositive = voteCounts["Positive"];
+            VoteNegative = voteCounts["Negative"];
 
             return this;
         }
@@ -184,6 +196,10 @@ namespace RTCareerAsk.DAL.Domain
 
         public bool? IsLike { get; set; }
 
+        public int VotePositive { get; set; }
+
+        public int VoteNegative { get; set; }
+
         public Question ForQuestion { get; set; }
 
         public List<Comment> Comments { get; set; }
@@ -218,9 +234,17 @@ namespace RTCareerAsk.DAL.Domain
             return this;
         }
 
-        public Answer SetVote(bool? isLike)
+        public Answer SetUserVote(bool? isLike)
         {
             IsLike = isLike;
+
+            return this;
+        }
+
+        public Answer SetVoteCounts(Dictionary<string, int> voteCounts)
+        {
+            VotePositive = voteCounts["Positive"];
+            VoteNegative = voteCounts["Negative"];
 
             return this;
         }

@@ -970,10 +970,22 @@ namespace RTCareerAsk.DAL
 
                         return IsQuestionLikedByUser(userId, s.Result).ContinueWith(r =>
                             {
-                                return new Question(s.Result, t.Result).SetVote(r.Result);
+                                if (r.IsFaulted||r.IsCanceled)
+                                {
+                                    throw r.Exception;
+                                }
+
+                                return LoadVoteCounts(s.Result, true).ContinueWith(v => {
+                                    if (v.IsFaulted||v.IsCanceled)
+                                    {
+                                        throw v.Exception;
+                                    }
+
+                                    return new Question(s.Result, t.Result).SetUserVote(r.Result).SetVoteCounts(v.Result);
+                                });
                             });
                     });
-                }).Unwrap().Unwrap();
+                }).Unwrap().Unwrap().Unwrap();
             }
             catch (Exception)
             {
@@ -1136,9 +1148,11 @@ namespace RTCareerAsk.DAL
 
                 Task<bool?> userVote = IsAnswerLikedByUser(userId, a);
 
-                await Task.WhenAll(cmts, userVote);
+                Task<Dictionary<string, int>> voteCounts = LoadVoteCounts(a, false);
 
-                return new Answer(a).SetComments(cmts.Result).SetVote(userVote.Result);
+                await Task.WhenAll(cmts, userVote, voteCounts);
+
+                return new Answer(a).SetComments(cmts.Result).SetUserVote(userVote.Result).SetVoteCounts(voteCounts.Result);
             }
             catch (Exception)
             {
@@ -1226,6 +1240,42 @@ namespace RTCareerAsk.DAL
                     }
 
                     return t.Result.Count() > 0 ? t.Result.First().Get<bool?>("isLike") : null;
+                });
+        }
+
+        public async Task<Dictionary<string, int>> LoadVoteCounts(AVObject target, bool isQuestion)
+        {
+            string positiveKey = "Positive";
+            string negativeKey = "Negative";
+
+            return await AVObject.GetQuery(isQuestion ? "VotePost" : "VoteAnswer")
+                .WhereEqualTo("voteFor", target)
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    Dictionary<string, int> voteCounts = new Dictionary<string, int>();
+                    voteCounts.Add(positiveKey, default(int));
+                    voteCounts.Add(negativeKey, default(int));
+
+                    foreach (AVObject obj in t.Result)
+                    {
+                        //obj.Get<bool>("isLike") ? voteCounts[positiveKey]++ : voteCounts[negativeKey]++;
+                        if (obj.Get<bool>("isLike"))
+                        {
+                            voteCounts[positiveKey]++;
+                        }
+                        else
+                        {
+                            voteCounts[negativeKey]++;
+                        }
+                    }
+
+                    return voteCounts;
                 });
         }
         /// <summary>
