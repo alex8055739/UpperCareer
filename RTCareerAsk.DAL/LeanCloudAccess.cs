@@ -177,6 +177,8 @@ namespace RTCareerAsk.DAL
 
             if (!string.IsNullOrEmpty(ud.ObjectId))
             {
+                throw new NotImplementedException();
+
                 return await AVObject.GetQuery("UserDetail").GetAsync(ud.ObjectId).ContinueWith(t =>
                     {
                         if (t.IsFaulted || t.IsCanceled)
@@ -970,13 +972,14 @@ namespace RTCareerAsk.DAL
 
                         return IsQuestionLikedByUser(userId, s.Result).ContinueWith(r =>
                             {
-                                if (r.IsFaulted||r.IsCanceled)
+                                if (r.IsFaulted || r.IsCanceled)
                                 {
                                     throw r.Exception;
                                 }
 
-                                return LoadVoteCounts(s.Result, true).ContinueWith(v => {
-                                    if (v.IsFaulted||v.IsCanceled)
+                                return LoadVoteCounts(s.Result, true).ContinueWith(v =>
+                                {
+                                    if (v.IsFaulted || v.IsCanceled)
                                     {
                                         throw v.Exception;
                                     }
@@ -1498,7 +1501,6 @@ namespace RTCareerAsk.DAL
         /// <returns>代表操作是否成功的Boolean值</returns>
         public async Task<bool> DeleteAnswerWithComments(string ansId)
         {
-            //AVObject ans = AVObject.CreateWithoutData("Answer", ansId);
             List<Task> ts = new List<Task>();
 
             AVObject ans = await AVObject.GetQuery("Answer").Include("forQuestion").GetAsync(ansId);
@@ -1523,6 +1525,14 @@ namespace RTCareerAsk.DAL
                 }
 
                 UpdateSubpostCount(ans.Get<AVObject>("forQuestion"), false).ContinueWith(s =>
+                    {
+                        if (s.IsFaulted || s.IsCanceled)
+                        {
+                            throw s.Exception;
+                        }
+                    });
+
+                DeleteVoteRecords(ansId, false).ContinueWith(s =>
                     {
                         if (s.IsFaulted || s.IsCanceled)
                         {
@@ -1566,16 +1576,6 @@ namespace RTCareerAsk.DAL
                             return true;
                         });
                 }).Unwrap();
-
-            //return await AVObject.CreateWithoutData("Comment", cmtId).DeleteAsync().ContinueWith(t =>
-            //    {
-            //        if (t.IsFaulted || t.IsCanceled)
-            //        {
-            //            throw t.Exception;
-            //        }
-
-            //        return true;
-            //    });
         }
         /// <summary>
         /// 为问题或答案更新回复数量。
@@ -1598,6 +1598,40 @@ namespace RTCareerAsk.DAL
                     throw t.Exception;
                 }
             });
+        }
+        /// <summary>
+        /// 删除点赞记录。
+        /// </summary>
+        /// <param name="objId">点赞对象的ID</param>
+        /// <param name="isQuestion">对象是不是问题类型</param>
+        /// <returns></returns>
+        public async Task DeleteVoteRecords(string objId, bool isQuestion)
+        {
+            List<Task> ts = new List<Task>();
+
+            IEnumerable<AVObject> votes = await AVObject.GetQuery(isQuestion ? "VotePost" : "VoteAnswer")
+                .WhereEqualTo("voteFor", AVObject.CreateWithoutData(isQuestion ? "Post" : "Answer", objId))
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return t.Result;
+                });
+
+            foreach (AVObject obj in votes)
+            {
+                ts.Add(obj.DeleteAsync().ContinueWith(t =>
+                    {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+                    }));
+            }
         }
         #endregion
 
@@ -1647,6 +1681,10 @@ namespace RTCareerAsk.DAL
                     }
                     else
                     {
+                        IEnumerable<AVObject> msgResults = new List<AVObject>();
+                        msgResults = t.Result.GroupBy(x => x.Get<AVObject>("content").ObjectId).Select(x => x.Count() > 1 ? x.Where(y => y.ContainsKey("to")).First() : x.First());
+                        msgResults = msgResults.Where(x => !x.Get<bool>("isDeleted")).OrderByDescending(x => x.Get<bool>("isNew"));
+                        return msgResults;
                         return t.Result.GroupBy(x => x.Get<AVObject>("content").ObjectId).Select(x => x.Count() > 1 ? x.Where(y => y.ContainsKey("to")).First() : x.First()).Where(x => !x.Get<bool>("isDeleted")).OrderByDescending(x => x.Get<bool>("isNew"));
                     }
                 });
@@ -2371,6 +2409,46 @@ namespace RTCareerAsk.DAL
             await Task.WhenAll(updateTask.ToArray());
 
             return true;
+        }
+
+        public async Task<bool> CreateFakeAccount(User u)
+        {
+            AVUser user = u.CreateUserObjectForRegister();
+
+            return await user.SignUpAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return AssignFakeAccountRoles(user);
+                }).Unwrap();
+        }
+
+        public async Task<bool> AssignFakeAccountRoles(AVUser u)
+        {
+            string roleName = "User";
+
+            return await AVRole.Query.Include("users").WhereEqualTo("name", roleName).FirstAsync().ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+
+                t.Result.Get<AVRelation<AVUser>>("users").Add(u);
+
+                return t.Result.SaveAsync().ContinueWith(s =>
+                    {
+                        if (s.IsFaulted || s.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        return true;
+                    });
+            }).Unwrap();
         }
 
         #endregion

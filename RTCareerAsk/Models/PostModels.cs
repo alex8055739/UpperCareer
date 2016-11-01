@@ -59,7 +59,7 @@ namespace RTCareerAsk.Models
     {
         [Required(ErrorMessage = "请您输入评论正文")]
         [DisplayName("评论内容：")]
-        [StringLength(140, ErrorMessage = "超过字数上限，答案请不要超过140字")]
+        [StringLength(140, ErrorMessage = "超过字数上限，评论请不要超过140字")]
         public string PostContent { get; set; }
 
         public string AnswerID { get; set; }

@@ -547,6 +547,36 @@ namespace RTCareerAsk.DAL.Tests
             Assert.IsTrue(await LCDal.UpdateSubpostCountForAnswers());
         }
 
+        [TestMethod]
+        public async Task CreateFakeAccountTst()
+        {
+            List<User> fakeUsers = new List<User>();
+
+            for (int i = 2; i < 21; i++)
+            {
+                fakeUsers.Add(new User()
+                {
+                    Email = string.Format("Robot{0}@uppertest.cn", i.ToString().PadLeft(4, '0')),
+                    Password = "lwx870130",
+                    Name=string.Format("机器人{0}",i.ToString().PadLeft(4,'0')),
+                });
+            }
+
+            List<Task<bool>> tl = new List<Task<bool>>();
+
+            foreach (User u in fakeUsers)
+            {
+                tl.Add(LCDal.CreateFakeAccount(u));
+            }
+
+            await Task.WhenAll(tl.ToArray());
+
+            foreach (Task<bool> t in tl)
+            {
+                Assert.IsTrue(t.Result);
+            }
+        }
+
         #endregion
     }
 }
