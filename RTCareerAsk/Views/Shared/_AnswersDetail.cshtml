@@ -43,7 +43,7 @@
                 <div class="extra">
                     @a.CreateBefore
                     <span>@Html.ActionLink("查看详情", "AnswerDetail", "Question", new { id = a.ID }, new { })</span>
-                    <div id="@string.Format("divAnsVote{0}", a.ID)" style="display:inline">
+                    @*<div id="@string.Format("divAnsVote{0}", a.ID)" style="display:inline">
                         @if (IsAuthorized)
                         {
                             <span><a href="#" class="@Html.IsActive(true, a)">赞</a></span>
@@ -53,7 +53,7 @@
                         {
                             <span><a href="#" class="@Html.IsActive(false, a)">踩</a></span>
                         }
-                    </div>
+                    </div>*@
                 </div>
                 @if (IsAuthorized)
                 {

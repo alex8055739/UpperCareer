@@ -211,7 +211,6 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
-                throw new NotImplementedException();
                 model.SelfDescription = ModifyTextareaData(model.SelfDescription, true);
 
                 if (await AccountDa.UpdateProfile(model))
@@ -228,7 +227,6 @@ namespace RTCareerAsk.Controllers
                 }
 
                 throw new InvalidOperationException("未能成功保存信息");
-                //return PartialView("_NavBar");
             }
             catch (Exception e)
             {

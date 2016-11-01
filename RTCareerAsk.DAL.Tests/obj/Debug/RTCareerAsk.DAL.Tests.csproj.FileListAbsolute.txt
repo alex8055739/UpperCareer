@@ -1,25 +1,3 @@
-C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Debug\RTCareerAsk.DAL.Tests.dll
-C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Debug\RTCareerAsk.DAL.Tests.pdb
-C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Debug\AVOSCloud.NetFx45.dll
-C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Debug\RTCareerAsk.DAL.dll
-C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Debug\websocket-sharp.dll
-C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Debug\RTCareerAsk.DAL.pdb
-C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\bin\Debug\AVOSCloud.NetFx45.xml
-C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\obj\Debug\RTCareerAsk.DAL.Tests.csprojResolveAssemblyReference.cache
-C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\obj\Debug\RTCareerAsk.DAL.Tests.dll
-C:\Users\Administrator\Documents\Visual Studio 2012\Projects\RTCareerAsk\RTCareerAsk.DAL.Tests\obj\Debug\RTCareerAsk.DAL.Tests.pdb
-<<<<<<< HEAD
-D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.DAL.Tests\bin\Debug\RTCareerAsk.DAL.Tests.dll
-D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.DAL.Tests\bin\Debug\RTCareerAsk.DAL.Tests.pdb
-D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.DAL.Tests\bin\Debug\AVOSCloud.NetFx45.dll
-D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.DAL.Tests\bin\Debug\RTCareerAsk.DAL.dll
-D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.DAL.Tests\bin\Debug\websocket-sharp.dll
-D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.DAL.Tests\bin\Debug\RTCareerAsk.DAL.pdb
-D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.DAL.Tests\bin\Debug\AVOSCloud.NetFx45.xml
-D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.DAL.Tests\obj\Debug\RTCareerAsk.DAL.Tests.csprojResolveAssemblyReference.cache
-D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.DAL.Tests\obj\Debug\RTCareerAsk.DAL.Tests.dll
-D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk.DAL.Tests\obj\Debug\RTCareerAsk.DAL.Tests.pdb
-=======
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL.Tests\bin\Debug\RTCareerAsk.DAL.Tests.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL.Tests\bin\Debug\RTCareerAsk.DAL.Tests.pdb
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL.Tests\bin\Debug\AVOSCloud.NetFx45.dll
@@ -30,4 +8,3 @@ C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL.Tests\bin\De
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL.Tests\obj\Debug\RTCareerAsk.DAL.Tests.csprojResolveAssemblyReference.cache
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL.Tests\obj\Debug\RTCareerAsk.DAL.Tests.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL.Tests\obj\Debug\RTCareerAsk.DAL.Tests.pdb
->>>>>>> refs/remotes/alex8055739/master

@@ -77,7 +77,7 @@ function CropPortrait() {
 
 //Profile operations
 function OnProfileBegin() {
-    var loadingTab = $('#divInfoLoading').find('strong');
+    var loadingTab = $('#divInfoLoading').find('p');
     loadingTab.text('正在保存信息，请您耐心等待');
     loadingTab.append('<div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: 100%"></div></div>');
     var submitBtn = $('button[type="submit"]');
@@ -122,11 +122,11 @@ $(document).ready(function () {
                 processData: false,
                 contentType: false,
                 beforeSend: function () {
-                    var loadingTab = $('#divInfoLoading').find('strong');
+                    var loadingTab = $('#divInfoLoading').find('p');
                     loadingTab.text('正在保存头像，请您耐心等待');
                     loadingTab.append('<div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: 100%"></div></div>');
-                    $('div[id^="divInfo"]').hide();
-                    loadingTab.closest('.alert-tag').show('slow');
+                    $('div[id^="divInfo"]').stop(true, true).hide();
+                    loadingTab.closest('.alert-tag').fadeIn('slow');
                 },
                 success: function (result) {
                     $('#divNavBar').html(result);

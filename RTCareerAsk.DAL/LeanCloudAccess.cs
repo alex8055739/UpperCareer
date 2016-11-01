@@ -177,8 +177,6 @@ namespace RTCareerAsk.DAL
 
             if (!string.IsNullOrEmpty(ud.ObjectId))
             {
-                throw new NotImplementedException();
-
                 return await AVObject.GetQuery("UserDetail").GetAsync(ud.ObjectId).ContinueWith(t =>
                     {
                         if (t.IsFaulted || t.IsCanceled)
@@ -235,6 +233,10 @@ namespace RTCareerAsk.DAL
                             }
 
                             s.Result["nickname"] = ud.ForUser.Name;
+                            s.Result["title"] = ud.ForUser.Title;
+                            s.Result["gender"] = ud.ForUser.Gender;
+                            s.Result["company"] = ud.ForUser.Company;
+                            s.Result["fieldIndex"] = ud.ForUser.FieldIndex;
                             return s.Result.SaveAsync().ContinueWith(x =>
                                 {
                                     if (x.IsFaulted || x.IsCanceled)
@@ -1681,10 +1683,6 @@ namespace RTCareerAsk.DAL
                     }
                     else
                     {
-                        IEnumerable<AVObject> msgResults = new List<AVObject>();
-                        msgResults = t.Result.GroupBy(x => x.Get<AVObject>("content").ObjectId).Select(x => x.Count() > 1 ? x.Where(y => y.ContainsKey("to")).First() : x.First());
-                        msgResults = msgResults.Where(x => !x.Get<bool>("isDeleted")).OrderByDescending(x => x.Get<bool>("isNew"));
-                        return msgResults;
                         return t.Result.GroupBy(x => x.Get<AVObject>("content").ObjectId).Select(x => x.Count() > 1 ? x.Where(y => y.ContainsKey("to")).First() : x.First()).Where(x => !x.Get<bool>("isDeleted")).OrderByDescending(x => x.Get<bool>("isNew"));
                     }
                 });

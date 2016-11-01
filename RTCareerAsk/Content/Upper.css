@@ -693,9 +693,9 @@ a:focus .content-info {
 }
 
 .nav-img {
-    display: inline;
     width: 24px;
     height: 24px;
+    display: inline;
 }
 
 .file-await {
