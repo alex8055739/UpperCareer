@@ -4,11 +4,11 @@
     bool IsAdmin = ViewBag.IsAdmin != null ? Convert.ToBoolean(ViewBag.IsAdmin) : false;
 }
 <div class="question-detail">
-    <div class="box">
+    <div class="box clearfix">
         <div class="header">
             <div class="title">
-                <h4>@Model.Title</h4>
-                <p>@(Model.IsLike == null ? "没有表示" : Model.IsLike==true ? "喜欢" : "讨厌")</p>
+                <h3>@Model.Title</h3>
+                <p>(@Model.VotePositive) | (@Model.VoteNegative)</p>
             </div>
             @Html.UpperNameTag(Model.Creator)
         </div>
@@ -16,7 +16,7 @@
             @Html.Raw(HttpUtility.HtmlDecode(Model.Content))
         </div>
         <div class="action">
-            @if (Model.Creator != null && IsAuthorized)
+            @*@if (Model.Creator != null && IsAuthorized)
             {
                 if (Model.IsEditAllowed)
                 {
@@ -29,8 +29,22 @@
                 else
                 {
                 <a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" style="display: none" class="btn btn-default" aria-expanded="false" aria-controls="collapseExample">我要回答</a>
+                }*@
+            <ul class="breadcrumb">
+                @if (Model.IsEditAllowed)
+                {
+                    <li><a id="btnEditQuestion" href="#">编辑问题</a></li>
                 }
-            }
+                else if (Model.IsAnswerAllowed)
+                {
+                    <li><a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></li>
+                }
+                else
+                {
+                    <li><a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" class="not-active"><span class="glyphicon glyphicon-sglyphicon-editearch" aria-hidden="true"></span></a></li>
+                }
+                <li><a href="#" id="@string.Format("btnWrtCmt{0}", Model.ID)">评一下</a></li>
+            </ul>
         </div>
     </div>
     <div class="editor">

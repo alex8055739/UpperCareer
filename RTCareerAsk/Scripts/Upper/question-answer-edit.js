@@ -134,7 +134,8 @@ $(document).ready(function () {
                 success: function () {
                     DisplaySuccessInfo('成功删除回答！');
                     ansBlock.fadeOut('slow');
-                    $('#btnWriteAnswer').fadeIn('slow');
+                    $('#btnWriteAnswer').removeClass('not-active');
+                    //$('#btnWriteAnswer').parent().fadeIn('slow');
                     $('#btnSubmitAns').removeClass('disabled');
                     UpdateAnswerCount();
                 },

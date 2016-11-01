@@ -15,13 +15,12 @@ namespace RTCareerAsk.Controllers
     {
         #region Action
 
+        [UpperResult]
         public async Task<ActionResult> Index()
         {
             try
             {
                 ViewBag.Title = "欢迎来到Upper";
-                ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-                ViewBag.IsAdmin = IsUserAuthorized("Admin");
 
                 return View("QuestionList", await HomeDa.LoadQuestionListByPage(0));
             }

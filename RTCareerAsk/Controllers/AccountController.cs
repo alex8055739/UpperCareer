@@ -25,12 +25,11 @@ namespace RTCareerAsk.Controllers
         //
         // GET: /Account/Login
 
+        [UpperResult]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl, bool fromRegister = false)
         {
             ViewBag.Title = "请您登陆或加入Upper";
-            ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-            ViewBag.IsAdmin = IsUserAuthorized("Admin");
 
             if (fromRegister)
             {
@@ -181,6 +180,7 @@ namespace RTCareerAsk.Controllers
 
         #region Upper Exclusive
 
+        [UpperResult]
         [AllowAnonymous]
         public async Task<ActionResult> UserManage()
         {
@@ -191,8 +191,6 @@ namespace RTCareerAsk.Controllers
                     throw new InvalidOperationException("未登录不能访问此页面");
                 }
 
-                ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-                ViewBag.IsAdmin = IsUserAuthorized("Admin");
                 ViewBag.FieldList = GetFieldList();
 
                 UserManageModel model = await AccountDa.LoadUserManageInfo(GetUserID());

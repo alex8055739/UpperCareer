@@ -13,13 +13,14 @@ namespace RTCareerAsk.Controllers
 {
     public class UserController : UpperBaseController
     {
+        [UpperResult]
         public async Task<ActionResult> Index(string id)
         {
             try
             {
                 ViewBag.Title = "浏览用户信息";
-                ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-                ViewBag.IsAdmin = IsUserAuthorized("Admin");
+                //ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
+                //ViewBag.IsAdmin = IsUserAuthorized("Admin");
                 ViewBag.IsSelf = HasUserInfo ? GetUserID() == id : false;
 
                 UserDetailModel model = await UserDa.LoadUserDetail(id, HasUserInfo ? GetUserID() : "");
