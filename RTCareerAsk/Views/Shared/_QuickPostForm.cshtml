@@ -1,0 +1,24 @@
+﻿@model RTCareerAsk.Models.QuestionPostModel
+
+@using (Ajax.BeginForm("PostQuestion", "Question", null, new AjaxOptions
+{
+    UpdateTargetId = "divQuestionList",
+    OnBegin = "OnQuickPostBegin",
+    OnSuccess = "OnQuickPostSuccess",
+    OnComplete = "OnQuickPostComplete",
+    OnFailure = "OnQuickPostFailure"
+}, new { id = "formQuickPost" }))
+{
+    <div class="form-group has-success">
+        <div class="input-group">
+            @Html.TextBoxFor(model => model.PostTitle, new { placeholder = "今天你在职场中遇到了什么问题？", @class = "form-control" })
+            <span class="input-group-btn">
+                <input type="submit" class="btn btn-success" value="提问" />
+            </span>
+        </div>
+        @Html.ValidationMessageFor(model => model.PostTitle, "", new { @class = "validation-msg" })
+    </div>
+}
+<script type="text/javascript">
+    $.validator.unobtrusive.parse("#formQuickPost");
+</script>

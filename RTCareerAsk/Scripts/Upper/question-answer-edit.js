@@ -253,19 +253,63 @@ $(document).ready(function () {
         });
     });
 
-    //$(document).on('click', '', function (e) {
-    //    e.preventDefault();
-    //});
+    $(document).on('click', '.question-detail .action .like', function (e) {
+        e.preventDefault();
+
+        var $this = $(this),
+            classNonActive = 'not-active',
+            classNew = 'new',
+            classIndex = 'count',
+            classButton = 'like',
+            wrap = $this.parent(),
+            opposite = $this.siblings('.' + classButton),
+            isLike = $this.data('islike') == true,
+            isUpdate = !$this.hasClass(classNew),
+            data = new Object();
+
+        data.TargetID = $this.data('id');
+        data.Type = $this.data('type');
+        data.IsLike = isLike;
+        data.IsUpdate = isUpdate;
+
+        $.ajax({
+            type: "POST",
+            url: "/Question/SaveVote",
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            beforeSend: function () {
+                wrap.children('.' + classButton).addClass(classNonActive);
+            },
+            success: function () {
+                wrap.children('.' + classNew).removeClass(classNew);
+                opposite.removeClass(classNonActive);
+                $this.find('.' + classIndex).html(parseInt($this.find('.' + classIndex).html()) + 1);
+                if (isUpdate) {
+                    opposite.find('.' + classIndex).html(parseInt(opposite.find('.' + classIndex).html()) - 1);
+                }
+            },
+            error: function () {
+                DisplayErrorInfo('投票操作出现问题……');
+                if (isUpdate) {
+                    $this.removeClass(classNonActive);
+                }
+                else {
+                    wrap.children().removeClass(classNonActive);
+                }
+            }
+        });
+    });
 
     $(document).on('click', '.arrow', function (e) {
         e.preventDefault();
+
         var $this = $(this),
             classNonActive = 'not-active',
             classNew = 'new',
             classIndex = 'votes',
             classButton = 'arrow',
             wrap = $this.parent(),
-            opposite = $this.siblings('.arrow'),
+            opposite = $this.siblings('.' + classButton),
             isLike = $this.children('a').hasClass('up'),
             isUpdate = !$this.hasClass(classNew),
             data = new Object();

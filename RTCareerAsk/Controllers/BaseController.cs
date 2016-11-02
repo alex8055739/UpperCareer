@@ -103,7 +103,7 @@ namespace RTCareerAsk.Controllers
                 case "The username and password mismatch.":
                     return "用户名与密码不匹配";
                 case "Email address isn't verified.":
-                    return "邮箱地址未验证，请验证后登陆";
+                    return "邮箱地址未验证，请验证后登录";
                 case "Username has already been taken":
                     return "用户名已经被占用";
                 default:

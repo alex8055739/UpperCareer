@@ -736,6 +736,7 @@
     <Content Include="Views\Shared\_AnswerList.cshtml" />
     <Content Include="Views\Shared\_ForgetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordSuccess.cshtml" />
+    <Content Include="Views\Shared\_QuickPostForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

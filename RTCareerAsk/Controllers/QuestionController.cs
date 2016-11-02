@@ -75,6 +75,8 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
+                System.Threading.Thread.Sleep(2000);
+
                 if (!ModelState.IsValid)
                 {
                     throw new InvalidOperationException("用户输入的信息不符合要求");

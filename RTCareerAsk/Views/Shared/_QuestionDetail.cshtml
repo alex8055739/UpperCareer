@@ -32,18 +32,40 @@
             <ul class="breadcrumb">
                 @if (Model.IsEditAllowed)
                 {
-                    <li><a id="btnEditQuestion" href="#">编辑问题</a></li>
+                    <li>
+                        <a id="btnEditQuestion" href="#">编辑问题</a>
+                    </li>
                 }
                 else if (Model.IsAnswerAllowed)
                 {
-                    <li><a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;回答</a></li>
+                    <li>
+                        <a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            &nbsp;回答
+                        </a>
+                    </li>
                 }
                 else
                 {
-                    <li><a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" class="not-active"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>回答</a></li>
+                    <li>
+                        <a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" class="not-active">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            &nbsp;回答
+                        </a>
+                    </li>
                 }
-                <li><a href="#" id=""><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;推荐(@Model.VotePositive)</a></li>
-                <li><a href="#" id=""><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>&nbsp;太水(@Model.VoteNegative)</a></li>
+                <li class="like @Html.IsActive(true, Model)" data-islike="true" data-id="@Model.ID" data-type="0">
+                    <a href="#" id="">
+                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                        &nbsp;推荐(<span class="count">@Model.VotePositive</span>)
+                    </a>
+                </li>
+                <li class="like @Html.IsActive(false, Model)" data-islike="false" data-id="@Model.ID" data-type="0">
+                    <a href="#" id="">
+                        <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                        &nbsp;太水(<span class="count">@Model.VoteNegative</span>)
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

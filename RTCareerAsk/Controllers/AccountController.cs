@@ -29,7 +29,7 @@ namespace RTCareerAsk.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl, bool fromRegister = false)
         {
-            ViewBag.Title = "请您登陆或加入Upper";
+            ViewBag.Title = "请您登录或加入Upper";
 
             if (fromRegister)
             {

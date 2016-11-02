@@ -217,9 +217,14 @@ a:focus .content-info {
         font-size: 14px;
     }
 
-        /*.question-detail .action > .votes {
-            font-size: 14px;
-        }*/
+        .question-detail .action .not-active {
+            pointer-events: none;
+            cursor: default;
+        }
+
+            .question-detail .action .not-active > a {
+                color: #aaaaaa;
+            }
 
     .question-detail .editor {
     }

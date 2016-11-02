@@ -7,7 +7,7 @@ using RTCareerAsk.DAL.Domain;
 namespace RTCareerAsk.Models
 {
     /// <summary>
-    /// 用于保存用户登陆后返回的信息，并保存于Session中。
+    /// 用于保存用户登录后返回的信息，并保存于Session中。
     /// </summary>
     public class UserInfoModel
     {

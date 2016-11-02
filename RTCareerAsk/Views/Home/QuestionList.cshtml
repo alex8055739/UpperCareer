@@ -31,7 +31,16 @@
 }
 
 @section featured{
-    @*<div class="featured-section">
+    @if (ViewBag.IsAuthorized)
+    {
+        <div style="max-width: 700px; margin: 0 auto; background-color: #f7f7f7">
+            <div style="padding: 15px">
+                @Html.Partial("_QuickPostForm", new RTCareerAsk.Models.QuestionPostModel())
+            </div>
+        </div>
+    }
+    
+@*<div class="featured-section">
         <div class="left">
             <div id="divCarousel" class="carousel slide" data-ride="carousel" style="width: 100%; overflow: hidden">
                 <!-- Indicators -->

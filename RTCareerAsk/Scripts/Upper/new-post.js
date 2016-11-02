@@ -33,7 +33,6 @@ function OnAnsSuccess() {
 
     $('#btnSubmitAns').addClass('disabled');
     $('#btnWriteAnswer').addClass('not-active');
-    //$('#btnWriteAnswer').parent().fadeOut('slow');
 }
 
 function OnCmtSuccess(ansId) {
@@ -49,13 +48,9 @@ function OnCmtSuccess(ansId) {
     $('html,body').animate({ scrollTop: offset }, 600);
 }
 
-function OnPostComplete() {
-    //alert('提问操作完成！');
-}
+function OnPostComplete() { }
 
-function OnAnsComplete() {
-    //alert('回答操作完成！');
-}
+function OnAnsComplete() { }
 
 function OnCmtComplete() {
     UpdateCmtCount();
@@ -90,4 +85,29 @@ function OnLetterComplete() {
 
 function OnLetterFailure() {
     DisplayErrorInfo('发送信件出现问题，请您查看……');
+}
+
+function OnQuickPostBegin() {
+    var submitBtn = $('#formQuickPost').find('input[type="submit"]');
+
+    submitBtn.addClass('disabled').val('正在提交...');
+}
+
+function OnQuickPostSuccess() {
+    DisplaySuccessInfo('恭喜，您已成功发布问题！')
+
+    if ($('.tab-content').length > 0 && $('.tab-sorting:contains("最新")').length > 0) {
+        $('.tab-content:contains("问题")').parent().trigger('click');
+        $('.tab-sorting:contains("最新")').parent().trigger('click');
+    }
+
+    $('#formQuickPost').find('input[type="text"]').val('');
+    $('#formQuickPost').find('input[type="submit"]').removeClass('disabled').val('提问');
+}
+
+function OnQuickPostComplete() { }
+
+function OnQuickPostFailure() {
+    DisplayErrorInfo('提交问题出现问题，请您重试……');
+    $('#formQuickPost').find('input[type="submit"]').removeClass('disabled').val('提问');
 }

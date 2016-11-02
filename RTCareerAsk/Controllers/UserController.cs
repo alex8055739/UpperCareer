@@ -44,7 +44,7 @@ namespace RTCareerAsk.Controllers
                 }
                 else
                 {
-                    throw new OperationCanceledException("您还未登陆，不能关注");
+                    throw new OperationCanceledException("您还未登录，不能关注");
                 }
             }
             catch (Exception e)
@@ -64,7 +64,7 @@ namespace RTCareerAsk.Controllers
                 }
                 else
                 {
-                    throw new OperationCanceledException("您还未登陆，不能关注");
+                    throw new OperationCanceledException("您还未登录，不能关注");
                 }
             }
             catch (Exception e)
