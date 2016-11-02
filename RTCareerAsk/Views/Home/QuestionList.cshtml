@@ -16,14 +16,6 @@
     tabContent.HtmlAttrs.Add("class", "tab-content");
 }
 
-<ul class="pseudo">
-    <li>
-        <a href="#" class="not-active">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-        </a>
-    </li>
-</ul>
-
 <div style="max-width: 700px; margin: 0 auto">
     <div class="content-info-tab">
         @Ajax.UpperTab(tabContent, null)
@@ -36,15 +28,6 @@
 
 @section scripts{
     @Scripts.Render("~/bundles/homepage")
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('div.pseudo').click(function (e) {
-                e.preventDefault();
-                $(this).children().toggleClass('not-active');
-                $(this).css('color', 'red');
-            });
-        });
-    </script>
 }
 
 @section featured{

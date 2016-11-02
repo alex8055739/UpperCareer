@@ -11,7 +11,7 @@
         data: JSON.stringify(data),
         contentType: "application/json",
         beforeSend: function () {
-            triggerTarget.addClass('disabled').text('保存更新中……');
+            triggerTarget.addClass('not-active').text('保存更新中……');
         },
         success: function () {
             DisplaySuccessInfo('内容更新成功！');
@@ -58,7 +58,7 @@ $(document).ready(function () {
             CKEDITOR.inline(qContent.attr('id'));
             qContent.focus();
 
-            $(this).removeClass('btn-warning').addClass('btn-success').text('保存修改');
+            $(this).text('保存修改').css('color', 'red');
         }
         else {
             var data = CKEDITOR.instances[qContent.attr('id')].getData();
@@ -86,7 +86,7 @@ $(document).ready(function () {
                     }
                 });
             ansTxt.focus();
-            $(this).text('保存修改').attr('style', 'color:red');
+            $(this).text('保存修改').css('color', 'red');
         }
         else {
             var data = CKEDITOR.instances[ansTxt.attr('id')].getData();
@@ -99,11 +99,11 @@ $(document).ready(function () {
 
         qContent.removeAttr('contenteditable');
         CKEDITOR.instances[qContent.attr('id')].destroy();
-        $(this).removeClass('btn-success').removeClass('disabled').addClass('btn-warning').text('编辑问题');
+        $(this).text('编辑问题').removeAttr('style').removeClass('not-active');
     });
 
     $(document).on('updateSuccess', 'a[id^="btnAnsEdt"]', function () {
-        $(this).removeAttr('style').text('编辑');
+        $(this).removeAttr('style').removeClass('not-active').text('编辑');
 
         var ansTxt = $('#divAnsTxt' + $(this).attr('id').replace('btnAnsEdt', ''));
         ansTxt.removeAttr('contenteditable');
@@ -111,11 +111,11 @@ $(document).ready(function () {
     });
 
     $('#btnEditQuestion').on('updateError', function () {
-        $(this).removeClass('disabled').text('保存修改');
+        $(this).removeClass('not-active').text('保存修改');
     });
 
-    $('a[id^="btnAnsEdt"]').on('updateError', function () {
-        $(this).removeClass('disabled').text('保存修改');
+    $(document).on('updateError', 'a[id^="btnAnsEdt"]', function () {
+        $(this).removeClass('not-active').text('保存修改');
     });
 
     $(document).on('click', 'a[id^="btnAnsDel"]', function (e) {
@@ -253,11 +253,17 @@ $(document).ready(function () {
         });
     });
 
+    //$(document).on('click', '', function (e) {
+    //    e.preventDefault();
+    //});
+
     $(document).on('click', '.arrow', function (e) {
         e.preventDefault();
         var $this = $(this),
             classNonActive = 'not-active',
             classNew = 'new',
+            classIndex = 'votes',
+            classButton = 'arrow',
             wrap = $this.parent(),
             opposite = $this.siblings('.arrow'),
             isLike = $this.children('a').hasClass('up'),
@@ -275,14 +281,14 @@ $(document).ready(function () {
             data: JSON.stringify(data),
             contentType: 'application/json',
             beforeSend: function () {
-                wrap.children('.arrow').addClass(classNonActive);
+                wrap.children('.' + classButton).addClass(classNonActive);
             },
             success: function () {
-                wrap.children('.new').removeClass(classNew);
+                wrap.children('.' + classNew).removeClass(classNew);
                 opposite.removeClass(classNonActive);
-                $this.find('.votes').html(parseInt($this.find('.votes').html()) + 1);
+                $this.find('.' + classIndex).html(parseInt($this.find('.' + classIndex).html()) + 1);
                 if (isUpdate) {
-                    opposite.find('.votes').html(parseInt(opposite.find('.votes').html()) - 1);
+                    opposite.find('.' + classIndex).html(parseInt(opposite.find('.' + classIndex).html()) - 1);
                 }
             },
             error: function () {

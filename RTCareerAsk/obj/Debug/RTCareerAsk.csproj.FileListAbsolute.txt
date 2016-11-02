@@ -270,7 +270,6 @@ D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk\bin\zh-Hant\System.Spatial.resourc
 D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk\obj\Debug\RTCareerAsk.csprojResolveAssemblyReference.cache
 D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk\obj\Debug\RTCareerAsk.dll
 D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk\obj\Debug\RTCareerAsk.pdb
-C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.Http.OData.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\RTCareerAsk.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\RTCareerAsk.pdb
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\Antlr3.Runtime.dll
@@ -294,6 +293,7 @@ C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Net.H
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Spatial.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.Helpers.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.Http.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.Http.OData.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.Http.WebHost.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.Mvc.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.Optimization.dll

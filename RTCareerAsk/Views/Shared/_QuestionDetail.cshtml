@@ -8,7 +8,6 @@
         <div class="header">
             <div class="title">
                 <h3>@Model.Title</h3>
-                <p>(@Model.VotePositive) | (@Model.VoteNegative)</p>
             </div>
             @Html.UpperNameTag(Model.Creator)
         </div>
@@ -37,13 +36,14 @@
                 }
                 else if (Model.IsAnswerAllowed)
                 {
-                    <li><a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></li>
+                    <li><a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;回答</a></li>
                 }
                 else
                 {
-                    <li><a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" class="not-active"><span class="glyphicon glyphicon-sglyphicon-editearch" aria-hidden="true"></span></a></li>
+                    <li><a href="#divAnsForm" id="btnWriteAnswer" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" class="not-active"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>回答</a></li>
                 }
-                <li><a href="#" id="@string.Format("btnWrtCmt{0}", Model.ID)">评一下</a></li>
+                <li><a href="#" id=""><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;推荐(@Model.VotePositive)</a></li>
+                <li><a href="#" id=""><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>&nbsp;太水(@Model.VoteNegative)</a></li>
             </ul>
         </div>
     </div>
