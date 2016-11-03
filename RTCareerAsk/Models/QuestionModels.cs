@@ -156,7 +156,7 @@ namespace RTCareerAsk.Models
             ConvertCommentObjectToModel(co);
         }
 
-        public bool IsReplyAllowed { get; set; }
+        public bool IsDeleteAllowed { get; set; }
 
         private void ConvertCommentObjectToModel(Comment co)
         {

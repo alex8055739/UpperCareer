@@ -54,13 +54,13 @@
                         </a>
                     </li>
                 }
-                <li class="like @Html.IsActive(true, Model)" data-islike="true" data-id="@Model.ID" data-type="0">
+                <li class="@Html.AssignUnauthorizedClass(IsAuthorized) like @Html.IsActive(true, Model)" data-islike="true" data-id="@Model.ID" data-type="0">
                     <a href="#" id="">
                         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                         &nbsp;推荐(<span class="count">@Model.VotePositive</span>)
                     </a>
                 </li>
-                <li class="like @Html.IsActive(false, Model)" data-islike="false" data-id="@Model.ID" data-type="0">
+                <li class="@Html.AssignUnauthorizedClass(IsAuthorized) like @Html.IsActive(false, Model)" data-islike="false" data-id="@Model.ID" data-type="0">
                     <a href="#" id="">
                         <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                         &nbsp;太水(<span class="count">@Model.VoteNegative</span>)

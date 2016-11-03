@@ -1,0 +1,32 @@
+﻿@model RTCareerAsk.Models.LoginModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4>您需要登录来完成操作：</h4>
+    </div>
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "formQuickLogin", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="modal-body">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "请输入电子邮箱" })
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "请输入密码" })
+            </div>
+            <div>
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "validation-msg" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "validation-msg" })
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" value="登录" />
+            @Html.ActionLink("去注册", "Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl, fromRegister = true }, new { @class = "btn btn-link" })
+        </div>
+    }
+    <script type="text/javascript">
+        $.validator.unobtrusive.parse("#formQuickLogin");
+    </script>
+</div>

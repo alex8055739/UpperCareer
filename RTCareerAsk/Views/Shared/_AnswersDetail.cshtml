@@ -21,13 +21,13 @@
     <div class="body">
         <div id="@string.Format("divAns{0}", a.ID)" class="wrap clearfix">
             <div data-id="@a.ID" data-type="1" style="min-width:55px">
-                <div class="arrow @Html.IsActive(true, a)">
+                <div class="arrow @Html.IsActive(true, a) @Html.AssignUnauthorizedClass(IsAuthorized)">
                     <a href="#" class="up">
                         <div></div>
                         <div class="votes">@a.VotePositive</div>
                     </a>
                 </div>
-                <div class="arrow @Html.IsActive(false, a)">
+                <div class="arrow @Html.IsActive(false, a) @Html.AssignUnauthorizedClass(IsAuthorized)">
                     <a href="#" class="down">
                         <div class="votes">@a.VoteNegative</div>
                         <div></div>
@@ -55,21 +55,18 @@
                         }
                     </div>*@
                 </div>
-                @if (IsAuthorized)
-                {
-                    <div class="float-right">
-                        <ul class="breadcrumb">
-                            @if (a.IsEditAllowed)
-                            {
-                                <li><a href="#" role="button" id="@string.Format("btnAnsEdt{0}", a.ID)">编辑</a></li>
-                                <li><a href="#" role="button" id="@string.Format("btnAnsDel{0}", a.ID)">删除</a></li>
-                            }
-                            <li><a href="#" id="@string.Format("btnWrtCmt{0}", a.ID)">评一下</a></li>
-                            <li><a href="@string.Format("#divCmtList{0}", a.ID)" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" class="CmtCount">评论<span style="font-size: 13px">(@a.Comments.Count)</span>
-                            </a></li>
-                        </ul>
-                    </div>
-                }
+                <div class="float-right">
+                    <ul class="breadcrumb">
+                        @if (a.IsEditAllowed)
+                        {
+                            <li><a href="#" role="button" id="@string.Format("btnAnsEdt{0}", a.ID)">编辑</a></li>
+                            <li><a href="#" role="button" id="@string.Format("btnAnsDel{0}", a.ID)">删除</a></li>
+                        }
+                        <li><a href="#" id="@string.Format("btnWrtCmt{0}", a.ID)" class="@Html.AssignUnauthorizedClass(IsAuthorized)">评一下</a></li>
+                        <li><a href="@string.Format("#divCmtList{0}", a.ID)" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" class="CmtCount">评论<span style="font-size: 13px">(@a.Comments.Count)</span>
+                        </a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         @if (IsAuthorized)

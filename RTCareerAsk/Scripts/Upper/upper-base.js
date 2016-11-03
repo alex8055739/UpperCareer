@@ -79,9 +79,36 @@ function RemoveHtml(originString) {
     return container.innerHTML.replace(/&nbsp;/g, '').trim(); // innerHTML will be a xss safe string
 }
 
+function TriggerLoginModal() {
+    var data = new Object();
+
+    data.returnUrl = window.location.pathname;
+
+    $.ajax({
+        type: "POST",
+        url: "/Account/QuickLoginForm",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        dataType: "html",
+        success: function (response) {
+            $('#divModal').children().html(response);
+            $('#divModal').modal('show');
+        },
+        error: function () {
+            DisplayErrorInfo("加载快速登录页面失败");
+        }
+    });
+}
+
 $(document).ready(function () {
     $(document).on('click', 'button.close', function () {
         $(this).closest('.alert-tag').stop(true, true).fadeOut('fast');
+    });
+
+    $('.redirect-login').click(function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        TriggerLoginModal();
     });
 
     $('#btnPostQuestion').click(function (e) {
@@ -114,6 +141,16 @@ $(document).ready(function () {
         });
     })
 
+    $('#lnkTestRedirect').click(function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        TriggerLoginModal();
+    });
+
+    $('#lnkTestRedirect').click(function (e) {
+        e.preventDefault();
+        alert('Event2')
+    });
     //$(document).on('submit', '.include-textarea', function (e) {
     //    e.preventDefault();
     //    var textArea = $(this).find('textarea');

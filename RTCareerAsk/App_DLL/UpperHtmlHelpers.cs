@@ -14,6 +14,13 @@ namespace RTCareerAsk.App_DLL
         private static string _defaultPortrait = "/Images/defaultPortrait.png";
 
         #region Helper
+        public static string AssignUnauthorizedClass(this HtmlHelper html, bool isAuthorized)
+        {
+            string unauthorizedClass = "redirect-login";
+
+            return !isAuthorized ? unauthorizedClass : string.Empty;
+        }
+
         public static string IsSelected(this HtmlHelper html, string controllers = "", string actions = "", string cssClass = "active")
         {
             ViewContext viewContext = html.ViewContext;

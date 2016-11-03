@@ -262,9 +262,9 @@ namespace RTCareerAsk.Controllers
         {
             foreach (CommentModel cmt in models)
             {
-                if (cmt.Creator.UserID != GetUserID())
+                if (cmt.Creator.UserID == GetUserID())
                 {
-                    cmt.IsReplyAllowed = true;
+                    cmt.IsDeleteAllowed = true;
                 }
             }
 

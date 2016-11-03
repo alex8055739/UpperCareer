@@ -35,9 +35,14 @@ namespace RTCareerAsk.Controllers
             {
                 ViewBag.FromRegister = true;
                 ViewBag.ReturnUrl = returnUrl;
-                ModelState.AddModelError("", TempData["errorMsg"].ToString());
+                bool hasTempData = (TempData["errorMsg"] != null) && (TempData["regiModel"] != null);
 
-                return View(new LoginRegiModel() { Register = TempData["regiModel"] as RegisterModel });
+                if (hasTempData)
+                {
+                    ModelState.AddModelError("", TempData["errorMsg"].ToString());
+                }
+
+                return View(new LoginRegiModel() { Register = hasTempData ? TempData["regiModel"] as RegisterModel : new RegisterModel() });
             }
 
             ViewBag.ReturnUrl = returnUrl;
@@ -215,9 +220,9 @@ namespace RTCareerAsk.Controllers
 
                 if (await AccountDa.UpdateProfile(model))
                 {
-                    return await UpdateUserInfo(new Dictionary<string, object>() { { "Name", model.Name } }).ContinueWith(t=>
+                    return await UpdateUserInfo(new Dictionary<string, object>() { { "Name", model.Name } }).ContinueWith(t =>
                         {
-                            if (t.IsFaulted||t.IsCanceled)
+                            if (t.IsFaulted || t.IsCanceled)
                             {
                                 throw t.Exception;
                             }
@@ -227,6 +232,22 @@ namespace RTCareerAsk.Controllers
                 }
 
                 throw new InvalidOperationException("未能成功保存信息");
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult QuickLoginForm(string returnUrl)
+        {
+            try
+            {
+                ViewBag.returnUrl = returnUrl;
+
+                return PartialView("_QuickLoginModal", new LoginModel());
             }
             catch (Exception e)
             {
