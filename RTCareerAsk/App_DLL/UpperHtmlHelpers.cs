@@ -14,11 +14,9 @@ namespace RTCareerAsk.App_DLL
         private static string _defaultPortrait = "/Images/defaultPortrait.png";
 
         #region Helper
-        public static string AssignUnauthorizedClass(this HtmlHelper html, bool isAuthorized)
+        public static string AssignClassWithCondition(this HtmlHelper html, bool condition, string className)
         {
-            string unauthorizedClass = "redirect-login";
-
-            return !isAuthorized ? unauthorizedClass : string.Empty;
+            return condition ? className : string.Empty;
         }
 
         public static string IsSelected(this HtmlHelper html, string controllers = "", string actions = "", string cssClass = "active")
@@ -44,11 +42,6 @@ namespace RTCareerAsk.App_DLL
 
             return acceptedActions.Contains(currentAction) && acceptedControllers.Contains(currentController) ?
                 cssClass : String.Empty;
-        }
-
-        public static string IsSelf(this HtmlHelper html, bool isSelf, string cssClass = "self")
-        {
-            return isSelf ? cssClass : String.Empty;
         }
 
         public static string IsActive(this HtmlHelper html, bool isLikeBtn, QuestionModel model, string cssClass = "not-active")
@@ -155,7 +148,7 @@ namespace RTCareerAsk.App_DLL
 
         public static IHtmlString UpperNameTag(this HtmlHelper html, UserModel model, object htmlAttributes)
         {
-            string defaultTitle = "【未提供个人信息】";
+            string defaultTitle = "[未提供个人信息]";
             string defaultDivider = "|";
 
             TagBuilder nameTag = new TagBuilder("div");

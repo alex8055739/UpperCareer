@@ -114,7 +114,7 @@ namespace RTCareerAsk.Controllers
 
                 if (await QuestionDa.PostNewAnswer(a))
                 {
-                    return PartialView("_AnswersDetail", SetFlagsForActions(await QuestionDa.GetAnswerModels(GetUserID(), a.QuestionID)));
+                    return PartialView("_AnswersDetail", SetFlagsForActions(await QuestionDa.GetAnswerModels(GetUserID(), a.QuestionID, 0, true)));
                 }
 
                 throw new InvalidOperationException("保存答案失败，请再次尝试");
@@ -190,6 +190,25 @@ namespace RTCareerAsk.Controllers
             }
         }
 
+        [UpperResult]
+        [HttpPost]
+        public async Task<PartialViewResult> LoadAnswersDetails(string targetId, int pageIndex, int contentType)
+        {
+            try
+            {
+                string userId = HasUserInfo ? GetUserID() : string.Empty;
+
+                List<AnswerModel> results = await QuestionDa.GetAnswerModels(userId, targetId, pageIndex, contentType == 1 ? true : false);
+
+                return PartialView("_AnswersDetail", SetFlagsForActions(results));
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
         private QuestionModel SetFlagsForActions(QuestionModel model)
         {
             if (HasUserInfo)
@@ -242,16 +261,19 @@ namespace RTCareerAsk.Controllers
 
         private List<AnswerModel> SetFlagsForActions(List<AnswerModel> models)
         {
-            foreach (AnswerModel ans in models)
+            if (HasUserInfo)
             {
-                if (ans.Creator.UserID == GetUserID())
+                foreach (AnswerModel ans in models)
                 {
-                    ans.IsEditAllowed = true;
-                }
+                    if (ans.Creator.UserID == GetUserID())
+                    {
+                        ans.IsEditAllowed = true;
+                    }
 
-                if (ans.Comments.Count > 0)
-                {
-                    ans.Comments = SetFlagsForActions(ans.Comments);
+                    if (ans.Comments.Count > 0)
+                    {
+                        ans.Comments = SetFlagsForActions(ans.Comments);
+                    }
                 }
             }
 

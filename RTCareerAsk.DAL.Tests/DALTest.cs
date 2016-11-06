@@ -412,6 +412,17 @@ namespace RTCareerAsk.DAL.Tests
             Assert.IsTrue(await LCDal.PerformVote(v));
         }
 
+        [TestMethod]
+        public async Task LoadAnswersByQuestionTest()
+        {
+            string userId = "5796cfbb0a2b580061cfd397";
+            string questionId = "5816af9ea22b9d00678f00b7";
+            int pageIndex = 0;
+            bool isHottestFirst = true;
+
+            Assert.AreEqual(10, await LCDal.LoadAnswersByQuestion(userId, questionId, pageIndex, isHottestFirst).ContinueWith(t => t.Result.Count()));
+        }
+
         #endregion
 
         #region Practice Test
@@ -558,7 +569,7 @@ namespace RTCareerAsk.DAL.Tests
                 {
                     Email = string.Format("Robot{0}@uppertest.cn", i.ToString().PadLeft(4, '0')),
                     Password = "lwx870130",
-                    Name=string.Format("机器人{0}",i.ToString().PadLeft(4,'0')),
+                    Name = string.Format("机器人{0}", i.ToString().PadLeft(4, '0')),
                 });
             }
 
@@ -575,6 +586,15 @@ namespace RTCareerAsk.DAL.Tests
             {
                 Assert.IsTrue(t.Result);
             }
+        }
+
+        [TestMethod]
+        public async Task ChangeMessageSenderTst()
+        {
+            string msgId = "578fa714128fe10063d73522";
+            string userId = "5796c9640a2b580061cf61e2";
+
+            Assert.IsTrue(await LCDal.ChangeMessageSender(msgId, userId));
         }
 
         #endregion

@@ -4,7 +4,14 @@
     <div class="basic">
         <div>
             <h3>@Model.Name</h3>
-            <p class="extra"><span style="margin-right: 0.5em">@Model.Company</span>|<span style="margin-left: 0.5em">@Model.Title</span></p>
+            @if (string.IsNullOrEmpty(Model.Company) && string.IsNullOrEmpty(Model.Title))
+            {
+                <p class="extra"><span style="margin-right: 0.5em">[未提供个人信息]</span></p>
+            }
+            else
+            {
+                <p class="extra"><span style="margin-right: 0.5em">@(string.IsNullOrEmpty(Model.Company)?"[无公司信息]":Model.Company)</span>|<span style="margin-left: 0.5em">@(string.IsNullOrEmpty(Model.Title)?"[无头衔信息]":Model.Title)</span></p>
+            }
         </div>
         @Html.UpperPortrait(Model.Portrait, PortraitSize.Medium)
     </div>

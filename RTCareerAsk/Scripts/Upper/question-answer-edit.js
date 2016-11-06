@@ -2,7 +2,7 @@
     var data = new Object();
     data.isQuestion = isQuestion;
     data.id = id;
-    data.content = WrapImageContent(content);
+    data.content = content;
 
     var triggerTarget = isQuestion == 'true' ? $('#btnEditQuestion') : $('#btnAnsEdt' + id);
 
@@ -356,7 +356,4 @@ $(document).ready(function () {
 
         $('#btnWrtCmt' + ansId).text('评一下');
     });
-
-    Resize();
-    $('div[id^="divAnsTxt"]').uppershorten();
 });

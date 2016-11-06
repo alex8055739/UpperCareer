@@ -8,9 +8,7 @@
     </div>
 }
 
-<div id="divAnswerList" class="answer-detail" style="margin: 0 auto">
-    @Html.Partial("_AnswersDetail", Model.Answers)
-</div>
+@Html.Partial("_AnswersDetail", Model.Answers)
 
 @section scripts{
     @Scripts.Render("~/bundles/question")

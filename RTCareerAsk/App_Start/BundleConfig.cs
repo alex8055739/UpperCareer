@@ -30,6 +30,7 @@ namespace RTCareerAsk
             bundles.Add(new ScriptBundle("~/bundles/question").Include(
                         "~/Scripts/Upper/fix-image-display.js",
                         "~/Scripts/Upper/upper-shorten.js",
+                        "~/Scripts/Upper/upper-scrollpaging.js",
                         "~/Scripts/Upper/question-answer-edit.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/answer").Include(

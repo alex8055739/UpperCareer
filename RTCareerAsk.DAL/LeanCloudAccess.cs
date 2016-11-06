@@ -703,7 +703,12 @@ namespace RTCareerAsk.DAL
         {
             AVUser u = AVUser.CreateWithoutData("_User", userId) as AVUser;
 
-            return await AVObject.GetQuery("Answer").Include("forQuestion").WhereEqualTo("createdBy", u).Limit(10).OrderByDescending("createdAt").FindAsync().ContinueWith(t =>
+            return await AVObject.GetQuery("Answer")
+                .Include("forQuestion")
+                .WhereEqualTo("createdBy", u)
+                .Limit(10)
+                .OrderByDescending("createdAt")
+                .FindAsync().ContinueWith(t =>
                 {
                     if (t.IsFaulted || t.IsCanceled)
                     {
@@ -956,7 +961,8 @@ namespace RTCareerAsk.DAL
         {
             try
             {
-                return await FindAnswersByQuestion(userId, questionId).ContinueWith(t =>
+                //return await FindAnswersByQuestion(userId, questionId).ContinueWith(t =>
+                return await LoadAnswersByQuestion(userId, questionId, 0, true).ContinueWith(t =>
                 {
                     if (t.IsFaulted || t.IsCanceled)
                     {
@@ -1010,6 +1016,7 @@ namespace RTCareerAsk.DAL
                 return await AVObject.GetQuery("Answer")
                     .Include("createdBy")
                     .WhereEqualTo("forQuestion", AVObject.CreateWithoutData("Post", questionId))
+                    .OrderByDescending("voteDiff")
                     .FindAsync()
                     .ContinueWith(t =>
                     {
@@ -1020,6 +1027,69 @@ namespace RTCareerAsk.DAL
 
                         return GetAnswersWithComments(userId, t.Result);
                     }).Unwrap();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// 读取一条问题下的一页答案。
+        /// </summary>
+        /// <param name="userId">发起请求的用户ID</param>
+        /// <param name="questionId">指定问题的ID</param>
+        /// <param name="pageIndex">页码</param>
+        /// <param name="isHottestFirst">是否按最热优先排序</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<Answer>> LoadAnswersByQuestion(string userId, string questionId, int pageIndex, bool isHottestFirst)
+        {
+            try
+            {
+                int pageLimit = 10;
+                List<AVObject> answers = new List<AVObject>();
+
+                AVQuery<AVObject> queryUserAnswer = AVObject.GetQuery("Answer")
+                    .Include("createdBy")
+                    .WhereEqualTo("createdBy", AVObject.CreateWithoutData("_User", userId) as AVUser)
+                    .WhereEqualTo("forQuestion", AVObject.CreateWithoutData("Post", questionId))
+                    .OrderByDescending("createdAt");
+
+                AVQuery<AVObject> queryRestAnswers = AVObject.GetQuery("Answer")
+                    .Include("createdBy")
+                    .WhereEqualTo("forQuestion", AVObject.CreateWithoutData("Post", questionId))
+                    .OrderByDescending(isHottestFirst ? "voteDiff" : "createdAt")
+                    .Skip(pageIndex * pageLimit)
+                    .Limit(pageLimit);
+
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    queryRestAnswers = queryRestAnswers.WhereNotEqualTo("createdBy", AVObject.CreateWithoutData("_User", userId) as AVUser);
+
+                    if (pageIndex == 0)
+                    {
+                        answers.AddRange(await queryUserAnswer.FindAsync().ContinueWith(t =>
+                        {
+                            if (t.IsFaulted || t.IsCanceled)
+                            {
+                                throw t.Exception;
+                            }
+
+                            return t.Result;
+                        }));
+                    }
+                }
+
+                answers.AddRange(await queryRestAnswers.FindAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return t.Result;
+                }));
+
+                return await GetAnswersWithComments(userId, answers);
             }
             catch (Exception)
             {
@@ -2447,6 +2517,34 @@ namespace RTCareerAsk.DAL
                         return true;
                     });
             }).Unwrap();
+        }
+
+        public async Task<bool> ChangeMessageSender(string msgId, string userId)
+        {
+            return await AVObject.GetQuery("Message")
+                .WhereEqualTo("content", AVObject.CreateWithoutData("Message_Body", msgId))
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    foreach (AVObject msg in t.Result)
+                    {
+                        msg["from"] = AVObject.CreateWithoutData("_User", userId) as AVUser;
+                        msg.SaveAsync().ContinueWith(s =>
+                            {
+                                if (s.IsFaulted || s.IsCanceled)
+                                {
+                                    throw s.Exception;
+                                }
+                            });
+                    }
+
+                    return true;
+                });
         }
 
         #endregion

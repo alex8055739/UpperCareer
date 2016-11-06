@@ -90,20 +90,20 @@ namespace RTCareerAsk.Controllers
         }
 
         [HttpPost]
-        public async Task<PartialViewResult> LoadContentUpdate(int id, int pageIndex)
+        public async Task<PartialViewResult> LoadContentUpdate(int contentType, int pageIndex)
         {
             try
             {
-                switch (id)
+                switch (contentType)
                 {
                     case 1:
                     case 2:
-                        return PartialView("_QuestionList", await HomeDa.LoadQuestionListByPage(pageIndex, id));
+                        return PartialView("_QuestionList", await HomeDa.LoadQuestionListByPage(pageIndex, contentType));
                     case 3:
                     case 4:
-                        return PartialView("_AnswerList", await HomeDa.LoadAnswerListByPage(pageIndex, id));
+                        return PartialView("_AnswerList", await HomeDa.LoadAnswerListByPage(pageIndex, contentType));
                     default:
-                        throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
+                        throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", contentType));
                 }
             }
             catch (Exception e)

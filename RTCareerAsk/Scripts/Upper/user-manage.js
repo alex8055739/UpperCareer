@@ -96,7 +96,7 @@ function OnProfileComplete() {
 }
 
 function OnProfileFailure(result) {
-    DisplayErrorInfo('保存信息出错，请您查看……');
+    DisplayErrorInfo(result.text);
     alert(result.text);
 }
 

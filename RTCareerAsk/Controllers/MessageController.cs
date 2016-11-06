@@ -96,6 +96,7 @@ namespace RTCareerAsk.Controllers
                 {
                     model = RestoreCopy<LetterModel>(SessionCopyName);
                     model.To = targetId;
+                    model.Content = ModifyTextareaData(model.Content, false);
                 }
                 else
                 {
@@ -119,6 +120,7 @@ namespace RTCareerAsk.Controllers
                 if (ModelState.IsValid)
                 {
                     l.From = GetUserID();
+                    l.Content = ModifyTextareaData(l.Content, true);
                     CopyToSave(SessionCopyName, l);
 
                     await MessageDa.WriteNewMessage(l);

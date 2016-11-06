@@ -41,15 +41,18 @@ namespace RTCareerAsk.PLtoDA
             return await LCDal.GetAnswerWithComments(answerId).ContinueWith(t => new AnswerModel(t.Result));
         }
 
-        public async Task<List<AnswerModel>> GetAnswerModels(string userId, string questionId)
+        public async Task<List<AnswerModel>> GetAnswerModels(string userId, string questionId, int pageIndex, bool isHottestFirst)
         {
-            return await LCDal.FindAnswersByQuestion(userId, questionId).ContinueWith(t =>
+            return await LCDal.LoadAnswersByQuestion(userId, questionId, pageIndex, isHottestFirst).ContinueWith(t =>
                 {
                     List<AnswerModel> ansList = new List<AnswerModel>();
 
-                    foreach (Answer a in t.Result)
+                    if (t.Result != null && t.Result.Count() > 0)
                     {
-                        ansList.Add(new AnswerModel(a));
+                        foreach (Answer a in t.Result)
+                        {
+                            ansList.Add(new AnswerModel(a));
+                        }
                     }
 
                     return ansList;
