@@ -188,6 +188,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_DLL\SessionHeartBeatHandler.ashx.cs">
+      <DependentUpon>SessionHeartBeatHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="App_DLL\UpperHtmlHelpers.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -618,6 +621,7 @@
     <Content Include="ckeditor\plugins\imageuploader\LICENSE.md" />
     <Content Include="ckeditor\plugins\imageuploader\README.md" />
     <Content Include="Content\bootstrap.readable.css" />
+    <Content Include="App_DLL\SessionHeartBeatHandler.ashx" />
     <None Include="Properties\PublishProfiles\Desktop.pubxml" />
     <None Include="Properties\PublishProfiles\Host.pubxml" />
     <None Include="Properties\PublishProfiles\QCloud.pubxml" />

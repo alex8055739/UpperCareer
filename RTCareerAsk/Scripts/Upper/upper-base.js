@@ -16,10 +16,21 @@ $.fn.modal.Constructor.prototype.enforceFocus = function () {
 //Trigger Bootstrap tooltip when page load.
 $(function () {
     TriggerTooltip();
+    setInterval(KeepSessionAlive, 300000);
 })
 //Function to trigger Bootstrap tooltip.
 function TriggerTooltip() {
     $('[data-toggle="tooltip"]').tooltip();
+}
+
+function KeepSessionAlive() {
+    $.post("/App_DLL/SessionHeartBeatHandler.ashx", null,
+    function (data, textStatus, jqXHR) {
+        $('.navbar-brand > strong').animate({ opacity: 0 }, 500, null, function () {
+            $(this).animate({ opacity: 1 }, 500);
+        });
+    }
+);
 }
 
 function UpdateNewMsgCount() {
