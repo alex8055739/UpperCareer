@@ -16,6 +16,57 @@ namespace RTCareerAsk.PLtoDA
     /// </summary>
     public class Question2DA : DABase
     {
+        public async Task<List<QuestionInfoModel>> LoadQuestionListByPage(int pageIndex, int id = 1)
+        {
+            bool isHottestFirst = true;
+
+            switch (id)
+            {
+                case 1:
+                    break;
+                case 2:
+                    isHottestFirst = false;
+                    break;
+                default:
+                    throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
+            }
+
+            List<QuestionInfoModel> qiList = new List<QuestionInfoModel>();
+
+            foreach (QuestionInfo q in await LCDal.LoadQuestionList(pageIndex, isHottestFirst))
+            {
+                qiList.Add(new QuestionInfoModel(q));
+            }
+
+            return qiList;
+        }
+
+        public async Task<List<AnswerInfoModel>> LoadAnswerListByPage(int pageIndex, int id = 3)
+        {
+            bool isHottestFirst = true;
+
+            switch (id)
+            {
+                case 3:
+                    break;
+                case 4:
+                    isHottestFirst = false;
+                    break;
+                default:
+                    throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
+            }
+
+            List<AnswerInfoModel> aiList = new List<AnswerInfoModel>();
+
+            foreach (AnswerInfo a in await LCDal.LoadAnswerList(pageIndex, isHottestFirst))
+            {
+                aiList.Add(new AnswerInfoModel(a));
+            }
+
+            return aiList;
+
+        }
+
         public async Task<QuestionModel> GetQuestionModel(string userId, string questionId)
         {
             return await LCDal.GetQuestionAndAnswersWithComments(userId, questionId).ContinueWith(t => new QuestionModel(t.Result));

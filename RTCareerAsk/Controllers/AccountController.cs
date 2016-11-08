@@ -152,7 +152,7 @@ namespace RTCareerAsk.Controllers
                         {
                             //await AccountLogin(model.UserName, model.Password);//.ContinueWith(t => StoreUserToSession(t.Result));
 
-                            return RedirectToAction("RegisterSuccess", "Home", new { returnUrl = returnUrl, email = model.Email });
+                            return RedirectToAction("RegisterSuccess", new { returnUrl = returnUrl, email = model.Email });
                         }
                     }
                     else
@@ -208,6 +208,16 @@ namespace RTCareerAsk.Controllers
                 while (e.InnerException != null) e = e.InnerException;
                 throw e;
             }
+        }
+
+        public ActionResult RegisterSuccess(string returnUrl, string email)
+        {
+            ViewBag.IsAdmin = IsUserAuthorized("Admin");
+            ViewBag.Title = "注册成功";
+            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.Email = email;
+
+            return View();
         }
 
         [HttpPost]
@@ -286,6 +296,31 @@ namespace RTCareerAsk.Controllers
                 {
                     throw new InvalidOperationException();
                 }
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public async Task<PartialViewResult> ChangePortrait(HttpPostedFileBase portrait)
+        {
+            try
+            {
+                string url = await HomeDa.UploadImageFile(CreateFileModelForUpload(portrait, string.Format("portrait{0}", GetUserID())));
+
+                if (await AccountDa.ChangeUserPortrait(GetUserID(), url))
+                {
+                    await UpdateUserInfo(new Dictionary<string, object>() { { "Portrait", url } });
+                }
+                else
+                {
+                    await HomeDa.DeleteFileWithUrl(url);
+                }
+
+                return PartialView("_NavBar");
             }
             catch (Exception e)
             {

@@ -24,13 +24,14 @@
             @Html.Hidden("UserID", um.UserID, new { id = "hdnUserID" })
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-            @if (IsAdmin)
-            {
-                <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav">
+                <li class="@Html.IsSelected("Question")">@Html.ActionLink("问答", "Index", "Question")</li>
+                @if (IsAdmin)
+                {
                     <li><a href="#" id="btnBugReport" data-toggle="modal" data-target="#divModal">报错 <span class="sr-only">(current)</span></a></li>
                     <li class="@Html.IsSelected("Test")">@Html.ActionLink("报告列表", "Index", "Test")</li>
-                </ul>
-            }
+                }
+            </ul>
             @if (IsAuthorized)
             {
                 <ul class="nav navbar-nav navbar-right">

@@ -16,80 +16,9 @@ namespace RTCareerAsk.PLtoDA
     /// </summary>
     public class Home2DA : DABase
     {
-        public async Task<List<QuestionInfoModel>> LoadQuestionListByPage(int pageIndex, int id = 1)
-        {
-            bool isHottestFirst = true;
-
-            switch (id)
-            {
-                case 1:
-                    break;
-                case 2:
-                    isHottestFirst = false;
-                    break;
-                default:
-                    throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
-            }
-
-            List<QuestionInfoModel> qiList = new List<QuestionInfoModel>();
-
-            foreach (QuestionInfo q in await LCDal.LoadQuestionList(pageIndex, isHottestFirst))
-            {
-                qiList.Add(new QuestionInfoModel(q));
-            }
-
-            return qiList;
-        }
-
-        public async Task<List<AnswerInfoModel>> LoadAnswerListByPage(int pageIndex, int id = 3)
-        {
-            bool isHottestFirst = true;
-
-            switch (id)
-            {
-                case 3:
-                    break;
-                case 4:
-                    isHottestFirst = false;
-                    break;
-                default:
-                    throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
-            }
-
-            List<AnswerInfoModel> aiList = new List<AnswerInfoModel>();
-
-            foreach (AnswerInfo a in await LCDal.LoadAnswerList(pageIndex, isHottestFirst))
-            {
-                aiList.Add(new AnswerInfoModel(a));
-            }
-
-            return aiList;
-
-        }
-
-        public async Task<UserInfoModel> LoadUserInfo(string userId)
-        {
-            return await LCDal.LoadUserInfo(userId).ContinueWith(t =>
-                {
-                    return new UserInfoModel(t.Result);
-                });
-        }
-
         public async Task<string> UploadImageFile(FileModel f)
         {
             return await LCDal.SaveNewStreamFile(f.RestoreFileModelToObject());
-        }
-
-        public async Task<bool> ChangeUserPortrait(string userId, string portraitUrl)
-        {
-            try
-            {
-                return await LCDal.ChangeUserPortrait(userId, portraitUrl);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
 
         public async Task<List<FileInfoModel>> GetFileInfoModels()
@@ -160,6 +89,77 @@ namespace RTCareerAsk.PLtoDA
 
         //            return aiList;
         //        });
+        //}
+
+        //public async Task<List<QuestionInfoModel>> LoadQuestionListByPage(int pageIndex, int id = 1)
+        //{
+        //    bool isHottestFirst = true;
+
+        //    switch (id)
+        //    {
+        //        case 1:
+        //            break;
+        //        case 2:
+        //            isHottestFirst = false;
+        //            break;
+        //        default:
+        //            throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
+        //    }
+
+        //    List<QuestionInfoModel> qiList = new List<QuestionInfoModel>();
+
+        //    foreach (QuestionInfo q in await LCDal.LoadQuestionList(pageIndex, isHottestFirst))
+        //    {
+        //        qiList.Add(new QuestionInfoModel(q));
+        //    }
+
+        //    return qiList;
+        //}
+
+        //public async Task<List<AnswerInfoModel>> LoadAnswerListByPage(int pageIndex, int id = 3)
+        //{
+        //    bool isHottestFirst = true;
+
+        //    switch (id)
+        //    {
+        //        case 3:
+        //            break;
+        //        case 4:
+        //            isHottestFirst = false;
+        //            break;
+        //        default:
+        //            throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
+        //    }
+
+        //    List<AnswerInfoModel> aiList = new List<AnswerInfoModel>();
+
+        //    foreach (AnswerInfo a in await LCDal.LoadAnswerList(pageIndex, isHottestFirst))
+        //    {
+        //        aiList.Add(new AnswerInfoModel(a));
+        //    }
+
+        //    return aiList;
+
+        //}
+
+        //public async Task<UserInfoModel> LoadUserInfo(string userId)
+        //{
+        //    return await LCDal.LoadUserInfo(userId).ContinueWith(t =>
+        //        {
+        //            return new UserInfoModel(t.Result);
+        //        });
+        //}
+
+        //public async Task<bool> ChangeUserPortrait(string userId, string portraitUrl)
+        //{
+        //    try
+        //    {
+        //        return await LCDal.ChangeUserPortrait(userId, portraitUrl);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return false;
+        //    }
         //}
 
         #endregion

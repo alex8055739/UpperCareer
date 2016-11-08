@@ -14,7 +14,23 @@ namespace RTCareerAsk.Controllers
     public class QuestionController : UpperBaseController
     {
         [UpperResult]
-        public async Task<ActionResult> Index(string id)
+        public async Task<ActionResult> Index()
+        {
+            try
+            {
+                ViewBag.Title = "欢迎来到Upper";
+
+                return View(await QuestionDa.LoadQuestionListByPage(0));
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+        [UpperResult]
+        public async Task<ActionResult> QuestionDetail(string id)
         {
             try
             {
@@ -41,6 +57,54 @@ namespace RTCareerAsk.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<PartialViewResult> LoadContentInfo(int id)
+        {
+            try
+            {
+                switch (id)
+                {
+                    case 1:
+                    case 2:
+                        return PartialView("_QuestionList", await QuestionDa.LoadQuestionListByPage(0, id));
+                    case 3:
+                    case 4:
+                        return PartialView("_AnswerList", await QuestionDa.LoadAnswerListByPage(0, id));
+                    default:
+                        throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
+                }
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public async Task<PartialViewResult> LoadContentUpdate(int contentType, int pageIndex)
+        {
+            try
+            {
+                switch (contentType)
+                {
+                    case 1:
+                    case 2:
+                        return PartialView("_QuestionList", await QuestionDa.LoadQuestionListByPage(pageIndex, contentType));
+                    case 3:
+                    case 4:
+                        return PartialView("_AnswerList", await QuestionDa.LoadAnswerListByPage(pageIndex, contentType));
+                    default:
+                        throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", contentType));
+                }
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+        
         [HttpPost]
         public PartialViewResult CreateQuestionForm()
         {
@@ -75,8 +139,6 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
-                System.Threading.Thread.Sleep(2000);
-
                 if (!ModelState.IsValid)
                 {
                     throw new InvalidOperationException("用户输入的信息不符合要求");

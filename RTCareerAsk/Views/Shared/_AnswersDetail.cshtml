@@ -20,7 +20,19 @@
     @foreach (RTCareerAsk.Models.AnswerModel a in Model)
     {
         <div id="@string.Format("divAnsBody", a.ID)" class="body" data-targetquestion="@a.ForQuestion.ID">
-            <div id="@string.Format("divAns{0}", a.ID)" class="wrap clearfix">
+            <div id="@string.Format("divAns{0}", a.ID)" class="wrap clearfix" style="position:relative">
+                <div style="position: absolute; right: 0; top: 0; width: 30px; background-color: yellow; text-align: center; font-size: 18px;z-index:1000">
+                    @*<div class="btn-group">
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>*@
+                </div>
                 <div data-id="@a.ID" data-type="1" style="min-width:55px">
                     <div class="arrow @Html.IsActive(true, a) @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")">
                         <a href="#" class="up">

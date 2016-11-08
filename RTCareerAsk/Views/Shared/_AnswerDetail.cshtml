@@ -10,7 +10,7 @@
         <p>
             @Html.ActionLink(Model.Creator.Name, "Index", "User", new { id = Model.Creator.UserID }, new { })
             ，在问题
-            @Html.ActionLink(Model.ForQuestion.Title, "Index", "Question", new { id = Model.ForQuestion.ID }, new { })
+            @Html.ActionLink(Model.ForQuestion.Title, "QuestionDetail", "Question", new { id = Model.ForQuestion.ID }, new { })
             下回答道：
         </p>
     </div>

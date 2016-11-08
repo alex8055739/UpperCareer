@@ -11,11 +11,11 @@ namespace RTCareerAsk.Models
     public class QuestionPostModel
     {
         [Required(ErrorMessage = "请输入标题")]
-        [StringLength(30,ErrorMessage="标题请不要超过30字")]
+        [StringLength(30, ErrorMessage = "标题请不要超过30字")]
         [DisplayName("标题：")]
         public string PostTitle { get; set; }
         [DisplayName("正文：")]
-        [StringLength(1500, ErrorMessage ="超过字数上限，正文请不要超过1000字")]
+        [StringLength(1500, ErrorMessage = "超过字数上限，正文请不要超过1000字")]
         public string PostContent { get; set; }
 
         public string UserID { get; set; }
@@ -33,7 +33,7 @@ namespace RTCareerAsk.Models
 
     public class AnswerPostModel
     {
-        [Required(ErrorMessage="请您输入答案正文")]
+        [Required(ErrorMessage = "请您输入答案正文")]
         [DisplayName("答案内容：")]
         [StringLength(6000, ErrorMessage = "超过字数上限，答案请不要超过5000字")]
         public string PostContent { get; set; }
@@ -75,6 +75,67 @@ namespace RTCareerAsk.Models
                 Content = PostContent,
                 ForAnswer = new Answer() { ObjectID = AnswerID },
                 CreatedBy = new User() { ObjectID = UserID },
+            };
+        }
+    }
+
+    public class ArticlePostModel
+    {
+        public ArticlePostModel() { }
+
+        public ArticlePostModel(ArticleReference refs)
+        {
+            TopArticles = new List<ArticleInfoModel>();
+
+            ConvertReferenceObjectToReferenceInfo(refs);
+        }
+
+        [Required(ErrorMessage = "请输入文章标题")]
+        [DisplayName("标题：")]
+        public string Title { get; set; }
+        [Required(ErrorMessage = "头图不能为空")]
+        public string Cover { get; set; }
+        [Required(ErrorMessage = "请输入作者名字")]
+        public string Author { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "请输入大于{0}的数字")]
+        public int Index { get; set; }
+        [Required(ErrorMessage = "正文内容不能为空")]
+        public string Content { get; set; }
+
+        public string EditorID { get; set; }
+
+        public AnswerModel Reference { get; set; }
+
+        public string ReferenceID { get; set; }
+
+        public bool HasReference { get; set; }
+
+        public List<ArticleInfoModel> TopArticles { get; set; }
+
+        private void ConvertReferenceObjectToReferenceInfo(ArticleReference refs)
+        {
+            Reference = new AnswerModel(refs.Reference);
+            ReferenceID = refs.Reference.ObjectID;
+            Author = refs.Reference.CreatedBy.Name;
+            HasReference = true;
+
+            foreach (ArticleInfo info in refs.TopArticles)
+            {
+                TopArticles.Add(new ArticleInfoModel(info));
+            }
+        }
+
+        public Article CreatePostForSave()
+        {
+            return new Article()
+            {
+                Title = Title,
+                Cover = Cover,
+                Author = Author,
+                Index = Index,
+                Content = Content,
+                Editor = new User() { ObjectID = EditorID },
+                Reference = !string.IsNullOrEmpty(ReferenceID) ? new Answer() { ObjectID = ReferenceID } : default(Answer)
             };
         }
     }

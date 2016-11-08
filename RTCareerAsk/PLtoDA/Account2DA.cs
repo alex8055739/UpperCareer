@@ -44,6 +44,18 @@ namespace RTCareerAsk.PLtoDA
                 });
         }
 
+        public async Task<bool> ChangeUserPortrait(string userId, string portraitUrl)
+        {
+            try
+            {
+                return await LCDal.ChangeUserPortrait(userId, portraitUrl);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        
         public async Task<bool> UpdateProfile(UserManageModel umm)
         {
             return await LCDal.SaveUserDetail(umm.RestoreUserManageModelToUserDetailObject());

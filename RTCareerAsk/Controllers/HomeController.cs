@@ -16,120 +16,11 @@ namespace RTCareerAsk.Controllers
         #region Action
 
         [UpperResult]
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             try
             {
-                ViewBag.Title = "欢迎来到Upper";
-
-                return View("QuestionList", await HomeDa.LoadQuestionListByPage(0));
-            }
-            catch (Exception e)
-            {
-                while (e.InnerException != null) e = e.InnerException;
-                throw e;
-            }
-        }
-
-        public ActionResult RegisterSuccess(string returnUrl, string email)
-        {
-            ViewBag.IsAdmin = IsUserAuthorized("Admin");
-            ViewBag.Title = "注册成功";
-            ViewBag.ReturnUrl = returnUrl;
-            ViewBag.Email = email;
-
-            return View();
-        }
-
-        //[HttpPost]
-        //public async Task<PartialViewResult> LoadContentInfo(int id)
-        //{
-        //    try
-        //    {
-        //        switch (id)
-        //        {
-        //            case 1:
-        //            case 2:
-        //                return PartialView("_QuestionList", await HomeDa.GetQuestionInfoModels(id));
-        //            case 3:
-        //            case 4:
-        //                return PartialView("_AnswerList", await HomeDa.GetAnswerInfoModels(id));
-        //            default:
-        //                throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        while (e.InnerException != null) e = e.InnerException;
-        //        throw e;
-        //    }
-        //}
-
-        [HttpPost]
-        public async Task<PartialViewResult> LoadContentInfo(int id)
-        {
-            try
-            {
-                switch (id)
-                {
-                    case 1:
-                    case 2:
-                        return PartialView("_QuestionList", await HomeDa.LoadQuestionListByPage(0, id));
-                    case 3:
-                    case 4:
-                        return PartialView("_AnswerList", await HomeDa.LoadAnswerListByPage(0, id));
-                    default:
-                        throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
-                }
-            }
-            catch (Exception e)
-            {
-                while (e.InnerException != null) e = e.InnerException;
-                throw e;
-            }
-        }
-
-        [HttpPost]
-        public async Task<PartialViewResult> LoadContentUpdate(int contentType, int pageIndex)
-        {
-            try
-            {
-                switch (contentType)
-                {
-                    case 1:
-                    case 2:
-                        return PartialView("_QuestionList", await HomeDa.LoadQuestionListByPage(pageIndex, contentType));
-                    case 3:
-                    case 4:
-                        return PartialView("_AnswerList", await HomeDa.LoadAnswerListByPage(pageIndex, contentType));
-                    default:
-                        throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", contentType));
-                }
-            }
-            catch (Exception e)
-            {
-                while (e.InnerException != null) e = e.InnerException;
-                throw e;
-            }
-        }
-
-        [HttpPost]
-        public async Task<PartialViewResult> ChangePortrait(HttpPostedFileBase portrait)
-        {
-            try
-            {
-                string url = await HomeDa.UploadImageFile(CreateFileModelForUpload(portrait, string.Format("portrait{0}", GetUserID())));
-
-                if (await HomeDa.ChangeUserPortrait(GetUserID(), url))
-                {
-                    await UpdateUserInfo(new Dictionary<string, object>() { { "Portrait", url } });
-                }
-                else
-                {
-                    await HomeDa.DeleteFileWithUrl(url);
-                }
-
-                return PartialView("_NavBar");
+                return RedirectToAction("Index", "Question");
             }
             catch (Exception e)
             {
@@ -220,6 +111,103 @@ namespace RTCareerAsk.Controllers
         //public void View1(PostModel p)
         //{
 
+        //}
+
+        //[HttpPost]
+        //public async Task<PartialViewResult> LoadContentInfo(int id)
+        //{
+        //    try
+        //    {
+        //        switch (id)
+        //        {
+        //            case 1:
+        //            case 2:
+        //                return PartialView("_QuestionList", await HomeDa.GetQuestionInfoModels(id));
+        //            case 3:
+        //            case 4:
+        //                return PartialView("_AnswerList", await HomeDa.GetAnswerInfoModels(id));
+        //            default:
+        //                throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        while (e.InnerException != null) e = e.InnerException;
+        //        throw e;
+        //    }
+        //}
+
+        //[HttpPost]
+        //public async Task<PartialViewResult> LoadContentInfo(int id)
+        //{
+        //    try
+        //    {
+        //        switch (id)
+        //        {
+        //            case 1:
+        //            case 2:
+        //                return PartialView("_QuestionList", await HomeDa.LoadQuestionListByPage(0, id));
+        //            case 3:
+        //            case 4:
+        //                return PartialView("_AnswerList", await HomeDa.LoadAnswerListByPage(0, id));
+        //            default:
+        //                throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", id));
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        while (e.InnerException != null) e = e.InnerException;
+        //        throw e;
+        //    }
+        //}
+
+        //[HttpPost]
+        //public async Task<PartialViewResult> LoadContentUpdate(int contentType, int pageIndex)
+        //{
+        //    try
+        //    {
+        //        switch (contentType)
+        //        {
+        //            case 1:
+        //            case 2:
+        //                return PartialView("_QuestionList", await HomeDa.LoadQuestionListByPage(pageIndex, contentType));
+        //            case 3:
+        //            case 4:
+        //                return PartialView("_AnswerList", await HomeDa.LoadAnswerListByPage(pageIndex, contentType));
+        //            default:
+        //                throw new IndexOutOfRangeException(string.Format("请求代码出错：{0}", contentType));
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        while (e.InnerException != null) e = e.InnerException;
+        //        throw e;
+        //    }
+        //}
+
+        //[HttpPost]
+        //public async Task<PartialViewResult> ChangePortrait(HttpPostedFileBase portrait)
+        //{
+        //    try
+        //    {
+        //        string url = await HomeDa.UploadImageFile(CreateFileModelForUpload(portrait, string.Format("portrait{0}", GetUserID())));
+
+        //        if (await HomeDa.ChangeUserPortrait(GetUserID(), url))
+        //        {
+        //            await UpdateUserInfo(new Dictionary<string, object>() { { "Portrait", url } });
+        //        }
+        //        else
+        //        {
+        //            await HomeDa.DeleteFileWithUrl(url);
+        //        }
+
+        //        return PartialView("_NavBar");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        while (e.InnerException != null) e = e.InnerException;
+        //        throw e;
+        //    }
         //}
 
         #endregion

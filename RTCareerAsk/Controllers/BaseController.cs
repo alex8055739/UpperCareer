@@ -27,6 +27,7 @@ namespace RTCareerAsk.Controllers
         protected Home2DA HomeDa { get { return new Home2DA(); } }
         protected Account2DA AccountDa { get { return new Account2DA(); } }
         protected Question2DA QuestionDa { get { return new Question2DA(); } }
+        protected Article2DA ArticleDa { get { return new Article2DA(); } }
         protected Message2DA MessageDa { get { return new Message2DA(); } }
         protected User2DA UserDa { get { return new User2DA(); } }
         protected Test2DA TestDa { get { return new Test2DA(); } }

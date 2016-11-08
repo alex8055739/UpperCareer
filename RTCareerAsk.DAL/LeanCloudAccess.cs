@@ -2175,6 +2175,92 @@ namespace RTCareerAsk.DAL
         }
         #endregion
 
+        #region Article
+
+        public async Task<ArticleReference> LoadReference(string id)
+        {
+            int topArticleCount = 5;
+
+            Task<AVObject> reference = AVObject.GetQuery("Answer")
+                .Include("createdBy")
+                .Include("forQuestion")
+                .GetAsync(id)
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return t.Result;
+                });
+
+            Task<IEnumerable<AVObject>> topArticles = AVObject.GetQuery("Article")
+                .OrderByDescending("index")
+                .Limit(topArticleCount)
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return t.Result;
+                });
+
+            await Task.WhenAll(reference, topArticles);
+
+            ArticleReference atclRef = new ArticleReference(reference.Result);
+            return atclRef.SetTopArticles(topArticles.Result);
+        }
+
+        public async Task<bool> SaveNewArticle(Article a)
+        {
+            return await a.CreateArticleObjectForSave().SaveAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    if (a.Reference != default(Answer))
+                    {
+                        MarkRecommandedReference(a.Reference.ObjectID).ContinueWith(s =>
+                            {
+                                return s.Result;
+                            });
+                    }
+
+                    return true;
+                });
+        }
+
+        public async Task<bool> MarkRecommandedReference(string id)
+        {
+            return await AVObject.GetQuery("Answer").GetAsync(id).ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    t.Result["isRecommanded"] = true;
+
+                    return t.Result.SaveAsync().ContinueWith(s =>
+                        {
+                            if (s.IsFaulted || s.IsCanceled)
+                            {
+                                throw s.Exception;
+                            }
+
+                            return true;
+                        });
+                }).Unwrap();
+        }
+
+        #endregion
+
         #endregion
 
         #region Tests

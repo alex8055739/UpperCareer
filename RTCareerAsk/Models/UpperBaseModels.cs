@@ -43,4 +43,43 @@ namespace RTCareerAsk.Models
             return num > 1000 ? string.Format("{0}K", num / 1000) : num.ToString();
         }
     }
+
+    abstract public class UpperArticleBaseModel
+    {
+        public string ID { get; set; }
+
+        public string Title { get; set; }
+
+        public string Cover { get; set; }
+
+        public string Author { get; set; }
+
+        public int Index { get; set; }
+
+        public string CreateBefore { get; set; }
+
+        public string UpdateBefore { get; set; }
+
+        protected virtual void ConvertArticleObjectToModel(UpperArticleBaseDomain obj)
+        {
+            ID = obj.ObjectID;
+            Title = obj.Title;
+            Cover = obj.Cover;
+            Author = obj.Author;
+            Index = obj.Index;
+            CreateBefore = GenerateTimeDisplay(obj.DateCreate);
+            UpdateBefore = GenerateTimeDisplay(obj.DateUpdate);
+        }
+
+        protected string GenerateTimeDisplay(DateTime date)
+        {
+            if (date != default(DateTime))
+            {
+                TimeSpan diff = DateTime.Now.Subtract(date);
+                return diff.Days > 365 ? string.Format("{0}年前", diff.Days / 365) : diff.Days > 30 ? string.Format("{0}个月前", diff.Days / 30) : diff.Days > 0 ? string.Format("{0}天前", diff.Days) : diff.Hours > 0 ? string.Format("{0}小时前", diff.Hours) : string.Format("{0}分钟前", diff.Minutes);
+            }
+
+            return "未知时间";
+        }
+    }
 }

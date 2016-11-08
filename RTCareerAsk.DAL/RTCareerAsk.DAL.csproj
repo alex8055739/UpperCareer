@@ -47,6 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Article.cs" />
     <Compile Include="Domain\File.cs" />
     <Compile Include="Domain\FileInfo.cs" />
     <Compile Include="Domain\InvitationCode.cs" />

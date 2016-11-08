@@ -50,4 +50,37 @@ namespace RTCareerAsk.DAL.Domain
             DateUpdate = Convert.ToDateTime(obj.UpdatedAt);
         }
     }
+
+    abstract public class UpperArticleBaseDomain
+    {
+        public string ObjectID { get; set; }
+
+        public string Title { get; set; }
+
+        public string Cover { get; set; }
+
+        public string Author { get; set; }
+
+        public int Index { get; set; }
+
+        public DateTime DateCreate { get; set; }
+
+        public DateTime DateUpdate { get; set; }
+
+        protected void GenerateArticleBaseObject(AVObject obj)
+        {
+            if (obj.ClassName != "Article")
+            {
+                throw new InvalidOperationException(string.Format("获取的对象{0}不是资讯类object。对象类型：{1}", obj.ObjectId, obj.ClassName));
+            }
+
+            ObjectID = obj.ObjectId;
+            Title = obj.ContainsKey("title") ? obj.Get<string>("title") : default(string);
+            Cover = obj.ContainsKey("cover") ? obj.Get<string>("cover") : default(string);
+            Author = obj.ContainsKey("author") ? obj.Get<string>("author") : default(string);
+            Index = obj.ContainsKey("index") ? obj.Get<int>("index") : default(int);
+            DateCreate = Convert.ToDateTime(obj.CreatedAt);
+            DateUpdate = Convert.ToDateTime(obj.UpdatedAt);
+        }
+    }
 }

@@ -5,7 +5,7 @@
         @foreach (RTCareerAsk.Models.QuestionInfoModel q in Model)
         {
             <div class="list-group-item">
-                <a href="@Url.Action("Index", "Question", new { id = q.ID })" style="color:#70BF40">
+                <a href="@Url.Action("QuestionDetail", "Question", new { id = q.ID })" style="color:#70BF40">
                     <h4 class="list-group-item-heading">@q.Title</h4>
                 </a>
                 <p class="list-group-item-text">@Html.Raw(HttpUtility.HtmlDecode(q.Content))</p>

@@ -198,6 +198,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
@@ -210,6 +211,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ArticleModels.cs" />
     <Compile Include="Models\FileInfoModel.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\MessageModels.cs" />
@@ -222,6 +224,7 @@
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VoteModel.cs" />
     <Compile Include="PLtoDA\Account2DA.cs" />
+    <Compile Include="PLtoDA\Article2DA.cs" />
     <Compile Include="PLtoDA\DABase.cs" />
     <Compile Include="PLtoDA\Home2DA.cs" />
     <Compile Include="PLtoDA\Message2DA.cs" />
@@ -728,7 +731,7 @@
     <Content Include="Views\Shared\_RecentAnswers.cshtml" />
     <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\Shared\_Register.cshtml" />
-    <Content Include="Views\Home\RegisterSuccess.cshtml" />
+    <Content Include="Views\Account\RegisterSuccess.cshtml" />
     <Content Include="Views\Shared\_BugReportModal.cshtml" />
     <Content Include="Views\Shared\_LetterModal.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
@@ -742,6 +745,8 @@
     <Content Include="Views\Account\ResetPasswordSuccess.cshtml" />
     <Content Include="Views\Shared\_QuickPostForm.cshtml" />
     <Content Include="Views\Shared\_QuickLoginModal.cshtml" />
+    <Content Include="Views\Question\QuestionDetail.cshtml" />
+    <Content Include="Views\Article\Compose.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
