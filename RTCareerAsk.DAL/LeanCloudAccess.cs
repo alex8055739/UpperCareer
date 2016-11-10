@@ -134,20 +134,23 @@ namespace RTCareerAsk.DAL
             //Delete old portrait file if existed.
             if (u.ContainsKey("portrait") && !string.IsNullOrEmpty(u.Get<string>("portrait")))
             {
-                await AVObject.GetQuery("_File").WhereEqualTo("url", u.Get<string>("portrait")).FirstAsync().ContinueWith(t =>
+                await AVObject.GetQuery("_File").WhereEqualTo("url", u.Get<string>("portrait")).FindAsync().ContinueWith(t =>
                     {
                         if (t.IsFaulted || t.IsCanceled)
                         {
                             throw t.Exception;
                         }
 
-                        t.Result.DeleteAsync().ContinueWith(s =>
-                            {
-                                if (s.IsFaulted || s.IsCanceled)
+                        if (t.Result.Count() == 1)
+                        {
+                            t.Result.First().DeleteAsync().ContinueWith(s =>
                                 {
-                                    throw s.Exception;
-                                }
-                            });
+                                    if (s.IsFaulted || s.IsCanceled)
+                                    {
+                                        throw s.Exception;
+                                    }
+                                });
+                        }
                     });
             }
 

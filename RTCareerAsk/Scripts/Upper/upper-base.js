@@ -63,6 +63,40 @@ function UpdateCmtCount() {
     }
 }
 
+function PreviewPic(files, settings) {
+    var config = {
+        previewTarget: '#divPreview',
+        imgId: 'imgPreview',
+        postAction: function () { }
+    }
+
+    if (settings) {
+        $.extend(config, settings)
+    }
+
+    var previewTarget = $(config.previewTarget);
+
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        for (var i = 0; i < files.length; i++) {
+            if (!files[i].type.match('image.*')) {
+                continue;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function (tFile) {
+                return function (e) {
+                    previewTarget.html('<img id="' + config.imgId + '" style="width: 100%; height:100%" src="' + e.target.result + '" />');
+                    config.postAction();
+                };
+            }(files[i]);
+            reader.readAsDataURL(files[i]);
+        }
+    }
+    else {
+        alert('此浏览器不支持文件预览');
+    }
+}
+
 function DisplaySuccessInfo(infoText) {
     var successTab = $('#divInfoSuccess').find('p');
     $('div[id^="divInfo"]').stop(true, true).hide();

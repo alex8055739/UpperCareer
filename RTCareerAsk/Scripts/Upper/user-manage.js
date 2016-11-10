@@ -2,12 +2,6 @@
 function DragOver(e) {
     e.stopPropagation();
     e.preventDefault();
-    e.originalEvent.dataTransfer.dropEffect = 'copy';
-}
-
-function DragEnter(e) {
-    e.stopPropagation();
-    e.preventDefault();
     $(e.target).parent().addClass('file-hover');
 }
 
@@ -103,7 +97,7 @@ function OnProfileFailure(result) {
 $(document).ready(function () {
     var dropTarget = $('#divDropTarget');
 
-    dropTarget.on('dragover', DragEnter);
+    dropTarget.on('dragover', DragOver);
     dropTarget.on('dragleave', DragLeave);
     dropTarget.on('drop', FileDropped);
 
