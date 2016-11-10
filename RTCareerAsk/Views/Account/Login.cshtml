@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "登录Upper";
+    bool isFromRegister = ViewBag.FromRegister != null ? Convert.ToBoolean(ViewBag.FromRegister) : false;
 }
 
 <ul class="nav nav-tabs" style="max-width: 600px; margin: 0 auto;">
@@ -17,29 +18,14 @@
     }
 </ul>
 
-@if (ViewBag.FromRegister != null && Convert.ToBoolean(ViewBag.FromRegister))
-{
-    <div id="tabLoginAndReg" class="tab-content" style="margin: 0 auto; max-width: 600px;">
-        <div id="divLoginForm" class="tab-pane fade">
-            @Html.Partial("_Login", Model.Login)
-        </div>
-        <div id="divRegister" class="tab-pane fade active in">
-            @Html.Partial("_Register", Model.Register)
-        </div>
+<div id="tabLoginAndReg" class="tab-content" style="margin: 0 auto; max-width: 600px;">
+    <div id="divLoginForm" class="tab-pane fade @Html.AssignClassWithCondition(!isFromRegister, "active in")">
+        @Html.Partial("_Login", Model.Login)
     </div>
-}
-else
-{
-    <div id="tabLoginAndReg" class="tab-content" style="margin: 0 auto; max-width: 600px;">
-        <div id="divLoginForm" class="tab-pane fade active in">
-            @Html.Partial("_Login", Model.Login)
-        </div>
-        <div id="divRegister" class="tab-pane fade">
-            @Html.Partial("_Register", Model.Register)
-        </div>
+    <div id="divRegister" class="tab-pane fade @Html.AssignClassWithCondition(isFromRegister, "active in")">
+        @Html.Partial("_Register", Model.Register)
     </div>
-}
-
+</div>
 @*<section class="social" id="socialLoginForm">
     <h2>Use another service to log in.</h2>
     @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })

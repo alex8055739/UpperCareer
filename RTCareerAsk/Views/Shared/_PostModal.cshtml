@@ -1,10 +1,10 @@
 ﻿@model RTCareerAsk.Models.QuestionPostModel
 
 <div class="modal-content">
-    <div class="modal-header">
+    @*<div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        @*<h4 class="modal-title" id="postQuestionModalLabel">请输入您的问题……</h4>*@
-    </div>
+        <h4 class="modal-title" id="postQuestionModalLabel">请输入您的问题……</h4>
+    </div>*@
     @using (Ajax.BeginForm("PostQuestion", "Question", new { }, new AjaxOptions
             {
                 LoadingElementId = "divInfoLoading",
@@ -16,13 +16,12 @@
             }, new { enctype = "multipart/form-data", @class = "form-horizontal", id = "formNewPost" }))
     {
         <div class="modal-body post">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <div class="form-group">
                 <div class="col-lg-6">
                     @Html.TextBoxFor(model => model.PostTitle, new { @class = "form-control", placeholder = "请输入问题标题" })
                     @Html.ValidationMessageFor(model => model.PostTitle, "", new { @class = "validation-msg" })
-                    @*<span class="help-block">这是一句描述</span>
-                    <span class="help-block">这是一句描述</span>
-                    <span class="help-block">这是一句描述</span>*@
+                    @*<span class="help-block">这是一句描述</span>*@
                 </div>
             </div>
             <div class="form-group">

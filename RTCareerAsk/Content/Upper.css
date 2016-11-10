@@ -75,11 +75,21 @@ p {
     overflow: hidden;
 }
 
-a.not-active {
-    pointer-events: none;
-    cursor: default;
-    color: #aaaaaa;
+a {
+    transition: all 150ms ease-in-out;
 }
+
+    a:hover,
+    a:focus {
+        color: #008cba;
+        text-decoration: none;
+    }
+
+    a.not-active {
+        pointer-events: none;
+        cursor: default;
+        color: #aaaaaa;
+    }
 
 .featured-section {
     overflow: hidden;
@@ -105,6 +115,10 @@ a.not-active {
     justify-content: space-between;
 }
 
+.form-horizontal {
+    margin: 0 15px;
+}
+
 .content-info {
     background-color: #ffffff;
 }
@@ -112,6 +126,11 @@ a.not-active {
     .content-info a {
         color: #000;
     }
+
+        .content-info a:hover,
+        .content-info a:focus {
+            color: #70BF40;
+        }
 
     .content-info .box {
         padding: 15px 0px;
@@ -145,7 +164,7 @@ a.not-active {
             min-width: 50px;
             text-align: center;
             font-size: 16px;
-            background-color: aliceblue;
+            background-color: #f0f8ff;
         }
 
 @media screen and (max-width: 768px) {
@@ -175,10 +194,6 @@ a.not-active {
         display: block;
     }
 
-a:hover,
-a:focus .content-info {
-    text-decoration: none;
-}
 
 .question-detail {
     background-color: #ffffff;

@@ -71,7 +71,7 @@ namespace RTCareerAsk.DAL.Domain
 
         private void GenerateArticleReferenceObject(AVObject ans)
         {
-            if (ans.ClassName != "Article")
+            if (ans.ClassName != "Answer")
             {
                 throw new InvalidOperationException(string.Format("获取的对象{0}不是答案类object。对象类型：{1}", ans.ObjectId, ans.ClassName));
             }
@@ -81,7 +81,7 @@ namespace RTCareerAsk.DAL.Domain
 
         public ArticleReference SetTopArticles(IEnumerable<AVObject> atcls)
         {
-            if (atcls.First().ClassName != "Article")
+            if (atcls.Count() > 0 && atcls.First().ClassName != "Article")
             {
                 throw new InvalidOperationException(string.Format("获取的对象{0}不是资讯类object。对象类型：{1}", atcls.First().ObjectId, atcls.First().ClassName));
             }

@@ -11,11 +11,11 @@ namespace RTCareerAsk.Models
     public class QuestionPostModel
     {
         [Required(ErrorMessage = "请输入标题")]
-        [StringLength(30, ErrorMessage = "标题请不要超过30字")]
+        [StringLength(30, ErrorMessage = "标题请不要超过{1}字")]
         [DisplayName("标题：")]
         public string PostTitle { get; set; }
         [DisplayName("正文：")]
-        [StringLength(1500, ErrorMessage = "超过字数上限，正文请不要超过1000字")]
+        [StringLength(1500, ErrorMessage = "超过字数上限，正文请不要超过{1}字")]
         public string PostContent { get; set; }
 
         public string UserID { get; set; }
@@ -91,15 +91,20 @@ namespace RTCareerAsk.Models
         }
 
         [Required(ErrorMessage = "请输入文章标题")]
+        [StringLength(30, ErrorMessage = "标题请不要超过{1}字")]
         [DisplayName("标题：")]
         public string Title { get; set; }
-        [Required(ErrorMessage = "头图不能为空")]
+        [Required(ErrorMessage = "封面图不能为空")]
+        [DisplayName("封面图片：")]
         public string Cover { get; set; }
         [Required(ErrorMessage = "请输入作者名字")]
+        [DisplayName("原作者：")]
         public string Author { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "请输入大于{0}的数字")]
-        public int Index { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "请输入大于{1}的数字")]
+        [DisplayName("序号：")]
+        public int? Index { get; set; }
         [Required(ErrorMessage = "正文内容不能为空")]
+        [StringLength(20000, ErrorMessage = "正文请不要超过{1}字")]
         public string Content { get; set; }
 
         public string EditorID { get; set; }
@@ -114,14 +119,20 @@ namespace RTCareerAsk.Models
 
         private void ConvertReferenceObjectToReferenceInfo(ArticleReference refs)
         {
-            Reference = new AnswerModel(refs.Reference);
-            ReferenceID = refs.Reference.ObjectID;
-            Author = refs.Reference.CreatedBy.Name;
-            HasReference = true;
-
-            foreach (ArticleInfo info in refs.TopArticles)
+            if (refs.Reference != null)
             {
-                TopArticles.Add(new ArticleInfoModel(info));
+                Reference = new AnswerModel(refs.Reference);
+                ReferenceID = refs.Reference.ObjectID;
+                Author = refs.Reference.CreatedBy.Name;
+                HasReference = true;
+            }
+
+            if (refs.TopArticles != null && refs.TopArticles.Count > 0)
+            {
+                foreach (ArticleInfo info in refs.TopArticles)
+                {
+                    TopArticles.Add(new ArticleInfoModel(info));
+                }
             }
         }
 
@@ -132,7 +143,7 @@ namespace RTCareerAsk.Models
                 Title = Title,
                 Cover = Cover,
                 Author = Author,
-                Index = Index,
+                Index = Index != null ? Convert.ToInt32(Index) : 0,
                 Content = Content,
                 Editor = new User() { ObjectID = EditorID },
                 Reference = !string.IsNullOrEmpty(ReferenceID) ? new Answer() { ObjectID = ReferenceID } : default(Answer)

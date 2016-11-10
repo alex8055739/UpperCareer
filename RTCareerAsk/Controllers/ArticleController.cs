@@ -23,8 +23,8 @@ namespace RTCareerAsk.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            
-            ArticlePostModel model = !string.IsNullOrEmpty(id) ? await ArticleDa.CreatePostModelWithReference(id) : new ArticlePostModel();
+
+            ArticlePostModel model = await ArticleDa.CreatePostModelWithReference(id);
             ViewBag.Title = "撰写新文章";
 
             return View(model);
@@ -34,13 +34,19 @@ namespace RTCareerAsk.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> Compose(ArticlePostModel model)
         {
-            if (!HasUserInfo)
+            if (!ModelState.IsValid)
+            {
+                throw new ArgumentException("您输入的内容不符合格式");
+            }
+            else if (!HasUserInfo)
             {
                 throw new InvalidOperationException("请您先登录进行操作");
             }
 
             model.EditorID = GetUserID();
             await ArticleDa.PostNewArticle(model);
+
+            throw new NotImplementedException();
 
             return RedirectToAction("Index", "Home");
         }

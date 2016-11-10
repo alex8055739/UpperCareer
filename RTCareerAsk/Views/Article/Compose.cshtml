@@ -4,9 +4,87 @@
     bool IsAdmin = ViewBag.IsAdmin != null ? Convert.ToBoolean(ViewBag.IsAdmin) : false;
 }
 
-<h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm())
-{
+<div style="max-width: 700px; padding: 0 10px; margin: 0 auto">
+    <h2>@ViewBag.Title</h2>
 
-}
+    @using (Html.BeginForm("Compose", "Article", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        @Html.HiddenFor(model => model.HasReference)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cover, new { @class = "control-label" })
+            <div id="divCoverPic" style="background-color: #eeeeee; padding: 10px; height: 150px; max-width: 700px; margin: 5px 0">
+                <div style="border: 1px dashed #aaaaaa; padding: 5px; height: 100%"></div>
+            </div>
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Cover, new { @class = "form-control", @readonly = "true", placeholder = "头图链接" })
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button">上传</button>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.Cover)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control", placeholder = "文章标题" })
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Author, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Author, new { @class = "form-control", placeholder = "文章作者", @readonly = Model.HasReference ? "true" : "false" })
+            @Html.ValidationMessageFor(model => model.Author)
+        </div>
+        if (Model.HasReference)
+        {
+        <div class="form-group">
+            <strong>来自于问题：@Html.ActionLink(Model.Reference.ForQuestion.Title, "QuestionDetail", "Question", new { id = Model.Reference.ForQuestion.ID }, new { })</strong>
+            <div style="background-color: #eeeeee; padding: 10px">
+                <div style="border: 1px dashed #aaaaaa; padding: 5px;">
+                    @Html.Raw(HttpUtility.HtmlDecode(Model.Reference.Content))
+                </div>
+            </div>
+        </div>
+        }
+        <div class="form-group">
+            @Html.TextAreaFor(model => model.Content, new { id = "txtArticleContent", @class = "form-control", rows = "8", placeholder = "正文内容" })
+            @Html.ValidationMessageFor(model => model.Content)
+            @if (!Model.HasReference)
+            {
+                <script>
+                    CKEDITOR.replace("txtArticleContent",
+                        {
+                            wordcount: {
+                                showWordCount: false,
+                                showCharCount: true,
+                                maxCharCount: 20000
+                            }
+                        });
+                </script> 
+            }
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Index, new { @class = "control-label" })
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Index, new { @class = "form-control", placeholder = "请输入大于0的数字或缺省" })
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">&plus;</button>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.Index)
+            <div style="background-color: #eeeeee; padding: 10px">
+                <div style="border: 1px dashed #aaaaaa; padding: 5px;">
+                    @foreach (RTCareerAsk.Models.ArticleInfoModel atclInfo in Model.TopArticles)
+                    {
+                        <div>
+                            <span>@atclInfo.Index</span>
+                            <p>@atclInfo.Title</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-success btn-lg" style="display: block; margin: 0 auto" value="发布到首页" />
+        </div>
+    }
+</div>

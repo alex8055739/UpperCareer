@@ -2180,22 +2180,32 @@ namespace RTCareerAsk.DAL
         public async Task<ArticleReference> LoadReference(string id)
         {
             int topArticleCount = 5;
+            ArticleReference atclRef;
 
-            Task<AVObject> reference = AVObject.GetQuery("Answer")
-                .Include("createdBy")
-                .Include("forQuestion")
-                .GetAsync(id)
-                .ContinueWith(t =>
-                {
-                    if (t.IsFaulted || t.IsCanceled)
+            if (!string.IsNullOrEmpty(id))
+            {
+                AVObject reference = await AVObject.GetQuery("Answer")
+                    .Include("createdBy")
+                    .Include("forQuestion")
+                    .GetAsync(id)
+                    .ContinueWith(t =>
                     {
-                        throw t.Exception;
-                    }
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
 
-                    return t.Result;
-                });
+                        return t.Result;
+                    });
 
-            Task<IEnumerable<AVObject>> topArticles = AVObject.GetQuery("Article")
+                atclRef = new ArticleReference(reference);
+            }
+            else
+            {
+                atclRef = new ArticleReference();
+            }
+
+            IEnumerable<AVObject> topArticles = await AVObject.GetQuery("Article")
                 .OrderByDescending("index")
                 .Limit(topArticleCount)
                 .FindAsync()
@@ -2209,10 +2219,7 @@ namespace RTCareerAsk.DAL
                     return t.Result;
                 });
 
-            await Task.WhenAll(reference, topArticles);
-
-            ArticleReference atclRef = new ArticleReference(reference.Result);
-            return atclRef.SetTopArticles(topArticles.Result);
+            return atclRef.SetTopArticles(topArticles);
         }
 
         public async Task<bool> SaveNewArticle(Article a)
