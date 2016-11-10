@@ -13,9 +13,14 @@
         @Html.HiddenFor(model => model.HasReference)
         <div class="form-group">
             @Html.LabelFor(model => model.Cover, new { @class = "control-label" })
-            <div id="divCoverPic" style="background-color: #eeeeee; padding: 10px; height: 150px; max-width: 700px; margin: 5px 0">
-                <div style="border: 1px dashed #aaaaaa; padding: 5px; height: 100%"></div>
-            </div>
+            <a href="#" id="lnkUploadCover">
+                <div id="divCoverPreview" style="background-color: #eeeeee; height: 150px; max-width: 700px; margin: 5px 0">
+                    <div style="border: 1px dashed #aaaaaa; padding: 5px; margin: 10px; height: 100%; display: flex; align-items: center; justify-content: center">
+                        <span style="font-size: 25px; font-weight: bolder; color: #808080; opacity: 0.5">点击或将图片拖放在这里</span>
+                    </div>
+                </div>
+            </a>
+            <input type="file" id="inpCoverFile" value="" style="display: none" />
             <div class="input-group">
                 @Html.TextBoxFor(model => model.Cover, new { @class = "form-control", @readonly = "true", placeholder = "头图链接" })
                 <span class="input-group-btn">
@@ -88,3 +93,36 @@
         </div>
     }
 </div>
+<script type="text/javascript">
+    function CoverPicSelected(e) {
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            var files = e.target.files,
+                previewTarget = $('#divCoverPreview');
+
+            for (var i = 0; i < files.length; i++) {
+                if (!files[i].type.match('image.*')) {
+                    continue;
+                }
+
+                var reader = new FileReader();
+                reader.onload = function (tFile) {
+                    return function (e) {
+                        previewTarget.html('<img id="imgPortraitPreview" style="width: 100%; height:100%" src="' + e.target.result + '" />');
+                    };
+                }(files[i]);
+            }
+        }
+        else {
+            alert('此浏览器不支持文件预览');
+        }
+    }
+
+    $(document).ready(function () {
+        $('#lnkUploadCover').click(function (e) {
+            e.preventDefault();
+            $('#inpCoverFile').trigger('click');
+        })
+
+        $('#inpCoverFile').on('change', CoverPicSelected);
+    })
+</script>
