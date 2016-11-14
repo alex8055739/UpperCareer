@@ -2180,6 +2180,19 @@ namespace RTCareerAsk.DAL
 
         #region Article
 
+        public async Task<Article> LoadArticle(string id)
+        {
+            return await AVObject.GetQuery("Article").Include("reference").Include("editor").GetAsync(id).ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+
+                return new Article(t.Result);
+            });
+        }
+
         public async Task<ArticleReference> LoadReference(string id)
         {
             int topArticleCount = 5;

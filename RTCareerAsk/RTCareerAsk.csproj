@@ -595,7 +595,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\Upper.css" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -635,6 +634,7 @@
     <Content Include="Images\post.png" />
     <Content Include="Images\notification.png" />
     <Content Include="Images\defaultPortrait.png" />
+    <Content Include="Images\wx_pic.png" />
     <Content Include="Scripts\Blob.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -751,6 +751,7 @@
     <Content Include="Views\Question\QuestionDetail.cshtml" />
     <Content Include="Views\Article\Compose.cshtml" />
     <Content Include="Views\Shared\_ImgDisplayModal.cshtml" />
+    <Content Include="Views\Article\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

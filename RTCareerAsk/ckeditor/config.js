@@ -40,17 +40,31 @@
 CKEDITOR.editorConfig = function (config) {
     config.extraPlugins = "imageresize";
 
-    config.toolbarGroups = [
-		{ name: 'links', groups: ['links'] },
-		{ name: 'insert', groups: ['insert'] },
-		{ name: 'forms', groups: ['forms'] },
-		{ name: 'tools', groups: ['tools'] },
-		{ name: 'others', groups: ['others'] },
-		{ name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-		{ name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph'] },
+    config.toolbar = 'basic';
+
+    config.toolbar_basic = [
+    { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] }, { name: 'basicstyles', items: ['Bold', 'Italic', 'Strike'] },
+    { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Blockquote'] },
+    { name: 'tools', items: ['Maximize'] }
     ];
 
-    config.removeButtons = 'Subscript,Superscript,Cut,PasteText,Link,Undo,Redo,PasteFromWord,Copy,Paste,Scayt,SpecialChar,Source,Underline,RemoveFormat,Anchor,Unlink,Outdent,Indent,Styles,Format,About';
+    config.toolbar_article = [
+		{ name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates'] },
+		{ name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+		{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
+		{ name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
+		'/',
+		{ name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+		{ name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
+		{ name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+		{ name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+		'/',
+		{ name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+		{ name: 'colors', items: ['TextColor', 'BGColor'] },
+		{ name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+		{ name: 'about', items: ['About'] }
+    ];
+
     config.filebrowserImageUploadUrl = "/Home/UploadImage";
 
     config.uploadUrl = '/Home/UploadDroppedAndPastedImage';

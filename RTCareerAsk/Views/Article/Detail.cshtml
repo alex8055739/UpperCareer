@@ -1,0 +1,35 @@
+﻿@model RTCareerAsk.Models.ArticleModel
+
+@section frontline{
+    <div style="background-color: #eeeeee; margin-bottom: -90px">
+        <div class="container">
+            <div style="padding-bottom: 30px; max-width: 700px; margin: 0 auto">
+                <h2>@Model.Title</h2>
+                <div>
+                    <span>@Model.Author · @Model.CreateBefore</span>
+                    @if (Model.HasReference)
+                    {
+                        @Html.ActionLink("查看原文", "AnswerDetail", "Question", new { id = Model.Reference.ID }, new { @class = "btn btn-info btn-xs float-right" })
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="article-detail" style="max-width: 700px; margin: 0 auto">
+    @Html.Raw(HttpUtility.HtmlDecode(Model.HasReference ? Model.Reference.Content : Model.Content))
+    @if (Model.HasReference)
+    {
+        <div class="box">
+            <div>
+                <p>@Model.Content</p>
+            </div>
+            <p>编辑：<span>@Html.ActionLink(Model.Editor.Name, "Index", "User", new { id = Model.Editor.UserID }, new { })</span></p>
+        </div>
+    }
+
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/article")
+}

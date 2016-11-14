@@ -32,12 +32,15 @@ namespace RTCareerAsk.DAL.Domain
 
         public Answer Reference { get; set; }
 
+        public bool HasReference { get; set; }
+
         private void GenerateArticleObject(AVObject obj)
         {
             GenerateArticleBaseObject(obj);
             Content = obj.ContainsKey("content") ? obj.Get<string>("content") : default(string);
-            Editor = obj.ContainsKey("editor") ? obj.Get<User>("editor") : default(User);
-            Reference = obj.ContainsKey("reference") ? obj.Get<Answer>("reference") : default(Answer);
+            Editor = obj.ContainsKey("editor") ? new User(obj.Get<AVUser>("editor")) : default(User);
+            Reference = obj.ContainsKey("reference") && obj.Get<AVObject>("reference") != null ? new Answer(obj.Get<AVObject>("reference")) : default(Answer);
+            HasReference = obj.ContainsKey("reference") && obj.Get<AVObject>("reference") != null;
         }
 
         public AVObject CreateArticleObjectForSave()

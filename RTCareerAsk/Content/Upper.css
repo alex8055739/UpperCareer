@@ -194,6 +194,15 @@ a {
         display: block;
     }
 
+.article-detail .box {
+    padding: 10px;
+    background-color: #ffffff;
+    -moz-box-shadow: 0px 3px 12px #000000;
+    -webkit-box-shadow: 0px 3px 12px #000000;
+    box-shadow: 0px 3px 12px #000000;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(strength = 3, Direction = 180, Color = '#000000')";
+    filter: progid:DXImageTransform.Microsoft.Shadow(strength = 3, direction = 180, color = '#000000');
+}
 
 .question-detail {
     background-color: #ffffff;
@@ -613,6 +622,11 @@ a {
 .clearfix {
     overflow: auto;
     padding-bottom: 0px;
+}
+
+.centered {
+    display: block;
+    margin: 0 auto;
 }
 
 .resized {

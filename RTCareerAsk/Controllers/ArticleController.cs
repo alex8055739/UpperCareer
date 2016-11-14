@@ -11,9 +11,31 @@ namespace RTCareerAsk.Controllers
 {
     public class ArticleController : UpperBaseController
     {
+        [UpperResult]
         public ActionResult Index()
         {
             return View();
+        }
+
+        [UpperResult]
+        public async Task<ActionResult> Detail(string id = default(string))
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    id = "582970508ac247005974b089";
+                }
+
+                ArticleModel model = await ArticleDa.LoadArticleDetail(id);
+
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
         }
 
         [UpperResult]

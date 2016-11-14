@@ -46,6 +46,8 @@
                         <ul class="dropdown-menu">
                             @if (IsAdmin)
                             {
+                                <li>@Html.ActionLink("看文（无引用）", "Detail", "Article")</li>
+                                <li>@Html.ActionLink("看文（有引用）", "Detail", "Article", new { id="58292b84128fe1005cd4be39" }, new { })</li>
                                 <li>@Html.ActionLink("撰文", "Compose", "Article")</li>
                                 <li class="@Html.IsSelected("Test")">@Html.ActionLink("报告列表", "Index", "Test")</li>
                                 <li class="divider"></li>

@@ -91,7 +91,7 @@ namespace RTCareerAsk.Models
         }
 
         [Required(ErrorMessage = "请输入文章标题")]
-        [StringLength(30, ErrorMessage = "标题请不要超过{1}字")]
+        [StringLength(50, ErrorMessage = "标题请不要超过{1}字")]
         [DisplayName("标题：")]
         public string Title { get; set; }
         [Required(ErrorMessage = "封面图不能为空")]

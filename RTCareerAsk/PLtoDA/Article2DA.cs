@@ -23,5 +23,13 @@ namespace RTCareerAsk.PLtoDA
         {
             return await LCDal.SaveNewArticle(model.CreatePostForSave());
         }
+
+        public async Task<ArticleModel> LoadArticleDetail(string id)
+        {
+            return await LCDal.LoadArticle(id).ContinueWith(t =>
+            {
+                return new ArticleModel(t.Result);
+            });
+        }
     }
 }

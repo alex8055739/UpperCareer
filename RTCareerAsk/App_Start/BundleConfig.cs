@@ -52,6 +52,9 @@ namespace RTCareerAsk
                         "~/Scripts/cropper*",
                         "~/Scripts/canvas-to-blob*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/article").Include(
+                        "~/Scripts/Upper/fix-image-display.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/compose").Include(
                         "~/Scripts/Upper/fix-image-display.js",
                         "~/Scripts/Upper/article-compose.js",
