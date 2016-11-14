@@ -11,6 +11,7 @@
     @using (Html.BeginForm("Compose", "Article", FormMethod.Post, new { @class = "form-horizontal" }))
     {
         @Html.HiddenFor(model => model.HasReference)
+        @Html.HiddenFor(model => model.ReferenceID)
         <div class="form-group">
             @Html.LabelFor(model => model.Cover, new { @class = "control-label" })
             <a href="#" id="lnkUploadCover">
@@ -22,7 +23,7 @@
             </a>
             <input type="file" id="inpCoverFile" value="" style="display: none" />
             <div class="input-group">
-                @Html.TextBoxFor(model => model.Cover, new { @class = "form-control", @readonly = "true", placeholder = "头图链接" })
+                @Html.TextBoxFor(model => model.Cover, new { id = "txtCoverLink", @class = "form-control", @readonly = "true", placeholder = "头图链接" })
                 <span class="input-group-btn">
                     <button id="btnUploadCover" class="btn btn-primary disabled" type="button">上传封面</button>
                 </span>
@@ -36,7 +37,7 @@
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Author, new { @class = "control-label" })
-            @Html.TextBoxFor(model => model.Author, new { @class = "form-control", placeholder = "文章作者", @readonly = Model.HasReference ? "true" : "false" })
+            @Html.TextBoxFor(model => model.Author, new { @class = "form-control", placeholder = "文章作者" })
             @Html.ValidationMessageFor(model => model.Author)
         </div>
         if (Model.HasReference)

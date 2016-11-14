@@ -16,11 +16,6 @@ namespace RTCareerAsk.PLtoDA
     /// </summary>
     public class Home2DA : DABase
     {
-        public async Task<string> UploadImageFile(FileModel f)
-        {
-            return await LCDal.SaveNewStreamFile(f.RestoreFileModelToObject());
-        }
-
         public async Task<List<FileInfoModel>> GetFileInfoModels()
         {
             return await LCDal.FindAllFiles().ContinueWith(t => ConvertFileInfoObjectsToModels(t.Result));

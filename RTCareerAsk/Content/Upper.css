@@ -615,6 +615,10 @@ a {
     padding-bottom: 0px;
 }
 
+.resized {
+    cursor: pointer;
+}
+
 .CmtCount div {
     display: inline;
 }

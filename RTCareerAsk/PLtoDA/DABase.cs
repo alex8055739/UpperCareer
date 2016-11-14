@@ -66,6 +66,11 @@ namespace RTCareerAsk.PLtoDA
             return await LCDal.DeleteFileWithUrl(url);
         }
 
+        public async Task<string> UploadImageFile(FileModel f)
+        {
+            return await LCDal.SaveNewStreamFile(f.RestoreFileModelToObject());
+        }
+
         #endregion
     }
 }

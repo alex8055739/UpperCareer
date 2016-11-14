@@ -35,7 +35,7 @@ namespace RTCareerAsk.Models
     {
         [Required(ErrorMessage = "请您输入答案正文")]
         [DisplayName("答案内容：")]
-        [StringLength(6000, ErrorMessage = "超过字数上限，答案请不要超过5000字")]
+        [StringLength(6000, ErrorMessage = "超过字数上限，答案请不要超过{1}字")]
         public string PostContent { get; set; }
 
         public string QuestionID { get; set; }
@@ -59,7 +59,7 @@ namespace RTCareerAsk.Models
     {
         [Required(ErrorMessage = "请您输入评论正文")]
         [DisplayName("评论内容：")]
-        [StringLength(140, ErrorMessage = "超过字数上限，评论请不要超过140字")]
+        [StringLength(140, ErrorMessage = "超过字数上限，评论请不要超过{1}字")]
         public string PostContent { get; set; }
 
         public string AnswerID { get; set; }
@@ -97,7 +97,7 @@ namespace RTCareerAsk.Models
         [Required(ErrorMessage = "封面图不能为空")]
         [DisplayName("封面图片：")]
         public string Cover { get; set; }
-        [Required(ErrorMessage = "请输入作者名字")]
+        [Required(ErrorMessage = "请输入原作者名字")]
         [DisplayName("原作者：")]
         public string Author { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "请输入大于{1}的数字")]

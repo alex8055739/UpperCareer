@@ -43,12 +43,35 @@ namespace RTCareerAsk.Controllers
                 throw new InvalidOperationException("请您先登录进行操作");
             }
 
+            if (model.HasReference)
+            {
+                model.Content = ModifyTextareaData(model.Content, true);
+            }
+
             model.EditorID = GetUserID();
+
             await ArticleDa.PostNewArticle(model);
 
-            throw new NotImplementedException();
-
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UploadCoverPic(HttpPostedFileBase cover)
+        {
+            try
+            {
+                string url = await UploadImageFile(cover, string.Format("ArticleCover{0}", GetUserID()));
+
+                return Json(new
+                {
+                    url = url
+                });
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
         }
     }
 }

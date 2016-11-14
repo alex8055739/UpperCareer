@@ -24,6 +24,9 @@ namespace RTCareerAsk.Controllers
 
         #region Property
 
+        private string TitleMark { get { return "UpperCareer"; } }
+        protected string GeneralTitle { get { return "UpperCareer - 真实的职场知识、经验、见解分享社区"; } }
+
         protected Home2DA HomeDa { get { return new Home2DA(); } }
         protected Account2DA AccountDa { get { return new Account2DA(); } }
         protected Question2DA QuestionDa { get { return new Question2DA(); } }
@@ -59,6 +62,11 @@ namespace RTCareerAsk.Controllers
         protected async Task AccountLogin(string userName, string password)
         {
             await AccountDa.LoginWithEmail(userName, password).ContinueWith(t => StoreUserToSession(t.Result));
+        }
+
+        protected string GenerateTitle(string prefix)
+        {
+            return string.Format("{0} - {1}", prefix, TitleMark);
         }
 
         protected string GetUserID()
@@ -161,6 +169,11 @@ namespace RTCareerAsk.Controllers
             }
 
             throw new NullReferenceException("未能成功获取上传内容");
+        }
+
+        protected async Task<string> UploadImageFile(HttpPostedFileBase file, string fileName = "")
+        {
+            return await HomeDa.UploadImageFile(CreateFileModelForUpload(file, fileName));
         }
 
         protected void CopyToSave(string sessionName, object contentCopy)

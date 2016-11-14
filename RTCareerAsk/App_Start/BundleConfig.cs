@@ -54,8 +54,8 @@ namespace RTCareerAsk
 
             bundles.Add(new ScriptBundle("~/bundles/compose").Include(
                         "~/Scripts/Upper/fix-image-display.js",
-                        "~/Scripts/canvas-to-blob*",
-                        "~/Scripts/Upper/article-compose.js"));
+                        "~/Scripts/Upper/article-compose.js",
+                        "~/Scripts/canvas-to-blob*"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"));

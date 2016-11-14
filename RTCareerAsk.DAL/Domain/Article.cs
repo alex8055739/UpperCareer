@@ -58,10 +58,15 @@ namespace RTCareerAsk.DAL.Domain
 
     public class ArticleReference
     {
-        public ArticleReference() { }
+        public ArticleReference()
+        {
+            TopArticles = new List<ArticleInfo>();
+        }
 
         public ArticleReference(AVObject ans)
         {
+            TopArticles = new List<ArticleInfo>();
+
             GenerateArticleReferenceObject(ans);
         }
 

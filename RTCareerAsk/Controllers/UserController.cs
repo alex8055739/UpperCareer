@@ -18,12 +18,10 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
-                ViewBag.Title = "浏览用户信息";
-                //ViewBag.IsAuthorized = IsUserAuthorized("User,Admin");
-                //ViewBag.IsAdmin = IsUserAuthorized("Admin");
-                ViewBag.IsSelf = HasUserInfo ? GetUserID() == id : false;
-
                 UserDetailModel model = await UserDa.LoadUserDetail(id, HasUserInfo ? GetUserID() : "");
+
+                ViewBag.Title = GenerateTitle(model.Name);
+                ViewBag.IsSelf = HasUserInfo ? GetUserID() == id : false;
 
                 return View(model);
             }

@@ -29,7 +29,7 @@ namespace RTCareerAsk.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl, bool fromRegister = false)
         {
-            ViewBag.Title = "请您登录或加入Upper";
+            ViewBag.Title = GeneralTitle;
 
             if (fromRegister)
             {
@@ -196,10 +196,12 @@ namespace RTCareerAsk.Controllers
                     throw new InvalidOperationException("未登录不能访问此页面");
                 }
 
-                ViewBag.FieldList = GetFieldList();
 
                 UserManageModel model = await AccountDa.LoadUserManageInfo(GetUserID());
                 model.SelfDescription = ModifyTextareaData(model.SelfDescription, false);
+
+                ViewBag.Title = GenerateTitle("个人设置");
+                ViewBag.FieldList = GetFieldList();
 
                 return View(model);
             }
@@ -213,7 +215,7 @@ namespace RTCareerAsk.Controllers
         public ActionResult RegisterSuccess(string returnUrl, string email)
         {
             ViewBag.IsAdmin = IsUserAuthorized("Admin");
-            ViewBag.Title = "注册成功";
+            ViewBag.Title = GenerateTitle("注册成功");
             ViewBag.ReturnUrl = returnUrl;
             ViewBag.Email = email;
 
@@ -309,7 +311,7 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
-                string url = await HomeDa.UploadImageFile(CreateFileModelForUpload(portrait, string.Format("portrait{0}", GetUserID())));
+                string url = await UploadImageFile(portrait, string.Format("portrait{0}", GetUserID()));
 
                 if (await AccountDa.ChangeUserPortrait(GetUserID(), url))
                 {

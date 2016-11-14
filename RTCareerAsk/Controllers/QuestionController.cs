@@ -18,7 +18,7 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
-                ViewBag.Title = "欢迎来到Upper";
+                ViewBag.Title = GeneralTitle;
 
                 return View(await QuestionDa.LoadQuestionListByPage(0));
             }
@@ -34,7 +34,10 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
-                return View(SetFlagsForActions(await QuestionDa.GetQuestionModel(HasUserInfo ? GetUserID() : string.Empty, id)));
+                QuestionModel model = await QuestionDa.GetQuestionModel(HasUserInfo ? GetUserID() : string.Empty, id);
+                ViewBag.Title = GenerateTitle(model.Title);
+
+                return View(SetFlagsForActions(model));
             }
             catch (Exception e)
             {
@@ -48,7 +51,10 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
-                return View(SetFlagsForActions(await QuestionDa.GetAnswerModel(id)));
+                AnswerModel model = await QuestionDa.GetAnswerModel(id);
+                ViewBag.Title = GenerateTitle(string.Format("{0} - {1}的回答", model.ForQuestion.Title, model.Creator.Name));
+
+                return View(SetFlagsForActions(model));
             }
             catch (Exception e)
             {
@@ -104,7 +110,7 @@ namespace RTCareerAsk.Controllers
                 throw e;
             }
         }
-        
+
         [HttpPost]
         public PartialViewResult CreateQuestionForm()
         {

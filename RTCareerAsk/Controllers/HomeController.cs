@@ -54,6 +54,14 @@ namespace RTCareerAsk.Controllers
             }
         }
 
+        [HttpPost]
+        public PartialViewResult CreateImgDisplayModal(string src)
+        {
+            ViewBag.Src = src;
+
+            return PartialView("_ImgDisplayModal");
+        }
+
         public async Task<ActionResult> FileListPage()
         {
             try

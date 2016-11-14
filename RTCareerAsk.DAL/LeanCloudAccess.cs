@@ -2227,7 +2227,9 @@ namespace RTCareerAsk.DAL
 
         public async Task<bool> SaveNewArticle(Article a)
         {
-            return await a.CreateArticleObjectForSave().SaveAsync().ContinueWith(t =>
+            AVObject atcl = a.CreateArticleObjectForSave();
+
+            return await atcl.SaveAsync().ContinueWith(t =>
                 {
                     if (t.IsFaulted || t.IsCanceled)
                     {
@@ -2236,7 +2238,7 @@ namespace RTCareerAsk.DAL
 
                     if (a.Reference != default(Answer))
                     {
-                        MarkRecommandedReference(a.Reference.ObjectID).ContinueWith(s =>
+                        MarkRecommandedReference(a.Reference.ObjectID, atcl.ObjectId).ContinueWith(s =>
                             {
                                 return s.Result;
                             });
@@ -2246,7 +2248,7 @@ namespace RTCareerAsk.DAL
                 });
         }
 
-        public async Task<bool> MarkRecommandedReference(string id)
+        public async Task<bool> MarkRecommandedReference(string id, string atclId)
         {
             return await AVObject.GetQuery("Answer").GetAsync(id).ContinueWith(t =>
                 {
@@ -2255,7 +2257,7 @@ namespace RTCareerAsk.DAL
                         throw t.Exception;
                     }
 
-                    t.Result["isRecommanded"] = true;
+                    t.Result["recommendation"] = AVObject.CreateWithoutData("Article", atclId);
 
                     return t.Result.SaveAsync().ContinueWith(s =>
                         {

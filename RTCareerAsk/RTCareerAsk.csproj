@@ -630,6 +630,7 @@
     <None Include="Properties\PublishProfiles\Host.pubxml" />
     <None Include="Properties\PublishProfiles\QCloud.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Images\error.png" />
     <Content Include="Images\spin.gif" />
     <Content Include="Images\post.png" />
     <Content Include="Images\notification.png" />
@@ -657,7 +658,6 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Upper\article-compose.js" />
     <Content Include="Scripts\Upper\login.js" />
-    <Content Include="Scripts\Upper\upper-pic-preview.js" />
     <Content Include="Scripts\Upper\upper-scrollpaging.js" />
     <Content Include="Scripts\Upper\upper-shorten.js" />
     <Content Include="Scripts\Upper\question-list.js" />
@@ -750,6 +750,7 @@
     <Content Include="Views\Shared\_QuickLoginModal.cshtml" />
     <Content Include="Views\Question\QuestionDetail.cshtml" />
     <Content Include="Views\Article\Compose.cshtml" />
+    <Content Include="Views\Shared\_ImgDisplayModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

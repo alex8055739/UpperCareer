@@ -1,12 +1,8 @@
-﻿var previewTarget = '#divCoverPreview',
-    dropTarget = $(previewTarget);
+﻿function CoverPicSelected(e) {
+    var file = e.target.files[0];
 
-
-function CoverPicSelected(e) {
-    var files = e.target.files;
-
-    PreviewPic(files, {
-        previewTarget: previewTarget,
+    FillCanvas(file, {
+        previewTarget: '#divCoverPreview',
         postAction: function () {
             $('#btnUploadCover').removeClass('disabled');
         }
@@ -16,11 +12,11 @@ function CoverPicSelected(e) {
 function CoverPicDropped(e) {
     e.stopPropagation();
     e.preventDefault();
-    dropTarget.removeClass('file-hover').removeClass('file-await');
-    var files = e.originalEvent.dataTransfer.files;
+    $('#divCoverPreview').removeClass('file-hover').removeClass('file-await');
+    var file = e.originalEvent.dataTransfer.files[0];
 
-    PreviewPic(files, {
-        previewTarget: previewTarget,
+    FillCanvas(file, {
+        previewTarget: '#divCoverPreview',
         postAction: function () {
             $('#btnUploadCover').removeClass('disabled');
         }
@@ -30,45 +26,18 @@ function CoverPicDropped(e) {
 function DragOver(e) {
     e.stopPropagation();
     e.preventDefault();
-    dropTarget.addClass('file-hover');
+    $('#divCoverPreview').addClass('file-hover');
 }
 
 function DragLeave(e) {
     e.stopPropagation();
     e.preventDefault();
-    dropTarget.removeClass('file-hover');
-}
-
-function FileDropped(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    $(e.target).parent().removeClass('file-hover').removeClass('file-await');
-
-    if (window.File && window.FileReader && window.FileList && window.Blob) {
-        var files = e.originalEvent.dataTransfer.files;
-
-        for (var i = 0; i < files.length; i++) {
-            if (!files[i].type.match('image.*')) {
-                continue;
-            }
-
-            reader = new FileReader();
-            reader.onload = (function (tFile) {
-                return function (e) {
-                    $('#divDropTarget').html('<img id="imgPortraitPreview" style="width: 100% ;" src="' + e.target.result + '" />');
-                    ResizePortrait();
-                    CropPortrait();
-                };
-            }(files[i]));
-            reader.readAsDataURL(files[i]);
-        }
-    }
-    else {
-        alert('此浏览器不支持文件预览');
-    }
+    $('#divCoverPreview').removeClass('file-hover');
 }
 
 $(document).ready(function () {
+    var dropTarget = $('#divCoverPreview');
+
     dropTarget.on('dragover', DragOver);
     dropTarget.on('dragleave', DragLeave);
     dropTarget.on('drop', CoverPicDropped);
@@ -79,4 +48,39 @@ $(document).ready(function () {
     })
 
     $('#inpCoverFile').on('change', CoverPicSelected);
+
+    $('#btnUploadCover').click(function (e) {
+        e.preventDefault();
+        var btn = $(this),
+            inputCover = $('#txtCoverLink'),
+            btnText = btn.text();
+
+        $('#cvsPreview').get(0).toBlob(function (blob) {
+            var formData = new FormData();
+
+            formData.append('cover', blob);
+
+            $.ajax('/Article/UploadCoverPic', {
+                method: 'post',
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    btn.addClass('disabled').text('正在上传...')
+                },
+                success: function (result) {
+                    inputCover.val(result.url);
+                },
+                error: function (e) {
+                    DisplayErrorInfo('更换头像出现问题，请您查看……');
+                },
+                complete: function () {
+                    btn.removeClass('disabled').text(btnText);
+                }
+            })
+        },
+        'image/jpeg'
+        )
+    })
 })

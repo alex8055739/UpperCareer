@@ -82,7 +82,7 @@
                     var imgWrap = $(document.createElement('div')).addClass('img-wrap'),
                     img = $(document.createElement('img')),
                     firstImg = $this.find('img').first(),
-                    imgRatio = firstImg.width() / firstImg.height();
+                    imgRatio = firstImg.hasClass('resized') ? firstImg.data('ratio') : firstImg.width() / firstImg.height();
 
                     img.attr('src', firstImg.attr('src'));
 

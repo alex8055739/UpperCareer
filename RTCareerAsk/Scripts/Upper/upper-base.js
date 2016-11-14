@@ -97,6 +97,45 @@ function PreviewPic(files, settings) {
     }
 }
 
+function FillCanvas(file, settings) {
+    var config = {
+        previewTarget: '#divPreview',
+        canvasId: 'cvsPreview',
+        postAction: function () { }
+    }
+
+    if (settings) {
+        $.extend(config, settings)
+    }
+
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        if (!file.type.match('image.*')) {
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var img = $('<img>', { src: e.target.result });
+            img.load(function () {
+                var canvas = document.createElement('canvas');
+                var context = canvas.getContext('2d');
+
+                canvas.setAttribute('id', config.canvasId);
+                canvas.width = $(config.previewTarget).width();
+                canvas.height = $(config.previewTarget).height();
+                context.drawImage(this, 0, 0, canvas.width, canvas.height);
+
+                $(config.previewTarget).html(canvas);
+                config.postAction();
+            })
+        };
+        reader.readAsDataURL(file);
+    }
+    else {
+        alert('此浏览器不支持文件预览');
+    }
+}
+
 function DisplaySuccessInfo(infoText) {
     var successTab = $('#divInfoSuccess').find('p');
     $('div[id^="divInfo"]').stop(true, true).hide();

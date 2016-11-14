@@ -21,7 +21,7 @@ namespace RTCareerAsk.Controllers
             {
                 if (IsUserAuthorized("User,Admin"))
                 {
-                    ViewBag.Title = "消息列表";
+                    ViewBag.Title = GenerateTitle("消息");
 
                     if (!string.IsNullOrEmpty(Id))
                     {

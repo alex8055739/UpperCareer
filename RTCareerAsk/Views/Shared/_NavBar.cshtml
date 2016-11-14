@@ -26,11 +26,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
             <ul class="nav navbar-nav">
                 <li class="@Html.IsSelected("Question")">@Html.ActionLink("问答", "Index", "Question")</li>
-                @if (IsAdmin)
-                {
-                    <li><a href="#" id="btnBugReport" data-toggle="modal" data-target="#divModal">报错 <span class="sr-only">(current)</span></a></li>
-                    <li class="@Html.IsSelected("Test")">@Html.ActionLink("报告列表", "Index", "Test")</li>
-                }
+                @*<li><a href="#" id="btnBugReport" data-toggle="modal" data-target="#divModal">报错 <span class="sr-only">(current)</span></a></li>*@
             </ul>
             @if (IsAuthorized)
             {
@@ -48,6 +44,12 @@
                             <span class="caret" />
                         </a>
                         <ul class="dropdown-menu">
+                            @if (IsAdmin)
+                            {
+                                <li>@Html.ActionLink("撰文", "Compose", "Article")</li>
+                                <li class="@Html.IsSelected("Test")">@Html.ActionLink("报告列表", "Index", "Test")</li>
+                                <li class="divider"></li>
+                            }
                             <li>@Html.ActionLink("个人主页", "Index", "User", new { id = um.UserID }, new { })</li>
                             <li>@Html.ActionLink("个人设置", "UserManage", "Account")</li>
                             <li>@Html.ActionLink("登出", "LogOff", "Account")</li>
@@ -72,6 +74,15 @@
                             <img src="~/Images/post.png" alt="" class="nav-img" />
                         </a>
                     </li>
+                    @if (IsAdmin)
+                    {
+                        <li>
+                            <a href="#" id="btnBugReport" data-toggle="modal" data-target="#divModal" style="padding: 10.5px 15px">
+                                <span data-toggle="tooltip" data-placement="bottom" title="报错" />
+                                <img src="~/Images/error.png" alt="" class="nav-img" />
+                            </a>
+                        </li>
+                    }
                 </ul>
             }
             else
