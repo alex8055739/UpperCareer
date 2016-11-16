@@ -12,22 +12,28 @@ namespace RTCareerAsk.Controllers
     public class ArticleController : UpperBaseController
     {
         [UpperResult]
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        [UpperResult]
-        public async Task<ActionResult> Detail(string id = default(string))
+        public async Task<ActionResult> Index()
         {
             try
             {
-                if (string.IsNullOrEmpty(id))
-                {
-                    id = "582970508ac247005974b089";
-                }
+                ViewBag.Title = GenerateTitle("资讯");
 
+                return View(await ArticleDa.LoadArticleList());
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+        [UpperResult]
+        public async Task<ActionResult> Detail(string id)
+        {
+            try
+            {
                 ArticleModel model = await ArticleDa.LoadArticleDetail(id);
+                ViewBag.Title = GenerateTitle(model.Title);
 
                 return View(model);
             }

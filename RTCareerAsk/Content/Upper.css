@@ -193,11 +193,13 @@ a {
     }
 
 .article-list {
-    max-width: 700px;
+    max-width: 730px;
+    padding: 0 15px;
 }
 
     .article-list ul {
         list-style-type: none;
+        padding-left: 0;
     }
 
     .article-list .list {
@@ -216,6 +218,8 @@ a {
         -moz-border-radius: 5px;
         -webkit-border-radius: 5px;
         border-radius: 5px;
+        width: 100%;
+        height: auto;
     }
 
     .article-list .title {
