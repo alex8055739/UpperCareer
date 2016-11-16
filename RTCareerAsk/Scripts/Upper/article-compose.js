@@ -79,8 +79,6 @@ $(document).ready(function () {
                     btn.removeClass('disabled').text(btnText);
                 }
             })
-        },
-        'image/jpeg'
-        )
+        })
     })
 })

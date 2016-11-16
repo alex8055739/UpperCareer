@@ -5,7 +5,7 @@
     {
         <li class="listitem">
             <a href="@Url.Action("Detail", "Article", new { id = atcl.ID })">
-                <img src="@atcl.Cover" alt="@atcl.Title" class="cover" />
+                <img src="@atcl.Cover" alt="@atcl.Title" class="cover" data-ratio="0.2142" />
             </a>
             <h4>
                 @Html.ActionLink(atcl.Title, "Detail", "Article", new { id = atcl.ID }, new { @class = "title" })
@@ -18,3 +18,16 @@
         </li>
     }
 </ul>
+<script type="text/javascript">
+    //function ResizeCover() {
+    //    $('.cover').each(function () {
+    //        var $this = $(this),
+    //            ratio = $(this).data('ratio');
+
+    //        $this.height($this.width() * ratio);
+    //    })
+    //}
+    //$(document).ready(function () {
+
+    //})
+</script>

@@ -219,7 +219,7 @@ a {
         -webkit-border-radius: 5px;
         border-radius: 5px;
         width: 100%;
-        height: auto;
+        height: 100%;
     }
 
     .article-list .title {
