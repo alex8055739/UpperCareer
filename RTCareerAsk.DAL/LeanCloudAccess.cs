@@ -1320,7 +1320,12 @@ namespace RTCareerAsk.DAL
                     return t.Result.Count() > 0 ? t.Result.First().Get<bool?>("isLike") : null;
                 });
         }
-
+        /// <summary>
+        /// 读取点赞和被踩量
+        /// </summary>
+        /// <param name="target">需要读取的目标条目</param>
+        /// <param name="isQuestion">目标是否为问题条目</param>
+        /// <returns>目标条目的点赞量和被踩量</returns>
         public async Task<Dictionary<string, int>> LoadVoteCounts(AVObject target, bool isQuestion)
         {
             string positiveKey = "Positive";
@@ -1354,22 +1359,6 @@ namespace RTCareerAsk.DAL
                     }
 
                     return voteCounts;
-                });
-        }
-        /// <summary>
-        /// 为问题或者答案条目更新浏览量。
-        /// </summary>
-        /// <param name="obj">目标问题或答案</param>
-        /// <returns></returns>
-        public async Task UpdateViewCount(AVObject obj)
-        {
-            obj["viewCount"] = obj.ContainsKey("viewCount") ? obj.Get<int>("viewCount") + 1 : 1;
-            await obj.SaveAsync().ContinueWith(t =>
-                {
-                    if (t.IsFaulted || t.IsCanceled)
-                    {
-                        throw t.Exception;
-                    }
                 });
         }
         #endregion
@@ -2180,6 +2169,33 @@ namespace RTCareerAsk.DAL
 
         #region Article
 
+        public async Task<List<ArticleInfo>> LoadArticleList(int pageIndex)
+        {
+            var pageCapacity = 10;
+
+            return await AVObject.GetQuery("Article")
+                .Skip(pageIndex * pageCapacity)
+                .Limit(pageCapacity)
+                .OrderByDescending("index")
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    List<ArticleInfo> atcls = new List<ArticleInfo>();
+
+                    foreach (AVObject atcl in t.Result)
+                    {
+                        atcls.Add(new ArticleInfo(atcl));
+                    }
+
+                    return atcls;
+                });
+        }
+
         public async Task<Article> LoadArticle(string id)
         {
             return await AVObject.GetQuery("Article").Include("reference").Include("editor").GetAsync(id).ContinueWith(t =>
@@ -2188,6 +2204,8 @@ namespace RTCareerAsk.DAL
                 {
                     throw t.Exception;
                 }
+
+                UpdateViewCount(t.Result);
 
                 return new Article(t.Result);
             });
@@ -2283,7 +2301,25 @@ namespace RTCareerAsk.DAL
                         });
                 }).Unwrap();
         }
+        #endregion
 
+        #region Universal Method
+        /// <summary>
+        /// 为问题或者答案条目更新浏览量。
+        /// </summary>
+        /// <param name="obj">目标问题或答案</param>
+        /// <returns></returns>
+        public async Task UpdateViewCount(AVObject obj)
+        {
+            obj["viewCount"] = obj.ContainsKey("viewCount") ? obj.Get<int>("viewCount") + 1 : 1;
+            await obj.SaveAsync().ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+            });
+        }
         #endregion
 
         #endregion

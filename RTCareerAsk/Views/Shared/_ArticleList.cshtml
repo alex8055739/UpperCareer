@@ -1,0 +1,20 @@
+﻿@model IEnumerable<RTCareerAsk.Models.ArticleInfoModel>
+
+<ul class="list">
+    @foreach (RTCareerAsk.Models.ArticleInfoModel atcl in Model)
+    {
+        <li class="listitem">
+            <a href="@Url.Action("Detail", "Article", new { id = atcl.ID })">
+                <img src="@atcl.Cover" alt="@atcl.Title" class="cover" />
+            </a>
+            <h4>
+                @Html.ActionLink(atcl.Title, "Detail", "Article", new { id = atcl.ID }, new { @class = "title" })
+            </h4>
+            <p class="info">
+                <span>@atcl.Author</span>
+                &nbsp;|&nbsp;
+                <span>@atcl.DateCreate</span>
+            </p>
+        </li>
+    }
+</ul>

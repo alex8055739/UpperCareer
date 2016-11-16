@@ -91,7 +91,6 @@ function OnProfileComplete() {
 
 function OnProfileFailure(result) {
     DisplayErrorInfo(result.text);
-    alert(result.text);
 }
 
 $(document).ready(function () {

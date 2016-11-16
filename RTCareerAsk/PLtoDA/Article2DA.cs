@@ -19,6 +19,21 @@ namespace RTCareerAsk.PLtoDA
                 });
         }
 
+        public async Task<List<ArticleInfoModel>> LoadArticleList(int pageIndex = 0)
+        {
+            return await LCDal.LoadArticleList(pageIndex).ContinueWith(t =>
+                {
+                    List<ArticleInfoModel> atcls = new List<ArticleInfoModel>();
+
+                    foreach (ArticleInfo atcl in t.Result)
+                    {
+                        atcls.Add(new ArticleInfoModel(atcl));
+                    }
+
+                    return atcls;
+                });
+        }
+
         public async Task<bool> PostNewArticle(ArticlePostModel model)
         {
             return await LCDal.SaveNewArticle(model.CreatePostForSave());

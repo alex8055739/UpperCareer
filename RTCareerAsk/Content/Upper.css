@@ -20,15 +20,17 @@ body {
 }
 
 #body {
-    padding-bottom: 40px;
+    padding-bottom: 60px;
 }
 
 #footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 40px;
-    background-color: #444444;
+    height: 60px;
+    background-color: #333333;
+    color: #999999;
+    text-align: center;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffffff', endColorstr = '#1b0057');
     /*INNER ELEMENTS MUST NOT BREAK THIS ELEMENTS BOUNDARIES*/
     /*Element must have a height (not auto)*/
@@ -181,10 +183,6 @@ a {
         font-size: 12px;
     }
 
-/*.content-info .section.number span:last-child {
-                    line-height: 1.6;
-                }*/
-
 .content-info .section.text {
     margin-left: 1em;
     overflow: hidden;
@@ -194,15 +192,87 @@ a {
         display: block;
     }
 
-.article-detail .box {
-    padding: 10px;
-    background-color: #ffffff;
-    -moz-box-shadow: 0px 3px 12px #000000;
-    -webkit-box-shadow: 0px 3px 12px #000000;
-    box-shadow: 0px 3px 12px #000000;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(strength = 3, Direction = 180, Color = '#000000')";
-    filter: progid:DXImageTransform.Microsoft.Shadow(strength = 3, direction = 180, color = '#000000');
+.article-list {
+    max-width: 700px;
 }
+
+    .article-list ul {
+        list-style-type: none;
+    }
+
+    .article-list .list {
+    }
+
+        .article-list .list > .listitem {
+            border-bottom: 1px dashed #bbbbbb;
+            padding: 20px 0 25px;
+        }
+
+            .article-list .list > .listitem:last-child {
+                border: none;
+            }
+
+    .article-list .cover {
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    .article-list .title {
+    }
+
+    .article-list .info {
+    }
+
+.article-header {
+    background-size: 100% 100%;
+    margin-bottom: -90px;
+}
+
+    .article-header > .wrap {
+        background-color: black;
+        opacity: 0.8;
+    }
+
+        .article-header > .wrap > .container {
+            padding-top: 60px !important;
+        }
+
+    .article-header .box {
+        padding: 0 15px 30px;
+        max-width: 700px;
+    }
+
+    .article-header .title {
+        color: white;
+        line-height: 1.3;
+    }
+
+    .article-header .info {
+        margin-top: 15px;
+        color: #cccccc;
+        display: flex;
+        align-items: center;
+    }
+
+        .article-header .info > span {
+            margin-right: 15px;
+        }
+
+
+.article-content {
+    max-width: 700px;
+    padding: 30px 15px;
+}
+
+    .article-content .editor-box {
+        padding: 10px;
+        color: #aaaaaa;
+    }
+
+        .article-content .editor-box > div {
+            margin-bottom: 10px;
+        }
 
 .question-detail {
     background-color: #ffffff;

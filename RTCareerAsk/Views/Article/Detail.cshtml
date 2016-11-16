@@ -1,34 +1,37 @@
 ﻿@model RTCareerAsk.Models.ArticleModel
 
 @section frontline{
-    <div style="background-color: #eeeeee; margin-bottom: -90px">
-        <div class="container">
-            <div style="padding-bottom: 30px; max-width: 700px; margin: 0 auto">
-                <h2>@Model.Title</h2>
-                <div>
-                    <span>@Model.Author · @Model.CreateBefore</span>
-                    @if (Model.HasReference)
-                    {
-                        @Html.ActionLink("查看原文", "AnswerDetail", "Question", new { id = Model.Reference.ID }, new { @class = "btn btn-info btn-xs float-right" })
-                    }
+    <div style="background-image:url(@Model.Cover)" class="article-header">
+        <div class="wrap">
+            <div class="container">
+                <div class="box centered">
+                    <div class="title">
+                        <h2>@Model.Title</h2>
+                    </div>
+                    <div class="info">
+                        <span>@Model.Author · @Model.DateCreate</span>
+                        @if (Model.HasReference)
+                        {
+                            @Html.ActionLink("查看原文", "AnswerDetail", "Question", new { id = Model.Reference.ID }, new { @class = "btn btn-info outline btn-xs" })
+                        }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 }
 
-<div class="article-detail" style="max-width: 700px; margin: 0 auto">
-    @Html.Raw(HttpUtility.HtmlDecode(Model.HasReference ? Model.Reference.Content : Model.Content))
+<div class="article-content centered">
     @if (Model.HasReference)
     {
-        <div class="box">
+        <blockquote class="editor-box">
             <div>
                 <p>@Model.Content</p>
             </div>
-            <p>编辑：<span>@Html.ActionLink(Model.Editor.Name, "Index", "User", new { id = Model.Editor.UserID }, new { })</span></p>
-        </div>
+            <small>编辑：@Html.ActionLink(Model.Editor.Name, "Index", "User", new { id = Model.Editor.UserID }, new { title="查看编辑个人主页" })</small>
+        </blockquote>
     }
-
+    @Html.Raw(HttpUtility.HtmlDecode(Model.HasReference ? Model.Reference.Content : Model.Content))
 </div>
 @section scripts{
     @Scripts.Render("~/bundles/article")

@@ -20,7 +20,7 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
-                return RedirectToAction("Index", "Question");
+                return HasUserInfo ? RedirectToAction("Index", "Question") : RedirectToAction("Index", "Article");
             }
             catch (Exception e)
             {

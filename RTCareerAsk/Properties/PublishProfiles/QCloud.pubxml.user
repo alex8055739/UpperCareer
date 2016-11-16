@@ -116,13 +116,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/04/2016 14:38:42</publishTime>
     </File>
     <File Include="bin/RTCareerAsk.BL.dll">
-      <publishTime>11/12/2016 14:24:28</publishTime>
+      <publishTime>11/15/2016 16:32:51</publishTime>
     </File>
     <File Include="bin/RTCareerAsk.DAL.dll">
-      <publishTime>11/12/2016 14:24:28</publishTime>
+      <publishTime>11/15/2016 16:32:51</publishTime>
     </File>
     <File Include="bin/RTCareerAsk.dll">
-      <publishTime>11/14/2016 14:44:21</publishTime>
+      <publishTime>11/15/2016 19:06:55</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.Data.Edm.resources.dll">
       <publishTime>04/28/2016 17:20:30</publishTime>
@@ -1445,7 +1445,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/10/2016 12:40:41</publishTime>
     </File>
     <File Include="Content/bootstrap.upper.css">
-      <publishTime>11/01/2016 14:24:51</publishTime>
+      <publishTime>11/15/2016 15:10:53</publishTime>
     </File>
     <File Include="Content/bootstrap.yeti.css">
       <publishTime>09/22/2016 12:33:12</publishTime>
@@ -1628,7 +1628,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2016 17:20:14</publishTime>
     </File>
     <File Include="Content/Upper.css">
-      <publishTime>11/12/2016 17:13:28</publishTime>
+      <publishTime>11/15/2016 19:04:22</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>04/28/2016 17:19:39</publishTime>
@@ -1823,7 +1823,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/13/2016 22:49:19</publishTime>
     </File>
     <File Include="Scripts/Upper/user-manage.js">
-      <publishTime>11/11/2016 15:31:33</publishTime>
+      <publishTime>11/15/2016 11:35:48</publishTime>
     </File>
     <File Include="Scripts/Upper/user-page.js">
       <publishTime>10/26/2016 11:31:26</publishTime>
@@ -1873,6 +1873,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Article/Compose.cshtml">
       <publishTime>11/14/2016 13:37:06</publishTime>
     </File>
+    <File Include="Views/Article/Detail.cshtml">
+      <publishTime>11/15/2016 16:37:30</publishTime>
+    </File>
+    <File Include="Views/Article/Index.cshtml">
+      <publishTime>11/15/2016 11:04:26</publishTime>
+    </File>
     <File Include="Views/Home/DisplayTestResult.cshtml">
       <publishTime>07/26/2016 17:24:44</publishTime>
     </File>
@@ -1895,7 +1901,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/11/2016 11:44:05</publishTime>
     </File>
     <File Include="Views/Question/Index.cshtml">
-      <publishTime>11/07/2016 16:52:47</publishTime>
+      <publishTime>11/14/2016 15:58:56</publishTime>
     </File>
     <File Include="Views/Question/QuestionDetail.cshtml">
       <publishTime>11/07/2016 15:09:12</publishTime>
@@ -1916,7 +1922,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/09/2016 13:56:55</publishTime>
     </File>
     <File Include="Views/Shared/_BugReportModal.cshtml">
-      <publishTime>11/12/2016 14:50:18</publishTime>
+      <publishTime>11/14/2016 15:15:04</publishTime>
     </File>
     <File Include="Views/Shared/_ChangePortrait.cshtml">
       <publishTime>10/18/2016 16:49:55</publishTime>
@@ -1934,7 +1940,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2016 17:53:29</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>11/14/2016 14:44:04</publishTime>
+      <publishTime>11/15/2016 15:24:59</publishTime>
     </File>
     <File Include="Views/Shared/_LetterModal.cshtml">
       <publishTime>11/08/2016 18:08:16</publishTime>
@@ -1949,7 +1955,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/28/2016 16:29:18</publishTime>
     </File>
     <File Include="Views/Shared/_NavBar.cshtml">
-      <publishTime>11/12/2016 14:47:39</publishTime>
+      <publishTime>11/15/2016 16:26:58</publishTime>
     </File>
     <File Include="Views/Shared/_PostModal.cshtml">
       <publishTime>11/09/2016 16:59:06</publishTime>

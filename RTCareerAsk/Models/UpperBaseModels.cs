@@ -56,9 +56,9 @@ namespace RTCareerAsk.Models
 
         public int Index { get; set; }
 
-        public string CreateBefore { get; set; }
+        public string DateCreate { get; set; }
 
-        public string UpdateBefore { get; set; }
+        public string DateUpdate { get; set; }
 
         protected virtual void ConvertArticleObjectToModel(UpperArticleBaseDomain obj)
         {
@@ -67,19 +67,8 @@ namespace RTCareerAsk.Models
             Cover = obj.Cover;
             Author = obj.Author;
             Index = obj.Index;
-            CreateBefore = GenerateTimeDisplay(obj.DateCreate);
-            UpdateBefore = GenerateTimeDisplay(obj.DateUpdate);
-        }
-
-        protected string GenerateTimeDisplay(DateTime date)
-        {
-            if (date != default(DateTime))
-            {
-                TimeSpan diff = DateTime.Now.Subtract(date);
-                return diff.Days > 365 ? string.Format("{0}年前", diff.Days / 365) : diff.Days > 30 ? string.Format("{0}个月前", diff.Days / 30) : diff.Days > 0 ? string.Format("{0}天前", diff.Days) : diff.Hours > 0 ? string.Format("{0}小时前", diff.Hours) : string.Format("{0}分钟前", diff.Minutes);
-            }
-
-            return "未知时间";
+            DateCreate = obj.DateCreate.ToString("yyyy-M-dd");
+            DateUpdate = obj.DateUpdate.ToString("yyyy-M-dd");
         }
     }
 }
