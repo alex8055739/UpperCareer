@@ -35,7 +35,7 @@ namespace RTCareerAsk.Models
     {
         [Required(ErrorMessage = "请您输入答案正文")]
         [DisplayName("答案内容：")]
-        [StringLength(6000, ErrorMessage = "超过字数上限，答案请不要超过{1}字")]
+        [StringLength(30000, ErrorMessage = "超过字数上限，答案请不要超过{1}字")]
         public string PostContent { get; set; }
 
         public string QuestionID { get; set; }
@@ -147,6 +147,30 @@ namespace RTCareerAsk.Models
                 Content = Content,
                 Editor = new User() { ObjectID = EditorID },
                 Reference = !string.IsNullOrEmpty(ReferenceID) ? new Answer() { ObjectID = ReferenceID } : default(Answer)
+            };
+        }
+    }
+
+    public class ArticleCommentPostModel
+    {
+        [Required(ErrorMessage = "请您输入评论正文")]
+        [DisplayName("评论内容：")]
+        [StringLength(140, ErrorMessage = "超过字数上限，评论请不要超过{1}字")]
+        public string PostContent { get; set; }
+
+        public string ArticleID { get; set; }
+
+        public string UserID { get; set; }
+
+        public string NotifyUserID { get; set; }
+
+        public ArticleComment CreatePostForSave()
+        {
+            return new ArticleComment()
+            {
+                Content = PostContent,
+                ForArticle = new Article() { ObjectID = ArticleID },
+                Creator = new User() { ObjectID = UserID }
             };
         }
     }

@@ -39,12 +39,43 @@ namespace RTCareerAsk.PLtoDA
             return await LCDal.SaveNewArticle(model.CreatePostForSave());
         }
 
+        public async Task<ArticleCommentModel> PostNewArticleComment(ArticleCommentPostModel model)
+        {
+            return await LCDal.SaveNewArticleComment(model.CreatePostForSave()).ContinueWith(t =>
+                {
+                    return new ArticleCommentModel(t.Result);
+                });
+        }
+
         public async Task<ArticleModel> LoadArticleDetail(string id)
         {
             return await LCDal.LoadArticle(id).ContinueWith(t =>
             {
                 return new ArticleModel(t.Result);
             });
+        }
+
+        public async Task<List<ArticleCommentModel>> LoadArticleCommentList(string atclId, int pageIndex)
+        {
+            return await LCDal.LoadArticleComments(atclId, pageIndex).ContinueWith(t =>
+                {
+                    List<ArticleCommentModel> acmts = new List<ArticleCommentModel>();
+
+                    foreach (ArticleComment acmt in t.Result)
+                    {
+                        acmts.Add(new ArticleCommentModel(acmt));
+                    }
+
+                    return acmts;
+                });
+        }
+
+        public async Task<ArticleCommentModel> DeleteArticleComment(string acmtId, string atclId, int replaceIndex)
+        {
+            return await LCDal.DeleteArticleComment(acmtId, atclId, replaceIndex).ContinueWith(t =>
+                {
+                    return replaceIndex > 0 && t.Result != null ? new ArticleCommentModel(t.Result) : default(ArticleCommentModel);
+                });
         }
     }
 }

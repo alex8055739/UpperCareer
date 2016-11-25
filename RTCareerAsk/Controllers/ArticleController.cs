@@ -16,7 +16,7 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
-                ViewBag.Title = GenerateTitle("资讯");
+                ViewBag.Title = GeneralTitle;
 
                 return View(await ArticleDa.LoadArticleList());
             }
@@ -33,6 +33,7 @@ namespace RTCareerAsk.Controllers
             try
             {
                 ArticleModel model = await ArticleDa.LoadArticleDetail(id);
+                model.Comments = SetFlagsForActions(model.Comments);
                 ViewBag.Title = GenerateTitle(model.Title);
 
                 return View(model);
@@ -47,15 +48,99 @@ namespace RTCareerAsk.Controllers
         [UpperResult]
         public async Task<ActionResult> Compose(string id = null)
         {
-            if (!IsUserAuthorized("Admin"))
+            try
             {
-                return RedirectToAction("Login", "Account");
+                if (!IsUserAuthorized("Admin"))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                ArticlePostModel model = await ArticleDa.CreatePostModelWithReference(id);
+                ViewBag.Title = "撰写新文章";
+
+                return View(model);
             }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
 
-            ArticlePostModel model = await ArticleDa.CreatePostModelWithReference(id);
-            ViewBag.Title = "撰写新文章";
+        [HttpPost]
+        [UpperResult]
+        public async Task<PartialViewResult> PostComment(ArticleCommentPostModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    throw new InvalidOperationException("用户输入的信息不符合要求");
+                }
 
-            return View(model);
+                model.UserID = GetUserID();
+                model.PostContent = ModifyTextareaData(model.PostContent, true);
+
+                return PartialView("_ArticleCommentList", SetFlagsForActions(new List<ArticleCommentModel>() { await ArticleDa.PostNewArticleComment(model) }));
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        [UpperResult]
+        public async Task<PartialViewResult> DeleteComment(string acmtId, string atclId, int replaceIndex)
+        {
+            try
+            {
+                ArticleCommentModel result = await ArticleDa.DeleteArticleComment(acmtId, atclId, replaceIndex);
+                List<ArticleCommentModel> model = new List<ArticleCommentModel>();
+
+                if (result != null)
+                {
+                    model.Add(result);
+                }
+
+                return PartialView("_ArticleCommentList", model);
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public async Task<PartialViewResult> LoadArticlesByPage(int pageIndex)
+        {
+            try
+            {
+                return PartialView("_ArticleList", await ArticleDa.LoadArticleList(pageIndex));
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public async Task<PartialViewResult> LoadArticleCommentsByPage(string targetId, int pageIndex)
+        {
+            try
+            {
+                List<ArticleCommentModel> results = string.IsNullOrEmpty(targetId) ? new List<ArticleCommentModel>() : await ArticleDa.LoadArticleCommentList(targetId, pageIndex);
+
+                return PartialView("_ArticleCommentList", SetFlagsForActions(results));
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
         }
 
         [HttpPost]
@@ -100,6 +185,21 @@ namespace RTCareerAsk.Controllers
                 while (e.InnerException != null) e = e.InnerException;
                 throw e;
             }
+        }
+
+        public List<ArticleCommentModel> SetFlagsForActions(List<ArticleCommentModel> models)
+        {
+            if (!HasUserInfo)
+            {
+                return models;
+            }
+
+            foreach (ArticleCommentModel acmt in models)
+            {
+                acmt.IsDeleteAllowed = acmt.Creator.UserID == GetUserID();
+            }
+
+            return models;
         }
     }
 }

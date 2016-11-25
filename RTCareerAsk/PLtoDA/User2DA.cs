@@ -73,7 +73,7 @@ namespace RTCareerAsk.PLtoDA
 
             //return udm.SetDetailInfomation(followerCnt.Result, followeeCnt.Result, hasFollowed, questions.Result, answers.Result);
 
-            Task<List<QuestionInfoModel>> questions = GetRecentQuestions(targetId);
+            Task<List<QuestionInfoModel>> questions = GetRecentQuestions(targetId, 0);
 
             await Task.WhenAll(questions);
 
@@ -81,6 +81,14 @@ namespace RTCareerAsk.PLtoDA
             udm.RecentQuestions = questions.Result;
 
             return udm;
+        }
+
+        public async Task<UserModel> LoadUserIntro(string targetId)
+        {
+            return await LCDal.LoadUserInfo(targetId).ContinueWith(t =>
+            {
+                return new UserModel(t.Result);
+            });
         }
 
         public async Task Follow(string userId, string followeeId)
@@ -93,9 +101,9 @@ namespace RTCareerAsk.PLtoDA
             await LCDal.Unfollow(userId, followeeId);
         }
 
-        public async Task<List<QuestionInfoModel>> GetRecentQuestions(string targetId)
+        public async Task<List<QuestionInfoModel>> GetRecentQuestions(string targetId, int pageIndex)
         {
-            return await LCDal.GetRecentQuestions(targetId).ContinueWith(t =>
+            return await LCDal.LoadQuestionListByUser(targetId, pageIndex).ContinueWith(t =>
             {
                 if (t.IsFaulted || t.IsCanceled)
                 {
@@ -113,20 +121,20 @@ namespace RTCareerAsk.PLtoDA
             });
         }
 
-        public async Task<List<AnswerModel>> GetRecentAnswers(string targetId)
+        public async Task<List<AnswerInfoModel>> GetRecentAnswers(string targetId, int pageIndex)
         {
-            return await LCDal.GetRecentAnswers(targetId).ContinueWith(t =>
+            return await LCDal.LoadAnswerListByUser(targetId, pageIndex).ContinueWith(t =>
             {
                 if (t.IsFaulted || t.IsCanceled)
                 {
                     throw t.Exception;
                 }
 
-                List<AnswerModel> ams = new List<AnswerModel>();
+                List<AnswerInfoModel> ams = new List<AnswerInfoModel>();
 
-                foreach (Answer a in t.Result)
+                foreach (AnswerInfo a in t.Result)
                 {
-                    ams.Add(new AnswerModel(a));
+                    ams.Add(new AnswerInfoModel(a));
                 }
 
                 return ams;

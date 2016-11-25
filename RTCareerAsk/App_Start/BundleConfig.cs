@@ -41,6 +41,7 @@ namespace RTCareerAsk
                         "~/Scripts/Upper/user-page.js",
                         "~/Scripts/Upper/upper-tabs.js",
                         "~/Scripts/Upper/fix-image-display.js",
+                        "~/Scripts/Upper/upper-scrollpaging.js",
                         "~/Scripts/Upper/upper-shorten.js"
                         ));
 
@@ -53,7 +54,12 @@ namespace RTCareerAsk
                         "~/Scripts/canvas-to-blob*"));
 
             bundles.Add(new ScriptBundle("~/bundles/article").Include(
-                        "~/Scripts/Upper/fix-image-display.js"));
+                        "~/Scripts/Upper/fix-image-display.js",
+                        "~/Scripts/Upper/upper-scrollpaging.js",
+                        "~/Scripts/Upper/upper-article-detail.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/article-list").Include(
+                        "~/Scripts/Upper/upper-scrollpaging.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/compose").Include(
                         "~/Scripts/Upper/fix-image-display.js",

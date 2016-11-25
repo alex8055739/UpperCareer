@@ -125,6 +125,11 @@ a {
     background-color: #ffffff;
 }
 
+    .content-info li {
+        position: relative;
+        overflow: hidden;
+    }
+
     .content-info a {
         color: #000;
     }
@@ -169,6 +174,53 @@ a {
             background-color: #f0f8ff;
         }
 
+    .content-info .banner {
+        position: absolute;
+        top: 15px;
+        right: -20px;
+        display: flex;
+        -ms-flex-flow: row;
+        -webkit-flex-flow: row;
+        flex-flow: row;
+        -moz-transition: all 150ms ease-in-out;
+        -o-transition: all 150ms ease-in-out;
+        -webkit-transition: all 150ms ease-in-out;
+        transition: all 150ms ease-in-out;
+    }
+
+        .content-info .banner:hover,
+        .content-info .banner:active,
+        .content-info .banner:focus {
+            right: 0;
+        }
+
+        .content-info .banner > .flag {
+            height: 0;
+            width: 0;
+            border: 10px solid red;
+            border-left: 10px solid transparent;
+            border-right: 5px solid red;
+        }
+
+        .content-info .banner > .sign {
+            height: 20px;
+            letter-spacing: 5px;
+            background-color: red;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+            .content-info .banner > .sign > a {
+                color: white;
+            }
+
+                .content-info .banner > .sign > a:hover,
+                .content-info .banner > .sign > a:focus,
+                .content-info .banner > .sign > a:active {
+                    font-weight: bold;
+                }
+
 @media screen and (max-width: 768px) {
     .content-info .section.reply-count {
         display: none;
@@ -192,9 +244,59 @@ a {
         display: block;
     }
 
+.comment-form {
+    border: 1px dashed #bbbbbb;
+    margin-bottom: 10px;
+    padding: 5px 15px 0;
+}
+
+    .comment-form * {
+        -moz-transition: all 150ms ease-in-out;
+        -o-transition: all 150ms ease-in-out;
+        -webkit-transition: all 150ms ease-in-out;
+        transition: all 150ms ease-in-out;
+    }
+
+    .comment-form textarea {
+        display: block;
+        width: 100%;
+        border: none;
+        background-color: transparent;
+    }
+
+        .comment-form textarea:focus {
+            outline: none;
+        }
+
+    .comment-form .validation-msg {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .comment-form .button-wrap {
+        border-top: 1px dashed #bbbbbb;
+    }
+
+.article-compose {
+    max-width: 720px;
+    padding: 0 10px;
+}
+
+    .article-compose .cover-preview {
+        border: 1px dashed #aaaaaa;
+        font-size: 25px;
+        font-weight: bolder;
+        height: 150px;
+        max-width: 700px;
+        margin: 5px 0;
+        background-color: #eeeeee;
+    }
+
 .article-list {
     max-width: 730px;
-    padding: 0 15px;
+    padding: 0 10px;
+    margin-top: -30px !important;
 }
 
     .article-list ul {
@@ -223,9 +325,26 @@ a {
     }
 
     .article-list .title {
+        color: #333333;
+        font-size: 20px;
+        line-height: 1.4;
     }
 
+        .article-list .title:hover,
+        .article-list .title:focus,
+        .article-list .title:active {
+            color: #43ac6a;
+        }
+
     .article-list .info {
+        font-size: 12px;
+        color: #aaaaaa;
+        display: flex;
+        align-items: center;
+        -ms-flex-flow: row;
+        -webkit-flex-flow: row;
+        flex-flow: row;
+        justify-content: space-between;
     }
 
 .article-header {
@@ -276,6 +395,25 @@ a {
 
         .article-content .editor-box > div {
             margin-bottom: 10px;
+        }
+
+.article-comments {
+    max-width: 700px;
+    padding: 10px 15px;
+}
+
+.article-comment-list {
+    -webkit-padding-start: 0px;
+    padding: 5px 10px;
+}
+
+    .article-comment-list > li {
+        padding: 15px 0;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+        .article-comment-list > li:last-child {
+            border-bottom: none;
         }
 
 .question-detail {
@@ -441,10 +579,6 @@ a {
         .comment-list .action span {
             margin: 0 2em;
         }
-
-.comment-form {
-    padding-right: 22px;
-}
 
 .user-page {
 }
@@ -678,6 +812,10 @@ a {
 
 .float-right {
     float: right;
+}
+
+.underlined {
+    border-bottom: 1px solid #aaaaaa;
 }
 
 .validation-summary-errors {

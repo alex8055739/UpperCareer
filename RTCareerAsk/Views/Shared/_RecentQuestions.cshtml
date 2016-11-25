@@ -1,17 +1,28 @@
 ﻿@model List<RTCareerAsk.Models.QuestionInfoModel>
 
 <div class="content-info">
-    <div class="list-group box">
+    <ul class="list-group box" data-target="@(Model.Count > 0 ? Model.First().Creator.UserID : string.Empty)">
         @foreach (RTCareerAsk.Models.QuestionInfoModel q in Model)
         {
-            <div class="list-group-item">
+            <li class="list-group-item">
                 <a href="@Url.Action("QuestionDetail", "Question", new { id = q.ID })" style="color:#70BF40">
                     <h4 class="list-group-item-heading">@q.Title</h4>
                 </a>
                 <p class="list-group-item-text">@Html.Raw(HttpUtility.HtmlDecode(q.Content))</p>
                 <p class="extra">@q.CreateBefore</p>
-            </div>
+            </li>
         }
-    </div>
+    </ul>
 </div>
 
+<script type="text/javascript">
+    var url = '@Url.Action("RecentRecord", "User")';
+
+    $(document).ready(function () {
+        $('ul.list-group').upperscrollpaging(url, {
+            itemSelector: 'li.list-group-item',
+            contentType: 1,
+            targetId: $('ul.list-group').data('target')
+        });
+    });
+</script>

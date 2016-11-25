@@ -19,10 +19,15 @@ namespace RTCareerAsk.DAL.Domain
 
     public class Article : UpperArticleBaseDomain
     {
-        public Article() { }
+        public Article()
+        {
+            Comments = new List<ArticleComment>();
+        }
 
         public Article(AVObject obj)
         {
+            Comments = new List<ArticleComment>();
+
             GenerateArticleObject(obj);
         }
 
@@ -34,6 +39,8 @@ namespace RTCareerAsk.DAL.Domain
 
         public bool HasReference { get; set; }
 
+        public List<ArticleComment> Comments { get; set; }
+
         private void GenerateArticleObject(AVObject obj)
         {
             GenerateArticleBaseObject(obj);
@@ -41,6 +48,21 @@ namespace RTCareerAsk.DAL.Domain
             Editor = obj.ContainsKey("editor") ? new User(obj.Get<AVUser>("editor")) : default(User);
             Reference = obj.ContainsKey("reference") && obj.Get<AVObject>("reference") != null ? new Answer(obj.Get<AVObject>("reference")) : default(Answer);
             HasReference = obj.ContainsKey("reference") && obj.Get<AVObject>("reference") != null;
+        }
+
+        public Article SetComments(IEnumerable<AVObject> cmts)
+        {
+            if (cmts.Count() > 0 && cmts.First().ClassName != "Comment_Article")
+            {
+                throw new InvalidOperationException(string.Format("获取的对象{0}不是资讯评论类object。对象类型：{1}", cmts.First().ObjectId, cmts.First().ClassName));
+            }
+
+            foreach (AVObject cmt in cmts)
+            {
+                Comments.Add(new ArticleComment(cmt));
+            }
+
+            return this;
         }
 
         public AVObject CreateArticleObjectForSave()
@@ -56,6 +78,59 @@ namespace RTCareerAsk.DAL.Domain
             atcl.Add("reference", Reference != default(Answer) ? Reference.LoadAnswerObject() : null);
 
             return atcl;
+        }
+
+        public AVObject LoadArticleObject()
+        {
+            return AVObject.CreateWithoutData("Article", ObjectID);
+        }
+    }
+
+    public class ArticleComment
+    {
+        public ArticleComment() { }
+
+        public ArticleComment(AVObject obj)
+        {
+            GenerateArticleCommentObject(obj);
+        }
+
+        public string ObjectID { get; set; }
+
+        public string Content { get; set; }
+
+        public Article ForArticle { get; set; }
+
+        public User Creator { get; set; }
+
+        public DateTime DateCreate { get; set; }
+
+        public DateTime DateUpdate { get; set; }
+
+        private void GenerateArticleCommentObject(AVObject obj)
+        {
+            if (obj.ClassName != "Comment_Article")
+            {
+                throw new InvalidOperationException(string.Format("获取的对象{0}不是资讯评论类object。对象类型：{1}", obj.ObjectId, obj.ClassName));
+            }
+
+            ObjectID = obj.ObjectId;
+            Content = obj.Get<string>("content");
+            ForArticle = obj.ContainsKey("forArticle") ? new Article() { ObjectID = obj.Get<AVObject>("forArticle").ObjectId } : default(Article);
+            Creator = obj.ContainsKey("createdBy") ? new User(obj.Get<AVUser>("createdBy")) : default(User);
+            DateCreate = Convert.ToDateTime(obj.CreatedAt);
+            DateUpdate = Convert.ToDateTime(obj.UpdatedAt);
+        }
+
+        public AVObject CreateArticleCommentObjectForSave()
+        {
+            AVObject acmt = new AVObject("Comment_Article");
+
+            acmt.Add("content", Content);
+            acmt.Add("createdBy", Creator.LoadUserObject());
+            acmt.Add("forArticle", ForArticle.LoadArticleObject());
+
+            return acmt;
         }
     }
 

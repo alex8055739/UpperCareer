@@ -5,7 +5,7 @@
 }
 
 
-<div style="max-width: 720px; padding: 0 10px" class="centered">
+<div class="article-compose centered">
     <h2>@ViewBag.Title</h2>
 
     @using (Html.BeginForm("Compose", "Article", FormMethod.Post, new { @class = "form-horizontal" }))
@@ -15,9 +15,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Cover, new { @class = "control-label" })
             <a href="#" id="lnkUploadCover">
-                <div id="divCoverPreview" style="background-color: #eeeeee; height: 150px; max-width: 700px; margin: 5px 0">
-                    <div style="border: 1px dashed #aaaaaa; padding: 5px; height: 100%; display: flex; align-items: center; justify-content: center">
-                        <span style="font-size: 25px; font-weight: bolder; color: #808080; opacity: 0.5">点击或将图片拖放在这里</span>
+                <div id="divCoverPreview" class="cover-preview">
+                    <div style="height: 100%; display: flex; align-items: center; justify-content: center; color: #808080; opacity: 0.5">
+                        <span>点击或将图片拖放在这里</span>
                     </div>
                 </div>
             </a>
@@ -57,7 +57,7 @@
             @if (!Model.HasReference)
             {
                 <script>
-                    CKEDITOR.replace("txtArticleContent",
+                    var editor = CKEDITOR.replace("txtArticleContent",
                         {
                             toolbar: 'article',
                             wordcount: {
@@ -66,6 +66,18 @@
                                 maxCharCount: 20000
                             }
                         });
+
+                    //editor.once('instanceReady', function () {
+                    //    // Create and show the notification.
+                    //    var notification1 = new CKEDITOR.plugins.notification(editor, {
+                    //        message: 'Error occurred',
+                    //        type: 'warning'
+                    //    });
+                    //    notification1.show();
+
+                    //     //Use shortcut - it has the same result as above.
+                    //    var notification2 = editor.showNotification('您还没有填写任何内容', 'progress');
+                    //});
                 </script> 
             }
         </div>

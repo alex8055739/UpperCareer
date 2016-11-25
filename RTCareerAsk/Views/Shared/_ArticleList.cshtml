@@ -10,24 +10,25 @@
             <h4>
                 @Html.ActionLink(atcl.Title, "Detail", "Article", new { id = atcl.ID }, new { @class = "title" })
             </h4>
-            <p class="info">
-                <span>@atcl.Author</span>
-                &nbsp;|&nbsp;
-                <span>@atcl.DateCreate</span>
-            </p>
+            <div class="info">
+                <div>
+                    <span>@atcl.Author</span>
+                    &nbsp;·&nbsp;
+                    <span>@atcl.DateCreate</span>
+                </div>
+                <div>
+                    <span>阅读&nbsp;&nbsp;@atcl.ViewCount&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </div>
+            </div>
         </li>
     }
 </ul>
-<script type="text/javascript">
-    //function ResizeCover() {
-    //    $('.cover').each(function () {
-    //        var $this = $(this),
-    //            ratio = $(this).data('ratio');
+<script>
+    var url = '@Url.Action("LoadArticlesByPage", "Article")';
 
-    //        $this.height($this.width() * ratio);
-    //    })
-    //}
-    //$(document).ready(function () {
-
-    //})
+    $(document).ready(function () {
+        $('.list').upperscrollpaging(url, {
+            itemSelector: '.listitem'
+        });
+    });
 </script>

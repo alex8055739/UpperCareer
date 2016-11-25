@@ -6,24 +6,6 @@
 
 @foreach (RTCareerAsk.Models.CommentModel c in Model)
 {
-@*<blockquote id="@string.Format("blkCmt{0}", c.ID)" class="blockquote-reverse">
-        <p>@c.Content</p>
-        <small>
-            @Html.ActionLink(c.Creator.Name, "Index", "User", new { id = c.Creator.UserID }, new { id = string.Format("aCmtBy{0}", c.Creator.UserID) })
-            <cite title="Source Title">@c.CreateBefore</cite>
-            @if (IsAuthorized)
-            {
-                if (c.IsReplyAllowed)
-                {
-                <a id="@string.Format("btnCmtRply{0}", c.Creator.UserID)" href="#">回复</a>
-                }
-                else
-                {
-                <a id="@string.Format("btnCmtDel{0}", c.ID)" href="#">删除</a>
-                }
-            }
-        </small>
-    </blockquote>*@
     <div id="@string.Format("blkCmt{0}", c.ID)" class="box">
         <div class="body">
             <div class="left">
@@ -32,7 +14,6 @@
             <div class="right">
                 <p>
                     @Html.ActionLink(c.Creator.Name, "Index", "User", new { id = c.Creator.UserID }, new { id = string.Format("aCmtBy{0}", c.Creator.UserID) })
-
                 </p>
                 <p>@Html.Raw(HttpUtility.HtmlDecode(c.Content))</p>
             </div>
@@ -51,3 +32,21 @@
         </div>
     </div>
 }
+@*<blockquote id="@string.Format("blkCmt{0}", c.ID)" class="blockquote-reverse">
+        <p>@c.Content</p>
+        <small>
+            @Html.ActionLink(c.Creator.Name, "Index", "User", new { id = c.Creator.UserID }, new { id = string.Format("aCmtBy{0}", c.Creator.UserID) })
+            <cite title="Source Title">@c.CreateBefore</cite>
+            @if (IsAuthorized)
+            {
+                if (c.IsReplyAllowed)
+                {
+                <a id="@string.Format("btnCmtRply{0}", c.Creator.UserID)" href="#">回复</a>
+                }
+                else
+                {
+                <a id="@string.Format("btnCmtDel{0}", c.ID)" href="#">删除</a>
+                }
+            }
+        </small>
+    </blockquote>*@

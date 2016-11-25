@@ -45,12 +45,15 @@ namespace RTCareerAsk.Models
 
         public string CommentCount { get; set; }
 
+        public string RecommandationID { get; set; }
+
         private void ConvertAnswerInfoObjectToAnswerInfoModel(AnswerInfo aio)
         {
             ConvertQACObjectToModel(aio);
             ForQuestion = aio.ForQuestion != null ? new QuestionModel(aio.ForQuestion) : null;
             VoteDiff = ProcessLargeNumDisplay(aio.VoteDiff);
             CommentCount = ProcessLargeNumDisplay(aio.CommentCount);
+            RecommandationID = aio.RecommandationID;
         }
     }
 
@@ -124,7 +127,7 @@ namespace RTCareerAsk.Models
         public int VotePositive { get; set; }
 
         public int VoteNegative { get; set; }
-        
+
         public QuestionModel ForQuestion { get; set; }
 
         public List<CommentModel> Comments { get; set; }

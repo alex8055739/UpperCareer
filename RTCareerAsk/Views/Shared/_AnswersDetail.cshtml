@@ -25,13 +25,13 @@
                 <div style="position: absolute; right: 0; top: 0; width: 30px; background-color: yellow; text-align: center; font-size: 18px; z-index: 1000">
                 </div>
                 <div data-id="@a.ID" data-type="1" style="min-width:55px">
-                    <div class="arrow @Html.IsActive(true, a) @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")">
+                    <div class="arrow @Html.IsActive(true, a) @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" data-toggle="tooltip" data-placement="right  " title="推荐">
                         <a href="#" class="up">
                             <div></div>
                             <div class="votes">@a.VotePositive</div>
                         </a>
                     </div>
-                    <div class="arrow @Html.IsActive(false, a) @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")">
+                    <div class="arrow @Html.IsActive(false, a) @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" data-toggle="tooltip" data-placement="right" title="不推荐">
                         <a href="#" class="down">
                             <div class="votes">@a.VoteNegative</div>
                             <div></div>
@@ -92,7 +92,7 @@
             <div id="@string.Format("divCmtList{0}", a.ID)" class="collapse comment-list">
                 @if (a.Comments != null && a.Comments.Count > 0)
                 {
-                    @Html.Partial("_CommentDetail", a.Comments)
+                    @Html.Partial("_CommentList", a.Comments)
                 }
             </div>
         </div>

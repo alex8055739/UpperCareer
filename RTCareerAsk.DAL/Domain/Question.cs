@@ -72,6 +72,8 @@ namespace RTCareerAsk.DAL.Domain
 
         public int VoteDiff { get; set; }
 
+        public string RecommandationID { get; set; }
+
         private void GenerateAnswerInfoObject(AVObject ao)
         {
             if (ao.ClassName != "Answer")
@@ -83,6 +85,7 @@ namespace RTCareerAsk.DAL.Domain
             ForQuestion = ao.Get<AVObject>("forQuestion") != null ? new Question(ao.Get<AVObject>("forQuestion")) : null;
             VoteDiff = ao.ContainsKey("voteDiff") ? ao.Get<int>("voteDiff") : default(int);
             CommentCount = ao.ContainsKey("subPostCount") ? ao.Get<int>("subPostCount") : default(int);
+            RecommandationID = ao.ContainsKey("recommendation") && ao.Get<AVObject>("recommendation") != null ? ao.Get<AVObject>("recommendation").ObjectId : default(string);
         }
 
         public AnswerInfo SetCommentCount(int cmtCnt)

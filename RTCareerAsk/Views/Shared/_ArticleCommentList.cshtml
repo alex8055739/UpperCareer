@@ -1,0 +1,59 @@
+﻿@model IEnumerable<RTCareerAsk.Models.ArticleCommentModel>
+
+@{
+    bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+}
+
+<div>
+    <div id="divCmtCount" class="@Html.AssignClassWithCondition(Model.Count() > 0, "underlined")" style="margin-top:40px;">
+        @if (Model.Count() > 0)
+        {
+            <h4><span class="marked-number">@(Model.Count())</span>条评论</h4>
+        }
+        else
+        {
+            <h4>快来发表第一条评论吧</h4>
+        }
+    </div>
+
+</div>
+<div id="divCmtFormFloat" style="display: none">
+    @Html.Partial("_ArticleCommentForm", new RTCareerAsk.Models.ArticleCommentPostModel())
+</div>
+<ul class="article-comment-list" data-targetarticle="@(Model.Count() > 0 ? Model.First().ForArticleID : string.Empty)">
+    @foreach (RTCareerAsk.Models.ArticleCommentModel acmt in Model)
+    {
+        <li style="position: relative">
+            <div style="margin-bottom: 10px">
+                @Html.UpperNameTag(acmt.Creator)
+            </div>
+            <div style="position: absolute; top: 10px; right: 10px;">
+                @if (acmt.IsDeleteAllowed)
+                {
+                    <button id="btnDelCmt" class="cmt-delete btn btn-danger outline btn-xs @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" data-target="@acmt.ID" data-article="@acmt.ForArticleID">删除</button>
+                }
+                else
+                {
+                    <button id="btnReplyCmt" class="cmt-reply btn btn-default btn-xs @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" data-target="@acmt.ForArticleID" data-authorid="@acmt.Creator.UserID" data-name="@acmt.Creator.Name">回复</button>
+                }
+            </div>
+            <div style="color: #888888; margin-left: 37.5px; font-size: 14px">
+                <p>@Html.Raw(HttpUtility.HtmlDecode(acmt.Content))</p>
+            </div>
+        </li>
+    }
+</ul>
+<script type="text/javascript">
+    var url = '@Url.Action("LoadArticleCommentsByPage", "Article")'
+
+    $(document).ready(function () {
+        $('.article-comment-list').upperscrollpaging(url, {
+            itemSelector: 'li',
+            contentType: 1,
+            targetId: $('.article-comment-list').data('targetarticle'),
+            postAction: function () {
+                $('span.marked-number').text($('.article-comment-list').find('li:visible').length);
+            }
+        });
+    })
+</script>

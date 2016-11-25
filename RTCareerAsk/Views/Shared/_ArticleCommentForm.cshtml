@@ -1,0 +1,26 @@
+﻿@model RTCareerAsk.Models.ArticleCommentPostModel
+
+@{
+    bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+    string formId = "formAtclCmt";
+    string formClass = "atcl-cmt";
+}
+
+@using (Ajax.BeginForm("PostComment", "Article", new { }, new AjaxOptions
+    {
+        OnBegin = "OnAtclCmtBegin(event)",
+        OnSuccess = string.Format("OnAtclCmtSuccess(data,'{0}','{1}')", "divCmtCount", "article-comment-list"),
+        OnComplete = string.Format("OnAtclCmtComplete('{0}',xhr,status)", formClass),
+        OnFailure = "OnAtclCmtFailure"
+    }, new { id = formId, @class = formClass }))
+{
+    @Html.HiddenFor(model => model.ArticleID)
+    @Html.HiddenFor(model => model.NotifyUserID)
+    <div class="comment-form @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")">
+        @Html.ValidationMessageFor(model => model.PostContent, "", new { @class = "validation-msg" })
+        @Html.TextAreaFor(model => model.PostContent, new { rows = 4, placeholder = IsAuthorized ? "留下你的感想吧！" : "请登录后发表评论" })
+        <div class="button-wrap">
+            <input type="submit" value="提交" class="btn btn-link btn-block" />
+        </div>
+    </div>
+}

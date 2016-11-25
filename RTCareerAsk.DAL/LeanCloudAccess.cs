@@ -476,6 +476,11 @@ namespace RTCareerAsk.DAL
 
             return true;
         }
+
+        public async Task<AVUser> GetUserByID(string userId)
+        {
+            return await AVUser.Query.GetAsync(userId);
+        }
         /// <summary>
         /// 封禁一个用户
         /// </summary>
@@ -584,18 +589,20 @@ namespace RTCareerAsk.DAL
 
                     if (t.Result.Count() == 0)
                     {
-                        return new UserDetail(await GetUserByID(userId).ContinueWith(s =>
+                        return await AVUser.Query.GetAsync(userId).ContinueWith(s =>
+                            {
+                                if (s.IsFaulted || s.IsCanceled)
                                 {
-                                    if (s.IsFaulted || s.IsCanceled)
-                                    {
-                                        throw s.Exception;
-                                    }
+                                    throw s.Exception;
+                                }
 
-                                    return s.Result;
-                                }));
+                                return new UserDetail(s.Result);
+                            });
                     }
-
-                    return new UserDetail(t.Result.First());
+                    else
+                    {
+                        return new UserDetail(t.Result.First());
+                    }
                 }).Unwrap();
         }
         /// <summary>
@@ -670,63 +677,6 @@ namespace RTCareerAsk.DAL
                             return s.Result;
                         });
                 }).Unwrap();
-        }
-        /// <summary>
-        /// 查询用户发布的近10条问题。
-        /// </summary>
-        /// <param name="userId">用户ID</param>
-        /// <returns>10条用户最近发布的问题内容</returns>
-        public async Task<List<QuestionInfo>> GetRecentQuestions(string userId)
-        {
-            AVUser u = AVUser.CreateWithoutData("_User", userId) as AVUser;
-
-            return await AVObject.GetQuery("Post").WhereEqualTo("createdBy", u).Limit(10).OrderByDescending("createdAt").FindAsync().ContinueWith(t =>
-                {
-                    if (t.IsFaulted || t.IsCanceled)
-                    {
-                        throw t.Exception;
-                    }
-
-                    List<QuestionInfo> questions = new List<QuestionInfo>();
-
-                    foreach (AVObject ans in t.Result)
-                    {
-                        questions.Add(new QuestionInfo(ans));
-                    }
-
-                    return questions;
-                });
-        }
-        /// <summary>
-        /// 查询用户发布的近10条回答。
-        /// </summary>
-        /// <param name="userId">用户ID</param>
-        /// <returns>10条用户最近发布的答案内容</returns>
-        public async Task<List<Answer>> GetRecentAnswers(string userId)
-        {
-            AVUser u = AVUser.CreateWithoutData("_User", userId) as AVUser;
-
-            return await AVObject.GetQuery("Answer")
-                .Include("forQuestion")
-                .WhereEqualTo("createdBy", u)
-                .Limit(10)
-                .OrderByDescending("createdAt")
-                .FindAsync().ContinueWith(t =>
-                {
-                    if (t.IsFaulted || t.IsCanceled)
-                    {
-                        throw t.Exception;
-                    }
-
-                    List<Answer> answers = new List<Answer>();
-
-                    foreach (AVObject ans in t.Result)
-                    {
-                        answers.Add(new Answer(ans));
-                    }
-
-                    return answers;
-                });
         }
         #endregion
 
@@ -950,6 +900,73 @@ namespace RTCareerAsk.DAL
                     return answers;
                 });
 
+        }
+        /// <summary>
+        /// 查询用户最近发布的问题，一页10条。
+        /// </summary>
+        /// <param name="userId">用户ID</param>
+        /// <param name="pageIndex">被跳过页数</param>
+        /// <returns>用户最近发布的问题内容</returns>
+        public async Task<IEnumerable<QuestionInfo>> LoadQuestionListByUser(string userId, int pageIndex)
+        {
+            int pageCapacity = 10;
+
+            return await AVObject.GetQuery("Post")
+                .WhereEqualTo("createdBy", AVObject.CreateWithoutData("_User", userId) as AVUser)
+                .OrderByDescending("createdAt")
+                .Skip(pageIndex * pageCapacity)
+                .Limit(pageCapacity)
+                .FindAsync()
+                .ContinueWith(t =>
+                    {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        List<QuestionInfo> questions = new List<QuestionInfo>();
+
+                        foreach (AVObject ans in t.Result)
+                        {
+                            questions.Add(new QuestionInfo(ans));
+                        }
+
+                        return questions;
+                    });
+        }
+        /// <summary>
+        /// 查询用户最近发布的回答，一页10条，精品优先。
+        /// </summary>
+        /// <param name="userId">用户ID</param>
+        /// <param name="pageIndex">被跳过页数</param>
+        /// <returns>用户最近发布的答案内容</returns>
+        public async Task<IEnumerable<AnswerInfo>> LoadAnswerListByUser(string userId, int pageIndex)
+        {
+            int pageCapacity = 10;
+
+            return await AVObject.GetQuery("Answer")
+                .WhereEqualTo("createdBy", AVObject.CreateWithoutData("_User", userId) as AVUser)
+                .Include("forQuestion")
+                .OrderByDescending("recommendation")
+                .Skip(pageIndex * pageCapacity)
+                .Limit(pageCapacity)
+                .FindAsync()
+                .ContinueWith(t =>
+                    {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        List<AnswerInfo> answers = new List<AnswerInfo>();
+
+                        foreach (AVObject obj in t.Result)
+                        {
+                            answers.Add(new AnswerInfo(obj));
+                        }
+
+                        return answers.OrderByDescending(x => x.RecommandationID).ThenByDescending(x => x.DateCreate);
+                    });
         }
         #endregion
 
@@ -1526,7 +1543,8 @@ namespace RTCareerAsk.DAL
 
                         return true;
                     });
-            }).Unwrap();
+            })
+            .Unwrap();
         }
         /// <summary>
         /// 保存用户对自己发过的问题或答案内容的更新。
@@ -1696,6 +1714,128 @@ namespace RTCareerAsk.DAL
                         }
                     }));
             }
+        }
+
+        public async Task<bool> SaveNewArticle(Article a)
+        {
+            AVObject atcl = a.CreateArticleObjectForSave();
+
+            return await atcl.SaveAsync().ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+
+                if (a.Reference != default(Answer))
+                {
+                    MarkRecommandedReference(a.Reference.ObjectID, atcl.ObjectId).ContinueWith(s =>
+                    {
+                        return s.Result;
+                    });
+                }
+
+                return true;
+            });
+        }
+
+        public async Task<bool> MarkRecommandedReference(string id, string atclId)
+        {
+            return await AVObject.GetQuery("Answer").GetAsync(id).ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+
+                t.Result["recommendation"] = AVObject.CreateWithoutData("Article", atclId);
+
+                return t.Result.SaveAsync().ContinueWith(s =>
+                {
+                    if (s.IsFaulted || s.IsCanceled)
+                    {
+                        throw s.Exception;
+                    }
+
+                    return true;
+                });
+            }).Unwrap();
+        }
+
+        public async Task<ArticleComment> SaveNewArticleComment(ArticleComment acmt)
+        {
+            AVObject c = acmt.CreateArticleCommentObjectForSave();
+
+            return await c.SaveAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return AVObject.GetQuery("Comment_Article")
+                        .Include("createdBy")
+                        .GetAsync(c.ObjectId)
+                        .ContinueWith(s =>
+                        {
+                            if (s.IsFaulted || s.IsCanceled)
+                            {
+                                throw s.Exception;
+                            }
+
+                            return new ArticleComment(s.Result);
+                        });
+                }).Unwrap();
+        }
+
+        public async Task<ArticleComment> DeleteArticleComment(string acmtId, string atclId, int replaceIndex)
+        {
+            return await AVObject.GetQuery("Comment_Article").GetAsync(acmtId).ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return t.Result.DeleteAsync().ContinueWith(s =>
+                        {
+                            if (s.IsFaulted || s.IsCanceled)
+                            {
+                                throw s.Exception;
+                            }
+
+                            if (replaceIndex != 0)
+                            {
+                                return AVObject.GetQuery("Comment_Article")
+                                    .WhereEqualTo("forArticle", AVObject.CreateWithoutData("Article", atclId))
+                                    .Include("createdBy")
+                                    .OrderByDescending("createdAt")
+                                    .Skip(replaceIndex - 1)
+                                    .Limit(1)
+                                    .FindAsync()
+                                    .ContinueWith(x =>
+                                        {
+                                            if (x.IsFaulted || x.IsCanceled)
+                                            {
+                                                throw x.Exception;
+                                            }
+
+                                            if (x.Result.Count() > 0)
+                                            {
+                                                return new ArticleComment(x.Result.First());
+                                            }
+                                            else
+                                            {
+                                                return default(ArticleComment);
+                                            }
+                                        });
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        });
+                }).Unwrap().Unwrap();
         }
         #endregion
 
@@ -2207,8 +2347,62 @@ namespace RTCareerAsk.DAL
 
                 UpdateViewCount(t.Result);
 
-                return new Article(t.Result);
-            });
+                return LoadArticleWithComments(t.Result);
+            })
+            .Unwrap();
+        }
+
+        public async Task<Article> LoadArticleWithComments(AVObject atcl)
+        {
+            if (atcl.ClassName != "Article")
+            {
+                throw new InvalidOperationException(string.Format("获取的对象{0}不是资讯类object。对象类型：{1}", atcl.ObjectId, atcl.ClassName));
+            }
+
+            return await AVObject.GetQuery("Comment_Article")
+                .Include("createdBy")
+                .WhereEqualTo("forArticle", atcl)
+                .OrderByDescending("createdAt")
+                .Limit(20)
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return new Article(atcl).SetComments(t.Result);
+                });
+        }
+
+        public async Task<List<ArticleComment>> LoadArticleComments(string atclId, int pageIndex)
+        {
+            int pageCapacity = 20;
+
+            return await AVObject.GetQuery("Comment_Article")
+                .Include("createdBy")
+                .OrderByDescending("createdAt")
+                .WhereEqualTo("forArticle", AVObject.CreateWithoutData("Article", atclId))
+                .Skip(pageIndex * pageCapacity)
+                .Limit(pageCapacity)
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    List<ArticleComment> acmts = new List<ArticleComment>();
+
+                    foreach (AVObject cmt in t.Result)
+                    {
+                        acmts.Add(new ArticleComment(cmt));
+                    }
+
+                    return acmts;
+                });
         }
 
         public async Task<ArticleReference> LoadReference(string id)
@@ -2254,52 +2448,6 @@ namespace RTCareerAsk.DAL
                 });
 
             return atclRef.SetTopArticles(topArticles);
-        }
-
-        public async Task<bool> SaveNewArticle(Article a)
-        {
-            AVObject atcl = a.CreateArticleObjectForSave();
-
-            return await atcl.SaveAsync().ContinueWith(t =>
-                {
-                    if (t.IsFaulted || t.IsCanceled)
-                    {
-                        throw t.Exception;
-                    }
-
-                    if (a.Reference != default(Answer))
-                    {
-                        MarkRecommandedReference(a.Reference.ObjectID, atcl.ObjectId).ContinueWith(s =>
-                            {
-                                return s.Result;
-                            });
-                    }
-
-                    return true;
-                });
-        }
-
-        public async Task<bool> MarkRecommandedReference(string id, string atclId)
-        {
-            return await AVObject.GetQuery("Answer").GetAsync(id).ContinueWith(t =>
-                {
-                    if (t.IsFaulted || t.IsCanceled)
-                    {
-                        throw t.Exception;
-                    }
-
-                    t.Result["recommendation"] = AVObject.CreateWithoutData("Article", atclId);
-
-                    return t.Result.SaveAsync().ContinueWith(s =>
-                        {
-                            if (s.IsFaulted || s.IsCanceled)
-                            {
-                                throw s.Exception;
-                            }
-
-                            return true;
-                        });
-                }).Unwrap();
         }
         #endregion
 
@@ -2406,11 +2554,6 @@ namespace RTCareerAsk.DAL
                         return true;
                     });
                 }).Unwrap();
-        }
-
-        public async Task<AVUser> GetUserByID(string userId)
-        {
-            return await AVUser.Query.GetAsync(userId);
         }
 
         public async Task<AVObject> GetMessageBodyByID(string msgBodyId)
@@ -2946,7 +3089,68 @@ namespace RTCareerAsk.DAL
         //        throw;
         //    }
         //}
+        ///// <summary>
+        ///// 查询用户发布的近10条问题。
+        ///// </summary>
+        ///// <param name="userId"></param>
+        ///// <returns>10条用户最近发布的问题内容</returns>
+        //public async Task<List<QuestionInfo>> GetRecentQuestions(string userId)
+        //{
+        //    AVUser u = AVUser.CreateWithoutData("_User", userId) as AVUser;
 
+        //    return await AVObject.GetQuery("Post")
+        //        .WhereEqualTo("createdBy", u)
+        //        .Limit(10)
+        //        .OrderByDescending("createdAt")
+        //        .FindAsync()
+        //        .ContinueWith(t =>
+        //        {
+        //            if (t.IsFaulted || t.IsCanceled)
+        //            {
+        //                throw t.Exception;
+        //            }
+
+        //            List<QuestionInfo> questions = new List<QuestionInfo>();
+
+        //            foreach (AVObject ans in t.Result)
+        //            {
+        //                questions.Add(new QuestionInfo(ans));
+        //            }
+
+        //            return questions;
+        //        });
+        //}
+        ///// <summary>
+        ///// 查询用户发布的近10条回答。
+        ///// </summary>
+        ///// <param name="userId">用户ID</param>
+        ///// <returns>10条用户最近发布的答案内容</returns>
+        //public async Task<List<Answer>> GetRecentAnswers(string userId)
+        //{
+        //    AVUser u = AVUser.CreateWithoutData("_User", userId) as AVUser;
+
+        //    return await AVObject.GetQuery("Answer")
+        //        .Include("forQuestion")
+        //        .WhereEqualTo("createdBy", u)
+        //        .Limit(10)
+        //        .OrderByDescending("createdAt")
+        //        .FindAsync().ContinueWith(t =>
+        //        {
+        //            if (t.IsFaulted || t.IsCanceled)
+        //            {
+        //                throw t.Exception;
+        //            }
+
+        //            List<Answer> answers = new List<Answer>();
+
+        //            foreach (AVObject ans in t.Result)
+        //            {
+        //                answers.Add(new Answer(ans));
+        //            }
+
+        //            return answers;
+        //        });
+        //}
         #endregion
     }
 }

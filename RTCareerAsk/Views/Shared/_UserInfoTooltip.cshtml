@@ -1,0 +1,10 @@
+﻿@model RTCareerAsk.Models.UserModel
+
+<div style="width: 300px; height: auto">
+    <div class="centered">
+        <img src="@Model.Portrait" class="portrait-sm" alt="@Model.Name" />
+    </div>
+    <div>
+        @Html.ActionLink(Model.Name, "Index", "User", new { id = Model.UserID }, new { })
+    </div>
+</div>

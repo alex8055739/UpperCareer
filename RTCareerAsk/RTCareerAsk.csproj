@@ -200,6 +200,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
@@ -658,6 +659,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Upper\article-compose.js" />
     <Content Include="Scripts\Upper\login.js" />
+    <Content Include="Scripts\Upper\upper-article-detail.js" />
     <Content Include="Scripts\Upper\upper-scrollpaging.js" />
     <Content Include="Scripts\Upper\upper-shorten.js" />
     <Content Include="Scripts\Upper\question-list.js" />
@@ -725,7 +727,7 @@
     <Content Include="Views\Shared\_QuestionList.cshtml" />
     <Content Include="Views\Shared\_AnswerForm.cshtml" />
     <Content Include="Views\Shared\_CommentForm.cshtml" />
-    <Content Include="Views\Shared\_CommentDetail.cshtml" />
+    <Content Include="Views\Shared\_CommentList.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
     <Content Include="Views\Shared\_MessageContent.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
@@ -754,6 +756,10 @@
     <Content Include="Views\Article\Detail.cshtml" />
     <Content Include="Views\Article\Index.cshtml" />
     <Content Include="Views\Shared\_ArticleList.cshtml" />
+    <Content Include="Views\Shared\_UserInfoTooltip.cshtml" />
+    <Content Include="Views\Shared\_ArticleCommentList.cshtml" />
+    <Content Include="Views\Shared\_ArticleCommentForm.cshtml" />
+    <Content Include="Views\Document\Terms.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

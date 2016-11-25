@@ -63,6 +63,8 @@ namespace RTCareerAsk.DAL.Domain
 
         public int Index { get; set; }
 
+        public int ViewCount { get; set; }
+
         public DateTime DateCreate { get; set; }
 
         public DateTime DateUpdate { get; set; }
@@ -79,6 +81,7 @@ namespace RTCareerAsk.DAL.Domain
             Cover = obj.ContainsKey("cover") ? obj.Get<string>("cover") : default(string);
             Author = obj.ContainsKey("author") ? obj.Get<string>("author") : default(string);
             Index = obj.ContainsKey("index") ? obj.Get<int>("index") : default(int);
+            ViewCount = obj.ContainsKey("viewCount") ? obj.Get<int>("viewCount") : default(int);
             DateCreate = Convert.ToDateTime(obj.CreatedAt);
             DateUpdate = Convert.ToDateTime(obj.UpdatedAt);
         }

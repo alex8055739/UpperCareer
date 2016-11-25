@@ -102,7 +102,7 @@ namespace RTCareerAsk.Models
 
         [Required]
         [Display(Name = "称谓")]
-        [StringLength(10, ErrorMessage = "称谓不要超过10个字")]
+        [StringLength(20, ErrorMessage = "称谓不要超过{1}个字")]
         public string Name { get; set; }
 
         public User RestoreRegisterModelToUserObject()

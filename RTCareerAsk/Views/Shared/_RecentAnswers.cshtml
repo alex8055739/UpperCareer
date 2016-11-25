@@ -1,20 +1,43 @@
-﻿@model List<RTCareerAsk.Models.AnswerModel>
+﻿@model List<RTCareerAsk.Models.AnswerInfoModel>
 
 <div class="content-info">
-    <div class="list-group box">
-        @foreach (RTCareerAsk.Models.AnswerModel a in Model)
+    <ul class="list-group box" data-target="@(Model.Count > 0 ? Model.First().Creator.UserID : string.Empty)">
+        @foreach (RTCareerAsk.Models.AnswerInfoModel a in Model)
         {
-            <div class="list-group-item">
+            <li class="list-group-item">
+                @if (!string.IsNullOrEmpty(a.RecommandationID))
+                {
+                    <div class="banner">
+                        <div class="flag"></div>
+                        <div class="sign">
+                            @Html.ActionLink("推荐", "Detail", "Article", new { id = a.RecommandationID }, null)
+                        </div>
+                    </div>
+                }
                 <a href="@Url.Action("AnswerDetail", "Question", new { id = a.ID })" style="color:#70BF40">
                     <h4 class="list-group-item-heading">@a.ForQuestion.Title</h4>
                 </a>
                 <div class="list-group-item-text">@Html.Raw(HttpUtility.HtmlDecode(a.Content))</div>
                 <p class="extra">@a.CreateBefore</p>
-            </div>
+            </li>
         }
-    </div>
+    </ul>
 </div>
 <script type="text/javascript">
-    Resize();
-    $('.list-group-item-text').uppershorten();
+    $(document).ready(function () {
+        var url = '@Url.Action("RecentRecord", "User")';
+
+        Resize();
+        $('li>.list-group-item-text').uppershorten();
+
+        $('ul.list-group').upperscrollpaging(url, {
+            itemSelector: 'li.list-group-item',
+            contentType: 2,
+            targetId: $('ul.list-group').data('target'),
+            postAction: function () {
+                Resize();
+                $('li>.list-group-item-text').uppershorten();
+            }
+        });
+    });
 </script>

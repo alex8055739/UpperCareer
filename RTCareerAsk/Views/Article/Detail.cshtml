@@ -28,10 +28,18 @@
             <div>
                 <p>@Model.Content</p>
             </div>
-            <small>编辑：@Html.ActionLink(Model.Editor.Name, "Index", "User", new { id = Model.Editor.UserID }, new { title="查看编辑个人主页" })</small>
+            <small>编辑：@Html.ActionLink(Model.Editor.Name, "Index", "User", new { id = Model.Editor.UserID }, new { title = "查看编辑个人主页" })</small>
         </blockquote>
     }
     @Html.Raw(HttpUtility.HtmlDecode(Model.HasReference ? Model.Reference.Content : Model.Content))
+</div>
+<div class="article-comments centered" data-target="@Model.ID">
+    <div>
+        @Html.Partial("_ArticleCommentForm", new RTCareerAsk.Models.ArticleCommentPostModel() { ArticleID = Model.ID })
+    </div>
+    <div>
+        @Html.Partial("_ArticleCommentList", Model.Comments)
+    </div>
 </div>
 @section scripts{
     @Scripts.Render("~/bundles/article")

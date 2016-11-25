@@ -56,6 +56,8 @@ namespace RTCareerAsk.Models
 
         public int Index { get; set; }
 
+        public int ViewCount { get; set; }
+
         public string DateCreate { get; set; }
 
         public string DateUpdate { get; set; }
@@ -67,8 +69,9 @@ namespace RTCareerAsk.Models
             Cover = obj.Cover;
             Author = obj.Author;
             Index = obj.Index;
-            DateCreate = obj.DateCreate.ToString("yyyy-M-dd");
-            DateUpdate = obj.DateUpdate.ToString("yyyy-M-dd");
+            ViewCount = obj.ViewCount;
+            DateCreate = obj.DateCreate.ToString("yyyy-M-d");
+            DateUpdate = obj.DateUpdate.ToString("yyyy-M-d");
         }
     }
 }

@@ -72,20 +72,27 @@ namespace RTCareerAsk.Controllers
             }
         }
 
-        public async Task<PartialViewResult> RecentRecord(int id, string targetId)
+        [HttpPost]
+        public async Task<PartialViewResult> RecentRecord(int contentType, string targetId, int pageIndex)
         {
-            if (id == 1)
+            if (contentType == 1)
             {
-                return PartialView("_RecentQuestions", await UserDa.GetRecentQuestions(targetId));
+                return PartialView("_RecentQuestions", await UserDa.GetRecentQuestions(targetId, pageIndex));
             }
-            else if (id == 2)
+            else if (contentType == 2)
             {
-                return PartialView("_RecentAnswers", await UserDa.GetRecentAnswers(targetId));
+                return PartialView("_RecentAnswers", await UserDa.GetRecentAnswers(targetId, pageIndex));
             }
             else
             {
                 throw new ArgumentOutOfRangeException("所提供的操作代码不符合要求。");
             }
+        }
+
+        [HttpPost]
+        public async Task<PartialViewResult> LoadUserIntro(string userId)
+        {
+            return PartialView("_UserInfoTooltip", await UserDa.LoadUserIntro(userId));
         }
     }
 }

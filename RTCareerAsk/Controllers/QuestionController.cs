@@ -212,7 +212,7 @@ namespace RTCareerAsk.Controllers
                 {
                     List<CommentModel> model = await QuestionDa.GetCommentModels(c.AnswerID);
 
-                    return PartialView("_CommentDetail", SetFlagsForActions(model));
+                    return PartialView("_CommentList", SetFlagsForActions(model));
                 }
 
                 throw new InvalidOperationException("保存评论失败，请再次尝试");
@@ -314,10 +314,7 @@ namespace RTCareerAsk.Controllers
                 return model;
             }
 
-            if (model.Creator.UserID == GetUserID())
-            {
-                model.IsEditAllowed = true;
-            }
+            model.IsEditAllowed = model.Creator.UserID == GetUserID();
 
             if (model.Comments.Count > 0)
             {
@@ -333,10 +330,7 @@ namespace RTCareerAsk.Controllers
             {
                 foreach (AnswerModel ans in models)
                 {
-                    if (ans.Creator.UserID == GetUserID())
-                    {
-                        ans.IsEditAllowed = true;
-                    }
+                    ans.IsEditAllowed = ans.Creator.UserID == GetUserID();
 
                     if (ans.Comments.Count > 0)
                     {
@@ -352,10 +346,7 @@ namespace RTCareerAsk.Controllers
         {
             foreach (CommentModel cmt in models)
             {
-                if (cmt.Creator.UserID == GetUserID())
-                {
-                    cmt.IsDeleteAllowed = true;
-                }
+                cmt.IsDeleteAllowed = cmt.Creator.UserID == GetUserID();
             }
 
             return models;
