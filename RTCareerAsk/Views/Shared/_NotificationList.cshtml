@@ -1,0 +1,21 @@
+﻿@model IEnumerable<RTCareerAsk.Models.HistoryModel>
+@{
+    bool isForAdmin = ViewBag.IsForAdmin != null && ViewBag.IsForAdmin == true ? true : false;
+}
+
+<ul class="notification-list">
+    @foreach (RTCareerAsk.Models.HistoryModel ntfn in Model)
+    {
+        <li class="item @Html.AssignClassWithCondition(ntfn.IsNew, "new")" data-id="@ntfn.ID">
+            <div>
+                @Html.UpperAlert(ntfn)
+            </div>
+            @if (ntfn.IsNew && !isForAdmin)
+            {
+                <div class="cancel-new">
+                    <a href="#" class="btn btn-info btn-xs">标为已读</a>
+                </div>
+            }
+        </li>
+    }
+</ul>

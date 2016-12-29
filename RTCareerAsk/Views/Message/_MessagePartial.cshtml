@@ -1,0 +1,57 @@
+﻿@model List<RTCareerAsk.Models.MessageModel>
+
+@{
+    bool openMessage = ViewBag.Message != null;
+}
+
+<div class="message-main">
+    <div id="divMsgList" class="col-lg-3">
+        <ul class="list-group">
+            @foreach (RTCareerAsk.Models.MessageModel msg in Model)
+            {
+                <li class="list-group-item">
+                    @if (msg.IsNew)
+                    {
+                        <span class="badge">new</span>
+                    }
+                    <h5>@Ajax.ActionLink(msg.Content.Title, "LoadMessageContent", new { Id = msg.MessageID }, new AjaxOptions
+                   {
+                       LoadingElementId = "divLoader",
+                       UpdateTargetId = "divMsgBody",
+                       OnBegin = "OnMsgBegin",
+                       OnSuccess = "OnMsgSuccess",
+                       OnComplete = "OnMsgComplete",
+                       OnFailure = "OnMsgFailure"
+                   }, new { id = string.Format("lnkMsg{0}", msg.MessageID) })
+                    </h5>
+                    <small>来自： 
+                        @if (msg.From != null)
+                        {
+                            <a href="@Url.Action("Index", "User", new { id = msg.From.UserID })">@msg.From.Name</a>
+                        }
+                        else
+                        {
+                            <span>系统管理员</span>
+                        }
+                    </small>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="col-lg-8 body">
+        <img id="imgMsgLoading" src="~/Images/spin.gif" class="loading" style="display: none" />
+        <div id="divLoader" class="preload-box" style="display: none">
+            <div class="preload-3"></div>
+        </div>
+        <div id="divMsgBody">
+            @if (openMessage)
+            {
+                @Html.Partial("_MessageContent", Model.Where(m => m.MessageID == ViewBag.Message).First())
+            }
+            else
+            {
+                <div>请您从列表中选择要阅读的消息</div>
+            }
+        </div>
+    </div>
+</div>

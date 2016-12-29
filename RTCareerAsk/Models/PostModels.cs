@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using RTCareerAsk.App_DLL;
 using RTCareerAsk.DAL.Domain;
 
 namespace RTCareerAsk.Models
@@ -40,9 +41,25 @@ namespace RTCareerAsk.Models
 
         public string QuestionID { get; set; }
 
+        public string QuestionTitle { get; set; }
+
         public string UserID { get; set; }
 
+        public string UserName { get; set; }
+
         public string NotifyUserID { get; set; }
+
+        private HistoryModel GenerateNotification()
+        {
+            return new HistoryModel()
+            {
+                User = new UserModel() { UserID = UserID },
+                Target = new UserModel() { UserID = NotifyUserID },
+                Type = NotificationType.Answered,
+                NameStrings = new string[] { QuestionTitle },
+                InfoStrings = new string[] { QuestionID }
+            };
+        }
 
         public Answer CreatePostForSave()
         {
@@ -50,7 +67,8 @@ namespace RTCareerAsk.Models
             {
                 Content = PostContent,
                 ForQuestion = new Question() { ObjectID = QuestionID },
-                CreatedBy = new User() { ObjectID = UserID }
+                CreatedBy = new User() { ObjectID = UserID },
+                Notification = GenerateNotification().CreateHistoryForSave()
             };
         }
     }
@@ -59,14 +77,32 @@ namespace RTCareerAsk.Models
     {
         [Required(ErrorMessage = "请您输入评论正文")]
         [DisplayName("评论内容：")]
-        [StringLength(140, ErrorMessage = "超过字数上限，评论请不要超过{1}字")]
+        [StringLength(500, ErrorMessage = "超过字数上限，评论请不要超过{1}字")]
         public string PostContent { get; set; }
 
         public string AnswerID { get; set; }
 
+        public string QuestionTitle { get; set; }
+
         public string UserID { get; set; }
 
+        public string UserName { get; set; }
+
+        public string AuthorID { get; set; }
+
         public string NotifyUserID { get; set; }
+
+        private HistoryModel GenerateNotification()
+        {
+            return new HistoryModel()
+            {
+                User = new UserModel() { UserID = UserID },
+                Target = new UserModel() { UserID = string.IsNullOrEmpty(NotifyUserID) ? AuthorID : NotifyUserID },
+                Type = string.IsNullOrEmpty(NotifyUserID) ? NotificationType.CommentAns : NotificationType.RepliedCmt,
+                NameStrings = new string[] { QuestionTitle },
+                InfoStrings = new string[] { AnswerID }
+            };
+        }
 
         public Comment CreatePostForSave()
         {
@@ -75,6 +111,7 @@ namespace RTCareerAsk.Models
                 Content = PostContent,
                 ForAnswer = new Answer() { ObjectID = AnswerID },
                 CreatedBy = new User() { ObjectID = UserID },
+                Notification = GenerateNotification().CreateHistoryForSave()
             };
         }
     }
@@ -155,7 +192,7 @@ namespace RTCareerAsk.Models
     {
         [Required(ErrorMessage = "请您输入评论正文")]
         [DisplayName("评论内容：")]
-        [StringLength(140, ErrorMessage = "超过字数上限，评论请不要超过{1}字")]
+        [StringLength(500, ErrorMessage = "超过字数上限，评论请不要超过{1}字")]
         public string PostContent { get; set; }
 
         public string ArticleID { get; set; }

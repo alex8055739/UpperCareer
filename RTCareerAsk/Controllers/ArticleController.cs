@@ -16,6 +16,8 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
+                await Task.WhenAll(AutoLogin(), UpdateNewMessageCount());
+
                 ViewBag.Title = GeneralTitle;
 
                 return View(await ArticleDa.LoadArticleList());
@@ -32,6 +34,8 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
+                await Task.WhenAll(AutoLogin(), UpdateNewMessageCount());
+
                 ArticleModel model = await ArticleDa.LoadArticleDetail(id);
                 model.Comments = SetFlagsForActions(model.Comments);
                 ViewBag.Title = GenerateTitle(model.Title);

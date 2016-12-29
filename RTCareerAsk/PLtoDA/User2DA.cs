@@ -13,7 +13,7 @@ namespace RTCareerAsk.PLtoDA
     {
         public async Task<UserDetailModel> LoadUserDetail(string targetId, string userId = "")
         {
-            UserDetailModel udm = await LCDal.LoadUserDetail(targetId).ContinueWith(t =>
+            Task<UserDetailModel> udm = LCDal.LoadUserDetail(targetId).ContinueWith(t =>
                 {
                     if (t.IsFaulted || t.IsCanceled)
                     {
@@ -62,33 +62,70 @@ namespace RTCareerAsk.PLtoDA
             //return udm.SetDetailInfomation(followerCnt, followeeCnt, hasFollowed, questions, answers);
             #endregion
 
-            bool hasFollowed = string.IsNullOrEmpty(userId) ? false : await LCDal.IfAlreadyFollowed(userId, targetId);
-
-            //Task<int> followerCnt = LCDal.GetFollowerCount(targetId);
-            //Task<int> followeeCnt = LCDal.GetFolloweeCount(targetId);
-            //Task<List<QuestionInfoModel>> questions = GetRecentQuestions(targetId);
-            //Task<List<AnswerModel>> answers = GetRecentAnswers(targetId);
-
-            //await Task.WhenAll(followerCnt, followeeCnt, questions, answers);
-
-            //return udm.SetDetailInfomation(followerCnt.Result, followeeCnt.Result, hasFollowed, questions.Result, answers.Result);
+            Task<bool?> hasFollowed = LCDal.IfAlreadyFollowed(userId, targetId);
 
             Task<List<QuestionInfoModel>> questions = GetRecentQuestions(targetId, 0);
 
-            await Task.WhenAll(questions);
+            await Task.WhenAll(udm, questions, hasFollowed);
 
-            udm.HasFollowed = hasFollowed;
-            udm.RecentQuestions = questions.Result;
+            udm.Result.HasFollowed = hasFollowed.Result;
+            udm.Result.RecentQuestions = questions.Result;
 
-            return udm;
+            return udm.Result;
         }
 
-        public async Task<UserModel> LoadUserIntro(string targetId)
+        public async Task<List<UserTagModel>> LoadFollowersOrFollowees(string userId, string targetId, bool isForFollowers, int pageIndex)
         {
-            return await LCDal.LoadUserInfo(targetId).ContinueWith(t =>
+            IEnumerable<User> targets = isForFollowers ? await LCDal.GetFollowers(targetId, pageIndex) : await LCDal.GetFollowees(targetId, pageIndex);
+
+            List<Task<UserTagModel>> tasks = new List<Task<UserTagModel>>();
+
+            foreach (User target in targets)
             {
-                return new UserModel(t.Result);
-            });
+                tasks.Add(LoadUserTag(userId, target));
+            }
+
+            await Task.WhenAll(tasks.ToArray());
+
+            List<UserTagModel> results = new List<UserTagModel>();
+
+            foreach (Task<UserTagModel> task in tasks)
+            {
+                results.Add(task.Result);
+            }
+
+            return results;
+        }
+
+        public async Task<UserTagModel> LoadUserTag(string userId, User target)
+        {
+            Task<bool?> hasFollowed = LCDal.IfAlreadyFollowed(userId, target.ObjectID);
+
+            Task<int> followerCnt = LCDal.GetFollowerCount(target.ObjectID);
+
+            Task<int> answerCnt = LCDal.GetAnswerCount(target.ObjectID);
+
+            await Task.WhenAll(hasFollowed, followerCnt, answerCnt);
+
+            return new UserTagModel(target).SetFollowerAndAnswerCount(hasFollowed.Result, followerCnt.Result, answerCnt.Result);
+        }
+
+        public async Task<UserTagModel> LoadUserTag(string userId, string targetId)
+        {
+            Task<UserTagModel> tag = LCDal.LoadUserInfo(targetId).ContinueWith(t =>
+                {
+                    return new UserTagModel(t.Result);
+                });
+
+            Task<bool?> hasFollowed = LCDal.IfAlreadyFollowed(userId, targetId);
+
+            Task<int> followerCnt = LCDal.GetFollowerCount(targetId);
+
+            Task<int> answerCnt = LCDal.GetAnswerCount(targetId);
+
+            await Task.WhenAll(tag, hasFollowed, followerCnt, answerCnt);
+
+            return tag.Result.SetFollowerAndAnswerCount(hasFollowed.Result, followerCnt.Result, answerCnt.Result);
         }
 
         public async Task Follow(string userId, string followeeId)

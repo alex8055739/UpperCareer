@@ -87,9 +87,9 @@ namespace RTCareerAsk.PLtoDA
                 });
         }
 
-        public async Task<AnswerModel> GetAnswerModel(string answerId)
+        public async Task<AnswerModel> GetAnswerModel(string userId, string answerId)
         {
-            return await LCDal.GetAnswerWithComments(answerId).ContinueWith(t => new AnswerModel(t.Result));
+            return await LCDal.GetAnswerWithComments(userId, answerId).ContinueWith(t => new AnswerModel(t.Result));
         }
 
         public async Task<List<AnswerModel>> GetAnswerModels(string userId, string questionId, int pageIndex, bool isHottestFirst)

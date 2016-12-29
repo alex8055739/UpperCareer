@@ -20,12 +20,12 @@
     </div>
     @foreach (RTCareerAsk.Models.AnswerModel a in Model)
     {
-        <div id="@string.Format("divAnsBody", a.ID)" class="body" data-targetquestion="@a.ForQuestion.ID">
+        <div id="@string.Format("divAnsBody{0}", a.ID)" class="body" data-targetquestion="@a.ForQuestion.ID">
             <div id="@string.Format("divAns{0}", a.ID)" class="wrap clearfix" style="position:relative">
                 <div style="position: absolute; right: 0; top: 0; width: 30px; background-color: yellow; text-align: center; font-size: 18px; z-index: 1000">
                 </div>
-                <div data-id="@a.ID" data-type="1" style="min-width:55px">
-                    <div class="arrow @Html.IsActive(true, a) @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" data-toggle="tooltip" data-placement="right  " title="推荐">
+                <div data-id="@a.ID" data-title="@a.ForQuestion.Title" data-author="@a.Creator.UserID" data-type="1" style="min-width:55px">
+                    <div class="arrow @Html.IsActive(true, a) @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" data-toggle="tooltip" data-placement="right" title="推荐">
                         <a href="#" class="up">
                             <div></div>
                             <div class="votes">@a.VotePositive</div>
@@ -40,10 +40,6 @@
                 </div>
                 @Html.Hidden(string.Format("hdnAnsBy{0}", a.ID), a.Creator.UserID)
                 <div class="clearfix" style="flex-grow: 1; position: relative">
-                    @*@if (a.IsEditAllowed)
-                {
-                    <div style="position: absolute; right: 0; top: 0; font-size: 14px; color: #008cba; border: 2px solid #008cba; border-radius:5px; padding: 0 5px; transform: rotate(35deg) translate(15px,30px); opacity:0.5"> <span class="glyphicon glyphicon-bookmark"></span> 我的回答</div>
-                }*@
                     @Html.UpperNameTag(a.Creator)
                     <div id="@string.Format("divAnsTxt{0}", a.ID)" class="content @Html.AssignClassWithCondition(a.IsEditAllowed, "self")">
                         @Html.Raw(HttpUtility.HtmlDecode(a.Content))
@@ -55,24 +51,13 @@
                         {
                             <span>@Html.ActionLink("引用", "Compose", "Article", new { id = a.ID }, new { })</span>
                         }
-                        @*<div id="@string.Format("divAnsVote{0}", a.ID)" style="display:inline">
-                        @if (IsAuthorized)
-                        {
-                            <span><a href="#" class="@Html.IsActive(true, a)">赞</a></span>
-                        }
-                        <span id="spnVoteDiff" style="color: #f00">@a.VoteDiff</span>
-                        @if (IsAuthorized)
-                        {
-                            <span><a href="#" class="@Html.IsActive(false, a)">踩</a></span>
-                        }
-                    </div>*@
                     </div>
                     <div class="float-right">
                         <ul class="breadcrumb">
                             @if (a.IsEditAllowed)
                             {
                                 <li><a href="#" role="button" id="@string.Format("btnAnsEdt{0}", a.ID)">编辑</a></li>
-                                <li><a href="#" role="button" id="@string.Format("btnAnsDel{0}", a.ID)">删除</a></li>
+                                <li><a href="#" role="button" id="btnDel" data-id="@a.ID" data-type="1" data-toggle="modal" data-target="#divModalSm">删除</a></li>
                             }
                             <li><a href="#" id="@string.Format("btnWrtCmt{0}", a.ID)" class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")">评一下</a></li>
                             <li><a href="@string.Format("#divCmtList{0}", a.ID)" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" class="CmtCount">评论<span style="font-size: 13px">(@a.Comments.Count)</span>
@@ -85,7 +70,7 @@
             {
                 <div id="@string.Format("divCmtForm{0}", a.ID)" class="collapse">
                     <div class="clearfix">
-                        @Html.Partial("_CommentForm", new RTCareerAsk.Models.CommentPostModel() { AnswerID = a.ID, NotifyUserID = a.Creator.UserID })
+                        @Html.Partial("_CommentForm", new RTCareerAsk.Models.CommentPostModel() { AnswerID = a.ID, QuestionTitle = a.ForQuestion.Title, AuthorID = a.Creator.UserID })
                     </div>
                 </div>
             }

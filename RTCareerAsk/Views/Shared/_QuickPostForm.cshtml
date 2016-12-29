@@ -1,5 +1,9 @@
 ﻿@model RTCareerAsk.Models.QuestionPostModel
 
+@{
+    bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+}
+
 @using (Ajax.BeginForm("PostQuestion", "Question", null, new AjaxOptions
 {
     UpdateTargetId = "divQuestionList",
@@ -11,9 +15,9 @@
 {
     <div class="form-group has-success">
         <div class="input-group">
-            @Html.TextBoxFor(model => model.PostTitle, new { placeholder = "今天你在职场中遇到了什么问题？", @class = "form-control" })
+            @Html.TextBoxFor(model => model.PostTitle, new { placeholder = "今天你在职场中遇到了什么问题？", @class = "form-control " + Html.AssignClassWithCondition(!IsAuthorized, "redirect-login") })
             <span class="input-group-btn">
-                <input type="submit" class="btn btn-success" value="提问" />
+                <input type="submit" class="btn btn-success @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" value="提问" />
             </span>
         </div>
         @Html.ValidationMessageFor(model => model.PostTitle, "", new { @class = "validation-msg" })

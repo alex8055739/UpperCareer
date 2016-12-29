@@ -16,10 +16,12 @@ namespace RTCareerAsk.Controllers
         #region Action
 
         [UpperResult]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             try
             {
+                await AutoLogin();
+
                 return HasUserInfo ? RedirectToAction("Index", "Question") : RedirectToAction("Index", "Article");
             }
             catch (Exception e)
@@ -60,6 +62,30 @@ namespace RTCareerAsk.Controllers
             ViewBag.Src = src;
 
             return PartialView("_ImgDisplayModal");
+        }
+
+        [HttpPost]
+        public PartialViewResult CreateDeleteComfirmationModal(DeleteModel model)
+        {
+            if (string.IsNullOrEmpty(model.Title))
+            {
+                switch (model.Type)
+                {
+                    case 1:
+                        model.Title = "确认删除这条答案？";
+                        break;
+                    case 2:
+                        model.Title = "确认删除这条评论？";
+                        break;
+                    case 3:
+                        model.Title = "确认删除这条私信？";
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(string.Format("请求类型超出范围。收到的请求：{0}", model.Type));
+                }
+            }
+
+            return PartialView("_ConfirmDel", model);
         }
 
         public async Task<ActionResult> FileListPage()

@@ -143,6 +143,10 @@ namespace RTCareerAsk.DAL.Domain
 
         public string SelfDescription { get; set; }
 
+        public int FollowerCount { get; set; }
+
+        public int FolloweeCount { get; set; }
+
         private void CreateNewUserDetailObject(AVUser uo)
         {
             ForUser = new User(uo);
@@ -162,6 +166,14 @@ namespace RTCareerAsk.DAL.Domain
             ObjectId = udo.ObjectId;
             ForUser = new User(udo.Get<AVUser>("forUser"));
             SelfDescription = udo.Get<string>("selfDescription");
+        }
+
+        public UserDetail SetFollowCounts(int follower, int followee)
+        {
+            FollowerCount = follower;
+            FolloweeCount = followee;
+
+            return this;
         }
 
         public AVObject CreateUserDetailObjectForSave()

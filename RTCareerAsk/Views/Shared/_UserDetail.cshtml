@@ -1,51 +1,101 @@
 ﻿@model RTCareerAsk.Models.UserDetailModel
 
+@{
+    bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+}
+
 <div class="user-detail">
-    <div class="basic">
-        <div>
-            <h3>@Model.Name</h3>
-            @if (string.IsNullOrEmpty(Model.Company) && string.IsNullOrEmpty(Model.Title))
+    <div class="wrap">
+        <div class="basic">
+            <div>
+                <h3>
+                    @Model.Name
+                    @if (Model.HasFollowed == null)
+                    {
+                        @Html.ActionLink("设置个人信息", "UserManage", "Account", null, new { @class = "btn btn-default btn-xs" })
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-default btn-xs @Html.AssignClassWithCondition(!Convert.ToBoolean(Model.HasFollowed), "disabled")" id="btnWriteLetter" data-id="@Model.UserID" data-toggle="modal" data-target="#divModal"><span class="glyphicon glyphicon-send"></span>&nbsp;@(Convert.ToBoolean(Model.HasFollowed) ? "发消息" : "关注后发消息")</a>
+                    }
+                </h3>
+                @if (string.IsNullOrEmpty(Model.Company) && string.IsNullOrEmpty(Model.Title))
+                {
+                    <p class="extra"><span style="margin-right: 0.5em">[未提供个人信息]</span></p>
+                }
+                else
+                {
+                    <p class="extra"><span style="margin-right: 0.5em">@(string.IsNullOrEmpty(Model.Company) ? "[无公司信息]" : Model.Company)</span>|<span style="margin-left: 0.5em">@(string.IsNullOrEmpty(Model.Title) ? "[无头衔信息]" : Model.Title)</span></p>
+                }
+            </div>
+            @Html.UpperPortrait(Model.Portrait, PortraitSize.Medium)
+        </div>
+        <div class="self-description">
+            @Html.Raw(HttpUtility.HtmlDecode(Model.SelfDescription))
+        </div>
+        <div class="action">
+            @if (!ViewBag.IsSelf)
             {
-                <p class="extra"><span style="margin-right: 0.5em">[未提供个人信息]</span></p>
-            }
-            else
-            {
-                <p class="extra"><span style="margin-right: 0.5em">@(string.IsNullOrEmpty(Model.Company)?"[无公司信息]":Model.Company)</span>|<span style="margin-left: 0.5em">@(string.IsNullOrEmpty(Model.Title)?"[无头衔信息]":Model.Title)</span></p>
+                if (Model.HasFollowed == true)
+                {
+                <button class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login") btn btn-default unfollow" data-target="@Model.UserID"><span class="glyphicon glyphicon-eye-close"></span>&nbsp;取消关注</button>
+                }
+                else
+                {
+                <button class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login") btn btn-success follow" data-target="@Model.UserID"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;关注@(Model.Gender == 0 ? "TA" : Model.Gender == 1 ? "他" : "她")</button>
+                }
             }
         </div>
-        @Html.UpperPortrait(Model.Portrait, PortraitSize.Medium)
-    </div>
-    <div class="self-description">
-        @Html.Raw(HttpUtility.HtmlDecode(Model.SelfDescription))
-    </div>
-    <div class="action">
-        @if (ViewBag.IsAuthorized)
-        {
-            @Html.HiddenFor(model => model.UserID, new { id = "hdnSender" })
-
-            if (!ViewBag.IsSelf)
+        @*<div class="action">
+            @if (ViewBag.IsAuthorized)
             {
-            @Ajax.ActionLink("取消关注", "UnfollowUser", "User", new { id = Model.UserID }, new AjaxOptions
+                @Html.HiddenFor(model => model.UserID, new { id = "hdnSender" })
+
+                if (!ViewBag.IsSelf)
+                {
+                @Ajax.ActionLink("取消关注", "UnfollowUser", "User", new { id = Model.UserID }, new AjaxOptions
            {
+               HttpMethod = "Post",
                OnBegin = "OnUnfollowBegin",
                OnSuccess = "OnUnfollowSuccess",
                OnComplete = "OnUnfollowComplete",
                OnFailure = "OnUnfollowFailure"
-           }, new { @class = "btn btn-success", id = "btnUnfollow", style = Model.HasFollowed ? "" : "display:none" })
-            @Ajax.ActionLink("关注TA", "FollowUser", "User", new { id = Model.UserID }, new AjaxOptions
+           }, new { @class = "btn btn-success", id = "btnUnfollow", style = Model.HasFollowed == null ? "display:none" : Convert.ToBoolean(Model.HasFollowed) ? "" : "display:none" })
+                @Ajax.ActionLink("关注TA", "FollowUser", "User", new { id = Model.UserID }, new AjaxOptions
            {
+               HttpMethod = "Post",
                OnBegin = "OnFollowBegin",
                OnSuccess = "OnFollowSuccess",
                OnComplete = "OnFollowComplete",
                OnFailure = "OnFollowFailure"
-           }, new { @class = "btn btn-success", id = "btnFollow", style = Model.HasFollowed ? "display:none" : "" })
+           }, new { @class = "btn btn-success", id = "btnFollow", style = Model.HasFollowed == null ? "display:none" : Convert.ToBoolean(Model.HasFollowed) ? "display:none" : "" })
                 
-            <a href="#" class="btn btn-info @(Model.HasFollowed ? "" : "disabled")" id="btnWriteLetter" data-toggle="modal" data-target="#divModal">@(Model.HasFollowed ? "发消息" : "关注后发消息")</a>
+                <a href="#" class="btn btn-info @(Model.HasFollowed == null ? "disabled" : Convert.ToBoolean(Model.HasFollowed) ? "" : "disabled")" id="btnWriteLetter" data-toggle="modal" data-target="#divModal"><span class="glyphicon glyphicon-send"></span>&nbsp;@(Model.HasFollowed == null ? "不能发消息给自己" : Convert.ToBoolean(Model.HasFollowed) ? "发消息" : "关注后发消息")</a>
+                }
             }
-        }
 
+        </div>*@
     </div>
-
+    <div style="display: flex; flex-flow: row; align-items: center; text-align: center; background-color: #ffffff">
+        <div style="flex: auto; border: solid 2px #f7f7f7">
+            <p>被关注</p>
+            <p><span id="spnFollowerCount">@Model.FollowerCount</span></p>
+        </div>
+        <div style="flex: auto; border: solid 2px #f7f7f7">
+            <p>关注了</p>
+            <p>@Model.FolloweeCount</p>
+        </div>
+    </div>
+    @*<div class="btn-group btn-group-justified">
+        <a href="#" class="btn btn-default">
+            <p>粉丝数</p>
+            <p><span id="spnFollowerCount">@Model.FollowerCount</span></p>
+        </a>
+        <a href="#" class="btn btn-default">
+            <p>关注数</p>
+            <p>@Model.FolloweeCount</p>
+        </a>
+    </div>*@
 </div>
 @*<div class="jumbotron" style="overflow: auto">
     <div class="align-center col-lg-6">

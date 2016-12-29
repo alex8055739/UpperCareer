@@ -22,6 +22,7 @@
                 $currentIndex = $activeNav.index();
                 $activeNav.removeClass('active-nav');
                 $this.addClass('active-nav');
+
                 if ($this.index() > $currentIndex) {
                     if ($activeNav.is($firstChild)) {
                         $initWidth = $defaultMarginLeft + $this.width() + $this.position().left - $defaultPaddingLeft;
@@ -34,7 +35,8 @@
                         $line.css('marginLeft', $marginLeftToSet);
                         return $line.width($this.width() + 'px');
                     }, 175);
-                } else {
+                }
+                else {
                     if ($this.is($firstChild)) {
                         $initWidth = $currentOffset - $defaultPaddingLeft + $defaultMarginLeft + $currentWidth;
                         $marginLeftToSet = $this.position().left;

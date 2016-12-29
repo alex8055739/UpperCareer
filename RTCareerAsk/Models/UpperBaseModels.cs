@@ -64,12 +64,14 @@ namespace RTCareerAsk.Models
 
         protected virtual void ConvertArticleObjectToModel(UpperArticleBaseDomain obj)
         {
+            Random rd = new Random();
+
             ID = obj.ObjectID;
             Title = obj.Title;
             Cover = obj.Cover;
             Author = obj.Author;
             Index = obj.Index;
-            ViewCount = obj.ViewCount;
+            ViewCount = obj.ViewCount * 31 + rd.Next(80, 100);
             DateCreate = obj.DateCreate.ToString("yyyy-M-d");
             DateUpdate = obj.DateUpdate.ToString("yyyy-M-d");
         }

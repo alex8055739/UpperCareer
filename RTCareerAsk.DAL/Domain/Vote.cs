@@ -19,6 +19,8 @@ namespace RTCareerAsk.DAL.Domain
 
         public bool IsUpdate { get; set; }
 
+        public History Notification { get; set; }
+
         public AVObject CreateVoteObject()
         {
             AVObject vote;

@@ -21,7 +21,8 @@
         var $this = $(this),
             pageIndex = 1,
             onLoading = false,
-            loader = $(document.createElement('div')).addClass('preload-box').html($(document.createElement('div')).addClass('preload-3')).hide();
+            loader = $(document.createElement('div')).addClass('preload-box').html($(document.createElement('div')).addClass('preload-3')).hide(),
+            endTag = $(document.createElement('div')).addClass('page-end').text('没有更多新内容了');
 
         if ($this.length > 1) {
             alert('Cannot bind scroll paging to multiple targets!');
@@ -33,6 +34,10 @@
         $(window).off('scroll');
 
         $(window).scroll(function () {
+            if ($this.find(config.itemSelector).length == 0) {
+                return;
+            }
+
             if ($(window).scrollTop() + $(window).height() >= $this.height() + $this.offset().top && !onLoading) {
                 var data = new Object();
                 data.pageIndex = pageIndex;
@@ -54,13 +59,15 @@
 
                         if (resultCount > 0) {
                             pageIndex++;
-                            DisplaySuccessInfo('更新了<strong>' + resultCount + '</strong>条新内容，当前页面：<strong>' + pageIndex + '</strong>');
+                            //DisplaySuccessInfo('更新了<strong>' + resultCount + '</strong>条新内容，当前页面：<strong>' + pageIndex + '</strong>');
                             $this.find(config.itemSelector).parent().append($(result).find(config.itemSelector));
                             onLoading = false;
                             config.postAction();
                         }
                         else {
-                            DisplayErrorInfo('没有更多新内容了，当前页面：<strong>' + pageIndex + '</strong>');
+                            var count = $this.find(config.itemSelector).length;
+                            endTag.text('已显示全部 ' + count + ' 条内容')
+                            $this.after(endTag);
                         }
                     },
                     error: function () {

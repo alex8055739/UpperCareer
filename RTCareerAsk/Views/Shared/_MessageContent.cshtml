@@ -4,7 +4,6 @@
     bool isFromSystem = Model.From == null;
 }
 @Html.HiddenFor(model => model.MessageID, new { id = "hdnMsgID" })
-@Html.HiddenFor(model => model.From.UserID, new { id = "hdnSender" })
 <div class="message-body">
     <h4>@Model.Content.Title</h4>
     <small>来自：
@@ -20,9 +19,9 @@
     <div class="float-right">
         @if (!isFromSystem && !ViewBag.IsFromSelf)
         {
-            <a href="#" id="btnWriteLetter" data-toggle="modal" data-target="#divModal"><span class="glyphicon glyphicon-share-alt icon" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="回复" /></a>
+            <a href="#" id="btnWriteLetter" data-id="@Model.From.UserID" data-toggle="modal" data-target="#divModal"><span class="glyphicon glyphicon-share-alt icon" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="回复" /></a>
         }
-        <a href="#" id="btnDeleteMsg" class="glyphicon glyphicon-trash icon" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="删除"></a>
+        <a href="#" id="btnDeleteMsg" class="glyphicon glyphicon-trash icon" aria-hidden="true" data-id="@Model.MessageID" data-type="3" data-toggle="modal" data-target="#divModalSm" title="删除"></a>
     </div>
     <div class="divider"></div>
     <div>

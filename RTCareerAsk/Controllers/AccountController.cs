@@ -88,7 +88,7 @@ namespace RTCareerAsk.Controllers
             {
                 try
                 {
-                    await AccountLogin(model.Email, model.Password);
+                    await AccountLogin(model);
 
                     return RedirectToLocal(returnUrl);
                 }
@@ -116,6 +116,7 @@ namespace RTCareerAsk.Controllers
             //WebSecurity.Logout();
 
             ClearUserFromSession();
+            RemoveLoginCookie();
 
             return RedirectToAction("Index", "Home");
         }
@@ -191,11 +192,14 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
+                await AutoLogin();
+
                 if (!IsUserAuthorized("User,Admin"))
                 {
                     throw new InvalidOperationException("未登录不能访问此页面");
                 }
 
+                await UpdateNewMessageCount();
 
                 UserManageModel model = await AccountDa.LoadUserManageInfo(GetUserID());
                 model.SelfDescription = ModifyTextareaData(model.SelfDescription, false);
@@ -232,15 +236,9 @@ namespace RTCareerAsk.Controllers
 
                 if (await AccountDa.UpdateProfile(model))
                 {
-                    return await UpdateUserInfo(new Dictionary<string, object>() { { "Name", model.Name } }).ContinueWith(t =>
-                        {
-                            if (t.IsFaulted || t.IsCanceled)
-                            {
-                                throw t.Exception;
-                            }
+                    UpdateUserInfo(new Dictionary<string, object>() { { "Name", model.Name } });
 
-                            return PartialView("_NavBar");
-                        });
+                    return PartialView("_NavBar");
                 }
 
                 throw new InvalidOperationException("未能成功保存信息");
@@ -315,7 +313,7 @@ namespace RTCareerAsk.Controllers
 
                 if (await AccountDa.ChangeUserPortrait(GetUserID(), url))
                 {
-                    await UpdateUserInfo(new Dictionary<string, object>() { { "Portrait", url } });
+                    UpdateUserInfo(new Dictionary<string, object>() { { "Portrait", url } });
                 }
                 else
                 {

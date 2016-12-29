@@ -18,6 +18,8 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
+                await Task.WhenAll(AutoLogin(), UpdateNewMessageCount());
+
                 UserDetailModel model = await UserDa.LoadUserDetail(id, HasUserInfo ? GetUserID() : "");
 
                 ViewBag.Title = GenerateTitle(model.Name);
@@ -32,6 +34,7 @@ namespace RTCareerAsk.Controllers
             }
         }
 
+        [HttpPost]
         public async Task FollowUser(string id)
         {
             try
@@ -52,6 +55,7 @@ namespace RTCareerAsk.Controllers
             }
         }
 
+        [HttpPost]
         public async Task UnfollowUser(string id)
         {
             try
@@ -90,9 +94,19 @@ namespace RTCareerAsk.Controllers
         }
 
         [HttpPost]
+        [UpperResult]
+        public async Task<PartialViewResult> FollowersOrFollowees(bool contentType, string targetId, int pageIndex)
+        {
+            ViewBag.TargetId = targetId;
+            ViewBag.ContentType = contentType;
+
+            return PartialView("_UserTagList", await UserDa.LoadFollowersOrFollowees(HasUserInfo ? GetUserID() : null, targetId, contentType, pageIndex));
+        }
+
+        [HttpPost]
         public async Task<PartialViewResult> LoadUserIntro(string userId)
         {
-            return PartialView("_UserInfoTooltip", await UserDa.LoadUserIntro(userId));
+            return PartialView("_UserInfoTooltip", await UserDa.LoadUserTag(GetUserID(), userId));
         }
     }
 }

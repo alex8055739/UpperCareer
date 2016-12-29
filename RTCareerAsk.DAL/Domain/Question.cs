@@ -207,6 +207,8 @@ namespace RTCareerAsk.DAL.Domain
 
         public List<Comment> Comments { get; set; }
 
+        public History Notification { get; set; }
+
         private void GenerateAnswerObject(AVObject ao)
         {
             if (ao.ClassName != "Answer")
@@ -284,6 +286,8 @@ namespace RTCareerAsk.DAL.Domain
         }
 
         public Answer ForAnswer { get; set; }
+
+        public History Notification { get; set; }
 
         private void GenerateCommentObject(AVObject co)
         {

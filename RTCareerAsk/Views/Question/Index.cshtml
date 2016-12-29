@@ -1,17 +1,17 @@
-﻿@model List<RTCareerAsk.Models.QuestionInfoModel>
+﻿@model List<RTCareerAsk.Models.AnswerInfoModel>
 
 @{
     RTCareerAsk.Models.TabModel tabSorting = new RTCareerAsk.Models.TabModel();
     tabSorting.TabItems.Add("最热", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "LoadContentInfo", ControllerName = "Question", RouteValues = new { id = 1 } });
     tabSorting.TabItems.Add("最新", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "LoadContentInfo", ControllerName = "Question", RouteValues = new { id = 2 } });
-    tabSorting.ActiveItem = "最热";
+    tabSorting.ActiveItem = "最新";
     tabSorting.AjaxOptns = new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "divQuestionList", OnBegin = "OnUpdateSortingBegin", OnComplete = "OnUpdateListComplete" };
     tabSorting.HtmlAttrs.Add("class", "tab-sorting");
 
     RTCareerAsk.Models.TabModel tabContent = new RTCareerAsk.Models.TabModel();
     tabContent.TabItems.Add("答案", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "LoadContentInfo", ControllerName = "Question", RouteValues = new { id = 2 } });
     tabContent.TabItems.Add("问题", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "LoadContentInfo", ControllerName = "Question", RouteValues = new { id = 0 } });
-    tabContent.ActiveItem = "问题";
+    tabContent.ActiveItem = "答案";
     tabContent.AjaxOptns = new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "divQuestionList", OnBegin = "OnUpdateContentBegin", OnComplete = "OnUpdateListComplete" };
     tabContent.HtmlAttrs.Add("class", "tab-content");
 }
@@ -36,7 +36,7 @@
                 $('#lnkTest').trigger('buildCard');
             },
             error: function () {
-                alert('error happen when loading user info');
+                //alert('error happen when loading user info');
             }
         });
     }
@@ -85,7 +85,7 @@
         @Ajax.UpperTab(tabSorting, null)
     </div>
     <div id="divQuestionList">
-        @Html.Partial("_QuestionList", Model)
+        @Html.Partial("_AnswerList", Model)
     </div>
 </div>
 
@@ -94,12 +94,9 @@
 }
 
 @section featured{
-    @if (ViewBag.IsAuthorized)
-    {
-        <div style="max-width: 700px; margin: 0 auto; background-color: #f7f7f7">
-            <div style="padding: 15px">
-                @Html.Partial("_QuickPostForm", new RTCareerAsk.Models.QuestionPostModel())
-            </div>
+    <div style="max-width: 700px; margin: 0 auto; background-color: #f7f7f7">
+        <div style="padding: 15px">
+            @Html.Partial("_QuickPostForm", new RTCareerAsk.Models.QuestionPostModel())
         </div>
-    }
+    </div>
 }

@@ -41,9 +41,9 @@ namespace RTCareerAsk.DAL.Domain
             Url = fo.Url;
         }
 
-        public AVFile CreateStreamFileObjectForSave()
+        public LeanCloud.AVFile CreateStreamFileObjectForSave()
         {
-            return new AVFile(FileName, FileDataStream, MetaData);
+            return new LeanCloud.AVFile(FileName, FileDataStream, MetaData);
         }
 
         public AVFile CreateByteFileObjectForSave()

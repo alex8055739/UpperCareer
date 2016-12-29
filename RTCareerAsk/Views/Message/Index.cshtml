@@ -1,58 +1,20 @@
 ﻿@model List<RTCareerAsk.Models.MessageModel>
 
-@{
-    bool openMessage = ViewBag.Message != null;
-}
-
-<div class="message-main">
-    <div id="divMsgList" class="col-lg-3">
-        <ul class="list-group">
-            @foreach (RTCareerAsk.Models.MessageModel msg in Model)
-            {
-                <li class="list-group-item">
-                    @if (msg.IsNew)
-                    {
-                        <span class="badge">new</span>
-                    }
-                    <h5>@Ajax.ActionLink(msg.Content.Title, "LoadMessageContent", new { Id = msg.MessageID }, new AjaxOptions
-                   {
-                       LoadingElementId = "divLoader",
-                       UpdateTargetId = "divMsgBody",
-                       OnBegin = "OnMsgBegin",
-                       OnSuccess = "OnMsgSuccess",
-                       OnComplete = "OnMsgComplete",
-                       OnFailure = "OnMsgFailure"
-                   }, new { id = string.Format("lnkMsg{0}", msg.MessageID) })
-                    </h5>
-                    <small>来自： 
-                        @if (msg.From != null)
-                        {
-                            <a href="@Url.Action("Index", "User", new { id = msg.From.UserID })">@msg.From.Name</a>
-                        }
-                        else
-                        {
-                            <span>系统管理员</span>
-                        }
-                    </small>
-                </li>
-            }
-        </ul>
+<div class="centered" style="max-width: 720px; padding: 0 10px; margin-bottom: 15px">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#divNotifications" data-toggle="tab" aria-expanded="true">提醒</a></li>
+        <li><a href="#divMessages" data-toggle="tab" aria-expanded="false">私信</a></li>
+    </ul>
+</div>
+<div id="divTabContent" class="tab-content centered" style="max-width: 720px">
+    <div class="tab-pane fade active in" id="divNotifications">
+        @Html.Partial("_NotificationPartial", ViewBag.Notifications as List<RTCareerAsk.Models.HistoryModel>)
     </div>
-    <div class="col-lg-8 body">
-        <img id="imgMsgLoading" src="~/Images/spin.gif" class="loading" style="display: none" />
-        <div id="divLoader" class="preload-box" style="display: none">
-            <div class="preload-3"></div>
-        </div>
-        <div id="divMsgBody">
-            @if (openMessage)
-            {
-                @Html.Partial("_MessageContent", Model.Where(m => m.MessageID == ViewBag.Message).First())
-            }
-            else
-            {
-                <div>请您从列表中选择要阅读的消息</div>
-            }
-        </div>
+    <div class="tab-pane fade" id="divMessages">
+        @Html.Partial("_MessagePartial", Model)
     </div>
 </div>
-@Scripts.Render("~/bundles/message")
+
+@section scripts{
+    @Scripts.Render("~/bundles/message")
+}

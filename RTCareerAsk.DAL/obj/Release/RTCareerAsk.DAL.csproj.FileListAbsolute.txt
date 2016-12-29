@@ -14,3 +14,9 @@ C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Release\
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\obj\Release\RTCareerAsk.DAL.csprojResolveAssemblyReference.cache
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\obj\Release\RTCareerAsk.DAL.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\obj\Release\RTCareerAsk.DAL.pdb
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Release\LeanCloud.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Release\LeanCloud.NetFx45.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Release\LeanCloud.pdb
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Release\LeanCloud.xml
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Release\LeanCloud.NetFx45.pdb
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Release\LeanCloud.NetFx45.xml

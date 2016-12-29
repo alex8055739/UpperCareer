@@ -46,7 +46,15 @@ namespace RTCareerAsk
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/message").Include(
+                        "~/Scripts/Upper/upper-scrollpaging.js",
+                        "~/Scripts/Upper/upper-tabs.js",
+                        "~/Scripts/Upper/notification-index.js",
                         "~/Scripts/Upper/message-index.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/notification").Include(
+                        "~/Scripts/Upper/upper-scrollpaging.js",
+                        "~/Scripts/Upper/upper-tabs.js",
+                        "~/Scripts/Upper/notification-all.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/manage").Include(
                         "~/Scripts/Upper/user-manage.js",

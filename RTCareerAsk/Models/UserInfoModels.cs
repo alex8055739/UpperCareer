@@ -57,6 +57,56 @@ namespace RTCareerAsk.Models
     }
 
     /// <summary>
+    /// 用于生成用户的名片信息。
+    /// </summary>
+    public class UserTagModel
+    {
+        public UserTagModel() { }
+
+        public UserTagModel(User u)
+        {
+            ConvertUserObjectToUserTagModel(u);
+        }
+
+        public string UserID { get; set; }
+
+        public string Name { get; set; }
+
+        public int Gender { get; set; }
+
+        public string Portrait { get; set; }
+
+        public string Title { get; set; }
+
+        public string Company { get; set; }
+
+        public bool? HasFollowed { get; set; }
+
+        public int FollowerCount { get; set; }
+
+        public int AnswerCount { get; set; }
+
+        private void ConvertUserObjectToUserTagModel(User u)
+        {
+            UserID = u.ObjectID;
+            Name = u.Name;
+            Gender = u.Gender;
+            Portrait = u.Portrait;
+            Title = u.Title;
+            Company = u.Company;
+        }
+
+        public UserTagModel SetFollowerAndAnswerCount(bool? hasFollowed, int followerCnt, int answerCnt)
+        {
+            HasFollowed = hasFollowed;
+            FollowerCount = followerCnt;
+            AnswerCount = answerCnt;
+
+            return this;
+        }
+    }
+
+    /// <summary>
     /// 用于获取用户信息页面的具体信息。
     /// </summary>
     public class UserDetailModel
@@ -95,7 +145,7 @@ namespace RTCareerAsk.Models
 
         public DateTime DateCreate { get; set; }
 
-        public bool HasFollowed { get; set; }
+        public bool? HasFollowed { get; set; }
 
         public int FollowerCount { get; set; }
 
@@ -119,18 +169,9 @@ namespace RTCareerAsk.Models
                 SelfDescription = ud.SelfDescription;
                 FieldIndex = ud.ForUser.FieldIndex;
                 DateCreate = ud.ForUser.DateCreate;
+                FollowerCount = ud.FollowerCount;
+                FolloweeCount = ud.FolloweeCount;
             }
-        }
-
-        public UserDetailModel SetDetailInfomation(int followerCnt, int followeeCnt, bool hasFollowed, IEnumerable<QuestionInfoModel> questions, IEnumerable<AnswerModel> answers)
-        {
-            FollowerCount = followerCnt;
-            FolloweeCount = followeeCnt;
-            HasFollowed = hasFollowed;
-            RecentQuestions.AddRange(questions);
-            RecentAnswers.AddRange(answers);
-
-            return this;
         }
     }
 }

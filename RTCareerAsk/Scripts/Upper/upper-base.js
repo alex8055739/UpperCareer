@@ -63,9 +63,9 @@ function UpdateCmtCount() {
     }
 }
 
-function PreviewPic(files, settings) {
+function PreviewPic(file, settings) {
     var config = {
-        previewTarget: '#divPreview',
+        previewTarget: '#divDropTarget',
         imgId: 'imgPreview',
         postAction: function () { }
     }
@@ -74,23 +74,19 @@ function PreviewPic(files, settings) {
         $.extend(config, settings)
     }
 
-    var previewTarget = $(config.previewTarget);
-
     if (window.File && window.FileReader && window.FileList && window.Blob) {
-        for (var i = 0; i < files.length; i++) {
-            if (!files[i].type.match('image.*')) {
-                continue;
-            }
-
-            var reader = new FileReader();
-            reader.onload = function (tFile) {
-                return function (e) {
-                    previewTarget.html('<img id="' + config.imgId + '" style="width: 100%; height:100%" src="' + e.target.result + '" />');
-                    config.postAction();
-                };
-            }(files[i]);
-            reader.readAsDataURL(files[i]);
+        if (!file.type.match('image.*')) {
+            return;
         }
+
+        var reader = new FileReader();
+        reader.onload = (function (tFile) {
+            return function (e) {
+                $(config.previewTarget).html('<img id="' + config.imgId + '" style="width: 100%" src="' + e.target.result + '" />');
+                config.postAction();
+            };
+        }(file));
+        reader.readAsDataURL(file);
     }
     else {
         alert('此浏览器不支持文件预览');
@@ -178,6 +174,37 @@ function TriggerLoginModal() {
     });
 }
 
+function RequestForDelete(data) {
+    var config = new Object()
+    {
+        id = '',
+        type = '',
+        url = '',
+        onSuccess = '',
+        title = '',
+        context = ''
+    };
+
+    var modal = $('#divModalSm');
+
+    if (data) {
+        $.extend(config, data);
+    }
+
+    $.ajax(confirmDel, {
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(config),
+        dataType: 'html',
+        success: function (result) {
+            modal.children().html(result.trim())
+        },
+        error: function () {
+            DisplayErrorInfo('读取内容失败……')
+        }
+    })
+}
+
 $(document).ready(function () {
     $(document).on('click', 'button.close', function () {
         $(this).closest('.alert-tag').stop(true, true).fadeOut('fast');
@@ -188,11 +215,6 @@ $(document).ready(function () {
         e.stopImmediatePropagation();
         TriggerLoginModal();
     });
-    //$('.redirect-login').click(function (e) {
-    //    e.preventDefault();
-    //    e.stopImmediatePropagation();
-    //    TriggerLoginModal();
-    //});
 
     $('#btnPostQuestion').click(function (e) {
         $.ajax({
@@ -208,7 +230,7 @@ $(document).ready(function () {
     });
 
     $(document.body).on('click', '#btnWriteLetter', function () {
-        var targetId = $('#hdnSender').val();
+        var targetId = $(this).data('id');
 
         $.ajax({
             url: '/Message/CreateLetterForm',
@@ -223,12 +245,24 @@ $(document).ready(function () {
             }
         });
     })
-    //$(document).on('submit', '.include-textarea', function (e) {
-    //    e.preventDefault();
-    //    var textArea = $(this).find('textarea');
-    //    textArea.val(textArea.val().replace(/\r?\n/g, '&#13;&#10;'))
-    //    alert(textArea.val())
-    //});
+
+    $('#divModalSm').on('click', '.btn-ok', function (e) {
+        var data = $(this).data(),
+            modal = $(e.delegateTarget);
+
+        $.ajax(data.href, {
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function () {
+                $(document).trigger('delSuccess', { id: data.id, type: data.type });
+                modal.modal('hide');
+            },
+            error: function () {
+                DisplayErrorInfo('删除操作失败，请您重新尝试');
+            }
+        })
+    })
 
     //Enable nav bar dropdown list with hover event.
     //$('ul.nav li.dropdown').hover(function () {

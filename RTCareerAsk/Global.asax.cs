@@ -26,6 +26,7 @@ namespace RTCareerAsk
             AuthConfig.RegisterAuth();
 
             AVClient.Initialize("5ptNj5fF9TplwYYNYo34Ujmi-gzGzoHsz", "oxEMyVyz3XmlI8URg87Xp1l5");
+            LeanCloud.AVClient.Initialize("5ptNj5fF9TplwYYNYo34Ujmi-gzGzoHsz", "oxEMyVyz3XmlI8URg87Xp1l5");
         }
 
         //protected void Application_Error(object sender, EventArgs e)

@@ -2,9 +2,11 @@
 
 @{
     RTCareerAsk.Models.TabModel tabModel = new RTCareerAsk.Models.TabModel();
-    tabModel.TabItems.Add("TA的问题", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "RecentRecord", ControllerName = "User", RouteValues = new { contentType = 1, targetId = Model.UserID, pageIndex = 0 } });
-    tabModel.TabItems.Add("TA的回答", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "RecentRecord", ControllerName = "User", RouteValues = new { contentType = 2, targetId = Model.UserID, pageIndex = 0 } });
-    tabModel.ActiveItem = "TA的问题";
+    tabModel.TabItems.Add("提问", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "RecentRecord", ControllerName = "User", RouteValues = new { contentType = 1, targetId = Model.UserID, pageIndex = 0 } });
+    tabModel.TabItems.Add("回答", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "RecentRecord", ControllerName = "User", RouteValues = new { contentType = 2, targetId = Model.UserID, pageIndex = 0 } });
+    tabModel.TabItems.Add("关注" + (Model.Gender == 0 ? "TA" : Model.Gender == 1 ? "他" : "她") + "的", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "FollowersOrFollowees", ControllerName = "User", RouteValues = new { contentType = true, targetId = Model.UserID, pageIndex = 0 } });
+    tabModel.TabItems.Add((Model.Gender == 0 ? "TA" : Model.Gender == 1 ? "他" : "她") + "关注的", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "FollowersOrFollowees", ControllerName = "User", RouteValues = new { contentType = false, targetId = Model.UserID, pageIndex = 0 } });
+    tabModel.ActiveItem = "提问";
     tabModel.AjaxOptns = new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "divUserRecord", OnComplete = "OnUpdateContentComplete" };
 }
 

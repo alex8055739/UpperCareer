@@ -36,6 +36,5 @@ namespace RTCareerAsk.DAL.Domain
             IsMaster = ico.Get<bool>("isMaster");
             IsValid = ico.Get<bool>("isValid");
         }
-
     }
 }

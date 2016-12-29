@@ -16,6 +16,41 @@ namespace RTCareerAsk.PLtoDA
     /// </summary>
     public class Message2DA : DABase
     {
+        public async Task<List<HistoryModel>> LoadNotificationsByPage(string userId, int[] types, int pageIndex = 0)
+        {
+            return await LCDal.LoadNotifications(userId, types, pageIndex).ContinueWith(t =>
+                {
+                    List<HistoryModel> ntfns = new List<HistoryModel>();
+
+                    foreach (History ntfn in t.Result.OrderByDescending(x => x.IsNew).ThenByDescending(x => x.DateCreate))
+                    {
+                        ntfns.Add(new HistoryModel(ntfn));
+                    }
+
+                    return ntfns;
+                });
+        }
+
+        public async Task<List<HistoryModel>> LoadNotificationsByPage(int[] types, int pageIndex = 0)
+        {
+            return await LCDal.LoadNotifications(types, pageIndex).ContinueWith(t =>
+            {
+                List<HistoryModel> ntfns = new List<HistoryModel>();
+
+                foreach (History ntfn in t.Result.OrderByDescending(x => x.IsNew).ThenByDescending(x => x.DateCreate))
+                {
+                    ntfns.Add(new HistoryModel(ntfn));
+                }
+
+                return ntfns;
+            });
+        }
+
+        public async Task<bool> MarkNotificationAsRead(string id)
+        {
+            return await LCDal.MarkNotificationAsRead(id);
+        }
+
         public async Task<List<MessageModel>> LoadMessagesByUserID(string userId)
         {
             return await LCDal.LoadMessagesForUser(userId).ContinueWith(t =>

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using RTCareerAsk.Models;
 using RTCareerAsk.PLtoDA;
 using RTCareerAsk.Filters;
+using RTCareerAsk.App_DLL;
 
 namespace RTCareerAsk.Controllers
 {
@@ -18,9 +19,11 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
+                await Task.WhenAll(AutoLogin(), UpdateNewMessageCount());
+
                 ViewBag.Title = GeneralTitle;
 
-                return View(await QuestionDa.LoadQuestionListByPage(0));
+                return View(await QuestionDa.LoadAnswerListByPage(0, 4));
             }
             catch (Exception e)
             {
@@ -34,6 +37,8 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
+                await Task.WhenAll(AutoLogin(), UpdateNewMessageCount());
+
                 QuestionModel model = await QuestionDa.GetQuestionModel(HasUserInfo ? GetUserID() : string.Empty, id);
                 ViewBag.Title = GenerateTitle(model.Title);
 
@@ -51,7 +56,9 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
-                AnswerModel model = await QuestionDa.GetAnswerModel(id);
+                await Task.WhenAll(AutoLogin(), UpdateNewMessageCount());
+
+                AnswerModel model = await QuestionDa.GetAnswerModel(HasUserInfo ? GetUserID() : string.Empty, id);
                 ViewBag.Title = GenerateTitle(string.Format("{0} - {1}的回答", model.ForQuestion.Title, model.Creator.Name));
 
                 return View(SetFlagsForActions(model));
@@ -179,6 +186,7 @@ namespace RTCareerAsk.Controllers
                 }
 
                 a.UserID = GetUserID();
+                a.UserName = GetUserName();
 
                 if (await QuestionDa.PostNewAnswer(a))
                 {
@@ -206,6 +214,7 @@ namespace RTCareerAsk.Controllers
                 }
 
                 c.UserID = GetUserID();
+                c.UserName = GetUserName();
                 c.PostContent = ModifyTextareaData(c.PostContent, true);
 
                 if (await QuestionDa.PostNewComment(c))
@@ -231,6 +240,22 @@ namespace RTCareerAsk.Controllers
         }
 
         [HttpPost]
+        public async Task Delete(string id, QACType type)
+        {
+            switch (type)
+            {
+                case QACType.Answer:
+                    await QuestionDa.DeleteAnswerWithComments(id);
+                    break;
+                case QACType.Comment:
+                    await QuestionDa.DeleteComment(id);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(string.Format("请求类型超出范围。收到的请求：{0}", type));
+            }
+        }
+
+        [HttpPost]
         public async Task DeleteAnswer(string ansId)
         {
             await QuestionDa.DeleteAnswerWithComments(ansId);
@@ -248,6 +273,7 @@ namespace RTCareerAsk.Controllers
             try
             {
                 model.VoterID = GetUserID();
+                model.VoterName = GetUserName();
 
                 await QuestionDa.SaveOrUpdateVote(model);
             }

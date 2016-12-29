@@ -24,26 +24,34 @@
             最后编辑
         </p>
         <div class="action">
-            @if (IsAuthorized)
-            {
-                <ul class="breadcrumb">
-                    @if (Model.IsEditAllowed)
-                    {
-                        <li><a href="#" role="button" id="@string.Format("btnAnsEdt{0}", Model.ID)">编辑</a></li>
-                        <li><a href="#" role="button" id="@string.Format("btnAnsDel{0}", Model.ID)">删除</a></li>
-                    }
-                    <li><a href="#" id="@string.Format("btnWrtCmt{0}", Model.ID)">评一下</a></li>
-                    @*<li class="active"><a href="#">收藏</a></li>
+            <ul class="breadcrumb">
+                @if (Model.IsEditAllowed)
+                {
+                    <li><a href="#" role="button" id="@string.Format("btnAnsEdt{0}", Model.ID)">编辑</a></li>
+                }
+                <li><a href="#" id="@string.Format("btnWrtCmt{0}", Model.ID)" class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")">评一下</a></li>
+                <li class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login") like @Html.IsActive(true, Model)" data-islike="true" data-id="@Model.ID" data-title="@Model.ForQuestion.Title" data-author="@Model.Creator.UserID" data-type="1">
+                    <a href="#" id="">
+                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                        &nbsp;推荐(<span class="count">@Model.VotePositive</span>)
+                    </a>
+                </li>
+                <li class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login") like @Html.IsActive(false, Model)" data-islike="false" data-id="@Model.ID" data-title="@Model.ForQuestion.Title" data-author="@Model.Creator.UserID" data-type="1">
+                    <a href="#" id="">
+                        <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                        &nbsp;太水(<span class="count">@Model.VoteNegative</span>)
+                    </a>
+                </li>
+                @*<li class="active"><a href="#">收藏</a></li>
                     <li><a href="#">举报</a></li>*@
-                </ul>
-            }
+            </ul>
         </div>
     </div>
     @if (IsAuthorized)
     {
         <div id="@string.Format("divCmtForm{0}", Model.ID)" class="collapse">
             <div class="clearfix">
-                @Html.Partial("_CommentForm", new RTCareerAsk.Models.CommentPostModel() { AnswerID = Model.ID, NotifyUserID = Model.Creator.UserID })
+                @Html.Partial("_CommentForm", new RTCareerAsk.Models.CommentPostModel() { AnswerID = Model.ID, AuthorID = Model.Creator.UserID, QuestionTitle = Model.ForQuestion.Title })
             </div>
         </div>
     }

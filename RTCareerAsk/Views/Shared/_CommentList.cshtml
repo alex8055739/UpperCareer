@@ -22,31 +22,13 @@
             <span>@c.CreateBefore</span>
             @if (c.IsDeleteAllowed)
             {
-                <a id="@string.Format("btnCmtDel{0}", c.ID)" href="#">删除</a>
+                <a id="btnDel" href="#" data-id="@c.ID" data-type="2" data-toggle="modal" data-target="#divModalSm">删除</a>
             }
             else
             {
-                <a id="@string.Format("btnCmtRply{0}", c.Creator.UserID)" class="@Html.AssignClassWithCondition(!IsAuthorized,"redirect-login")" href="#">回复</a>
+                <a id="@string.Format("btnCmtRply{0}", c.Creator.UserID)" class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" href="#">回复</a>
             }
 
         </div>
     </div>
 }
-@*<blockquote id="@string.Format("blkCmt{0}", c.ID)" class="blockquote-reverse">
-        <p>@c.Content</p>
-        <small>
-            @Html.ActionLink(c.Creator.Name, "Index", "User", new { id = c.Creator.UserID }, new { id = string.Format("aCmtBy{0}", c.Creator.UserID) })
-            <cite title="Source Title">@c.CreateBefore</cite>
-            @if (IsAuthorized)
-            {
-                if (c.IsReplyAllowed)
-                {
-                <a id="@string.Format("btnCmtRply{0}", c.Creator.UserID)" href="#">回复</a>
-                }
-                else
-                {
-                <a id="@string.Format("btnCmtDel{0}", c.ID)" href="#">删除</a>
-                }
-            }
-        </small>
-    </blockquote>*@

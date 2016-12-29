@@ -19,16 +19,9 @@ namespace RTCareerAsk.PLtoDA
         public async Task<UserInfoModel> LoginWithEmail(string email, string password)
         {
             return await LCDal.LoginWithEmail(email, password).ContinueWith(t =>
-                {
-                    UserInfoModel uim = new UserInfoModel(t.Result);
-
-                    LoadMessageCount(t.Result.ObjectID).ContinueWith(s =>
-                    {
-                        uim.SetNewMessageCount(s.Result);
-                    });
-
-                    return uim;
-                });
+            {
+                return new UserInfoModel(t.Result);
+            });
         }
 
         public async Task<bool> ResetPasswordByEmail(string email)
@@ -55,7 +48,7 @@ namespace RTCareerAsk.PLtoDA
                 return false;
             }
         }
-        
+
         public async Task<bool> UpdateProfile(UserManageModel umm)
         {
             return await LCDal.SaveUserDetail(umm.RestoreUserManageModelToUserDetailObject());

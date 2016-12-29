@@ -3995,6 +3995,11 @@ fieldset[disabled] a.btn {
     border-color: #3c9a5f;
 }
 
+    .btn-success.outline {
+        color: #3c9a5f;
+        border-color: #3c9a5f;
+    }
+
     .btn-success:focus,
     .btn-success.focus {
         color: #ffffff;
@@ -4002,9 +4007,20 @@ fieldset[disabled] a.btn {
         border-color: #183e26;
     }
 
+    .btn-success.outline:focus,
+    .btn-success.outline.focus {
+        color: #183e26;
+        border-color: #183e26;
+    }
+
     .btn-success:hover {
         color: #ffffff;
         background-color: #358753;
+        border-color: #2b6e44;
+    }
+
+    .btn-success.outline:hover {
+        color: #2b6e44;
         border-color: #2b6e44;
     }
 
@@ -4015,6 +4031,13 @@ fieldset[disabled] a.btn {
         background-color: #358753;
         border-color: #2b6e44;
     }
+
+        .btn-success:active.outline,
+        .btn-success.active.outline,
+        .open > .dropdown-toggle.btn-success.outline {
+            color: #2b6e44;
+            border-color: #2b6e44;
+        }
 
         .btn-success:active:hover,
         .btn-success.active:hover,
@@ -4027,6 +4050,19 @@ fieldset[disabled] a.btn {
         .open > .dropdown-toggle.btn-success.focus {
             color: #ffffff;
             background-color: #2b6e44;
+            border-color: #183e26;
+        }
+
+        .btn-success.outline:active:hover,
+        .btn-success.outline.active:hover,
+        .open > .dropdown-toggle.btn-success.outline:hover,
+        .btn-success.outline:active:focus,
+        .btn-success.outline.active:focus,
+        .open > .dropdown-toggle.btn-success.outline:focus,
+        .btn-success.outline:active.focus,
+        .btn-success.outline.active.focus,
+        .open > .dropdown-toggle.btn-success.outline.focus {
+            color: #183e26;
             border-color: #183e26;
         }
 
@@ -4046,6 +4082,19 @@ fieldset[disabled] a.btn {
     .btn-success[disabled].focus,
     fieldset[disabled] .btn-success.focus {
         background-color: #43ac6a;
+        border-color: #3c9a5f;
+    }
+
+    .btn-success.outline.disabled:hover,
+    .btn-success.outline[disabled]:hover,
+    fieldset[disabled] .btn-success.outline:hover,
+    .btn-success.outline.disabled:focus,
+    .btn-success.outline[disabled]:focus,
+    fieldset[disabled] .btn-success.outline:focus,
+    .btn-success.outline.disabled.focus,
+    .btn-success.outline[disabled].focus,
+    fieldset[disabled] .btn-success.outline.focus {
+        background-color: transparent;
         border-color: #3c9a5f;
     }
 

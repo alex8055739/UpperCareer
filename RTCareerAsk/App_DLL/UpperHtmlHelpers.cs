@@ -203,6 +203,68 @@ namespace RTCareerAsk.App_DLL
             return MvcHtmlString.Create(nameTag.ToString());
         }
 
+        public static IHtmlString UpperNameTag(this HtmlHelper html, UserTagModel model)
+        {
+            return UpperNameTag(html, model, null);
+        }
+
+        public static IHtmlString UpperNameTag(this HtmlHelper html, UserTagModel model, object htmlAttributes)
+        {
+            string defaultTitle = "[未提供个人信息]";
+            string defaultDivider = "|";
+
+            TagBuilder nameTag = new TagBuilder("div");
+            nameTag.AddCssClass("nametag");
+            nameTag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes ?? new { }));
+
+            TagBuilder portrait = new TagBuilder("img");
+            portrait.AddCssClass("portrait-sm");
+            portrait.AddCssClass("photo");
+            portrait.MergeAttribute("src", string.IsNullOrEmpty(model.Portrait) ? _defaultPortrait : model.Portrait);
+            portrait.MergeAttribute("alt", model.Name);
+
+            TagBuilder link = new TagBuilder("a");
+            link.MergeAttribute("href", UrlHelper.GenerateUrl(null, "Index", "User", new RouteValueDictionary(new { id = model.UserID }), html.RouteCollection, html.ViewContext.RequestContext, true));
+
+            TagBuilder name = new TagBuilder("p");
+            name.AddCssClass("name");
+            name.SetInnerText(model.Name);
+
+            TagBuilder title = new TagBuilder("p");
+            title.AddCssClass("info");
+
+            if (string.IsNullOrEmpty(model.Company) && string.IsNullOrEmpty(model.Title))
+            {
+                title.SetInnerText(defaultTitle);
+            }
+            else if (string.IsNullOrEmpty(model.Company) || string.IsNullOrEmpty(model.Title))
+            {
+                title.SetInnerText(string.IsNullOrEmpty(model.Company) ? model.Title : model.Company);
+            }
+            else
+            {
+                TagBuilder company = new TagBuilder("span");
+                company.AddCssClass("company");
+                company.SetInnerText(model.Company);
+
+                TagBuilder position = new TagBuilder("span");
+                position.AddCssClass("position");
+                position.SetInnerText(model.Title);
+
+                title.InnerHtml = company.ToString();
+                title.InnerHtml += defaultDivider;
+                title.InnerHtml += position.ToString();
+            }
+
+            link.InnerHtml = name.ToString();
+            link.InnerHtml += title.ToString();
+
+            nameTag.InnerHtml = portrait.ToString(TagRenderMode.SelfClosing);
+            nameTag.InnerHtml += link.ToString();
+
+            return MvcHtmlString.Create(nameTag.ToString());
+        }
+
         public static IHtmlString UpperAuthor(this HtmlHelper html, string author, string time)
         {
             return UpperAuthor(html, author, time, null);
@@ -238,17 +300,64 @@ namespace RTCareerAsk.App_DLL
 
             return MvcHtmlString.Create(authorTag.ToString());
         }
+
+        public static IHtmlString UpperAlert(this HtmlHelper html, HistoryModel model)
+        {
+            TagBuilder alertText = new TagBuilder("p");
+            List<TagBuilder> links = new List<TagBuilder>();
+
+            if (model.User != null)
+            {
+                links.Add(new TagBuilder("a"));
+                links[0].InnerHtml = model.User.Name;
+                links[0].MergeAttribute("href", UrlHelper.GenerateUrl(null, "Index", "User", new RouteValueDictionary(new { id = model.User.UserID }), html.RouteCollection, html.ViewContext.RequestContext, true));
+            }
+
+            foreach (string name in model.NameStrings)
+            {
+                TagBuilder link = new TagBuilder("a");
+                link.InnerHtml = name;
+                links.Add(link);
+            }
+
+            switch (model.Type)
+            {
+                case NotificationType.LikedQstn:
+                    links[1].MergeAttribute("href", UrlHelper.GenerateUrl(null, "QuestionDetail", "Question", new RouteValueDictionary(new { id = model.InfoStrings[0] }), html.RouteCollection, html.ViewContext.RequestContext, true));
+                    alertText.InnerHtml = string.Format("{0} 推荐了您提出的问题 {1} 。", links[0].ToString(), links[1].ToString());
+                    break;
+                case NotificationType.LikedAns:
+                    links[1].MergeAttribute("href", UrlHelper.GenerateUrl(null, "AnswerDetail", "Question", new RouteValueDictionary(new { id = model.InfoStrings[0] }), html.RouteCollection, html.ViewContext.RequestContext, true));
+                    alertText.InnerHtml = string.Format("{0} 推荐了您在问题 {1} 下的回答。", links[0].ToString(), links[1].ToString());
+                    break;
+                case NotificationType.CommentAns:
+                    links[1].MergeAttribute("href", UrlHelper.GenerateUrl(null, "AnswerDetail", "Question", new RouteValueDictionary(new { id = model.InfoStrings[0] }), html.RouteCollection, html.ViewContext.RequestContext, true));
+                    alertText.InnerHtml = string.Format("{0} 评论了您在问题 {1} 下发表的回答。", links[0].ToString(), links[1].ToString());
+                    break;
+                case NotificationType.RepliedCmt:
+                    links[1].MergeAttribute("href", UrlHelper.GenerateUrl(null, "AnswerDetail", "Question", new RouteValueDictionary(new { id = model.InfoStrings[0] }), html.RouteCollection, html.ViewContext.RequestContext, true));
+                    alertText.InnerHtml = string.Format("{0} 回复了您在问题 {1} 下发表的评论。", links[0].ToString(), links[1].ToString());
+                    break;
+                case NotificationType.Answered:
+                    links[1].MergeAttribute("href", UrlHelper.GenerateUrl(null, "QuestionDetail", "Question", new RouteValueDictionary(new { id = model.InfoStrings[0] }), html.RouteCollection, html.ViewContext.RequestContext, true));
+                    alertText.InnerHtml = string.Format("{0} 在您的问题 {1} 下发表了新回答。", links[0].ToString(), links[1].ToString());
+                    break;
+                case NotificationType.Published:
+                    links[0].MergeAttribute("href", UrlHelper.GenerateUrl(null, "Detail", "Article", new RouteValueDictionary(new { id = model.InfoStrings[0] }), html.RouteCollection, html.ViewContext.RequestContext, true));
+                    alertText.InnerHtml = string.Format("祝贺！您在问题 {0} 下的回答已被UpperCareer官方选送推荐至首页。", links[0].ToString());
+                    break;
+                case NotificationType.Followed:
+                    alertText.InnerHtml = string.Format("{0} 关注了你。", links[0].ToString());
+                    break;
+                default:
+                    throw new IndexOutOfRangeException("所给与的提醒类型错误。");
+            }
+
+            return MvcHtmlString.Create(alertText.ToString());
+        }
         #endregion
 
         #region Support
         #endregion
     }
-
-    public enum PortraitSize
-    {
-        Small,
-        Medium,
-        Large
-    }
-
 }

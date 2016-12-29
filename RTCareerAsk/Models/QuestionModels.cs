@@ -77,9 +77,9 @@ namespace RTCareerAsk.Models
 
         public bool? IsLike { get; set; }
 
-        public int VotePositive { get; set; }
+        public string VotePositive { get; set; }
 
-        public int VoteNegative { get; set; }
+        public string VoteNegative { get; set; }
 
         public bool IsEditAllowed { get; set; }
 
@@ -93,8 +93,8 @@ namespace RTCareerAsk.Models
             Title = po.Title;
             VoteDiff = po.VoteDiff;
             IsLike = po.IsLike;
-            VotePositive = po.VotePositive;
-            VoteNegative = po.VoteNegative;
+            VotePositive = ProcessLargeNumDisplay(po.VotePositive);
+            VoteNegative = ProcessLargeNumDisplay(po.VoteNegative);
 
             if (po.Answers != null)
             {
@@ -124,9 +124,9 @@ namespace RTCareerAsk.Models
 
         public bool? IsLike { get; set; }
 
-        public int VotePositive { get; set; }
+        public string VotePositive { get; set; }
 
-        public int VoteNegative { get; set; }
+        public string VoteNegative { get; set; }
 
         public QuestionModel ForQuestion { get; set; }
 
@@ -140,8 +140,8 @@ namespace RTCareerAsk.Models
             ForQuestion = ao.ForQuestion != null ? new QuestionModel(ao.ForQuestion) : null;
             VoteDiff = ao.VoteDiff;
             IsLike = ao.IsLike;
-            VotePositive = ao.VotePositive;
-            VoteNegative = ao.VoteNegative;
+            VotePositive = ProcessLargeNumDisplay(ao.VotePositive);
+            VoteNegative = ProcessLargeNumDisplay(ao.VoteNegative);
 
             foreach (Comment c in ao.Comments)
             {

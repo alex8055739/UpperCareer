@@ -38,13 +38,12 @@
 //};
 
 CKEDITOR.editorConfig = function (config) {
-    config.extraPlugins = "imageresize";
-
     config.toolbar = 'basic';
 
     config.toolbar_basic = [
     { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] }, { name: 'basicstyles', items: ['Bold', 'Italic', 'Strike'] },
     { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Blockquote'] },
+    { name: 'links', items: ['Link', 'Unlink'] },
     { name: 'tools', items: ['Maximize'] }
     ];
 

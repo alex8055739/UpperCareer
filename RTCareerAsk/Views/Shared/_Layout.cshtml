@@ -1,31 +1,41 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="~/upper_logo_64px.ico" rel="shortcut icon" type="image/x-icon" />
-    <div id="wx_pic" style="margin: 0 auto; display: none;">
-        <img src="/Images/wx_pic.png" />
-    </div>
-    <div id="wx_con" style="margin: 0 auto; display: none;">
-        <p>UpperCareer - 真实的职场知识、经验、见解分享社区</p>
-    </div>
+    <link href="~/upper-logo.ico" rel="shortcut icon" type="image/x-icon" />
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
     <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="尚职（UpperCareer）职场交流社区是拉夫德尔网络科技旗下主要产品。一个真实的职场知识、经验、见解分享社区，以问答功能为核心，，布局职场相关经验知识，生涯规划，技能评测，行业资讯，求职技巧，职场心态，公司评价，用心服务每一个需要补足职场经验的应届生和职场新人。" />
     <script type="text/javascript">
         var updateMsgCount = "@Url.Action("UpdateMsgCount", "Message")",
             loadQuestionForm = "@Url.Action("CreateQuestionForm", "Question")",
             changePortrait = "@Url.Action("ChangePortrait", "Account")",
             updateContent = "@Url.Action("UpdateContent", "Question")",
-            deleteAnswer = "@Url.Action("DeleteAnswer", "Question")",
-            deleteComment = "@Url.Action("DeleteComment", "Question")"
+            deleteAnswerOrComment = "@Url.Action("Delete", "Question")",
+            deleteMessage = "@Url.Action("DeleteMessage","Message")",
+            confirmDel = "@Url.Action("CreateDeleteComfirmationModal", "Home")"
 
         var pageTopOffset = 90;
+
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?e5e9c5bc54c97ec3b87347e6b64aa13c";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
     </script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/base")
     <script src="~/ckeditor/ckeditor.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
+    <div id="wx_pic" style="margin: 0 auto; display: none;">
+        <img src="/Images/wx_pic.png" />
+    </div>
+    <div id="wx_con" style="margin: 0 auto; display: none;">
+        <p>UpperCareer - 真实的职场知识、经验、见解分享社区</p>
+    </div>
 </head>
 <body>
     <div id="container">
@@ -66,6 +76,21 @@
             </div>
         </footer>
     </div>
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

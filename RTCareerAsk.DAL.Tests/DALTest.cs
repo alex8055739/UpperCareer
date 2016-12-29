@@ -128,7 +128,7 @@ namespace RTCareerAsk.DAL.Tests
         {
             string targetId = "578a84278ac24700608b9f21";
 
-            Assert.IsTrue(await LCDal.IfAlreadyFollowed(UserId, targetId));
+            Assert.IsTrue(Convert.ToBoolean(await LCDal.IfAlreadyFollowed(UserId, targetId)));
         }
 
         [TestMethod]
@@ -152,18 +152,23 @@ namespace RTCareerAsk.DAL.Tests
         }
 
         [TestMethod]
+        public async Task GetFollowerAndFolloweeCountTest()
+        {
+            Assert.AreEqual(1, await LCDal.GetFollowerAndFolloweeCount(UserId));
+        }
+
+        [TestMethod]
         public async Task GetFollowersTest()
         {
-            Assert.AreEqual(0, await LCDal.GetFollowers(UserId).ContinueWith(t => t.Result.Count()));
+            Assert.AreEqual(0, await LCDal.GetFollowers(UserId, 0).ContinueWith(t => t.Result.Count()));
         }
 
         [TestMethod]
         public async Task GetFolloweesTest()
         {
-            IEnumerable<User> followees = await LCDal.GetFollowees(UserId);
+            IEnumerable<User> followees = await LCDal.GetFollowees(UserId, 0);
 
             Assert.AreEqual(1, followees.Count());
-            Assert.AreEqual("东北大脑袋", followees.First().Name);
         }
 
         [TestMethod]
@@ -511,15 +516,15 @@ namespace RTCareerAsk.DAL.Tests
             await LCDal.UpdateFile(fileId);
         }
 
-        [TestMethod]
-        public async Task FindFileByUrlTst()
-        {
-            string url = await LCDal.LoadUserInfo(UserId).ContinueWith(t => t.Result.Portrait);
-            string uri = "http://ac-5ptNj5fF.clouddn.com/e80ab7e9-cf14-47fa-88eb-08924b2dbe13";
-            AVObject file = await LCDal.FindFileByUrl(uri);
+        //[TestMethod]
+        //public async Task FindFileByUrlTst()
+        //{
+        //    string url = await LCDal.LoadUserInfo(UserId).ContinueWith(t => t.Result.Portrait);
+        //    string uri = "http://ac-5ptNj5fF.clouddn.com/e80ab7e9-cf14-47fa-88eb-08924b2dbe13";
+        //    AVObject file = await LCDal.FindFileByUrl(uri);
 
-            Assert.AreEqual("_File", file.ClassName);
-        }
+        //    Assert.AreEqual("_File", file.ClassName);
+        //}
 
         [TestMethod]
         public async Task UpdateAnswerContentTst()
@@ -559,11 +564,24 @@ namespace RTCareerAsk.DAL.Tests
         }
 
         [TestMethod]
+        public async Task CreateFakeAccountTest()
+        {
+            User fake = new User()
+            {
+                Email = "fake@uppertest.cn",
+                Password = "r00716630",
+                Name = "假人"
+            };
+
+            Assert.IsTrue(await LCDal.CreateFakeAccount(fake));
+        }
+
+        [TestMethod]
         public async Task CreateFakeAccountTst()
         {
             List<User> fakeUsers = new List<User>();
 
-            for (int i = 2; i < 21; i++)
+            for (int i = 41; i < 61; i++)
             {
                 fakeUsers.Add(new User()
                 {
@@ -597,6 +615,25 @@ namespace RTCareerAsk.DAL.Tests
             Assert.IsTrue(await LCDal.ChangeMessageSender(msgId, userId));
         }
 
+        [TestMethod]
+        public async Task CreateHistoryByNotifications()
+        {
+            IEnumerable<AVObject> ntfns = await LCDal.LoadAllNotifications();
+
+            List<Task<bool>> tasks = new List<Task<bool>>();
+
+            foreach (AVObject ntfn in ntfns)
+            {
+                tasks.Add(LCDal.ModifyAlertInfoForHistory(ntfn));
+            }
+
+            await Task.WhenAll(tasks.ToArray());
+
+            foreach (Task<bool> task in tasks)
+            {
+                Assert.AreEqual(true, task.Result);
+            }
+        }
         #endregion
     }
 }

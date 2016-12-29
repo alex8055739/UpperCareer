@@ -32,7 +32,7 @@ namespace RTCareerAsk.DAL.Domain
         {
             if (mo.ClassName != "Message")
             {
-                throw new InvalidOperationException("获取的对象不是消息类object。");
+                throw new InvalidOperationException(string.Format("获取的对象{0}不是消息类object。对象类型：{1}", mo.ObjectId, mo.ClassName));
             }
 
             ObjectID = mo.ObjectId;

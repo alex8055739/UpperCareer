@@ -1,32 +1,19 @@
 ﻿<div class="portrait">
     <div class="box">
-        <div class="drop-area file-await">
-            <div id="divDropTarget" style="height: 100%; text-align: center">
-                把图片拖放在这里
+        <a href="#" class="drop-area file-await">
+            <div id="divDropTarget" class="drop-target" style="height: 100%; text-align: center">
+                <div style="height: 100%; display: flex; align-items: center; justify-content: center; color: #808080; opacity: 0.5">
+                    <span>点击或将图片拖放在这里</span>
+                </div>
             </div>
-        </div>
+        </a>
+        <input type="file" id="inpPortraitFile" value="" style="display: none" />
         <div id="divPreview" class="preview-area">
             <div class="preview"></div>
-        </div>
-        <div id="divActions" class="action-area">
-            <button id="btnUpload" class="btn btn-success  btn-lg">保存并更改头像</button>
+            <div id="divActions" class="action-area btn-group">
+                <button id="btnReselect" class="btn btn-default">重新选择</button>
+                <button id="btnUpload" class="btn btn-success">保存并更改头像</button>
+            </div>
         </div>
     </div>
 </div>
-@*<div class="portrait">
-    <div class="box" style="position: relative">
-        <div class="col-lg-6">
-            <div id="divDropTarget" class="drop">
-                <span>把图片拖放在这里</span>
-            </div>
-        </div>
-        <div id="divPreview" class="clear-fix col-lg-6">
-            <div class="preview-lg"></div>
-            <div class="preview-md"></div>
-            <div class="preview-sm"></div>
-        </div>
-        <div id="divActions" class="col-lg-6" style="display: none; position: absolute; bottom: 15px; right: 0">
-            <button id="btnUpload" class="btn btn-success  btn-lg">保存并更改头像</button>
-        </div>
-    </div>
-</div>*@

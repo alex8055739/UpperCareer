@@ -11,8 +11,9 @@ namespace RTCareerAsk.Filters
     {
         public override void OnResultExecuting(ResultExecutingContext filterContext)
         {
-            bool hasUserInfo = filterContext.HttpContext.Session["UserInfo"] != null;
-            UserInfoModel userInfo = hasUserInfo ? filterContext.HttpContext.Session["UserInfo"] as UserInfoModel : null;
+            HttpContextBase httpContext = filterContext.HttpContext;
+
+            UserInfoModel userInfo = httpContext.Session["UserInfo"] != null ? httpContext.Session["UserInfo"] as UserInfoModel : null;
 
             filterContext.Controller.ViewBag.IsAuthorized = IsUserAuthorized(userInfo, "User,Admin");
             filterContext.Controller.ViewBag.IsAdmin = IsUserAuthorized(userInfo, "Admin");

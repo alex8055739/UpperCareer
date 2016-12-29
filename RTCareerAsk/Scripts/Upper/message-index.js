@@ -7,7 +7,6 @@ function OnMsgSuccess() {
     var newBadge = $('#lnkMsg' + msgId).closest('li').find('span');
     if (newBadge.length) {
         newBadge.remove();
-        var newCount = $("span:contains('new').badge").length
         UpdateNewMsgCount();
     }
 }
@@ -28,7 +27,7 @@ function OnDeleteSuccess(e) {
     DisplaySuccessInfo('您已成功删除消息！')
 
     var msgLink = $('#lnkMsg' + e).closest('li');
-    msgLink.hide(500);
+    msgLink.fadeOut(500);
     $('#divMsgBody').html('<div>请您从列表中选择要阅读的消息</div>');
 }
 
@@ -41,26 +40,17 @@ function OnDeleteFailure(e) {
 }
 
 $(document).ready(function () {
-    $(document.body).on('click', '#btnDeleteMsg', function () {
+    $(document.body).on('click', '#btnDeleteMsg', function (e) {
+        e.preventDefault();
 
-        var targetId = $('#hdnMsgID').val();
-        $.ajax({
-            url: '/Message/DeleteMessage',
-            data: { targetId: targetId },
-            type: 'POST',
-            beforeSend: function () {
-                OnDeleteBegin();
-            },
-            success: function () {
-                OnDeleteSuccess(targetId);
-            },
-            error: function (e) {
-                alert('error');
-                OnDeleteFailure(e.responseText);
-            },
-            complete: function () {
-                OnDeleteComplete();
-            }
-        });
+        var data = $(this).data();
+
+        data.url = deleteMessage;
+
+        RequestForDelete(data);
+    })
+
+    $(document).on('delSuccess', function (e, data) {
+        OnDeleteSuccess(data.id);
     })
 });

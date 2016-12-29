@@ -19,8 +19,23 @@
     <div class="comment-form @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")">
         @Html.ValidationMessageFor(model => model.PostContent, "", new { @class = "validation-msg" })
         @Html.TextAreaFor(model => model.PostContent, new { rows = 4, placeholder = IsAuthorized ? "留下你的感想吧！" : "请登录后发表评论" })
+        <div class="word-count">字数：<span class="existed">0</span>/<span class="max">500</span></div>
         <div class="button-wrap">
             <input type="submit" value="提交" class="btn btn-link btn-block" />
         </div>
+        <script type="text/javascript">
+            $('.word-count').siblings('textarea').keyup(function () {
+                var length = $(this).val().length,
+                    wordCountBadge = $(this).siblings('.word-count'),
+                    maxLength = parseInt(wordCountBadge.children('.max').text());
+                $(this).siblings('.word-count').children('.existed').text(length);
+                if (length > maxLength && !wordCountBadge.hasClass('oversized')) {
+                    wordCountBadge.addClass('oversized')
+                }
+                else if (length <= maxLength && wordCountBadge.hasClass('oversized')) {
+                    wordCountBadge.removeClass('oversized')
+                }
+            })
+        </script>
     </div>
 }

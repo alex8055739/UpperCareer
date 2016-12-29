@@ -176,3 +176,9 @@ C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.H
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Web.Http.WebHost.xml
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Net.Http.Formatting.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\System.Net.Http.Formatting.xml
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\LeanCloud.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\LeanCloud.NetFx45.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\LeanCloud.pdb
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\LeanCloud.xml
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\LeanCloud.NetFx45.pdb
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\LeanCloud.NetFx45.xml

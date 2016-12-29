@@ -47,6 +47,32 @@ function UpdateAnswerCount() {
     }
 }
 
+function DeleteAnsSuccess(id) {
+    var ansBlock = $('#divAnsBody' + id)
+
+    DisplaySuccessInfo('成功删除回答！');
+    ansBlock.fadeOut('slow');
+    $('#btnWriteAnswer').removeClass('not-active');
+    $('#btnSubmitAns').removeClass('disabled');
+    UpdateAnswerCount();
+}
+
+function DeleteCmtSuccess(id) {
+    var $this = $('#btnCmtDel' + id),
+        cmtBlock = $('#blkCmt' + id);
+
+    DisplaySuccessInfo('成功删除评论！');
+    cmtBlock.fadeOut('slow');
+    if ($this.closest('.body').find('.CmtCount > span').html()) {
+        var count = parseInt($this.closest('.body').find('.CmtCount > span').html().replace('(', '').replace(')', '')) - 1;
+        $this.closest('.body').find('.CmtCount > span').html('(' + count + ')');
+    }
+    else if ($('span.cmt-count')) {
+        var count = $('span.cmt-count').parent().siblings('div[id^="divCmtList"]').first().children('div[id^="blkCmt"]:visible').length - 1;
+        $('span.cmt-count').text(count);
+    }
+}
+
 $(document).ready(function () {
     CKEDITOR.disableAutoInline = true;
 
@@ -82,7 +108,7 @@ $(document).ready(function () {
                     wordcount: {
                         showWordCount: false,
                         showCharCount: true,
-                        maxCharCount: 5000
+                        maxCharCount: 20000
                     }
                 });
             ansTxt.focus();
@@ -118,66 +144,14 @@ $(document).ready(function () {
         $(this).removeClass('not-active').text('保存修改');
     });
 
-    $(document).on('click', 'a[id^="btnAnsDel"]', function (e) {
+    $(document).on('click', 'a#btnDel', function (e) {
         e.preventDefault();
 
-        if (confirm('确认删除答案？')) {
-            var ansBlock = $(this).closest('div[class="body"]'),
-                data = new Object();
+        var data = $(this).data();
 
-            data.ansId = $(this).attr('id').replace('btnAnsDel', '');
+        data.url = deleteAnswerOrComment;
 
-            $.ajax(deleteAnswer, {
-                method: 'POST',
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                success: function () {
-                    DisplaySuccessInfo('成功删除回答！');
-                    ansBlock.fadeOut('slow');
-                    $('#btnWriteAnswer').removeClass('not-active');
-                    //$('#btnWriteAnswer').parent().fadeIn('slow');
-                    $('#btnSubmitAns').removeClass('disabled');
-                    UpdateAnswerCount();
-                },
-                error: function () {
-                    DisplayErrorInfo('删除操作出现问题……');
-                }
-            });
-        }
-    });
-
-    $(document).on('click', 'a[id^="btnCmtDel"]', function (e) {
-        e.preventDefault();
-
-        if (confirm('确认删除评论？')) {
-            var cmtId = $(this).attr('id').replace('btnCmtDel', ''),
-                data = new Object(),
-                $this = $(this),
-                cmtBlock = $('#blkCmt' + cmtId);
-
-            data.cmtId = cmtId;
-
-            $.ajax(deleteComment, {
-                type: "POST",
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                success: function () {
-                    DisplaySuccessInfo('成功删除评论！');
-                    cmtBlock.fadeOut('slow');
-                    if ($this.closest('.body').find('.CmtCount > span').html()) {
-                        var count = parseInt($this.closest('.body').find('.CmtCount > span').html().replace('(', '').replace(')', '')) - 1;
-                        $this.closest('.body').find('.CmtCount > span').html('(' + count + ')');
-                    }
-                    else if ($('span.cmt-count')) {
-                        var count = $('span.cmt-count').parent().siblings('div[id^="divCmtList"]').first().children('div[id^="blkCmt"]:visible').length - 1;
-                        $('span.cmt-count').text(count);
-                    }
-                },
-                error: function () {
-                    DisplayErrorInfo('删除操作出现问题……');
-                }
-            });
-        }
+        RequestForDelete(data);
     })
 
     $(document).on('click', 'a[id^="btnCmtRply"]', function (e) {
@@ -192,9 +166,9 @@ $(document).ready(function () {
             $(this).closest('div[id^="divCmtList"]').find('a[id^="btnCmtRply"]').text('回复');
             $('#btnWrtCmt' + ansId).text('评一下');
 
-            var replyToId = $(this).attr('id').replace('btnCmtRply', '');
-            var prefixText = "回复 " + $('#aCmtBy' + replyToId).text() + "： ";
-            var appendTarget = $(this).closest('.box');
+            var replyToId = $(this).attr('id').replace('btnCmtRply', ''),
+                prefixText = "回复 " + $('#aCmtBy' + replyToId).text() + "： ",
+                appendTarget = $(this).closest('.box');
 
             ActivateCmtForm(ansId, replyToId, prefixText, appendTarget);
             $(this).text('收起回复');
@@ -211,10 +185,9 @@ $(document).ready(function () {
         }
         else {
             var appendTarget = $('#divAns' + ansId),
-                replyToId = $('#hdnAnsBy' + ansId).val(),
                 prefixText = '';
 
-            ActivateCmtForm(ansId, replyToId, prefixText, appendTarget);
+            ActivateCmtForm(ansId, null, prefixText, appendTarget);
             $('#divCmtList' + ansId).find('a[id^="btnCmtRply"]').text('回复');
             $(this).text('收起评论');
         }
@@ -259,16 +232,20 @@ $(document).ready(function () {
         var $this = $(this),
             classNonActive = 'not-active',
             classNew = 'new',
-            classIndex = 'count',
-            classButton = 'like',
+            classIndexSelector = '.count',
+            classButtonSelector = '.like',
             wrap = $this.parent(),
-            opposite = $this.siblings('.' + classButton),
+            opposite = $this.siblings(classButtonSelector),
+            $thisCountUpdate = $this.find(classIndexSelector).html().indexOf('K') > -1 ? $this.find(classIndexSelector).html() : parseInt($this.find(classIndexSelector).html()) + 1,
+            oppositeCountUpdate = opposite.find(classIndexSelector).html().indexOf('K') > -1 ? opposite.find(classIndexSelector).html() : parseInt(opposite.find(classIndexSelector).html()) - 1,
             isLike = $this.data('islike') == true,
             isUpdate = !$this.hasClass(classNew),
             data = new Object();
 
         data.TargetID = $this.data('id');
+        data.QuestionTitle = $this.data('title');
         data.Type = $this.data('type');
+        data.NotifyUserID = $this.data('author');
         data.IsLike = isLike;
         data.IsUpdate = isUpdate;
 
@@ -278,14 +255,14 @@ $(document).ready(function () {
             data: JSON.stringify(data),
             contentType: 'application/json',
             beforeSend: function () {
-                wrap.children('.' + classButton).addClass(classNonActive);
+                wrap.children(classButtonSelector).addClass(classNonActive);
             },
             success: function () {
                 wrap.children('.' + classNew).removeClass(classNew);
                 opposite.removeClass(classNonActive);
-                $this.find('.' + classIndex).html(parseInt($this.find('.' + classIndex).html()) + 1);
+                $this.find(classIndexSelector).html($thisCountUpdate);
                 if (isUpdate) {
-                    opposite.find('.' + classIndex).html(parseInt(opposite.find('.' + classIndex).html()) - 1);
+                    opposite.find(classIndexSelector).html(oppositeCountUpdate);
                 }
             },
             error: function () {
@@ -306,16 +283,20 @@ $(document).ready(function () {
         var $this = $(this),
             classNonActive = 'not-active',
             classNew = 'new',
-            classIndex = 'votes',
-            classButton = 'arrow',
+            classIndexSelector = '.votes',
+            classButtonSelector = '.arrow',
             wrap = $this.parent(),
-            opposite = $this.siblings('.' + classButton),
+            opposite = $this.siblings(classButtonSelector),
+            $thisCountUpdate = $this.find(classIndexSelector).html().indexOf('K') > -1 ? $this.find(classIndexSelector).html() : parseInt($this.find(classIndexSelector).html()) + 1,
+            oppositeCountUpdate = opposite.find(classIndexSelector).html().indexOf('K') > -1 ? opposite.find(classIndexSelector).html() : parseInt(opposite.find(classIndexSelector).html()) - 1,
             isLike = $this.children('a').hasClass('up'),
             isUpdate = !$this.hasClass(classNew),
             data = new Object();
 
         data.TargetID = wrap.data('id');
+        data.QuestionTitle = wrap.data('title');
         data.Type = wrap.data('type');
+        data.NotifyUserID = wrap.data('author');
         data.IsLike = isLike;
         data.IsUpdate = isUpdate;
 
@@ -325,14 +306,65 @@ $(document).ready(function () {
             data: JSON.stringify(data),
             contentType: 'application/json',
             beforeSend: function () {
-                wrap.children('.' + classButton).addClass(classNonActive);
+                wrap.children(classButtonSelector).addClass(classNonActive);
             },
             success: function () {
                 wrap.children('.' + classNew).removeClass(classNew);
                 opposite.removeClass(classNonActive);
-                $this.find('.' + classIndex).html(parseInt($this.find('.' + classIndex).html()) + 1);
+                $this.find(classIndexSelector).html($thisCountUpdate);
                 if (isUpdate) {
-                    opposite.find('.' + classIndex).html(parseInt(opposite.find('.' + classIndex).html()) - 1);
+                    opposite.find(classIndexSelector).html(oppositeCountUpdate);
+                }
+            },
+            error: function () {
+                DisplayErrorInfo('投票操作出现问题……');
+                if (isUpdate) {
+                    $this.removeClass(classNonActive);
+                }
+                else {
+                    wrap.children().removeClass(classNonActive);
+                }
+            }
+        });
+    })
+
+    $(document).on('click', '.answer .info-group > .action .like', function (e) {
+        e.preventDefault();
+
+        var $this = $(this),
+            classNonActive = 'not-active',
+            classNew = 'new',
+            classIndexSelector = '.count',
+            classButtonSelector = '.like',
+            wrap = $this.parent(),
+            opposite = $this.siblings(classButtonSelector),
+            $thisCountUpdate = $this.find(classIndexSelector).html().indexOf('K') > -1 ? $this.find(classIndexSelector).html() : parseInt($this.find(classIndexSelector).html()) + 1,
+            oppositeCountUpdate = opposite.find(classIndexSelector).html().indexOf('K') > -1 ? opposite.find(classIndexSelector).html() : parseInt(opposite.find(classIndexSelector).html()) - 1,
+            isLike = $this.data('islike') == true,
+            isUpdate = !$this.hasClass(classNew),
+            data = new Object();
+
+        data.TargetID = $this.data('id');
+        data.QuestionTitle = $this.data('title');
+        data.Type = $this.data('type');
+        data.NotifyUserID = $this.data('author');
+        data.IsLike = isLike;
+        data.IsUpdate = isUpdate;
+
+        $.ajax({
+            type: "POST",
+            url: "/Question/SaveVote",
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            beforeSend: function () {
+                wrap.children(classButtonSelector).addClass(classNonActive);
+            },
+            success: function () {
+                wrap.children('.' + classNew).removeClass(classNew);
+                opposite.removeClass(classNonActive);
+                $this.find(classIndexSelector).html($thisCountUpdate);
+                if (isUpdate) {
+                    opposite.find(classIndexSelector).html(oppositeCountUpdate);
                 }
             },
             error: function () {
@@ -356,4 +388,17 @@ $(document).ready(function () {
 
         $('#btnWrtCmt' + ansId).text('评一下');
     });
+
+    $(document).on('delSuccess', function (e, data) {
+        switch (data.type) {
+            case 1:
+                DeleteAnsSuccess(data.id);
+                break;
+            case 2:
+                DeleteCmtSuccess(data.id);
+                break;
+            default:
+                alert('未能识别的删除请求类型')
+        }
+    })
 });

@@ -18,3 +18,6 @@ C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.BL\bin\Release\A
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.BL\obj\Release\RTCareerAsk.BL.csprojResolveAssemblyReference.cache
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.BL\obj\Release\RTCareerAsk.BL.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.BL\obj\Release\RTCareerAsk.BL.pdb
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.BL\bin\Release\LeanCloud.dll
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.BL\bin\Release\LeanCloud.pdb
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.BL\bin\Release\LeanCloud.xml

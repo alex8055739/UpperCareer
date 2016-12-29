@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.IO;
 using RTCareerAsk.PLtoDA;
 using RTCareerAsk.Models;
+using RTCareerAsk.App_DLL;
 
 namespace RTCareerAsk.Controllers
 {
@@ -24,8 +25,8 @@ namespace RTCareerAsk.Controllers
 
         #region Property
 
-        private string TitleMark { get { return "UpperCareer"; } }
-        protected string GeneralTitle { get { return "UpperCareer - 真实的职场知识、经验、见解分享社区"; } }
+        private string TitleMark { get { return "UpperCareer尚职"; } }
+        protected string GeneralTitle { get { return "UpperCareer尚职 - 真实的职场知识、经验、见解分享社区"; } }
 
         protected Home2DA HomeDa { get { return new Home2DA(); } }
         protected Account2DA AccountDa { get { return new Account2DA(); } }
@@ -50,6 +51,11 @@ namespace RTCareerAsk.Controllers
             get { return Session["UserInfo"] != null; }
         }
 
+        public bool HasLoginInfo
+        {
+            get { return this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("LoginInfo"); }
+        }
+
         public UserInfoModel UserInfo
         {
             get { return Session["UserInfo"] != null ? Session["UserInfo"] as UserInfoModel : null; }
@@ -59,9 +65,33 @@ namespace RTCareerAsk.Controllers
 
         #region Upper Helper
 
-        protected async Task AccountLogin(string userName, string password)
+        protected async Task AutoLogin()
         {
-            await AccountDa.LoginWithEmail(userName, password).ContinueWith(t => StoreUserToSession(t.Result));
+            if (HasUserInfo)
+            {
+                return;
+            }
+            else if (HasLoginInfo)
+            {
+                await AccountLogin(LoadLoginInfo());
+            }
+        }
+
+        protected async Task AccountLogin(LoginModel model)
+        {
+            await AccountDa.LoginWithEmail(model.Email, model.Password).ContinueWith(t =>
+            {
+                StoreUserToSession(t.Result);
+
+                if (model.RememberMe)
+                {
+                    SaveLoginAsCookie(model.Email, model.Password);
+                }
+                else
+                {
+                    RemoveLoginCookie();
+                }
+            });
         }
 
         protected string GenerateTitle(string prefix)
@@ -79,22 +109,39 @@ namespace RTCareerAsk.Controllers
             return UserInfo.UserID;
         }
 
+        protected string GetUserName()
+        {
+            if (!HasUserInfo)
+            {
+                throw new InvalidOperationException("错误：未能找到用户信息");
+            }
+
+            return UserInfo.Name;
+        }
+
         protected void StoreUserToSession(UserInfoModel um)
         {
             Session["UserInfo"] = um;
         }
 
-        protected async Task UpdateUserInfo(IDictionary<string, object> newInfo)
+        protected void UpdateUserInfo(IDictionary<string, object> newInfo)
         {
             foreach (string key in newInfo.Keys)
             {
-                if (key == "NewMessageCount")
-                {
-                    ModifyUserInfo(key, await HomeDa.LoadMessageCount(GetUserID()));
-                    continue;
-                }
-
                 ModifyUserInfo(key, newInfo[key]);
+            }
+        }
+
+        protected async Task<int> LoadNewMessageCount(string userId)
+        {
+            return await HomeDa.LoadMessageCount(userId);
+        }
+
+        protected async Task UpdateNewMessageCount()
+        {
+            if (HasUserInfo)
+            {
+                UpdateUserInfo(new Dictionary<string, object>() { { "NewMessageCount", await LoadNewMessageCount(GetUserID()) } });
             }
         }
 
@@ -221,6 +268,54 @@ namespace RTCareerAsk.Controllers
         protected string ModifyTextareaData(string input, bool isSave)
         {
             return string.IsNullOrEmpty(input) ? string.Empty : isSave ? input.Replace("\r\n", "</br>") : input.Replace("</br>", "\r\n");
+        }
+
+        protected void SaveLoginAsCookie(string email, string password)
+        {
+            HttpCookie cookie = new HttpCookie("LoginInfo");
+            cookie.Value = EncryptString(string.Format("{0}/{1}", email, password), "login");
+            //cookie.Value = string.Format("{0}!{1}", email, EncryptString(password, email));
+            cookie.Expires = DateTime.Now.AddDays(7);
+
+            this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+        }
+
+        protected LoginModel LoadLoginInfo()
+        {
+            if (HasLoginInfo)
+            {
+                string[] cookieInfo = DecryptString(this.ControllerContext.HttpContext.Request.Cookies["LoginInfo"].Value, "login").Split('/');
+
+                return new LoginModel()
+                {
+                    Email = cookieInfo[0],
+                    Password = cookieInfo[1],
+                    RememberMe = true
+                };
+            }
+
+            return null;
+        }
+
+        protected void RemoveLoginCookie()
+        {
+            if (HasLoginInfo)
+            {
+                HttpCookie cookie = this.ControllerContext.HttpContext.Request.Cookies["LoginInfo"];
+                cookie.Expires = DateTime.Now.AddDays(-1);
+
+                this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+            }
+        }
+
+        protected string EncryptString(string plainText, string passPhrase)
+        {
+            return StringCipher.Encrypt(plainText, passPhrase);
+        }
+
+        protected string DecryptString(string plainText, string passPhrase)
+        {
+            return StringCipher.Decrypt(plainText, passPhrase);
         }
 
         #endregion

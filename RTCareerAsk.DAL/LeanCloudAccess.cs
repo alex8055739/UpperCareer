@@ -122,245 +122,6 @@ namespace RTCareerAsk.DAL
                 });
         }
         /// <summary>
-        /// 更换用户头像。
-        /// </summary>
-        /// <param name="userId">用户ID</param>
-        /// <param name="portraitUrl">头像图片的URL</param>
-        /// <returns>代表操作是否成功的Boolean值</returns>
-        public async Task<bool> ChangeUserPortrait(string userId, string portraitUrl)
-        {
-            AVUser u = await AVUser.Query.GetAsync(userId);
-
-            //Delete old portrait file if existed.
-            if (u.ContainsKey("portrait") && !string.IsNullOrEmpty(u.Get<string>("portrait")))
-            {
-                await AVObject.GetQuery("_File").WhereEqualTo("url", u.Get<string>("portrait")).FindAsync().ContinueWith(t =>
-                    {
-                        if (t.IsFaulted || t.IsCanceled)
-                        {
-                            throw t.Exception;
-                        }
-
-                        if (t.Result.Count() == 1)
-                        {
-                            t.Result.First().DeleteAsync().ContinueWith(s =>
-                                {
-                                    if (s.IsFaulted || s.IsCanceled)
-                                    {
-                                        throw s.Exception;
-                                    }
-                                });
-                        }
-                    });
-            }
-
-            u["portrait"] = portraitUrl;
-
-            return await u.SaveAsync().ContinueWith(t =>
-            {
-                if (t.IsFaulted || t.IsCanceled)
-                {
-                    throw t.Exception;
-                }
-
-                return true;
-            });
-        }
-        /// <summary>
-        /// 保存更新用户详细信息。
-        /// </summary>
-        /// <param name="ud">用户详细信息模型</param>
-        /// <returns>代表保存更新是否成功的Boolean值</returns>
-        public async Task<bool> SaveUserDetail(UserDetail ud)
-        {
-            if (string.IsNullOrEmpty(ud.ForUser.ObjectID) || string.IsNullOrEmpty(ud.ForUser.Name))
-            {
-                throw new InvalidOperationException("没有指定保存对象ID或称谓空缺");
-            }
-
-            if (!string.IsNullOrEmpty(ud.ObjectId))
-            {
-                return await AVObject.GetQuery("UserDetail").GetAsync(ud.ObjectId).ContinueWith(t =>
-                    {
-                        if (t.IsFaulted || t.IsCanceled)
-                        {
-                            throw t.Exception;
-                        }
-
-                        return ud.UpdateUserDetailObject(t.Result).SaveAsync().ContinueWith(u =>
-                        {
-                            if (u.IsFaulted || u.IsCanceled)
-                            {
-                                throw u.Exception;
-                            }
-
-                            return AVUser.Query.GetAsync(ud.ForUser.ObjectID).ContinueWith(v =>
-                            {
-                                if (v.IsFaulted || v.IsCanceled)
-                                {
-                                    throw v.Exception;
-                                }
-
-                                v.Result["nickname"] = ud.ForUser.Name;
-                                v.Result["title"] = ud.ForUser.Title;
-                                v.Result["gender"] = ud.ForUser.Gender;
-                                v.Result["company"] = ud.ForUser.Company;
-                                v.Result["fieldIndex"] = ud.ForUser.FieldIndex;
-
-                                return v.Result.SaveAsync().ContinueWith(w =>
-                                    {
-                                        if (w.IsFaulted || w.IsCanceled)
-                                        {
-                                            throw w.Exception;
-                                        }
-
-                                        return true;
-                                    });
-                            });
-                        });
-                    }).Unwrap().Unwrap().Unwrap();
-            }
-
-            return await ud.CreateUserDetailObjectForSave().SaveAsync().ContinueWith(t =>
-                {
-                    if (t.IsFaulted || t.IsCanceled)
-                    {
-                        throw t.Exception;
-                    }
-
-                    return AVUser.Query.GetAsync(ud.ForUser.ObjectID).ContinueWith(s =>
-                        {
-                            if (s.IsFaulted || s.IsCanceled)
-                            {
-                                throw s.Exception;
-                            }
-
-                            s.Result["nickname"] = ud.ForUser.Name;
-                            s.Result["title"] = ud.ForUser.Title;
-                            s.Result["gender"] = ud.ForUser.Gender;
-                            s.Result["company"] = ud.ForUser.Company;
-                            s.Result["fieldIndex"] = ud.ForUser.FieldIndex;
-                            return s.Result.SaveAsync().ContinueWith(x =>
-                                {
-                                    if (x.IsFaulted || x.IsCanceled)
-                                    {
-                                        throw x.Exception;
-                                    }
-
-                                    return true;
-                                });
-                        });
-                }).Unwrap().Unwrap();
-        }
-        /// <summary>
-        /// 关注一个用户。
-        /// </summary>
-        /// <param name="userId">关注者ID</param>
-        /// <param name="followeeId">关注对象ID</param>
-        /// <returns>代表关注是否成功的Boolean值</returns>
-        public async Task<bool> Follow(string userId, string followeeId)
-        {
-            return await AVUser.Query.GetAsync(userId).ContinueWith(t =>
-                {
-                    if (t.IsFaulted || t.IsCanceled)
-                    {
-                        throw t.Exception;
-                    }
-
-                    return t.Result.Follow(followeeId).ContinueWith(s =>
-                        {
-                            if (s.IsFaulted || s.IsCanceled)
-                            {
-                                throw s.Exception;
-                            }
-
-                            return s.Result;
-                        });
-                }).Unwrap();
-        }
-        /// <summary>
-        /// 取消一个关注。
-        /// </summary>
-        /// <param name="userId">关注者ID</param>
-        /// <param name="followeeId">关注对象ID</param>
-        /// <returns>代表取关是否成功的Boolean值</returns>
-        public async Task<bool> Unfollow(string userId, string followeeId)
-        {
-            return await AVUser.Query.GetAsync(userId).ContinueWith(t =>
-            {
-                if (t.IsFaulted || t.IsCanceled)
-                {
-                    throw t.Exception;
-                }
-
-                return t.Result.Unfollow(followeeId);
-            }).Unwrap();
-        }
-        /// <summary>
-        /// 读取用户的粉丝。
-        /// </summary>
-        /// <param name="userId">用户</param>
-        /// <returns>所有粉丝信息</returns>
-        public async Task<IEnumerable<User>> GetFollowers(string userId)
-        {
-            return await AVUser.Query.GetAsync(userId).ContinueWith(t =>
-                {
-                    if (t.IsFaulted || t.IsCanceled)
-                    {
-                        throw t.Exception;
-                    }
-
-                    return t.Result.GetFollowers().ContinueWith(s =>
-                    {
-                        if (s.IsFaulted || s.IsCanceled)
-                        {
-                            throw s.Exception;
-                        }
-
-                        List<User> followers = new List<User>();
-
-                        foreach (AVUser follower in s.Result)
-                        {
-                            followers.Add(new User(follower.Get<AVUser>("follower")));
-                        }
-
-                        return followers;
-                    });
-                }).Unwrap();
-        }
-        /// <summary>
-        /// 读取用户的关注。
-        /// </summary>
-        /// <param name="userId">用户</param>
-        /// <returns>所有关注对象信息</returns>
-        public async Task<IEnumerable<User>> GetFollowees(string userId)
-        {
-            return await AVUser.Query.GetAsync(userId).ContinueWith(t =>
-                {
-                    if (t.IsFaulted || t.IsCanceled)
-                    {
-                        throw t.Exception;
-                    }
-
-                    return t.Result.GetFolloweeQuery().FindAsync().ContinueWith(s =>
-                    {
-                        if (s.IsFaulted || s.IsCanceled)
-                        {
-                            throw s.Exception;
-                        }
-
-                        List<User> followees = new List<User>();
-
-                        foreach (AVUser followee in s.Result)
-                        {
-                            followees.Add(new User(followee.Get<AVUser>("followee")));
-                        }
-
-                        return followees;
-                    });
-                }).Unwrap();
-        }
-        /// <summary>
         /// 给一个用户指派身份。
         /// </summary>
         /// <param name="userId">用户ID</param>
@@ -476,7 +237,11 @@ namespace RTCareerAsk.DAL
 
             return true;
         }
-
+        /// <summary>
+        /// 读取指定用户数据。
+        /// </summary>
+        /// <param name="userId">用户ID</param>
+        /// <returns>目标用户的信息</returns>
         public async Task<AVUser> GetUserByID(string userId)
         {
             return await AVUser.Query.GetAsync(userId);
@@ -553,6 +318,197 @@ namespace RTCareerAsk.DAL
 
         #region User Detail Load
         /// <summary>
+        /// 更换用户头像。
+        /// </summary>
+        /// <param name="userId">用户ID</param>
+        /// <param name="portraitUrl">头像图片的URL</param>
+        /// <returns>代表操作是否成功的Boolean值</returns>
+        public async Task<bool> ChangeUserPortrait(string userId, string portraitUrl)
+        {
+            AVUser u = await AVUser.Query.GetAsync(userId);
+
+            //Delete old portrait file if existed.
+            if (u.ContainsKey("portrait") && !string.IsNullOrEmpty(u.Get<string>("portrait")))
+            {
+                await AVObject.GetQuery("_File").WhereEqualTo("url", u.Get<string>("portrait")).FindAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    if (t.Result.Count() == 1)
+                    {
+                        t.Result.First().DeleteAsync().ContinueWith(s =>
+                        {
+                            if (s.IsFaulted || s.IsCanceled)
+                            {
+                                throw s.Exception;
+                            }
+                        });
+                    }
+                });
+            }
+
+            u["portrait"] = portraitUrl;
+
+            return await u.SaveAsync().ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+
+                return true;
+            });
+        }
+        /// <summary>
+        /// 保存更新用户详细信息。
+        /// </summary>
+        /// <param name="ud">用户详细信息模型</param>
+        /// <returns>代表保存更新是否成功的Boolean值</returns>
+        public async Task<bool> SaveUserDetail(UserDetail ud)
+        {
+            if (string.IsNullOrEmpty(ud.ForUser.ObjectID) || string.IsNullOrEmpty(ud.ForUser.Name))
+            {
+                throw new InvalidOperationException("没有指定保存对象ID或称谓空缺");
+            }
+
+            if (!string.IsNullOrEmpty(ud.ObjectId))
+            {
+                return await AVObject.GetQuery("UserDetail").GetAsync(ud.ObjectId).ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return ud.UpdateUserDetailObject(t.Result).SaveAsync().ContinueWith(u =>
+                    {
+                        if (u.IsFaulted || u.IsCanceled)
+                        {
+                            throw u.Exception;
+                        }
+
+                        return AVUser.Query.GetAsync(ud.ForUser.ObjectID).ContinueWith(v =>
+                        {
+                            if (v.IsFaulted || v.IsCanceled)
+                            {
+                                throw v.Exception;
+                            }
+
+                            v.Result["nickname"] = ud.ForUser.Name;
+                            v.Result["title"] = ud.ForUser.Title;
+                            v.Result["gender"] = ud.ForUser.Gender;
+                            v.Result["company"] = ud.ForUser.Company;
+                            v.Result["fieldIndex"] = ud.ForUser.FieldIndex;
+
+                            return v.Result.SaveAsync().ContinueWith(w =>
+                            {
+                                if (w.IsFaulted || w.IsCanceled)
+                                {
+                                    throw w.Exception;
+                                }
+
+                                return true;
+                            });
+                        });
+                    });
+                }).Unwrap().Unwrap().Unwrap();
+            }
+
+            return await ud.CreateUserDetailObjectForSave().SaveAsync().ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+
+                return AVUser.Query.GetAsync(ud.ForUser.ObjectID).ContinueWith(s =>
+                {
+                    if (s.IsFaulted || s.IsCanceled)
+                    {
+                        throw s.Exception;
+                    }
+
+                    s.Result["nickname"] = ud.ForUser.Name;
+                    s.Result["title"] = ud.ForUser.Title;
+                    s.Result["gender"] = ud.ForUser.Gender;
+                    s.Result["company"] = ud.ForUser.Company;
+                    s.Result["fieldIndex"] = ud.ForUser.FieldIndex;
+                    return s.Result.SaveAsync().ContinueWith(x =>
+                    {
+                        if (x.IsFaulted || x.IsCanceled)
+                        {
+                            throw x.Exception;
+                        }
+
+                        return true;
+                    });
+                });
+            }).Unwrap().Unwrap();
+        }
+        /// <summary>
+        /// 关注一个用户。
+        /// </summary>
+        /// <param name="userId">关注者ID</param>
+        /// <param name="followeeId">关注对象ID</param>
+        /// <returns>代表关注是否成功的Boolean值</returns>
+        public async Task<bool> Follow(string userId, string followeeId)
+        {
+            return await AVUser.Query.GetAsync(userId).ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+
+                string followerName = t.Result.Get<string>("nickname");
+
+                return t.Result.Follow(followeeId).ContinueWith(s =>
+                {
+                    if (s.IsFaulted || s.IsCanceled)
+                    {
+                        throw s.Exception;
+                    }
+
+                    CreateNotification(new History(followeeId, 7, followerName, userId));
+
+                    return s.Result;
+                });
+            }).Unwrap();
+
+            //return await (AVUser.CreateWithoutData("_User", userId) as AVUser).Follow(followeeId).ContinueWith(t =>
+            //    {
+            //        if (t.IsFaulted || t.IsCanceled)
+            //        {
+            //            throw t.Exception;
+            //        }
+
+            //        CreateNotification(new Notification(followeeId, 7, userId));
+
+            //        return t.Result;
+            //    });
+        }
+        /// <summary>
+        /// 取消一个关注。
+        /// </summary>
+        /// <param name="userId">关注者ID</param>
+        /// <param name="followeeId">关注对象ID</param>
+        /// <returns>代表取关是否成功的Boolean值</returns>
+        public async Task<bool> Unfollow(string userId, string followeeId)
+        {
+            return await (AVUser.CreateWithoutData("_User", userId) as AVUser).Unfollow(followeeId).ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+
+                return t.Result;
+            });
+        }
+        /// <summary>
         /// 读取一条用户信息
         /// </summary>
         /// <param name="userId">用户ID</param>
@@ -576,7 +532,7 @@ namespace RTCareerAsk.DAL
         /// <returns>包含用户详细信息的Object</returns>
         public async Task<UserDetail> LoadUserDetail(string userId)
         {
-            return await AVObject.GetQuery("UserDetail")
+            Task<UserDetail> detail = AVObject.GetQuery("UserDetail")
                 .Include("forUser")
                 .WhereEqualTo("forUser", AVUser.CreateWithoutData("_User", userId) as AVUser)
                 .FindAsync()
@@ -604,6 +560,42 @@ namespace RTCareerAsk.DAL
                         return new UserDetail(t.Result.First());
                     }
                 }).Unwrap();
+
+            Task<int> followerCount = GetFollowerCount(userId);
+
+            Task<int> followeeCount = GetFolloweeCount(userId);
+
+            await Task.WhenAll(detail, followerCount, followeeCount);
+
+            return detail.Result.SetFollowCounts(followerCount.Result, followeeCount.Result);
+            //return await AVObject.GetQuery("UserDetail")
+            //    .Include("forUser")
+            //    .WhereEqualTo("forUser", AVUser.CreateWithoutData("_User", userId) as AVUser)
+            //    .FindAsync()
+            //    .ContinueWith(async t =>
+            //    {
+            //        if (t.IsFaulted || t.IsCanceled)
+            //        {
+            //            throw t.Exception;
+            //        }
+
+            //        if (t.Result.Count() == 0)
+            //        {
+            //            return await AVUser.Query.GetAsync(userId).ContinueWith(s =>
+            //                {
+            //                    if (s.IsFaulted || s.IsCanceled)
+            //                    {
+            //                        throw s.Exception;
+            //                    }
+
+            //                    return new UserDetail(s.Result);
+            //                });
+            //        }
+            //        else
+            //        {
+            //            return new UserDetail(t.Result.First());
+            //        }
+            //    }).Unwrap();
         }
         /// <summary>
         /// 查询是否已经关注了目标用户。
@@ -611,8 +603,17 @@ namespace RTCareerAsk.DAL
         /// <param name="userId">用户ID</param>
         /// <param name="targetId">目标用户ID</param>
         /// <returns>代表是否已关注目标用户的Boolean值</returns>
-        public async Task<bool> IfAlreadyFollowed(string userId, string targetId)
+        public async Task<bool?> IfAlreadyFollowed(string userId, string targetId)
         {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return false;
+            }
+            else if (userId == targetId)
+            {
+                return null;
+            }
+
             AVUser user = AVUser.CreateWithoutData("_User", userId) as AVUser;
             AVUser target = AVUser.CreateWithoutData("_User", targetId) as AVUser;
 
@@ -635,23 +636,15 @@ namespace RTCareerAsk.DAL
         /// <returns>粉丝数量</returns>
         public async Task<int> GetFollowerCount(string userId)
         {
-            return await AVUser.Query.GetAsync(userId).ContinueWith(t =>
+            return await (AVUser.CreateWithoutData("_User", userId) as AVUser).GetFollowerQuery().CountAsync().ContinueWith(t =>
                 {
                     if (t.IsFaulted || t.IsCanceled)
                     {
                         throw t.Exception;
                     }
 
-                    return t.Result.GetFollowerQuery().CountAsync().ContinueWith(s =>
-                        {
-                            if (s.IsFaulted || s.IsCanceled)
-                            {
-                                throw s.Exception;
-                            }
-
-                            return s.Result;
-                        });
-                }).Unwrap();
+                    return t.Result;
+                });
         }
         /// <summary>
         /// 查询用户的关注数。
@@ -660,23 +653,101 @@ namespace RTCareerAsk.DAL
         /// <returns>关注数量</returns>
         public async Task<int> GetFolloweeCount(string userId)
         {
-            return await AVUser.Query.GetAsync(userId).ContinueWith(t =>
+            return await (AVUser.CreateWithoutData("_User", userId) as AVUser).GetFolloweeQuery().CountAsync().ContinueWith(t =>
                 {
                     if (t.IsFaulted || t.IsCanceled)
                     {
                         throw t.Exception;
                     }
 
-                    return t.Result.GetFolloweeQuery().CountAsync().ContinueWith(s =>
-                        {
-                            if (s.IsFaulted || s.IsCanceled)
-                            {
-                                throw s.Exception;
-                            }
+                    return t.Result;
+                });
+        }
+        /// <summary>
+        /// 读取用户的粉丝。
+        /// </summary>
+        /// <param name="userId">用户ID</param>
+        /// <param name="pageIndex">页数</param>
+        /// <returns>一页数量的粉丝信息</returns>
+        public async Task<IEnumerable<User>> GetFollowers(string userId, int pageIndex)
+        {
+            int pageCapacity = 20;
 
-                            return s.Result;
-                        });
-                }).Unwrap();
+            return await AVObject.GetQuery("_Follower")
+                .WhereEqualTo("user", (AVUser.CreateWithoutData("_User", userId) as AVUser))
+                .Include("follower")
+                .Skip(pageIndex * pageCapacity)
+                .Limit(pageCapacity)
+                .FindAsync()
+                .ContinueWith(t =>
+                    {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        List<User> followers = new List<User>();
+
+                        foreach (AVObject follower in t.Result)
+                        {
+                            followers.Add(new User(follower.Get<AVUser>("follower")));
+                        }
+
+                        return followers;
+                    });
+        }
+        /// <summary>
+        /// 读取用户的关注。
+        /// </summary>
+        /// <param name="userId">用户ID</param>
+        /// <param name="pageIndex">页数</param>
+        /// <returns>一页数量的关注对象信息</returns>
+        public async Task<IEnumerable<User>> GetFollowees(string userId, int pageIndex)
+        {
+            int pageCapacity = 20;
+
+            return await AVObject.GetQuery("_Followee")
+                .WhereEqualTo("user", (AVUser.CreateWithoutData("_User", userId) as AVUser))
+                .Include("followee")
+                .Skip(pageIndex * pageCapacity)
+                .Limit(pageCapacity)
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    List<User> followees = new List<User>();
+
+                    foreach (AVObject followee in t.Result)
+                    {
+                        followees.Add(new User(followee.Get<AVUser>("followee")));
+                    }
+
+                    return followees;
+                });
+        }
+        /// <summary>
+        /// 查询用户的回答数量
+        /// </summary>
+        /// <param name="userId">用户ID</param>
+        /// <returns>答案数量</returns>
+        public async Task<int> GetAnswerCount(string userId)
+        {
+            return await AVObject.GetQuery("Answer")
+                .WhereEqualTo("createdBy", AVUser.CreateWithoutData("_User", userId) as AVUser)
+                .CountAsync()
+                .ContinueWith(t =>
+                    {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        return t.Result;
+                    });
         }
         #endregion
 
@@ -1024,36 +1095,6 @@ namespace RTCareerAsk.DAL
             }
         }
         /// <summary>
-        /// 通过问题ID查找答案。
-        /// </summary>
-        /// <param name="userId">提出请求的用户ID</param>
-        /// <param name="questionId">问题ID</param>
-        /// <returns>问题下所有回答</returns>
-        public async Task<IEnumerable<Answer>> FindAnswersByQuestion(string userId, string questionId)
-        {
-            try
-            {
-                return await AVObject.GetQuery("Answer")
-                    .Include("createdBy")
-                    .WhereEqualTo("forQuestion", AVObject.CreateWithoutData("Post", questionId))
-                    .OrderByDescending("voteDiff")
-                    .FindAsync()
-                    .ContinueWith(t =>
-                    {
-                        if (t.IsFaulted || t.IsCanceled)
-                        {
-                            throw t.Exception;
-                        }
-
-                        return GetAnswersWithComments(userId, t.Result);
-                    }).Unwrap();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        /// <summary>
         /// 读取一条问题下的一页答案。
         /// </summary>
         /// <param name="userId">发起请求的用户ID</param>
@@ -1070,12 +1111,14 @@ namespace RTCareerAsk.DAL
 
                 AVQuery<AVObject> queryUserAnswer = AVObject.GetQuery("Answer")
                     .Include("createdBy")
+                    .Include("forQuestion")
                     .WhereEqualTo("createdBy", AVObject.CreateWithoutData("_User", userId) as AVUser)
                     .WhereEqualTo("forQuestion", AVObject.CreateWithoutData("Post", questionId))
                     .OrderByDescending("createdAt");
 
                 AVQuery<AVObject> queryRestAnswers = AVObject.GetQuery("Answer")
                     .Include("createdBy")
+                    .Include("forQuestion")
                     .WhereEqualTo("forQuestion", AVObject.CreateWithoutData("Post", questionId))
                     .OrderByDescending(isHottestFirst ? "voteDiff" : "createdAt")
                     .Skip(pageIndex * pageLimit)
@@ -1172,7 +1215,7 @@ namespace RTCareerAsk.DAL
         /// </summary>
         /// <param name="answerId">答案数据ID</param>
         /// <returns>加载了评论信息的答案信息</returns>
-        public async Task<Answer> GetAnswerWithComments(string answerId)
+        public async Task<Answer> GetAnswerWithComments(string userId, string answerId)
         {
             AVObject a = AVObject.CreateWithoutData("Answer", answerId);
 
@@ -1207,9 +1250,13 @@ namespace RTCareerAsk.DAL
                     return t.Result;
                 });
 
-            await Task.WhenAll(ta, tc);
+            Task<bool?> userVote = IsAnswerLikedByUser(userId, a);
 
-            return ta.Result.SetComments(tc.Result);
+            Task<Dictionary<string, int>> voteCounts = LoadVoteCounts(a, false);
+
+            await Task.WhenAll(ta, tc, userVote, voteCounts);
+
+            return ta.Result.SetComments(tc.Result).SetUserVote(userVote.Result).SetVoteCounts(voteCounts.Result);
         }
         /// <summary>
         /// 获取一条带有评论信息的回答。
@@ -1447,8 +1494,132 @@ namespace RTCareerAsk.DAL
                             throw s.Exception;
                         }
 
+                        CreateNotification(v.Notification);
+
                         return true;
                     });
+                }).Unwrap();
+        }
+        #endregion
+
+        #region Notification
+        /// <summary>
+        /// 读取针对一个用户生成的提醒数据。
+        /// </summary>
+        /// <param name="userId">目标用户的ID</param>
+        /// <param name="types">进行筛选的提醒类型</param>
+        /// <param name="pageIndex">页数</param>
+        /// <returns>一页数量的提醒数据</returns>
+        public async Task<IEnumerable<History>> LoadNotifications(string userId, int[] types, int pageIndex = 0)
+        {
+            int pageCapacity = 20;
+            List<AVQuery<AVObject>> filter = new List<AVQuery<AVObject>>();
+
+            if (!types.Contains(0))
+            {
+                foreach (int type in types)
+                {
+                    filter.Add(AVObject.GetQuery("History").WhereEqualTo("type", type));
+                }
+            }
+
+            AVQuery<AVObject> query = types.Contains(0) ? AVObject.GetQuery("History") : AVQuery<AVObject>.Or(filter);
+
+            query = query.WhereEqualTo("forUser", AVObject.CreateWithoutData("_User", userId) as AVUser)
+                .Include("forUser")
+                .Include("from")
+                .OrderByDescending("isNew")
+                .ThenByDescending("createdAt")
+                .Skip(pageIndex * pageCapacity)
+                .Limit(pageCapacity);
+
+            return await query.FindAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    List<History> notifications = new List<History>();
+
+                    foreach (AVObject n in t.Result)
+                    {
+                        notifications.Add(new History(n));
+                    }
+
+                    return notifications;
+                });
+        }
+        /// <summary>
+        /// 读取所有用户的提醒数据，管理员专用。
+        /// </summary>
+        /// <param name="types">进行筛选的提醒类型</param>
+        /// <param name="pageIndex">页数</param>
+        /// <returns>一页数量的提醒数据</returns>
+        public async Task<IEnumerable<History>> LoadNotifications(int[] types, int pageIndex = 0)
+        {
+            int pageCapacity = 20;
+            List<AVQuery<AVObject>> filter = new List<AVQuery<AVObject>>();
+
+            if (!types.Contains(0))
+            {
+                foreach (int type in types)
+                {
+                    filter.Add(AVObject.GetQuery("History").WhereEqualTo("type", type));
+                }
+            }
+
+            AVQuery<AVObject> query = types.Contains(0) ? AVObject.GetQuery("History") : AVQuery<AVObject>.Or(filter);
+
+            return await query.Include("forUser")
+                .Include("from")
+                .OrderByDescending("isNew")
+                .ThenByDescending("createdAt")
+                .Skip(pageIndex * pageCapacity)
+                .Limit(pageCapacity)
+                .FindAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    List<History> notifications = new List<History>();
+
+                    foreach (AVObject n in t.Result)
+                    {
+                        notifications.Add(new History(n));
+                    }
+
+                    return notifications;
+                });
+        }
+        /// <summary>
+        /// 标记一条提醒数据为已读。
+        /// </summary>
+        /// <param name="id">提醒数据ID</param>
+        /// <returns>代表操作是否成功的Boolean值</returns>
+        public async Task<bool> MarkNotificationAsRead(string id)
+        {
+            return await AVObject.GetQuery("History").GetAsync(id).ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    t.Result["isNew"] = false;
+
+                    return t.Result.SaveAsync().ContinueWith(s =>
+                        {
+                            if (s.IsFaulted || s.IsCanceled)
+                            {
+                                throw s.Exception;
+                            }
+
+                            return true;
+                        });
                 }).Unwrap();
         }
         #endregion
@@ -1498,6 +1669,8 @@ namespace RTCareerAsk.DAL
                             throw s.Exception;
                         }
 
+                        CreateNotification(ans.Notification);
+
                         UpdateSubpostCount(s.Result, true).ContinueWith(x =>
                         {
                             if (x.IsFaulted || x.IsCanceled)
@@ -1532,6 +1705,8 @@ namespace RTCareerAsk.DAL
                         {
                             throw s.Exception;
                         }
+
+                        CreateNotification(cmt.Notification);
 
                         UpdateSubpostCount(s.Result, true).ContinueWith(x =>
                             {
@@ -1715,7 +1890,11 @@ namespace RTCareerAsk.DAL
                     }));
             }
         }
-
+        /// <summary>
+        /// 保存并生成一条新的资讯。
+        /// </summary>
+        /// <param name="a">封装资讯内容的对象</param>
+        /// <returns>代表操作是否成功的Boolean值</returns>
         public async Task<bool> SaveNewArticle(Article a)
         {
             AVObject atcl = a.CreateArticleObjectForSave();
@@ -1738,16 +1917,23 @@ namespace RTCareerAsk.DAL
                 return true;
             });
         }
-
+        /// <summary>
+        /// 当一条答案被引用时，为答案标注所载资讯的信息。
+        /// </summary>
+        /// <param name="id">答案ID</param>
+        /// <param name="atclId">资讯ID</param>
+        /// <returns>代表操作是否成功的Boolean值</returns>
         public async Task<bool> MarkRecommandedReference(string id, string atclId)
         {
-            return await AVObject.GetQuery("Answer").GetAsync(id).ContinueWith(t =>
+            return await AVObject.GetQuery("Answer").Include("createdBy").Include("forQuestion").GetAsync(id).ContinueWith(t =>
             {
                 if (t.IsFaulted || t.IsCanceled)
                 {
                     throw t.Exception;
                 }
 
+                string authorId = t.Result.Get<AVUser>("createdBy").ObjectId;
+                string questionTitle = t.Result.Get<AVObject>("forQuestion").Get<string>("title");
                 t.Result["recommendation"] = AVObject.CreateWithoutData("Article", atclId);
 
                 return t.Result.SaveAsync().ContinueWith(s =>
@@ -1757,11 +1943,17 @@ namespace RTCareerAsk.DAL
                         throw s.Exception;
                     }
 
+                    CreateNotification(new History(authorId, 6, questionTitle, atclId));
+
                     return true;
                 });
             }).Unwrap();
         }
-
+        /// <summary>
+        /// 保存针对资讯的评论。
+        /// </summary>
+        /// <param name="acmt">包含评论信息的对象</param>
+        /// <returns>保存成功后数据库生成的评论数据</returns>
         public async Task<ArticleComment> SaveNewArticleComment(ArticleComment acmt)
         {
             AVObject c = acmt.CreateArticleCommentObjectForSave();
@@ -1787,7 +1979,13 @@ namespace RTCareerAsk.DAL
                         });
                 }).Unwrap();
         }
-
+        /// <summary>
+        /// 删除一条资讯下的评论，并读取取代其位置的数据。
+        /// </summary>
+        /// <param name="acmtId">评论ID</param>
+        /// <param name="atclId">资讯ID</param>
+        /// <param name="replaceIndex">被删除评论所在的位置序号</param>
+        /// <returns>包含新评论信息的对象</returns>
         public async Task<ArticleComment> DeleteArticleComment(string acmtId, string atclId, int replaceIndex)
         {
             return await AVObject.GetQuery("Comment_Article").GetAsync(acmtId).ContinueWith(t =>
@@ -1923,23 +2121,55 @@ namespace RTCareerAsk.DAL
         /// <returns>新消息的数量</returns>
         public async Task<int> CountNewMessageForUser(string userId)
         {
+            int newCount = default(int);
+
             List<AVQuery<AVObject>> querys = new List<AVQuery<AVObject>>()
             {
                 AVObject.GetQuery("Message").WhereEqualTo("to", null),
                 AVObject.GetQuery("Message").WhereEqualTo("to", AVObject.CreateWithoutData("_User", userId) as AVUser)
             };
 
-            return await AVQuery<AVObject>.Or(querys).Include("to").FindAsync().ContinueWith(t =>
+            //return await AVQuery<AVObject>.Or(querys).Include("to").FindAsync().ContinueWith(t =>
+            //    {
+            //        if (t.IsFaulted || t.IsCanceled)
+            //        {
+            //            throw t.Exception;
+            //        }
+            //        else
+            //        {
+            //            return t.Result.GroupBy(x => x.Get<AVObject>("content").ObjectId).Select(x => x.Count() > 1 ? x.Where(y => y.ContainsKey("to")).First() : x.First()).Where(x => x.Get<bool>("isNew") && !x.Get<bool>("isDeleted")).Count();
+            //        }
+            //    });
+
+            Task newMsgCount = AVQuery<AVObject>.Or(querys).Include("to").FindAsync().ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
                 {
-                    if (t.IsFaulted || t.IsCanceled)
+                    throw t.Exception;
+                }
+                else
+                {
+                    newCount += t.Result.GroupBy(x => x.Get<AVObject>("content").ObjectId).Select(x => x.Count() > 1 ? x.Where(y => y.ContainsKey("to")).First() : x.First()).Where(x => x.Get<bool>("isNew") && !x.Get<bool>("isDeleted")).Count();
+                }
+            });
+
+            Task newNtfnCount = AVObject.GetQuery("History")
+                .WhereEqualTo("isNew", true)
+                .WhereEqualTo("forUser", AVUser.CreateWithoutData("_User", userId) as AVUser)
+                .CountAsync()
+                .ContinueWith(t =>
                     {
-                        throw t.Exception;
-                    }
-                    else
-                    {
-                        return t.Result.GroupBy(x => x.Get<AVObject>("content").ObjectId).Select(x => x.Count() > 1 ? x.Where(y => y.ContainsKey("to")).First() : x.First()).Where(x => x.Get<bool>("isNew") && !x.Get<bool>("isDeleted")).Count();
-                    }
-                });
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        newCount += t.Result;
+                    });
+
+            await Task.WhenAll(newMsgCount, newNtfnCount);
+
+            return newCount;
         }
         /// <summary>
         /// 创建一条消息。
@@ -2077,7 +2307,7 @@ namespace RTCareerAsk.DAL
         /// <returns>文件存入后生成的Url</returns>
         public async Task<string> SaveNewByteFile(RTCareerAsk.DAL.Domain.File f)
         {
-            AVFile file = f.CreateStreamFileObjectForSave();
+            LeanCloud.AVFile file = f.CreateStreamFileObjectForSave();
 
             return await file.SaveAsync().ContinueWith(t =>
                 {
@@ -2098,7 +2328,7 @@ namespace RTCareerAsk.DAL
         /// <returns>文件存入后生成的Url</returns>
         public async Task<string> SaveNewStreamFile(RTCareerAsk.DAL.Domain.File f)
         {
-            AVFile file = f.CreateStreamFileObjectForSave();
+            LeanCloud.AVFile file = f.CreateStreamFileObjectForSave();
 
             return await file.SaveAsync().ContinueWith(t =>
             {
@@ -2213,14 +2443,14 @@ namespace RTCareerAsk.DAL
         {
             List<Bug> bugs = new List<Bug>();
 
-            return await AVObject.GetQuery("Bug").Include("reporter").FindAsync().ContinueWith(t =>
+            return await AVObject.GetQuery("Bug").Include("reporter").OrderBy("status").ThenBy("priority").FindAsync().ContinueWith(t =>
                 {
                     if (t.IsFaulted || t.IsCanceled)
                     {
                         throw t.Exception;
                     }
 
-                    foreach (AVObject bug in t.Result.OrderBy(x => x.Get<int>("status")))
+                    foreach (AVObject bug in t.Result)
                     {
                         bugs.Add(new Bug(bug));
                     }
@@ -2308,7 +2538,11 @@ namespace RTCareerAsk.DAL
         #endregion
 
         #region Article
-
+        /// <summary>
+        /// 读取一页资讯信息摘要。
+        /// </summary>
+        /// <param name="pageIndex">页数</param>
+        /// <returns>一组包含资讯摘要信息的对象</returns>
         public async Task<List<ArticleInfo>> LoadArticleList(int pageIndex)
         {
             var pageCapacity = 10;
@@ -2335,7 +2569,11 @@ namespace RTCareerAsk.DAL
                     return atcls;
                 });
         }
-
+        /// <summary>
+        /// 读取一条资讯详情。
+        /// </summary>
+        /// <param name="id">目标资讯的ID</param>
+        /// <returns>包含资讯详情的对象</returns>
         public async Task<Article> LoadArticle(string id)
         {
             return await AVObject.GetQuery("Article").Include("reference").Include("editor").GetAsync(id).ContinueWith(t =>
@@ -2351,7 +2589,11 @@ namespace RTCareerAsk.DAL
             })
             .Unwrap();
         }
-
+        /// <summary>
+        /// 读取一条资讯详情并包含评论。
+        /// </summary>
+        /// <param name="atcl">包含资讯详情的对象</param>
+        /// <returns>封装后的资讯详情及评论</returns>
         public async Task<Article> LoadArticleWithComments(AVObject atcl)
         {
             if (atcl.ClassName != "Article")
@@ -2375,7 +2617,12 @@ namespace RTCareerAsk.DAL
                     return new Article(atcl).SetComments(t.Result);
                 });
         }
-
+        /// <summary>
+        /// 读取一条资讯下的评论。
+        /// </summary>
+        /// <param name="atclId">资讯ID</param>
+        /// <param name="pageIndex">页数</param>
+        /// <returns>一组包含资讯评论信息的对象</returns>
         public async Task<List<ArticleComment>> LoadArticleComments(string atclId, int pageIndex)
         {
             int pageCapacity = 20;
@@ -2404,7 +2651,11 @@ namespace RTCareerAsk.DAL
                     return acmts;
                 });
         }
-
+        /// <summary>
+        /// 从答案数据中读取资讯引用信息。
+        /// </summary>
+        /// <param name="id">答案ID</param>
+        /// <returns>包含答案详情及最近5条最靠前资讯的序号的对象</returns>
         public async Task<ArticleReference> LoadReference(string id)
         {
             int topArticleCount = 5;
@@ -2466,6 +2717,28 @@ namespace RTCareerAsk.DAL
                 {
                     throw t.Exception;
                 }
+            });
+        }
+        /// <summary>
+        /// 生成一条提醒。
+        /// </summary>
+        /// <param name="n">包含提醒相关数据的对象</param>
+        /// <returns>代表操作是否成功的Boolean值</returns>
+        public async Task<bool> CreateNotification(History n)
+        {
+            if (n == null)
+            {
+                return false;
+            }
+
+            return await n.CreateNotificationObjectForSave().SaveAsync().ContinueWith(t =>
+            {
+                if (t.IsFaulted || t.IsCanceled)
+                {
+                    throw t.Exception;
+                }
+
+                return true;
             });
         }
         #endregion
@@ -2837,6 +3110,80 @@ namespace RTCareerAsk.DAL
                 });
         }
 
+        public async Task<IEnumerable<AVObject>> LoadAllNotifications()
+        {
+            return await AVObject.GetQuery("History")
+                .Include("forUser")
+                .Limit(300)
+                .FindAsync()
+                .ContinueWith(t =>
+                    {
+                        if (t.IsFaulted || t.IsCanceled)
+                        {
+                            throw t.Exception;
+                        }
+
+                        return t.Result;
+                    });
+        }
+
+        public async Task<bool> ModifyAlertInfoForHistory(AVObject ntfn)
+        {
+            AVObject hist = new AVObject("History");
+            int type = ntfn.Get<int>("type");
+
+            if (type != 6)
+            {
+                string nameStrFirst = ntfn.Get<string>("nameString").Split(';').First();
+                string infoStrFirst = ntfn.Get<string>("infoString").Split(';').First();
+
+                hist.Add("from", AVUser.CreateWithoutData("_User", infoStrFirst) as AVUser);
+
+                if (type == 7)
+                {
+                    ntfn["nameString"] = string.Empty;
+                    ntfn["infoString"] = string.Empty;
+                }
+                else
+                {
+                    ntfn["nameString"] = ntfn.Get<string>("nameString").Replace(nameStrFirst + ";", "");
+                    ntfn["infoString"] = ntfn.Get<string>("infoString").Replace(infoStrFirst + ";", "");
+                }
+            }
+
+            hist.Add("forUser", ntfn.Get<AVUser>("forUser"));
+            hist.Add("nameString", ntfn.Get<string>("nameString"));
+            hist.Add("infoString", ntfn.Get<string>("infoString"));
+            hist.Add("isNew", ntfn.Get<bool>("isNew"));
+            hist.Add("type", ntfn.Get<int>("type"));
+
+            return await hist.SaveAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                });
+        }
+
+        public async Task<int> GetFollowerAndFolloweeCount(string userId)
+        {
+            AVQuery<AVUser> query = (AVUser.CreateWithoutData("_User", userId) as AVUser).GetFollowersAndFolloweesQuery();
+
+            return await query.CountAsync().ContinueWith(t =>
+                {
+                    if (t.IsFaulted || t.IsCanceled)
+                    {
+                        throw t.Exception;
+                    }
+
+                    return t.Result;
+                });
+        }
         #endregion
 
         #region Helper
@@ -2894,7 +3241,6 @@ namespace RTCareerAsk.DAL
         #endregion
 
         #region Trunk
-
         /// <summary>
         /// 查找所有的提问。
         /// </summary>
@@ -3150,6 +3496,84 @@ namespace RTCareerAsk.DAL
 
         //            return answers;
         //        });
+        //}
+        /// <summary>
+        /// 通过问题ID查找答案。
+        /// </summary>
+        /// <param name="userId">提出请求的用户ID</param>
+        /// <param name="questionId">问题ID</param>
+        /// <returns>问题下所有回答</returns>
+        //public async Task<IEnumerable<Answer>> FindAnswersByQuestion(string userId, string questionId)
+        //{
+        //    try
+        //    {
+        //        return await AVObject.GetQuery("Answer")
+        //            .Include("createdBy")
+        //            .WhereEqualTo("forQuestion", AVObject.CreateWithoutData("Post", questionId))
+        //            .OrderByDescending("voteDiff")
+        //            .FindAsync()
+        //            .ContinueWith(t =>
+        //            {
+        //                if (t.IsFaulted || t.IsCanceled)
+        //                {
+        //                    throw t.Exception;
+        //                }
+
+        //                return GetAnswersWithComments(userId, t.Result);
+        //            }).Unwrap();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+        /// <summary>
+        /// 读取用户的粉丝。
+        /// </summary>
+        /// <param name="userId">用户</param>
+        /// <returns>所有粉丝信息</returns>
+        //public async Task<IEnumerable<User>> GetFollowers(string userId)
+        //{
+        //    return await (AVUser.CreateWithoutData("_User", userId) as AVUser).GetFollowers().ContinueWith(t =>
+        //    {
+        //        if (t.IsFaulted || t.IsCanceled)
+        //        {
+        //            throw t.Exception;
+        //        }
+
+        //        List<User> followers = new List<User>();
+
+        //        foreach (AVUser follower in t.Result)
+        //        {
+        //            followers.Add(new User(follower.Get<AVUser>("follower")));
+        //        }
+
+        //        return followers;
+        //    });
+        //}
+        /// <summary>
+        /// 读取用户的关注。
+        /// </summary>
+        /// <param name="userId">用户</param>
+        /// <returns>所有关注对象信息</returns>
+        //public async Task<IEnumerable<User>> GetFollowees(string userId)
+        //{
+        //    return await (AVUser.CreateWithoutData("_User", userId) as AVUser).GetFollowees().ContinueWith(t =>
+        //    {
+        //        if (t.IsFaulted || t.IsCanceled)
+        //        {
+        //            throw t.Exception;
+        //        }
+
+        //        List<User> followees = new List<User>();
+
+        //        foreach (AVUser followee in t.Result)
+        //        {
+        //            followees.Add(new User(followee.Get<AVUser>("followee")));
+        //        }
+
+        //        return followees;
+        //    });
         //}
         #endregion
     }

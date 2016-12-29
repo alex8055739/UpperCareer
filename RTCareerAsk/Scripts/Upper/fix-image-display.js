@@ -60,7 +60,6 @@ function Resize() {
         });
 
     $(document).on('click','.resized',function (e) {
-        //$('.resized').click(function (e) {
         e.preventDefault();
         var $this = $(this),
             src = $this.attr('src'),

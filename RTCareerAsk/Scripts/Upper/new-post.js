@@ -50,7 +50,9 @@ function OnCmtSuccess(ansId) {
 
 function OnPostComplete() { }
 
-function OnAnsComplete() { }
+function OnAnsComplete() {
+    $('#divAnsForm').find('button[type="submit"]').removeClass('disabled');
+}
 
 function OnCmtComplete() {
     UpdateCmtCount();

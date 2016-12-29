@@ -15,29 +15,16 @@ function FileDropped(e) {
     e.stopPropagation();
     e.preventDefault();
     $(e.target).parent().removeClass('file-hover').removeClass('file-await');
+    var file = e.originalEvent.dataTransfer.files[0];
 
-    if (window.File && window.FileReader && window.FileList && window.Blob) {
-        var files = e.originalEvent.dataTransfer.files;
-
-        for (var i = 0; i < files.length; i++) {
-            if (!files[i].type.match('image.*')) {
-                continue;
-            }
-
-            reader = new FileReader();
-            reader.onload = (function (tFile) {
-                return function (e) {
-                    $('#divDropTarget').html('<img id="imgPortraitPreview" style="width: 100% ;" src="' + e.target.result + '" />');
-                    ResizePortrait();
-                    CropPortrait();
-                };
-            }(files[i]));
-            reader.readAsDataURL(files[i]);
+    PreviewPic(file, {
+        previewTarget: '#divDropTarget',
+        imgId: 'imgPortraitPreview',
+        postAction: function () {
+            ResizePortrait();
+            CropPortrait();
         }
-    }
-    else {
-        alert('此浏览器不支持文件预览');
-    }
+    })
 }
 
 function ResizePortrait() {
@@ -99,6 +86,32 @@ $(document).ready(function () {
     dropTarget.on('dragover', DragOver);
     dropTarget.on('dragleave', DragLeave);
     dropTarget.on('drop', FileDropped);
+
+    $('#inpPortraitFile').on('change', function (e) {
+        var file = e.target.files[0];
+
+        PreviewPic(file, {
+            previewTarget: '#divDropTarget',
+            imgId: 'imgPortraitPreview',
+            postAction: function () {
+                ResizePortrait();
+                CropPortrait();
+            }
+        })
+        $('a.drop-area').removeClass('file-hover').removeClass('file-await')
+    });
+
+    $('a.drop-area').click(function (e) {
+        e.preventDefault();
+        if ($('#imgPortraitPreview').length == 0) {
+            $('#inpPortraitFile').trigger('click')
+        }
+    });
+
+    $('#btnReselect').click(function (e) {
+        e.preventDefault();
+        $('#inpPortraitFile').trigger('click')
+    });
 
     $('#btnUpload').click(function () {
         var btn = $(this);
