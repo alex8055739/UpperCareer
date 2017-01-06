@@ -15,6 +15,7 @@
                         <span>回答</span>
                     </div>
                     <div class="section text">
+                        @Html.ActionLink(q.Title, "QuestionDetail", "Question", new { id = q.ID }, new { style = "font-size:16px" })
                         @Html.UpperAuthor(q.Creator.Name, q.CreateBefore)
                     </div>
                 </div>
