@@ -2681,7 +2681,7 @@ namespace RTCareerAsk.DAL
 
         public async Task<SearchResult> SearchByKeywordStupid(string keyword)
         {
-            int resultLimitPerCategory = 1000;
+            int resultLimitPerCategory = 10;
             string regexStr = ParseSearchConditionRegex(keyword);
 
             List<Task<IEnumerable<AVObject>>> searchTasks = new List<Task<IEnumerable<AVObject>>>();

@@ -672,12 +672,12 @@
     <None Include="Properties\PublishProfiles\Host.pubxml" />
     <None Include="Properties\PublishProfiles\QCloud.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Images\defaultPortrait.png" />
     <Content Include="Images\error.png" />
     <Content Include="Images\QRCode.png" />
     <Content Include="Images\spin.gif" />
     <Content Include="Images\post.png" />
     <Content Include="Images\notification.png" />
-    <Content Include="Images\defaultPortrait.png" />
     <Content Include="Images\upper-logo.ico" />
     <Content Include="Images\wx_pic.png" />
     <Content Include="Scripts\Blob.js" />

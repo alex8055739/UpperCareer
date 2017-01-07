@@ -31,7 +31,6 @@ namespace RTCareerAsk.Controllers
             }
         }
 
-        [HttpPost]
         [UpperResult]
         public async Task<ActionResult> SearchResults(string keyword)
         {

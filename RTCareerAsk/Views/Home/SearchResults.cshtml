@@ -4,15 +4,24 @@
 <div style="max-width: 700px" class="centered clear-fix">
     <h4 style="margin-left: 15px">为您找到<span class="marked-number">@Model.ResultCount</span>条与<span class="marked-number">@(Model.Keyword)</span>有关的结果</h4>
     <div id="divQuestionResults" style="border-top: 1px solid #cccccc">
-        <h5 style="margin: 15px 15px -15px;">相关问题</h5>
-        <div>
+        <h5 style="margin: 15px 15px 15px"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;相关问题</h5>
+        <div style="border-top: 1px solid #f1f1f1">
             @Html.Partial("_QuestionList", Model.QuestionResults)
         </div>
     </div>
-    <div id="divUserResults" style="border-top: 1px solid #f1f1f1">
-        <h5 style="margin: 15px 15px -15px">相关用户</h5>
-        <div>
+    <div id="divUserResults">
+        <h5 style="margin: 15px 15px 15px"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;相关用户</h5>
+        <div style="border-top: 1px solid #f1f1f1">
             @Html.Partial("_UserTagList", Model.UserResults)
         </div>
     </div>
+    <h6 style="margin-left: 15px">对搜索结果不满意？请参考 @Html.ActionLink("搜索功能说明", "AnswerDetail", "Question", new { id = "587095cc128fe10058198f86" }, null)</h6>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //alert('ready');
+        var keyword = $('input[name="Keyword"]').val();
+        //alert(keyword);
+        $('li').text()
+    });
+</script>
