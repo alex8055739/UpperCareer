@@ -157,7 +157,7 @@ function RemoveHtml(originString) {
 function TriggerLoginModal() {
     var data = new Object();
 
-    data.returnUrl = window.location.pathname;
+    data.returnUrl = window.location.href;
 
     $.ajax({
         type: "POST",
