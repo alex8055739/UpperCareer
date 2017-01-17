@@ -90,14 +90,14 @@
 </div>
 
 @section scripts{
-    @Scripts.Render("~/bundles/homepage")
+    @Scripts.Render("~/bundles/content-list")
 }
 
 @section featured{
-    <div style="max-width: 700px; padding: 0 10px;" class="centered clear-fix">
+    <div class="billboard centered clear-fix">
         <div class="alert alert-dismissible alert-info">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Heads up!</strong> This <a href="#" class="alert-link">alert needs your attention</a>, but it's not super important.
+            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Billboard))
         </div>
     </div>
     @*<div style="max-width: 700px; margin: 0 auto; background-color: #f7f7f7">
