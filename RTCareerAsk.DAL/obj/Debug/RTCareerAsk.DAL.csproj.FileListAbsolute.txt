@@ -33,3 +33,4 @@ C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Debug\Le
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\bin\Debug\LeanCloud.NetFx45.xml
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\obj\Debug\RTCareerAsk.DAL.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\obj\Debug\RTCareerAsk.DAL.pdb
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk.DAL\obj\Debug\RTCareerAsk.DAL.csprojResolveAssemblyReference.cache
