@@ -152,7 +152,7 @@ namespace RTCareerAsk.Controllers
 
                 CommentModel result = await HomeDa.SaveCommentForFeedAnswer(model);
 
-                return PartialView("_FeedCommentDetail", result);
+                return PartialView("_FeedCommentDetail", SetFlagsForActions(result));
             }
             catch (Exception e)
             {

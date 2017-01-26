@@ -23,11 +23,11 @@
 <ul class="article-comment-list" data-targetarticle="@(Model.Count() > 0 ? Model.First().ForArticleID : string.Empty)">
     @foreach (RTCareerAsk.Models.ArticleCommentModel acmt in Model)
     {
-        <li style="position: relative">
-            <div style="margin-bottom: 10px">
+        <li>
+            <div class="header">
                 @Html.UpperNameTag(acmt.Creator)
             </div>
-            <div style="position: absolute; top: 10px; right: 10px;">
+            <div class="action">
                 @if (acmt.IsDeleteAllowed)
                 {
                     <button id="btnDelCmt" class="cmt-delete btn btn-danger outline btn-xs @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" data-target="@acmt.ID" data-article="@acmt.ForArticleID">删除</button>
@@ -37,7 +37,7 @@
                     <button id="btnReplyCmt" class="cmt-reply btn btn-default btn-xs @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" data-target="@acmt.ForArticleID" data-authorid="@acmt.Creator.UserID" data-name="@acmt.Creator.Name">回复</button>
                 }
             </div>
-            <div style="color: #888888; margin-left: 37.5px; font-size: 14px">
+            <div class="body">
                 <p>@Html.Raw(HttpUtility.HtmlDecode(acmt.Content))</p>
             </div>
         </li>

@@ -324,6 +324,13 @@ namespace RTCareerAsk.Controllers
             return models.ToList();
         }
 
+        protected CommentModel SetFlagsForActions(CommentModel model)
+        {
+            model.IsDeleteAllowed = model.Creator.UserID == GetUserID();
+
+            return model;
+        }
+
         protected List<SelectListItem> GetFieldList()
         {
             return new List<SelectListItem>()

@@ -83,7 +83,7 @@ $(document).ready(function () {
         textbox.focus();
     });
 
-    $(document).on('click', '.feed-comment .btn', function (e) {
+    $(document).on('click', '.feed-comment .text .btn', function (e) {
         e.preventDefault();
 
         var $this = $(this),
@@ -103,7 +103,10 @@ $(document).ready(function () {
             contentType: 'application/json',
             dataType: "html",
             success: function (result) {
+                result = $(result.trim());
+                result.hide();
                 $this.closest('.feed-comment').find('ul').prepend(result);
+                result.slideDown('slow');
                 textbox.html('');
                 UpdateAnswerCmtCount(data.answerid, true);
             },
@@ -112,5 +115,20 @@ $(document).ready(function () {
                 DisplayCommentError(json.errorMessage);
             }
         });
+    });
+
+    $(document).on('click', '.feed-comment a[id^="btnCmtRply"]', function (e) {
+        e.preventDefault();
+
+        var $this = $(this),
+            data = $this.data(),
+            placeholder = $this.closest('.feed-comment').find('.placeholder'),
+            textbox = $this.closest('.feed-comment').find('.textbox'),
+            submitBtn = $this.closest('.feed-comment').find('.text .btn'),
+            prefixText = '回复 ' + data.targetname + ':&nbsp;';
+
+        textbox.html(prefixText);
+        submitBtn.data('notifyuserid', data.targetid);
+        placeholder.hide();
     });
 });

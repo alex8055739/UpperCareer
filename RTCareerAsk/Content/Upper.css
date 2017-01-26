@@ -186,6 +186,7 @@ a {
 
     .feed-comment > .input {
         position: fixed;
+        bottom: 0;
         padding: 5px 18px 5px;
         width: 100%;
         z-index: 10;
@@ -226,11 +227,21 @@ a {
         position: relative;
     }
 
-        .feed-comment > .list li > .header {
+        .feed-comment > .list li {
+            position: relative;
         }
 
-        .feed-comment > .list li > .body {
-        }
+            .feed-comment > .list li > .header {
+            }
+
+            .feed-comment > .list li > .body {
+            }
+
+            .feed-comment > .list li > .action {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+            }
 
 .content-info {
     background-color: #ffffff;
@@ -550,12 +561,29 @@ a {
 }
 
     .article-comment-list > li {
+        position: relative;
         padding: 15px 0;
         border-bottom: 1px solid #eeeeee;
     }
 
         .article-comment-list > li:last-child {
             border-bottom: none;
+        }
+
+        .article-comment-list > li > .header {
+            margin-bottom: 10px;
+        }
+
+        .article-comment-list > li > .body {
+            color: #888888;
+            margin-left: 37.5px;
+            font-size: 14px;
+        }
+
+        .article-comment-list > li > .action {
+            position: absolute;
+            top: 10px;
+            right: 10px;
         }
 
 .question-detail {

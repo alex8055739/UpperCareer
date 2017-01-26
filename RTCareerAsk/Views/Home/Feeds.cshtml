@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<RTCareerAsk.Models.FeedModel>
 
-@Html.Partial("_FeedsPartial", Model);
+<div class="feed-list centered">
+    @Html.Partial("_FeedsPartial", Model)
+</div>
 
 @section scripts{
     @Scripts.Render("~/bundles/feeds")

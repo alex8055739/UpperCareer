@@ -31,10 +31,10 @@
 
         $this.after(loader)
 
-        $(window).off('scroll');
+        //$(window).off('scroll');
 
         $(window).scroll(function () {
-            if ($this.find(config.itemSelector).length == 0) {
+            if ($this.find(config.itemSelector).length == 0 || $this.is(':hidden')) {
                 return;
             }
 
