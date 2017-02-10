@@ -57,6 +57,13 @@
                         &nbsp;太水(<span class="count">@Model.VoteNegative</span>)
                     </a>
                 </li>
+                @if (IsAdmin)
+                {
+                    <li>
+                        <a href="#" class="recommand-feed" data-id="@Model.ID" data-type="80">推荐到动态
+                        </a>
+                    </li>
+                }
             </ul>
         </div>
     </div>

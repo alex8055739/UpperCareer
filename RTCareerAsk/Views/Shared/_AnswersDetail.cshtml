@@ -53,6 +53,7 @@
                         @if (IsAdmin)
                         {
                             <span>@Html.ActionLink("引用", "Compose", "Article", new { id = a.ID }, new { })</span>
+                            <span><a href="#" class="recommand-feed" data-id="@a.ID" data-type="50">推荐到动态</a></span>
                         }
                     </div>
                     <div class="float-right">

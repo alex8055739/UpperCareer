@@ -126,5 +126,24 @@ namespace RTCareerAsk.PLtoDA
         {
             await LCDal.PerformVote(v.CreateVote());
         }
+
+        public async Task CreateRecommendedFeeds(string id, int type)
+        {
+            UpperInfoBaseDomain content;
+
+            switch (type)
+            {
+                case 50:
+                    content = await LCDal.LoadAnswerForFeed(id);
+                    break;
+                case 80:
+                    content = await LCDal.LoadQuestionForFeed(id);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("此构建函数仅支持指定类型提醒记录，输入类型：" + type.ToString());
+            }
+
+            await LCDal.CreateNotification(new History(content.CreatedBy.ObjectID, type, content.Title, id));
+        }
     }
 }

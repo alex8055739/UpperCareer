@@ -349,6 +349,26 @@ $(document).ready(function () {
         $('#btnWrtCmt' + ansId).text('评一下');
     });
 
+    $(document).on('click', '.recommand-feed', function (e) {
+        e.preventDefault();
+        if (confirm('推荐到动态？')) {
+            var data = $(this).data();
+
+            $.ajax('/Question/RecommandContentToFeed', {
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (response) {
+                    DisplaySuccessInfo('已将内容推荐到动态！');
+                },
+                error: function (xhr) {
+                    var json = $.parseJSON(xhr.responseText);
+                    DisplayErrorInfo(json.errorMessage);
+                }
+            });
+        }
+    });
+
     $(document).on('delSuccess', function (e, data) {
         switch (data.type) {
             case 1:

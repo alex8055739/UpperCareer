@@ -293,6 +293,21 @@ namespace RTCareerAsk.Controllers
             }
         }
 
+        [HttpPost]
+        [UpperJsonExceptionFilter]
+        public async Task RecommandContentToFeed(string id, int type)
+        {
+            try
+            {
+                await QuestionDa.CreateRecommendedFeeds(id, type);
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
         [UpperResult]
         [HttpPost]
         [UpperJsonExceptionFilter]

@@ -40,7 +40,9 @@ namespace RTCareerAsk.App_DLL
         LikedQstn = 1,
         LikedAns,
         Answered = 5,
-        QuestionPosted = 8
+        QuestionPosted = 8,
+        AnswerRecommand = 50,
+        QuestionRecommand = 80
     }
 
     public enum SearchModelType

@@ -1630,6 +1630,7 @@ namespace RTCareerAsk.DAL
         {
             int pageCapacity = 20;
             int[] allowedType = { 1, 2, 5, 8 };
+            int[] preservedType = { 50, 80 };
 
             List<AVUser> followees = await (AVUser.CreateWithoutData("_User", userId) as AVUser)
                 .GetFollowees()
@@ -1645,11 +1646,12 @@ namespace RTCareerAsk.DAL
 
             #region CQL
 
-            string cqlString = "select include from, include forUser, * from History where from in ({0}) and forUser != {1} and type in ({2}) limit {3} order by createdAt desc";
+            string cqlString = "select include from, include forUser, * from History where from in ({0}) and forUser != {1} and type in ({2}) or type in ({3}) limit {4} order by createdAt desc";
             string selfStr = string.Format("pointer('_User','{0}')", userId);
             string resultLimitStr = string.Format("{0},{1}", pageIndex * pageCapacity, pageCapacity);
             string followeeStr = "";
             string allowedTypeStr = "";
+            string preservedTypeStr = "";
 
             for (int i = 0; i < followees.Count; i++)
             {
@@ -1671,7 +1673,17 @@ namespace RTCareerAsk.DAL
                 }
             }
 
-            cqlString = string.Format(cqlString, followeeStr, selfStr, allowedTypeStr, resultLimitStr);
+            for (int i = 0; i < preservedType.Count(); i++)
+            {
+                preservedTypeStr += preservedType[i].ToString();
+
+                if (i < preservedType.Count() - 1)
+                {
+                    preservedTypeStr += ",";
+                }
+            }
+
+            cqlString = string.Format(cqlString, followeeStr, selfStr, allowedTypeStr, preservedTypeStr, resultLimitStr);
 
             return await AVQuery<AVObject>.DoCloudQuery(cqlString)
                 .ContinueWith(t =>

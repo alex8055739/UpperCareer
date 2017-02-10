@@ -59,11 +59,6 @@ namespace RTCareerAsk.DAL.Domain
 
         private void GenerateNotificationObject(string userId, int type, string nameString, string infoString)
         {
-            if (type < 5 || type > 8)
-            {
-                throw new ArgumentOutOfRangeException("此构建函数仅支持指定类型提醒记录，输入类型：" + type.ToString());
-            }
-
             switch (type)
             {
                 case 6:
@@ -76,6 +71,8 @@ namespace RTCareerAsk.DAL.Domain
                     FromUser = new User() { ObjectID = infoString };
                     break;
                 case 8:
+                case 50:
+                case 80:
                     FromUser = new User() { ObjectID = userId };
                     CompoundNameString = nameString;
                     CompoundInfoString = infoString;

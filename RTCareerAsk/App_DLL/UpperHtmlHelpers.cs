@@ -389,11 +389,13 @@ namespace RTCareerAsk.App_DLL
                     body.InnerHtml = html.Partial("_AnswerFeed", model.Content as AnswerInfoModel).ToString();
                     break;
                 case FeedType.Answered:
+                case FeedType.AnswerRecommand:
                     p.InnerHtml += string.Format("回答 · {0} · {1}", link.ToString(), model.DateCreate);
                     title.MergeAttribute("href", UrlHelper.GenerateUrl(null, "AnswerDetail", "Question", new RouteValueDictionary(new { id = model.Content.ID }), html.RouteCollection, html.ViewContext.RequestContext, true));
                     body.InnerHtml = html.Partial("_AnswerFeed", model.Content as AnswerInfoModel).ToString();
                     break;
                 case FeedType.QuestionPosted:
+                case FeedType.QuestionRecommand:
                     p.InnerHtml += string.Format("提问 · {0} · {1}", link.ToString(), model.DateCreate);
                     title.MergeAttribute("href", UrlHelper.GenerateUrl(null, "QuestionDetail", "Question", new RouteValueDictionary(new { id = model.Content.ID }), html.RouteCollection, html.ViewContext.RequestContext, true));
                     body.InnerHtml = html.Partial("_QuestionFeed", model.Content as QuestionInfoModel, new ViewDataDictionary { { "FeedId", model.ID } }).ToString();

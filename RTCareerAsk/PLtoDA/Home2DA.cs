@@ -83,10 +83,12 @@ namespace RTCareerAsk.PLtoDA
             {
                 case 1:
                 case 8:
+                case 80:
                     result.Content = await LCDal.LoadQuestionForFeed(hsty.ReadInfoStringByIndex(0)).ContinueWith(t => new QuestionInfoModel(t.Result));
                     break;
                 case 2:
                 case 5:
+                case 50:
                     result.Content = await LCDal.LoadAnswerForFeed(hsty.ReadInfoStringByIndex(0)).ContinueWith(t => new AnswerInfoModel(t.Result));
                     break;
                 default:
