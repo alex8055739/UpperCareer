@@ -6,7 +6,7 @@
 
 @foreach (RTCareerAsk.Models.CommentModel c in Model)
 {
-    <div id="@string.Format("blkCmt{0}", c.ID)" class="box">
+    <li id="@string.Format("liCmtBlk{0}", c.ID)" class="box">
         <div class="body">
             <div class="left">
                 @Html.UpperPortrait(c.Creator.Portrait, PortraitSize.Small)
@@ -29,5 +29,5 @@
                 <a id="@string.Format("btnCmtRply{0}", c.Creator.UserID)" class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" href="#">回复</a>
             }
         </div>
-    </div>
+    </li>
 }

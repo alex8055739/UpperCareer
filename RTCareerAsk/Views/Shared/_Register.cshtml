@@ -31,13 +31,13 @@
                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "请确认密码" })
             </div>
         </div>
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(m => m.InviteCode, new { @class = "col-lg-2 control-label" })
             <div class="col-lg-10">
                 @Html.TextBoxFor(m => m.InviteCode, new { @class = "form-control", placeholder = "请输入邀请码" })
                 <span class="help-block">@Html.ActionLink("如何获取邀请码？", "Detail", "Article", new { id = "58352719880741006cfd4ac7" }, new { target = "_blank" })</span>
             </div>
-        </div>
+        </div>*@
         <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
                 <input type="submit" class="btn btn-success btn-block" value="同意用户协议并注册" />

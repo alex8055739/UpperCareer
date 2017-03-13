@@ -1,4 +1,4 @@
-﻿@model RTCareerAsk.Models.AnswerModel
+﻿@model AnswerModel
 
 @{
     bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
@@ -51,7 +51,7 @@
     {
         <div id="@string.Format("divCmtForm{0}", Model.ID)" class="collapse">
             <div class="clearfix">
-                @Html.Partial("_CommentForm", new RTCareerAsk.Models.CommentPostModel() { AnswerID = Model.ID, AuthorID = Model.Creator.UserID, QuestionTitle = Model.ForQuestion.Title })
+                @Html.Partial("_CommentForm", new CommentPostModel() { AnswerID = Model.ID, AuthorID = Model.Creator.UserID, QuestionTitle = Model.ForQuestion.Title })
             </div>
         </div>
     }

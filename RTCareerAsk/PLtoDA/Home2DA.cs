@@ -108,6 +108,22 @@ namespace RTCareerAsk.PLtoDA
             return await LCDal.SaveNewFeedComment(model.CreatePostForSave()).ContinueWith(t => new CommentModel(t.Result));
         }
 
+        public async Task<List<UserRecommandationModel>> LoadRecommandedUsers(string userId)
+        {
+            List<UserRecommandationModel> results = new List<UserRecommandationModel>();
+            IEnumerable<UserRecommand> userRecommanded = await LCDal.LoadRecommandedUsers(userId, 5);
+
+            List<Task> tUpdateResult = userRecommanded.Select(x => LCDal.BuildUserTag(userId, x.ForUser).ContinueWith(t =>
+            {
+                x.ForUser = t.Result;
+                results.Add(new UserRecommandationModel(x));
+            })).ToList();
+
+            await Task.WhenAll(tUpdateResult.ToArray());
+
+            return results;
+        }
+
         #region Trunk
 
         //public async Task<List<QuestionInfoModel>> GetQuestionInfoModels(int id = 1)

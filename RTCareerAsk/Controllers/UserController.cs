@@ -128,5 +128,44 @@ namespace RTCareerAsk.Controllers
         {
             return PartialView("_UserInfoTooltip", await UserDa.LoadUserTag(GetUserID(), userId));
         }
+
+        [HttpPost]
+        [UpperJsonExceptionFilter]
+        public async Task<PartialViewResult> CreateUserRecommandModal(string id)
+        {
+            try
+            {
+                bool hasExisted = await UserDa.CheckIfUserRecommanded(id);
+
+                ViewBag.Message = hasExisted ? "该用户已被推荐，请输入要更新用户介绍：" : "该用户还未被推荐过，请给出给出用户介绍：";
+                ViewBag.UserId = id;
+                ViewBag.IsUpdate = hasExisted;
+
+                return PartialView("_RecommandUser");
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        [UpperJsonExceptionFilter]
+        public async Task RecommandUser(bool isUpdate, string id, string intro)
+        {
+            try
+            {
+                if (!await UserDa.SaveOrUpdateRecommandation(isUpdate, id, intro))
+                {
+                    throw new InvalidOperationException("操作未能成功，请重新尝试");
+                }
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null) e = e.InnerException;
+                throw e;
+            }
+        }
     }
 }

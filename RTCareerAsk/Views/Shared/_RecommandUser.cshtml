@@ -1,0 +1,13 @@
+﻿<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="modal-body">
+        <p>@ViewBag.Message</p>
+        <textarea id="txtIntro" style="display: block; width: 100%" maxlength="50" name="intro" rows="3" placeholder="请输入用户介绍信息，最多50字" />
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success recommand" data-id="@ViewBag.UserId" data-isUpdate="@ViewBag.IsUpdate">推荐</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+    </div>
+</div>

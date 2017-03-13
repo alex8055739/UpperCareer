@@ -15,19 +15,29 @@ namespace RTCareerAsk.Controllers
     public class QuestionController : UpperBaseController
     {
         [UpperResult]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int id = 0)
         {
             try
             {
                 Task<string> tBillboardInfo = LoadAlertInfo("billboard");
-                Task<List<AnswerInfoModel>> tModel = QuestionDa.LoadAnswerListByPage(0, 4);
+                Task<IEnumerable<UpperInfoBaseModel>> tModel;
+
+                if (id != 0)
+                {
+                    ViewBag.QuestionList = true;
+                    tModel = QuestionDa.LoadQuestionListByPage(0, 2).ContinueWith(t => t.Result.Select(x => x as UpperInfoBaseModel));
+                }
+                else
+                {
+                    tModel = QuestionDa.LoadAnswerListByPage(0, 4).ContinueWith(t => t.Result.Select(x => x as UpperInfoBaseModel));
+                }
 
                 await Task.WhenAll(AutoLogin(), UpdateNewMessageCount(), tBillboardInfo, tModel);
 
                 ViewBag.Title = GeneralTitle;
                 ViewBag.Billboard = tBillboardInfo.Result;
 
-                return View(tModel.Result);
+                return View(tModel.Result.Select(x => x as UpperInfoBaseModel));
             }
             catch (Exception e)
             {
@@ -62,10 +72,19 @@ namespace RTCareerAsk.Controllers
             try
             {
                 Task<AnswerModel> tModel = QuestionDa.GetAnswerModel(HasUserInfo ? GetUserID() : string.Empty, id);
-                await Task.WhenAll(AutoLogin(), UpdateNewMessageCount(), tModel);
+                Task<SideContentModel> tAlternativeAnswers = QuestionDa.GetRelatedAnswers(id);
+                Task<UserDetailModel> tAuthorInfo = QuestionDa.GetAuthorInfo(HasUserInfo ? GetUserID() : string.Empty, id);
+
+                await Task.WhenAll(AutoLogin(), UpdateNewMessageCount(), tModel, tAlternativeAnswers, tAuthorInfo);
 
                 AnswerModel model = SetFlagsForActions(tModel.Result);
                 ViewBag.Title = GenerateTitle(string.Format("{0} - {1}的回答", model.ForQuestion.Title, model.Creator.Name));
+                ViewBag.AuthorInfo = tAuthorInfo.Result;
+
+                if (tAlternativeAnswers.Result != null && tAlternativeAnswers.Result.InfoList.Count > 0)
+                {
+                    ViewBag.AlternativeAnswers = tAlternativeAnswers.Result;
+                }
 
                 return View(model);
             }

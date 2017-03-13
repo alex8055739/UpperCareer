@@ -4,16 +4,45 @@
     bool isFromRegister = ViewBag.FromRegister != null ? Convert.ToBoolean(ViewBag.FromRegister) : false;
 }
 
-<ul class="nav nav-tabs" style="max-width: 600px; margin: 0 auto;">
+@section frontline{
+    <div class="login-header">
+        <div class="shade">
+            <div class="container">
+                <div class="centered" style="max-width: 600px; color: #fff; text-align: center; margin-top: -30px">
+                    <p style="font-size: 3em; font-weight: 600; line-height: 1">
+                        <span>尚</span>
+                        <span style="color: #70BF40;">职</span>
+                    </p>
+                    <p style="color: #fff; font-size: 1.1em; font-weight: 400; margin-bottom: 1.5em">
+                        upper<span style="color: #70BF40;">career</span>.cn
+                    </p>
+                    <ul style="-webkit-padding-start: 0">
+                        <li>
+                            <p>真实的职场知识、经验、见解分享社区</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@*<script>
+    $(document).ready(function () {
+        alert(navigator.platform);
+    })
+</script>*@
+
+<ul class="nav nav-tabs" style="max-width: 600px; margin: 0 auto; display: flex; justify-content: center">
     @if (ViewBag.FromRegister != null && Convert.ToBoolean(ViewBag.FromRegister))
     {
-        <li id="tabLogin" class=""><a href="#divLoginForm" data-toggle="tab" aria-expanded="true">登录</a></li>
-        <li id="tabRegi" class="active"><a href="#divRegister" data-toggle="tab" aria-expanded="false">注册</a></li>
+        <li id="tabLogin" class="" style="width: 30%; text-align: center"><a href="#divLoginForm" data-toggle="tab" aria-expanded="true">登录</a></li>
+        <li id="tabRegi" class="active" style="width: 30%; text-align: center"><a href="#divRegister" data-toggle="tab" aria-expanded="false">注册</a></li>
     }
     else
     {
-        <li id="tabLogin" class="active"><a href="#divLoginForm" data-toggle="tab" aria-expanded="true">登录</a></li>
-        <li id="tabRegi" class=""><a href="#divRegister" data-toggle="tab" aria-expanded="false">注册</a></li>
+        <li id="tabLogin" class="active" style="width: 30%; text-align: center"><a href="#divLoginForm" data-toggle="tab" aria-expanded="true">登录</a></li>
+        <li id="tabRegi" class="" style="width: 30%; text-align: center"><a href="#divRegister" data-toggle="tab" aria-expanded="false">注册</a></li>
     }
 </ul>
 
@@ -25,6 +54,8 @@
         @Html.Partial("_Register", Model.Register)
     </div>
 </div>
+
+
 @*<section class="social" id="socialLoginForm">
     <h2>Use another service to log in.</h2>
     @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })

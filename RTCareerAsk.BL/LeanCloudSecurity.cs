@@ -29,5 +29,10 @@ namespace RTCareerAsk.BL
 
             return false;
         }
+
+        public static async Task<bool> CreateUserAndAccountWithoutInviteCode(User u)
+        {
+            return await LCDal.RegisterUser(u);
+        }
     }
 }

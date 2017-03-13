@@ -90,7 +90,7 @@ namespace RTCareerAsk.Models
         [Compare("Password", ErrorMessage = "密码输入不一致")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "邀请码")]
         public string InviteCode { get; set; }
 

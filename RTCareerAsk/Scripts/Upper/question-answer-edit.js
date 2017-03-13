@@ -59,17 +59,19 @@ function DeleteAnsSuccess(id) {
 }
 
 function DeleteCmtSuccess(id) {
-    var $this = $('#btnCmtDel' + id),
-        cmtBlock = $('#blkCmt' + id);
+    var cmtBlock = $('#liCmtBlk' + id),
+        cmtCountSpan = cmtBlock.closest('.body').find('.CmtCount > span');
 
     DisplaySuccessInfo('成功删除评论！');
     cmtBlock.fadeOut('slow');
-    if ($this.closest('.body').find('.CmtCount > span').html()) {
-        var count = parseInt($this.closest('.body').find('.CmtCount > span').html().replace('(', '').replace(')', '')) - 1;
-        $this.closest('.body').find('.CmtCount > span').html('(' + count + ')');
+    //For QuestionDetail page.
+    if (cmtCountSpan.html()) {
+        var count = parseInt(cmtCountSpan.html().replace('(', '').replace(')', '')) - 1;
+        cmtCountSpan.html('(' + count + ')');
     }
+    //For AnswerDetail page.
     else if ($('span.cmt-count')) {
-        var count = $('span.cmt-count').parent().siblings('div[id^="divCmtList"]').first().children('div[id^="blkCmt"]:visible').length - 1;
+        var count = $('span.cmt-count').parent().siblings('ul[id^="ulCmtList"]').first().children('li[id^="liCmtBlk"]:visible').length - 1;
         $('span.cmt-count').text(count);
     }
 }
@@ -149,14 +151,14 @@ $(document).ready(function () {
 
     $(document).on('click', 'a[id^="btnCmtRply"]', function (e) {
         e.preventDefault();
-        var ansId = $(this).closest('div[id^="divCmtList"]').attr('id').replace('divCmtList', '');
+        var ansId = $(this).closest('ul[id^="ulCmtList"]').attr('id').replace('ulCmtList', '');
 
         if ($(this).text() == '收起回复') {
             $('#divCmtForm' + ansId).collapse('hide');
             $(this).text('回复');
         }
         else {
-            $(this).closest('div[id^="divCmtList"]').find('a[id^="btnCmtRply"]').text('回复');
+            $(this).closest('div[id^="ulCmtList"]').find('a[id^="btnCmtRply"]').text('回复');
             $('#btnWrtCmt' + ansId).text('评一下');
 
             var replyToId = $(this).attr('id').replace('btnCmtRply', ''),
@@ -181,7 +183,7 @@ $(document).ready(function () {
                 prefixText = '';
 
             ActivateCmtForm(ansId, null, prefixText, appendTarget);
-            $('#divCmtList' + ansId).find('a[id^="btnCmtRply"]').text('回复');
+            $('#ulCmtList' + ansId).find('a[id^="btnCmtRply"]').text('回复');
             $(this).text('收起评论');
         }
     });

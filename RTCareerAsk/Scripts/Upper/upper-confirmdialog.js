@@ -25,6 +25,8 @@
         config.url = targetUrl;
 
         this.each(function (i) {
+            $(this).off('click');
+
             $(this).on('click', function () {
                 var data = $(this).data();
 
@@ -68,6 +70,8 @@
         //        }
         //    })
         //});
+
+        modal.off('click', '.btn-ok');
 
         modal.on('click', '.btn-ok', function (e) {
             var data = $(this).data(),

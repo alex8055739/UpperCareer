@@ -147,15 +147,15 @@ namespace RTCareerAsk.Controllers
                 {
                     //WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     //WebSecurity.Login(model.UserName, model.Password);
-                    if (await LeanCloudSecurity.ValidateInviteCode(model.InviteCode))
+                    //if (await LeanCloudSecurity.ValidateInviteCode(model.InviteCode))
+                    //{
+                    if (await LeanCloudSecurity.CreateUserAndAccountWithoutInviteCode(model.RestoreRegisterModelToUserObject()))
                     {
-                        if (await LeanCloudSecurity.CreateUserAndAccount(model.RestoreRegisterModelToUserObject(), model.InviteCode))
-                        {
-                            //await AccountLogin(model.UserName, model.Password);//.ContinueWith(t => StoreUserToSession(t.Result));
+                        //await AccountLogin(model.UserName, model.Password);//.ContinueWith(t => StoreUserToSession(t.Result));
 
-                            return RedirectToAction("RegisterSuccess", new { returnUrl = returnUrl, email = model.Email });
-                        }
+                        return RedirectToAction("RegisterSuccess", new { returnUrl = returnUrl, email = model.Email });
                     }
+                    //}
                     else
                     {
                         throw new NullReferenceException("您输入的邀请码无效，请查看");

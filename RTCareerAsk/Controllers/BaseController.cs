@@ -8,6 +8,7 @@ using System.IO;
 using RTCareerAsk.PLtoDA;
 using RTCareerAsk.Models;
 using RTCareerAsk.App_DLL;
+using RTCareerAsk.DAL.Domain;
 
 namespace RTCareerAsk.Controllers
 {
@@ -64,7 +65,7 @@ namespace RTCareerAsk.Controllers
 
         #endregion
 
-        #region Upper Helper
+        #region Async Method
 
         protected async Task AutoLogin()
         {
@@ -99,6 +100,46 @@ namespace RTCareerAsk.Controllers
         {
             return await HomeDa.LoadAlertInfo(key);
         }
+
+        protected async Task<int> LoadNewMessageCount(string userId)
+        {
+            return await HomeDa.LoadMessageCount(userId);
+        }
+
+        protected async Task UpdateNewMessageCount()
+        {
+            if (HasUserInfo)
+            {
+                UpdateUserInfo(new Dictionary<string, object>() { { "NewMessageCount", await LoadNewMessageCount(GetUserID()) } });
+            }
+        }
+
+        protected async Task<string> UploadImageFile(HttpPostedFileBase file, string fileName = "")
+        {
+            return await HomeDa.UploadImageFile(CreateFileModelForUpload(file, fileName));
+        }
+
+        protected async Task<SideContentModel> LoadSideQuestions()
+        {
+            string title = "最新提问";
+            SideContentType type = SideContentType.Question;
+            IEnumerable<UpperInfoBaseDomain> infoList = await HomeDa.LoadQuestionInfoList(0, false, 5);
+
+            return new SideContentModel(title, type, infoList, "查看更多问题");
+        }
+
+        protected async Task<SideContentModel> LoadSideAnswers()
+        {
+            string title = "最新回答";
+            SideContentType type = SideContentType.Answer;
+            IEnumerable<UpperInfoBaseDomain> infoList = await HomeDa.LoadAnswerInfoList(0, false, 5);
+
+            return new SideContentModel(title, type, infoList, "查看更多回答");
+        }
+
+        #endregion
+
+        #region Controller Helper
 
         protected string GenerateTitle(string prefix)
         {
@@ -135,19 +176,6 @@ namespace RTCareerAsk.Controllers
             foreach (string key in newInfo.Keys)
             {
                 ModifyUserInfo(key, newInfo[key]);
-            }
-        }
-
-        protected async Task<int> LoadNewMessageCount(string userId)
-        {
-            return await HomeDa.LoadMessageCount(userId);
-        }
-
-        protected async Task UpdateNewMessageCount()
-        {
-            if (HasUserInfo)
-            {
-                UpdateUserInfo(new Dictionary<string, object>() { { "NewMessageCount", await LoadNewMessageCount(GetUserID()) } });
             }
         }
 
@@ -222,11 +250,6 @@ namespace RTCareerAsk.Controllers
             }
 
             throw new NullReferenceException("未能成功获取上传内容");
-        }
-
-        protected async Task<string> UploadImageFile(HttpPostedFileBase file, string fileName = "")
-        {
-            return await HomeDa.UploadImageFile(CreateFileModelForUpload(file, fileName));
         }
 
         protected void CopyToSave(string sessionName, object contentCopy)

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<UserRecommandationModel>
+
+<div class="side-bar">
+    <h4 class="title"><span>向您推荐的用户</span></h4>
+    <ul class="list user-list">
+        @foreach (UserRecommandationModel ur in Model)
+        {
+            <li>
+                <div style="margin-bottom: 10px; display: flex; flex-flow: row; justify-content: space-between">
+                    <div>
+                        @Html.UpperNameTag(ur.UserInfo)
+                        <div style="margin-left: 37px; margin-top: 8px; font-size: 12px">
+                            <p>@ur.UserInfo.AnswerCount 条回答 · @ur.UserInfo.FollowerCount 人关注</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-success btn-xs follow" data-target="@ur.UserInfo.UserID"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;关注用户</button>
+                    </div>
+                </div>
+                <p> @ur.Introduction </p>
+            </li>
+        }
+    </ul>
+</div>

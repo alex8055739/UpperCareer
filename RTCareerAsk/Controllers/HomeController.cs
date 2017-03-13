@@ -37,6 +37,8 @@ namespace RTCareerAsk.Controllers
         {
             try
             {
+                ViewBag.Title = GenerateTitle(string.Format("“{0}”的搜索结果", keyword));
+
                 keyword = keyword == MasterSearchKey ? "" : keyword;
 
                 SearchResultModel result = await HomeDa.SearchStupid(HasUserInfo ? GetUserID() : null, keyword);
@@ -62,12 +64,22 @@ namespace RTCareerAsk.Controllers
             }
 
             Task<IEnumerable<FeedModel>> tModel = HomeDa.LoadFeedsForUser(GetUserID(), 0);
-            await Task.WhenAll(UpdateNewMessageCount(), tModel);
+            Task<List<UserRecommandationModel>> tRecommandedUsers = HomeDa.LoadRecommandedUsers(GetUserID());
+            Task<SideContentModel> tSideQuestions = LoadSideQuestions();
+            Task<SideContentModel> tSideAnswers = LoadSideAnswers();
+
+            await Task.WhenAll(UpdateNewMessageCount(), tModel, tSideQuestions, tSideAnswers, tRecommandedUsers);
+
+            ViewBag.Title = GenerateTitle("动态");
+            ViewBag.RecommandedUsers = tRecommandedUsers.Result.Count > 0 ? tRecommandedUsers.Result : null;
+            ViewBag.SideQuestions = tSideQuestions.Result;
+            ViewBag.SideAnswers = tSideAnswers.Result;
 
             return View(tModel.Result);
         }
 
         [HttpPost]
+        [UpperResult]
         [UpperJsonExceptionFilter]
         public async Task<PartialViewResult> ExtendSearchResult(string targetId, SearchModelType contentType, int pageIndex)
         {

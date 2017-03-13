@@ -1,0 +1,27 @@
+﻿@model SideContentModel
+
+<div class="side-bar">
+    <h4 class="title"><span>@Model.Title</span></h4>
+    <ul class="list">
+        @foreach (UpperInfoBaseModel info in Model.InfoList)
+        {
+            <li>
+                <div>
+                    <p>@Html.ActionLink(info.Creator.Name, "Index", "User", new { id = info.Creator.UserID }, null) 的回答：</p>
+                    <p>
+                        <a href="@Url.Action("AnswerDetail", "Question", new { id = info.ID })" class="answer-content">
+                            @Html.UpperCleanText(info.Content, 100)
+                        </a>
+                    </p>
+                    <span class="extra">@info.CreateBefore · 推荐度： @info.VoteDiff</span>
+                </div>
+            </li>
+        }
+    </ul>
+    @if (!string.IsNullOrEmpty(Model.ButtonText))
+    {
+        <a href="@Url.Action("Index", "Question", new { id = Model.Type == SideContentType.Answer ? 0 : 1 })" style="display: block; text-align: center">
+            <span class="btn btn-success outline">@Model.ButtonText</span>
+        </a>
+    }
+</div>

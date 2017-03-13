@@ -58,4 +58,10 @@ namespace RTCareerAsk.App_DLL
         Medium,
         Large
     }
+
+    public enum SideContentType
+    {
+        Question,
+        Answer
+    }
 }

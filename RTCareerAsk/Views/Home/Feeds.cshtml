@@ -1,9 +1,24 @@
-﻿@model IEnumerable<RTCareerAsk.Models.FeedModel>
+﻿@model IEnumerable<FeedModel>
 
-<div class="feed-list centered">
-    @Html.Partial("_FeedsPartial", Model)
+<div style="display: flex; -ms-flex-flow: row; -webkit-flex-flow: row; flex-flow: row; justify-content: space-between">
+    <div class="feed-list">
+        @Html.Partial("_FeedsPartial", Model)
+    </div>
+    <div>
+        @if (ViewBag.RecommandedUsers != null)
+        {
+            @Html.Partial("_SideRecommandedUsers", ViewBag.RecommandedUsers as List<UserRecommandationModel>)
+        }
+        @if (ViewBag.SideQuestions != null)
+        {
+            @Html.Partial("_SideContentQandA", ViewBag.SideQuestions as SideContentModel)
+        }
+        @if (ViewBag.SideAnswers != null)
+        {
+            @Html.Partial("_SideContentQandA", ViewBag.SideAnswers as SideContentModel)
+        }
+    </div>
 </div>
-
 @section scripts{
     @Scripts.Render("~/bundles/feeds")
 }

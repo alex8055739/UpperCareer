@@ -1,6 +1,8 @@
-﻿@model List<RTCareerAsk.Models.AnswerInfoModel>
+﻿@model IEnumerable<RTCareerAsk.Models.UpperInfoBaseModel>
 
 @{
+    bool isQuestionList = ViewBag.QuestionList != null && Convert.ToBoolean(ViewBag.QuestionList);
+
     RTCareerAsk.Models.TabModel tabSorting = new RTCareerAsk.Models.TabModel();
     tabSorting.TabItems.Add("最热", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "LoadContentInfo", ControllerName = "Question", RouteValues = new { id = 1 } });
     tabSorting.TabItems.Add("最新", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "LoadContentInfo", ControllerName = "Question", RouteValues = new { id = 2 } });
@@ -11,17 +13,53 @@
     RTCareerAsk.Models.TabModel tabContent = new RTCareerAsk.Models.TabModel();
     tabContent.TabItems.Add("答案", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "LoadContentInfo", ControllerName = "Question", RouteValues = new { id = 2 } });
     tabContent.TabItems.Add("问题", new RTCareerAsk.Models.ActionLinkParams() { ActionName = "LoadContentInfo", ControllerName = "Question", RouteValues = new { id = 0 } });
-    tabContent.ActiveItem = "答案";
+    tabContent.ActiveItem = isQuestionList ? "问题" : "答案";
     tabContent.AjaxOptns = new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "divQuestionList", OnBegin = "OnUpdateContentBegin", OnFailure = "OnUpdateContentFailure", OnComplete = "OnUpdateListComplete" };
     tabContent.HtmlAttrs.Add("class", "tab-content");
 }
 
-<div style="display: none">
+
+<div style="max-width: 720px; padding: 0 10px" class="centered clear-fix">
+    <div class="content-info-tab">
+        @Ajax.UpperTab(tabContent, null)
+        @Ajax.UpperTab(tabSorting, null)
+    </div>
+    <div id="divQuestionList">
+        @if (isQuestionList)
+        {
+            @Html.Partial("_QuestionList", Model.Select(x => x as QuestionInfoModel))
+        }
+        else
+        {
+            @Html.Partial("_AnswerList", Model.Select(x => x as AnswerInfoModel))
+        }
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/content-list")
+}
+
+@section featured{
+    <div class="billboard centered clear-fix">
+        <div class="alert alert-dismissible alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Billboard))
+        </div>
+    </div>
+    @*<div style="max-width: 700px; margin: 0 auto; background-color: #f7f7f7">
+        <div style="padding: 15px">
+            @Html.Partial("_QuickPostForm", new RTCareerAsk.Models.QuestionPostModel())
+        </div>
+    </div>*@
+}
+
+@*<div style="display: none">
     <a href="#" id="lnkTest">测试Bootstrap tooltip</a>
 </div>
 <div id="divHoverCardContent" style="display: none">
 </div>
-@*<script type="text/javascript">
+<script type="text/javascript">
     function titleSetter(id) {
         $.ajax('/User/LoadUserIntro', {
             method: 'post',
@@ -78,31 +116,3 @@
         //})
     });
 </script>*@
-
-<div style="max-width: 700px" class="centered clear-fix">
-    <div class="content-info-tab">
-        @Ajax.UpperTab(tabContent, null)
-        @Ajax.UpperTab(tabSorting, null)
-    </div>
-    <div id="divQuestionList">
-        @Html.Partial("_AnswerList", Model)
-    </div>
-</div>
-
-@section scripts{
-    @Scripts.Render("~/bundles/content-list")
-}
-
-@section featured{
-    <div class="billboard centered clear-fix">
-        <div class="alert alert-dismissible alert-info">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Billboard))
-        </div>
-    </div>
-    @*<div style="max-width: 700px; margin: 0 auto; background-color: #f7f7f7">
-        <div style="padding: 15px">
-            @Html.Partial("_QuickPostForm", new RTCareerAsk.Models.QuestionPostModel())
-        </div>
-    </div>*@
-}

@@ -2,6 +2,7 @@
 
 @{
     bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+    bool IsAdmin = ViewBag.IsAdmin != null ? Convert.ToBoolean(ViewBag.IsAdmin) : false;
 }
 
 <div class="user-detail">
@@ -27,6 +28,10 @@
                 {
                     <p class="extra"><span style="margin-right: 0.5em">@(string.IsNullOrEmpty(Model.Company) ? "[无公司信息]" : Model.Company)</span>|<span style="margin-left: 0.5em">@(string.IsNullOrEmpty(Model.Title) ? "[无头衔信息]" : Model.Title)</span></p>
                 }
+                @if (IsAdmin)
+                {
+                    <p class="extra">邮箱前缀：@Model.EmailPrefix</p>
+                }
             </div>
             @Html.UpperPortrait(Model.Portrait, PortraitSize.Medium)
         </div>
@@ -44,6 +49,10 @@
                 {
                 <button class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login") btn btn-success follow" data-target="@Model.UserID"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;关注@(Model.Gender == 0 ? "TA" : Model.Gender == 1 ? "他" : "她")</button>
                 }
+            }
+            @if (IsAdmin)
+            {
+                <a href="#" class="btn btn-info outline recommand" data-id="@Model.UserID"><span class="glyphicon glyphicon-fire"></span>&nbsp;推荐@(Model.Gender == 0 ? "TA" : Model.Gender == 1 ? "他" : "她")</a>
             }
         </div>
         @*<div class="action">
@@ -76,12 +85,12 @@
 
         </div>*@
     </div>
-    <div style="display: flex; flex-flow: row; align-items: center; text-align: center; background-color: #ffffff">
-        <div style="flex: auto; border: solid 2px #f7f7f7">
+    <div style="display: flex; flex-flow: row; align-items: center; text-align: center; background-color: #ffffff; border-top: 2px solid #f7f7f7">
+        <div style="flex: auto; border-right: solid 1px #f7f7f7">
             <p>被关注</p>
             <p><span id="spnFollowerCount">@Model.FollowerCount</span></p>
         </div>
-        <div style="flex: auto; border: solid 2px #f7f7f7">
+        <div style="flex: auto; border-left: solid 1px #f7f7f7">
             <p>关注了</p>
             <p>@Model.FolloweeCount</p>
         </div>

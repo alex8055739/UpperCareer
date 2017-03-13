@@ -1,11 +1,10 @@
-﻿@model RTCareerAsk.Models.AnswerPostModel
+﻿@model AnswerPostModel
 
 <div id="divAnsForm" class="collapse">
     <div>
         @using (Ajax.BeginForm("PostAnswer", "Question", new { }, new AjaxOptions
         {
             LoadingElementId = "divInfoLoading",
-            UpdateTargetId = "divAnswerList",
             OnBegin = "OnAnsBegin",
             OnSuccess = "OnAnsSuccess",
             OnComplete = "OnAnsComplete",

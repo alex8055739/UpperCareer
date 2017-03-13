@@ -92,6 +92,23 @@ namespace RTCareerAsk.PLtoDA
                 });
         }
 
+        public async Task<UserDetailModel> GetAuthorInfo(string userId, string answerId)
+        {
+            UserDetailModel authorDetail = await LCDal.LoadAuthorDetailByAnswerID(answerId).ContinueWith(t => new UserDetailModel(t.Result));
+            authorDetail.HasFollowed = await LCDal.IfAlreadyFollowed(userId, authorDetail.UserID);
+
+            return authorDetail;
+        }
+
+        public async Task<SideContentModel> GetRelatedAnswers(string answerId)
+        {
+            return await LCDal.LoadAnswersUnderSameTopic(answerId)
+                .ContinueWith(t =>
+                    {
+                        return new SideContentModel("此问题下更多答案", App_DLL.SideContentType.Answer, t.Result, "");
+                    });
+        }
+
         public async Task<bool> PostNewQuestion(QuestionPostModel p)
         {
             return await LCDal.SaveNewQuestion(p.CreatePostForSave());

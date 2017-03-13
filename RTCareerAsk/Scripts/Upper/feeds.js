@@ -29,14 +29,14 @@ $(document).ready(function () {
             classOpen = 'opened';
 
         if ($this.hasClass(classOpen)) {
-            $this.removeClass(classOpen).text('查看内容');
+            $this.removeClass(classOpen).html('<span class="glyphicon glyphicon-plus"></span>&nbsp;查看详情');
         }
         else {
-            $this.addClass(classOpen).text('收起');
+            $this.addClass(classOpen).html('<span class="glyphicon glyphicon-minus"></span>&nbsp;收起');
         }
     });
 
-    $('.feed-list').upperscrollpaging('/Home/LoadFeedsByPage', {
+    $('.feed-list > ul').upperscrollpaging('/Home/LoadFeedsByPage', {
         postAction: AfterAnswerFeedsLoad
     })
 
@@ -88,6 +88,7 @@ $(document).ready(function () {
 
         var $this = $(this),
             textbox = $this.parent().siblings('.textbox'),
+            list = $this.closest('.feed-comment').find('ul'),
             data = $this.data();
 
         if (!textbox.html()) {
@@ -105,7 +106,10 @@ $(document).ready(function () {
             success: function (result) {
                 result = $(result.trim());
                 result.hide();
-                $this.closest('.feed-comment').find('ul').prepend(result);
+                list.prepend(result);
+                if (list.find('.blank-image')) {
+                    list.find('.blank-image').remove();
+                }
                 result.slideDown('slow');
                 textbox.html('');
                 UpdateAnswerCmtCount(data.answerid, true);
@@ -127,8 +131,17 @@ $(document).ready(function () {
             submitBtn = $this.closest('.feed-comment').find('.text .btn'),
             prefixText = '回复 ' + data.targetname + ':&nbsp;';
 
+        textbox.focus();
         textbox.html(prefixText);
         submitBtn.data('notifyuserid', data.targetid);
         placeholder.hide();
+    });
+
+    $(document).on('focus', '.feed-comment .textbox', function (e) {
+        $(this).closest('.input').css('opacity', 1);
+    });
+
+    $(document).on('focusout', '.feed-comment .textbox', function () {
+        $(this).closest('.input').removeAttr('style');
     });
 });

@@ -239,12 +239,43 @@ namespace RTCareerAsk.DAL.Domain
         {
             if (udo.ClassName != "UserDetail")
             {
-                throw new InvalidOperationException("获取的对象不是用户信息类object。");
+                throw new InvalidOperationException("获取的对象不是用户信息类object。对象类别：" + udo.ClassName);
             }
 
             udo["selfDescription"] = SelfDescription;
 
             return udo;
+        }
+    }
+
+    public class UserRecommand
+    {
+        public UserRecommand() { }
+
+        public UserRecommand(AVObject ur)
+        {
+            GenerateUserRecommandObject(ur);
+        }
+
+        public string ObjectId { get; set; }
+
+        public UserTag ForUser { get; set; }
+
+        public string Introduction { get; set; }
+
+        private void GenerateUserRecommandObject(AVObject ur)
+        {
+            if (ur.ClassName != "UserRecommanded")
+            {
+                throw new InvalidOperationException("获取的对象不是用户推荐类object。对象类别：" + ur.ClassName);
+            }
+            else if (!ur.ContainsKey("user") || ur.Get<AVUser>("user") == null)
+            {
+                throw new ArgumentNullException("未能获取对象所含的用户信息。对象ID：" + ur.ObjectId);
+            }
+
+            ForUser = new UserTag(ur.Get<AVUser>("user"));
+            Introduction = ur.Get<string>("introduction");
         }
     }
 }

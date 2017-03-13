@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="Domain\Article.cs" />
     <Compile Include="Domain\File.cs" />
-    <Compile Include="Domain\FileInfo.cs" />
     <Compile Include="Domain\InvitationCode.cs" />
     <Compile Include="Domain\Message.cs" />
     <Compile Include="Domain\History.cs" />
@@ -66,8 +65,6 @@
     <Compile Include="Domain\UpperEnum.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\Vote.cs" />
-    <Compile Include="Domain\VoteAnswer.cs" />
-    <Compile Include="Domain\VoteQuestion.cs" />
     <Compile Include="LeanCloudAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

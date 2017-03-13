@@ -41,7 +41,7 @@ namespace RTCareerAsk.Models
             if (date != default(DateTime))
             {
                 TimeSpan diff = DateTime.Now.Subtract(date);
-                return diff.Days > 365 ? string.Format("{0}年前", diff.Days / 365) : diff.Days > 30 ? string.Format("{0}个月前", diff.Days / 30) : diff.Days > 0 ? string.Format("{0}天前", diff.Days) : diff.Hours > 0 ? string.Format("{0}小时前", diff.Hours) : string.Format("{0}分钟前", diff.Minutes);
+                return diff.Days > 365 ? string.Format("{0}年前", diff.Days / 365) : diff.Days > 30 ? string.Format("{0}个月前", diff.Days / 30) : diff.Days > 0 ? string.Format("{0}天前", diff.Days) : diff.Hours > 0 ? string.Format("{0}小时前", diff.Hours) : diff.Minutes > 0 ? string.Format("{0}分钟前", diff.Minutes) : "刚刚";
             }
 
             return "未知时间";
@@ -79,7 +79,7 @@ namespace RTCareerAsk.Models
             if (date != default(DateTime))
             {
                 TimeSpan diff = DateTime.Now.Subtract(date);
-                return diff.Days > 365 ? string.Format("{0}年前", diff.Days / 365) : diff.Days > 30 ? string.Format("{0}个月前", diff.Days / 30) : diff.Days > 0 ? string.Format("{0}天前", diff.Days) : diff.Hours > 0 ? string.Format("{0}小时前", diff.Hours) : string.Format("{0}分钟前", diff.Minutes);
+                return diff.Days > 365 ? string.Format("{0}年前", diff.Days / 365) : diff.Days > 30 ? string.Format("{0}个月前", diff.Days / 30) : diff.Days > 0 ? string.Format("{0}天前", diff.Days) : diff.Hours > 0 ? string.Format("{0}小时前", diff.Hours) : diff.Minutes > 0 ? string.Format("{0}分钟前", diff.Minutes) : "刚刚";
             }
 
             return "未知时间";
@@ -143,7 +143,7 @@ namespace RTCareerAsk.Models
             if (date != default(DateTime))
             {
                 TimeSpan diff = DateTime.Now.Subtract(date);
-                return diff.Days > 365 ? string.Format("{0}年前", diff.Days / 365) : diff.Days > 30 ? string.Format("{0}个月前", diff.Days / 30) : diff.Days > 0 ? string.Format("{0}天前", diff.Days) : diff.Hours > 0 ? string.Format("{0}小时前", diff.Hours) : string.Format("{0}分钟前", diff.Minutes);
+                return diff.Days > 365 ? string.Format("{0}年前", diff.Days / 365) : diff.Days > 30 ? string.Format("{0}个月前", diff.Days / 30) : diff.Days > 0 ? string.Format("{0}天前", diff.Days) : diff.Hours > 0 ? string.Format("{0}小时前", diff.Hours) : diff.Minutes > 0 ? string.Format("{0}分钟前", diff.Minutes) : "刚刚";
             }
 
             return "未知时间";

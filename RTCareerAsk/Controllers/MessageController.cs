@@ -23,7 +23,7 @@ namespace RTCareerAsk.Controllers
 
                 if (IsUserAuthorized("User,Admin"))
                 {
-                    ViewBag.Title = GenerateTitle("消息");
+                    ViewBag.Title = GenerateTitle("提醒和消息");
 
                     Task tUpdateCount = UpdateNewMessageCount();
                     Task<List<NotificationModel>> tNtfnModel = MessageDa.LoadNotificationsByPage(GetUserID(), new int[] { 0 }, 0);

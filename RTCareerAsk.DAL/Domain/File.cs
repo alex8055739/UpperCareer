@@ -51,4 +51,21 @@ namespace RTCareerAsk.DAL.Domain
             return new AVFile(FileName, FileDataByte, MetaData);
         }
     }
+
+    public class FileInfo
+    {
+        public string ObjectID { get; set; }
+
+        public string Mime_Type { get; set; }
+
+        public string Key { get; set; }
+
+        public string FileName { get; set; }
+
+        public string Url { get; set; }
+
+        public IDictionary<string, object> MetaData { get; set; }
+
+        public DateTime DateCreate { get; set; }
+    }
 }

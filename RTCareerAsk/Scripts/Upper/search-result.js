@@ -74,38 +74,37 @@ function BindScrollPaging(element) {
 $(document).ready(function () {
     HighlightKeywords();
 
-    $(document).on('click', '.user-list button', function (e) {
-        e.preventDefault();
+    //$(document).on('click', '.user-list button', function (e) {
+    //    e.preventDefault();
 
-        var $this = $(this),
-            isFollow = $this.hasClass('follow'),
-            url = isFollow ? '/User/FollowUser' : '/User/UnfollowUser',
-            currentClass = isFollow ? 'follow' : 'unfollow',
-            currentButton = isFollow ? 'btn-success' : 'btn-default',
-            oppositeClass = isFollow ? 'unfollow' : 'follow',
-            oppositeButton = isFollow ? 'btn-default' : 'btn-success',
-            updatedHtml = isFollow ? '<span class="glyphicon glyphicon-eye-close"></span>&nbsp;取消关注' : '<span class="glyphicon glyphicon-eye-open"></span>&nbsp;关注用户',
-            disableClass = 'disabled',
-            targetId = $this.data('target')
+    //    var $this = $(this),
+    //        isFollow = $this.hasClass('follow'),
+    //        url = isFollow ? '/User/FollowUser' : '/User/UnfollowUser',
+    //        currentClass = isFollow ? 'follow' : 'unfollow',
+    //        currentButton = isFollow ? 'btn-success' : 'btn-default',
+    //        oppositeClass = isFollow ? 'unfollow' : 'follow',
+    //        oppositeButton = isFollow ? 'btn-default' : 'btn-success',
+    //        updatedHtml = isFollow ? '<span class="glyphicon glyphicon-eye-close"></span>&nbsp;取消关注' : '<span class="glyphicon glyphicon-eye-open"></span>&nbsp;关注用户',
+    //        disableClass = 'disabled',
+    //        targetId = $this.data('target')
 
-        $.ajax(url, {
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ id: targetId }),
-            beforeSend: function () {
-                $this.addClass(disableClass)
-            },
-            success: function () {
-                $this.removeClass(currentClass).removeClass(currentButton).addClass(oppositeClass).addClass(oppositeButton).html(updatedHtml);
-            },
-            error: function (xhr) {
-                var json = $.parseJSON(xhr.responseText);
-                DisplayErrorInfo((isFollow ? '申请关注出现问题: ' : '取消关注出现问题: ') + json.errorMessage);
-            },
-            complete: function () {
-                $this.removeClass(disableClass)
-            }
-        })
-    });
-
+    //    $.ajax(url, {
+    //        method: 'POST',
+    //        contentType: 'application/json',
+    //        data: JSON.stringify({ id: targetId }),
+    //        beforeSend: function () {
+    //            $this.addClass(disableClass)
+    //        },
+    //        success: function () {
+    //            $this.removeClass(currentClass).removeClass(currentButton).addClass(oppositeClass).addClass(oppositeButton).html(updatedHtml);
+    //        },
+    //        error: function (xhr) {
+    //            var json = $.parseJSON(xhr.responseText);
+    //            DisplayErrorInfo((isFollow ? '申请关注出现问题: ' : '取消关注出现问题: ') + json.errorMessage);
+    //        },
+    //        complete: function () {
+    //            $this.removeClass(disableClass)
+    //        }
+    //    })
+    //});
 });

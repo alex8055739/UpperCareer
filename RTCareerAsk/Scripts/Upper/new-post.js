@@ -27,8 +27,15 @@ function OnPostSuccess() {
     }
 }
 
-function OnAnsSuccess() {
+function OnAnsSuccess(data, status, xhr) {
+    var updateTarget = $('#divAnswerList'),
+        answers = data.trim(),
+        answersContent = $(answers).children();
+
+    updateTarget.html(answersContent);
+
     DisplaySuccessInfo('恭喜，您已成功发布答案！')
+    BindBtnDelToModal()
 
     $('#btnSubmitAns').addClass('disabled');
     $('#btnWriteAnswer').addClass('not-active');
@@ -38,14 +45,16 @@ function OnAnsSuccess() {
 function OnCmtSuccess(ansId) {
     DisplaySuccessInfo('恭喜，您已成功发布评论！')
 
-    var element = $('#divCmtList' + ansId + '> .box').first(),
+    var element = $('#ulCmtList' + ansId + '> li').first(),
         elemHeight = element.height(),
         winHeight = $(window).height(),
-        offset = $('#divCmtList' + ansId).offset().top + elemHeight / 2 - winHeight / 2;
+        offset = $('#ulCmtList' + ansId).offset().top + elemHeight / 2 - winHeight / 2;
 
     element.hide().fadeIn('slow');
-
-    $('html,body').animate({ scrollTop: offset }, 600);
+    BindBtnDelToModal();
+    if (element.is(':visible')) {
+        $('html,body').animate({ scrollTop: offset }, 600);
+    }
 }
 
 function OnPostComplete() { }

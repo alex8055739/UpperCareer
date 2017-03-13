@@ -142,6 +142,17 @@ namespace RTCareerAsk.App_DLL
             return MvcHtmlString.Create(tabWrap.ToString());
         }
 
+        public static IHtmlString UpperCleanText(this HtmlHelper html, string inputText, int lengthLimit)
+        {
+            string strText = System.Text.RegularExpressions.Regex.Replace(inputText, "<[^>]+>", "");
+            strText = System.Text.RegularExpressions.Regex.Replace(strText, "&[^;]+;", "");
+
+            if (strText.Length > 0 && strText.Length > lengthLimit)
+                return MvcHtmlString.Create(string.Format("{0}...", strText.Substring(0, lengthLimit)));
+
+            return MvcHtmlString.Create(strText);
+        }
+
         public static IHtmlString UpperNameTag(this HtmlHelper html, UserModel model)
         {
             return UpperNameTag(html, model, null);
@@ -325,7 +336,7 @@ namespace RTCareerAsk.App_DLL
             {
                 case NotificationType.LikedQstn:
                     links[1].MergeAttribute("href", UrlHelper.GenerateUrl(null, "QuestionDetail", "Question", new RouteValueDictionary(new { id = model.InfoStrings[0] }), html.RouteCollection, html.ViewContext.RequestContext, true));
-                    alertText.InnerHtml = string.Format("{0} 推荐了您提出的问题 {1} 。", links[0].ToString(), links[1].ToString());
+                    alertText.InnerHtml = string.Format("{0} 推荐了您提出的问题 {1}", links[0].ToString(), links[1].ToString());
                     break;
                 case NotificationType.LikedAns:
                     links[1].MergeAttribute("href", UrlHelper.GenerateUrl(null, "AnswerDetail", "Question", new RouteValueDictionary(new { id = model.InfoStrings[0] }), html.RouteCollection, html.ViewContext.RequestContext, true));

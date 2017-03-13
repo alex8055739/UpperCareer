@@ -73,19 +73,6 @@ namespace RTCareerAsk.Models
             ConvertUserObjectToUserTagModel(ut);
         }
 
-        private void ConvertUserObjectToUserTagModel(UserTag ut)
-        {
-            UserID = ut.ObjectID;
-            Name = ut.Name;
-            Gender = ut.Gender;
-            Portrait = ut.Portrait;
-            Title = ut.Title;
-            Company = ut.Company;
-            HasFollowed = ut.HasFollowed;
-            FollowerCount = ut.FollowerCount;
-            AnswerCount = ut.AnswerCount;
-        }
-
         public string UserID { get; set; }
 
         public string Name { get; set; }
@@ -114,6 +101,19 @@ namespace RTCareerAsk.Models
             Company = u.Company;
         }
 
+        private void ConvertUserObjectToUserTagModel(UserTag ut)
+        {
+            UserID = ut.ObjectID;
+            Name = ut.Name;
+            Gender = ut.Gender;
+            Portrait = ut.Portrait;
+            Title = ut.Title;
+            Company = ut.Company;
+            HasFollowed = ut.HasFollowed;
+            FollowerCount = ut.FollowerCount;
+            AnswerCount = ut.AnswerCount;
+        }
+
         public UserTagModel SetFollowerAndAnswerCount(bool? hasFollowed, int followerCnt, int answerCnt)
         {
             HasFollowed = hasFollowed;
@@ -121,6 +121,26 @@ namespace RTCareerAsk.Models
             AnswerCount = answerCnt;
 
             return this;
+        }
+    }
+
+    public class UserRecommandationModel
+    {
+        public UserRecommandationModel() { }
+
+        public UserRecommandationModel(UserRecommand ur)
+        {
+            ConvertUserRecommandObjectToUserRecommandationModel(ur);
+        }
+
+        public string Introduction { get; set; }
+
+        public UserTagModel UserInfo { get; set; }
+
+        private void ConvertUserRecommandObjectToUserRecommandationModel(UserRecommand ur)
+        {
+            Introduction = ur.Introduction;
+            UserInfo = new UserTagModel(ur.ForUser);
         }
     }
 
@@ -132,13 +152,13 @@ namespace RTCareerAsk.Models
         public UserDetailModel()
         {
             RecentQuestions = new List<QuestionInfoModel>();
-            RecentAnswers = new List<AnswerModel>();
+            RecentAnswers = new List<AnswerInfoModel>();
         }
 
         public UserDetailModel(UserDetail ud)
         {
             RecentQuestions = new List<QuestionInfoModel>();
-            RecentAnswers = new List<AnswerModel>();
+            RecentAnswers = new List<AnswerInfoModel>();
 
             ConvertUserDetailObjectToModel(ud);
         }
@@ -146,6 +166,8 @@ namespace RTCareerAsk.Models
         public string UserDetailID { get; set; }
 
         public string UserID { get; set; }
+
+        public string EmailPrefix { get; set; }
 
         public string Name { get; set; }
 
@@ -171,7 +193,7 @@ namespace RTCareerAsk.Models
 
         public List<QuestionInfoModel> RecentQuestions { get; set; }
 
-        public List<AnswerModel> RecentAnswers { get; set; }
+        public List<AnswerInfoModel> RecentAnswers { get; set; }
 
         private void ConvertUserDetailObjectToModel(UserDetail ud)
         {
@@ -179,6 +201,7 @@ namespace RTCareerAsk.Models
             {
                 UserDetailID = ud.ObjectId;
                 UserID = ud.ForUser.ObjectID;
+                EmailPrefix = ud.ForUser.Email.Split('@').First();
                 Name = ud.ForUser.Name;
                 Gender = ud.ForUser.Gender;
                 Portrait = ud.ForUser.Portrait;

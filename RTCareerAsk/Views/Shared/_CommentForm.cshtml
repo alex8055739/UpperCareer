@@ -4,7 +4,7 @@
 {
     LoadingElementId = "divInfoLoading",
     HttpMethod = "Post",
-    UpdateTargetId = string.Format("divCmtList{0}", Model.AnswerID),
+    UpdateTargetId = string.Format("ulCmtList{0}", Model.AnswerID),
     OnBegin = "OnCmtBegin",
     OnSuccess = string.Format("OnCmtSuccess('{0}')", Model.AnswerID),
     OnComplete = "OnCmtComplete",

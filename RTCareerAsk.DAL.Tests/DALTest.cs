@@ -15,11 +15,11 @@ namespace RTCareerAsk.DAL.Tests
         #region Property
 
         public LeanCloudAccess LCDal { get; set; }
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string PostId { get; set; }
-        public string AnswerId { get; set; }
+        public string UserId { get { return "578101cad342d30057c928a5"; } }
+        public string UserName { get { return "alex.lai.wei"; } }
+        public string Password { get { return "r00716630"; } }
+        public string PostId { get { return "578171ea5bbb500061faf102"; } }
+        public string AnswerId { get { return "5788f0d8128fe1006398b565"; } }
 
         #endregion
 
@@ -35,13 +35,6 @@ namespace RTCareerAsk.DAL.Tests
         {
             LCDal = new LeanCloudAccess();
             Initialization();
-
-            UserId = "578101cad342d30057c928a5";
-            UserName = "alex.lai.wei";
-            Password = "r00716630";
-
-            PostId = "578171ea5bbb500061faf102";
-            AnswerId = "5788f0d8128fe1006398b565";
         }
 
         #endregion
@@ -520,6 +513,17 @@ namespace RTCareerAsk.DAL.Tests
             Assert.IsNull(result);
         }
 
+        [TestMethod]
+        public async Task LoadRecommandedUsersTest()
+        {
+            List<string> userNames = await LCDal.LoadRecommandedUsers(UserId, 5).ContinueWith(t =>
+                {
+                    return t.Result.Select(x => x.ForUser.Name).ToList();
+                });
+
+            Assert.IsTrue(userNames.Count <= 5);
+        }
+
         #endregion
 
         #region Practice Test
@@ -805,6 +809,15 @@ namespace RTCareerAsk.DAL.Tests
             IEnumerable<string> voidAnswerIDs = answerIdsFromVotes.Where(x => !answerIdsFromAnswer.Contains(x));
 
             Assert.IsTrue(await LCDal.DeleteVotesWithVoidAnswers(voidAnswerIDs));
+        }
+
+        [TestMethod]
+        public void GenerateRandomIntTst()
+        {
+            List<int> ints = LCDal.GenerateRandomInt();
+            List<int> filteredInts = ints.Distinct().ToList();
+
+            Assert.AreEqual(ints.Count, filteredInts.Count);
         }
         #endregion
     }

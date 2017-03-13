@@ -57,6 +57,16 @@ namespace RTCareerAsk.PLtoDA
             return await LCDal.SaveNewStreamFile(f.RestoreFileModelToObject());
         }
 
+        public async Task<IEnumerable<QuestionInfo>> LoadQuestionInfoList(int pageIndex, bool isHottestFirst, int pageCapacity)
+        {
+            return await LCDal.LoadQuestionList(pageIndex, isHottestFirst, pageCapacity);
+        }
+
+        public async Task<IEnumerable<AnswerInfo>> LoadAnswerInfoList(int pageIndex, bool isHottestFirst, int pageCapacity)
+        {
+            return await LCDal.LoadAnswerList(pageIndex, isHottestFirst, pageCapacity);
+        }
+
         #endregion
     }
 }

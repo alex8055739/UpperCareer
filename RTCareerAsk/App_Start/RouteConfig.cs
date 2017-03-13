@@ -14,9 +14,27 @@ namespace RTCareerAsk
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Message",
+                url: "Message",
+                defaults: new { controller = "Message", action = "Index" }
+            );
+
+            routes.MapRoute(
+                name: "Question",
+                url: "Question",
+                defaults: new { controller = "Question", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Article",
+                url: "Article",
+                defaults: new { controller = "Article", action = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Feeds", id = UrlParameter.Optional }
             );
         }
     }

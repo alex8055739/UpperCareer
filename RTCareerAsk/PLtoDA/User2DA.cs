@@ -13,15 +13,7 @@ namespace RTCareerAsk.PLtoDA
     {
         public async Task<UserDetailModel> LoadUserDetail(string targetId, string userId = "")
         {
-            Task<UserDetailModel> udm = LCDal.LoadUserDetail(targetId).ContinueWith(t =>
-                {
-                    if (t.IsFaulted || t.IsCanceled)
-                    {
-                        throw t.Exception;
-                    }
-
-                    return new UserDetailModel(t.Result);
-                });
+            Task<UserDetailModel> tUserDetail = LCDal.LoadUserDetail(targetId).ContinueWith(t => new UserDetailModel(t.Result));
 
             #region Code for Test
             //int followerCnt = await LCDal.GetFollowerCount(targetId);
@@ -62,16 +54,16 @@ namespace RTCareerAsk.PLtoDA
             //return udm.SetDetailInfomation(followerCnt, followeeCnt, hasFollowed, questions, answers);
             #endregion
 
-            Task<bool?> hasFollowed = LCDal.IfAlreadyFollowed(userId, targetId);
+            Task<bool?> tHasFollowed = LCDal.IfAlreadyFollowed(userId, targetId);
 
-            Task<List<QuestionInfoModel>> questions = GetRecentQuestions(targetId, 0);
+            Task<List<QuestionInfoModel>> tRecentQuestions = GetRecentQuestions(targetId, 0);
 
-            await Task.WhenAll(udm, questions, hasFollowed);
+            await Task.WhenAll(tUserDetail, tRecentQuestions, tHasFollowed);
 
-            udm.Result.HasFollowed = hasFollowed.Result;
-            udm.Result.RecentQuestions = questions.Result;
+            tUserDetail.Result.HasFollowed = tHasFollowed.Result;
+            tUserDetail.Result.RecentQuestions = tRecentQuestions.Result;
 
-            return udm.Result;
+            return tUserDetail.Result;
         }
 
         public async Task<List<UserTagModel>> LoadFollowersOrFollowees(string userId, string targetId, bool isForFollowers, int pageIndex)
@@ -133,6 +125,16 @@ namespace RTCareerAsk.PLtoDA
 
                 return t.Result != null && t.Result.Count() > 0 ? t.Result.Select(x => new AnswerInfoModel(x)).ToList() : new List<AnswerInfoModel>();
             });
+        }
+
+        public async Task<bool> CheckIfUserRecommanded(string userId)
+        {
+            return await LCDal.CheckIfUserRecommanded(userId);
+        }
+
+        public async Task<bool> SaveOrUpdateRecommandation(bool isUpdate, string userId, string intro)
+        {
+            return await LCDal.SaveOrUpdateUserRecommandation(isUpdate, userId, intro);
         }
     }
 }

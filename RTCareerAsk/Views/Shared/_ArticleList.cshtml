@@ -4,7 +4,7 @@
     @foreach (RTCareerAsk.Models.ArticleInfoModel atcl in Model)
     {
         <li class="listitem">
-            <a href="@Url.Action("Detail", "Article", new { id = atcl.ID })">
+            <a href="@Url.Action("Detail", "Article", new { id = atcl.ID })" class="wrap">
                 <img src="@atcl.Cover" alt="@atcl.Title" class="cover" data-ratio="0.2142" />
             </a>
             <h4>

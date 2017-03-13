@@ -230,6 +230,7 @@
     <Compile Include="Models\PostModels.cs" />
     <Compile Include="Models\QACModels.cs" />
     <Compile Include="Models\SearchResultModel.cs" />
+    <Compile Include="Models\SideContentModel.cs" />
     <Compile Include="Models\TestModels.cs" />
     <Compile Include="Models\UpperBaseModels.cs" />
     <Compile Include="Models\UpperControlModels.cs" />
@@ -709,6 +710,7 @@
     <Content Include="Scripts\Upper\notification-all.js" />
     <Content Include="Scripts\Upper\notification-index.js" />
     <Content Include="Scripts\Upper\search-result.js" />
+    <Content Include="Scripts\Upper\side-bar.js" />
     <Content Include="Scripts\Upper\upper-article-detail.js" />
     <Content Include="Scripts\Upper\upper-confirmdialog.js" />
     <Content Include="Scripts\Upper\upper-scrollpaging.js" />
@@ -824,6 +826,11 @@
     <Content Include="Views\Home\_FeedsPartial.cshtml" />
     <Content Include="Views\Shared\_FeedCommentList.cshtml" />
     <Content Include="Views\Shared\_FeedCommentDetail.cshtml" />
+    <Content Include="Views\Shared\_SideContentQandA.cshtml" />
+    <Content Include="Views\Shared\_RecommandUser.cshtml" />
+    <Content Include="Views\Shared\_SideRecommandedUsers.cshtml" />
+    <Content Include="Views\Shared\_SideAnswerList.cshtml" />
+    <Content Include="Views\Shared\_SideAuthorInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

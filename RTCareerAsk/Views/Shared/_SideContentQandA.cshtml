@@ -1,0 +1,26 @@
+﻿@model SideContentModel
+
+<div class="side-bar">
+    <h4 class="title"><span>@Model.Title</span></h4>
+    <ul class="list">
+        @foreach (UpperInfoBaseModel info in Model.InfoList)
+        {
+            <li>
+                <div>
+                    <p>@Html.ActionLink(info.Title, Model.Type == SideContentType.Answer ? "AnswerDetail" : "QuestionDetail", "Question", new { id = info.ID }, null)</p>
+                    @if (Model.Type == SideContentType.Answer)
+                    {
+                        <p class="content">@Html.UpperCleanText(info.Content, 100)</p>
+                    }
+                    <span class="extra">@info.CreateBefore</span>
+                </div>
+            </li>
+        }
+    </ul>
+    @if (!string.IsNullOrEmpty(Model.ButtonText))
+    {
+        <a href="@Url.Action("Index", "Question", new { id = Model.Type == SideContentType.Answer ? 0 : 1 })" style="display: block; text-align: center">
+            <span class="btn btn-success outline">@Model.ButtonText</span>
+        </a>
+    }
+</div>

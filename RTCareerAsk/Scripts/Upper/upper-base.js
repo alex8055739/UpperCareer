@@ -51,15 +51,15 @@ function UpdateCmtCount() {
     //For QuestionDetail page.
     if ($('.CmtCount').length) {
         $('.CmtCount').each(function () {
-            var cmtCount = $(this).closest('.body').find('.comment-list').find('.box').length;
+            var cmtCount = $(this).closest('.body').find('ul.comment-list').find('li').length;
             if (cmtCount > 0) {
                 $(this).find('span').html('(' + cmtCount + ')');
             }
         });
     }
-        //For AnswerDetail page.
+    //For AnswerDetail page.
     else if ($('span.cmt-count')) {
-        var count = $('span.cmt-count').parent().siblings('div[id^="divCmtList"]').first().children('div[id^="blkCmt"]:visible').length;
+        var count = $('span.cmt-count').parent().siblings('ul[id^="ulCmtList"]').first().children('li[id^="liCmtBlk"]:visible').length;
         $('span.cmt-count').text(count);
     }
 }
@@ -193,6 +193,10 @@ function ModifyNewMsgCount(isIncrement) {
         badgeNewCount.fadeOut('slow');
     }
 }
+
+function BindBtnDelToModal() {
+    $('a#btnDel').upperconfirmdialog(deleteAnswerOrComment);
+}
 //function RequestForDelete(data) {
 //    var config = new Object()
 //    {
@@ -300,7 +304,7 @@ $(document).ready(function () {
     $('#formSearch').submit(function (e) {
 
         var form = $(e.delegateTarget),
-            keyword = form.find('input[type="text"]').val();
+            keyword = form.find('input[type="text"]').val().trim();
 
         if (keyword.length == 0) {
             e.preventDefault();
@@ -308,6 +312,39 @@ $(document).ready(function () {
         }
     })
 
+    $(document).on('click', '.user-list button', function (e) {
+        e.preventDefault();
+
+        var $this = $(this),
+            isFollow = $this.hasClass('follow'),
+            url = isFollow ? '/User/FollowUser' : '/User/UnfollowUser',
+            currentClass = isFollow ? 'follow' : 'unfollow',
+            currentButton = isFollow ? 'btn-success' : 'btn-default',
+            oppositeClass = isFollow ? 'unfollow' : 'follow',
+            oppositeButton = isFollow ? 'btn-default' : 'btn-success',
+            updatedHtml = isFollow ? '<span class="glyphicon glyphicon-eye-close"></span>&nbsp;取消关注' : '<span class="glyphicon glyphicon-eye-open"></span>&nbsp;关注用户',
+            disableClass = 'disabled',
+            targetId = $this.data('target')
+
+        $.ajax(url, {
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ id: targetId }),
+            beforeSend: function () {
+                $this.addClass(disableClass)
+            },
+            success: function () {
+                $this.removeClass(currentClass).removeClass(currentButton).addClass(oppositeClass).addClass(oppositeButton).html(updatedHtml);
+            },
+            error: function (xhr) {
+                var json = $.parseJSON(xhr.responseText);
+                DisplayErrorInfo((isFollow ? '申请关注出现问题: ' : '取消关注出现问题: ') + json.errorMessage);
+            },
+            complete: function () {
+                $this.removeClass(disableClass)
+            }
+        })
+    });
     //Enable nav bar dropdown list with hover event.
     //$('ul.nav li.dropdown').hover(function () {
     //    $(this).find('.dropdown-menu').stop(true, true).delay(200).slideDown(200);
