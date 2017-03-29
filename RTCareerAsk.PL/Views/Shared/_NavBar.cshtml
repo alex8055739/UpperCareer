@@ -1,0 +1,147 @@
+﻿@{
+    bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+    bool IsAdmin = ViewBag.IsAdmin != null ? Convert.ToBoolean(ViewBag.IsAdmin) : false;
+    UserInfoModel um = new UserInfoModel();
+
+    if (IsAuthorized || (ViewBag.IsAuthorized == null && Session["UserInfo"] != null))
+    {
+        um = Session["UserInfo"] as UserInfoModel;
+
+        IsAuthorized = true;
+    }
+}
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="@Url.Action("Index", "Home")" class="navbar-brand" style="display: flex;align-items: center">
+                @*<strong>尚<span style="color: #70BF40">职</span></strong>
+                &nbsp;
+                @Html.UpperPortrait("/Images/wx_pic.png", PortraitSize.Small)
+                &nbsp;*@
+                <strong>upper<span style="color: #70BF40">career</span></strong>
+            </a>
+            @Html.Hidden("UserID", um.UserID, new { id = "hdnUserID" })
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+            <ul class="nav navbar-nav">
+                <li class="@Html.IsSelected("Article")">@Html.ActionLink("精选", "Index", "Article")</li>
+                <li class="@Html.IsSelected("Home", "Feeds")">@Html.ActionLink("动态", "Feeds", "Home")</li>
+                @*<li class="@Html.IsSelected("Question")">@Html.ActionLink("问答", "Index", "Question")</li>*@
+                @*<li><a id="lnkFollowUs" href="#" data-toggle="popover" data-placement="bottom"><span class="glyphicon glyphicon-qrcode"></span>&nbsp;关注我们</a></li>*@
+            </ul>
+            <form id="formSearch" action="@Url.Action("SearchResults", "Home")" method="get" class="navbar-form navbar-left" role="search">
+                <div class="input-group">
+                    <input type="text" name="keyword" class="form-control" style="font-size: 13px; min-width: 200px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px" placeholder="输入您感兴趣的关键词">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-link" style="padding: 3px 12px"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+            </form>
+            @*<div id="divWechatQR" style="display: none">
+                <div style="overflow: auto; max-width: 500px; height: auto">
+                    <img src="/Images/QRCode.png" alt="" style="max-width: 500px; height: auto" />
+                </div>
+            </div>*@
+            @if (IsAuthorized)
+            {
+                <ul class="nav navbar-nav navbar-right">
+                    @*<li>
+                        <a href="@Url.Action("Index", "User", new { id = um.UserID })" style="padding:7.5px 15px">
+                            @Html.UpperPortrait(um.Portrait, PortraitSize.Small, new { id = "imgNavBarPortrait" })
+                            @um.Name
+                        </a>
+                    </li>*@
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 7.5px 15px">
+                            @Html.UpperPortrait(um.Portrait, PortraitSize.Small, new { id = "imgNavBarPortrait" })
+                            @um.Name
+                            <span class="caret" />
+                        </a>
+                        <ul class="dropdown-menu">
+                            @if (IsAdmin)
+                            {
+                                <li>@Html.ActionLink("撰文", "Compose", "Article")</li>
+                                <li class="@Html.IsSelected("Message", "Notifications")">@Html.ActionLink("提醒总览", "Notifications", "Message")</li>
+                                <li class="@Html.IsSelected("Test")">@Html.ActionLink("报告列表", "Index", "Test")</li>
+                                <li class="divider"></li>
+                            }
+                            <li><a href="@Url.Action("Index", "User", new { id = um.UserID })"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;个人主页</a></li>
+                            <li><a href="@Url.Action("UserManage", "Account")"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;个人设置</a></li>
+                            <li><a href="@Url.Action("LogOff", "Account")"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;退出登录</a></li>
+                        </ul>
+
+                    </li>
+                    <li class="@Html.IsSelected("Message", "Index")">
+                        <a href="@Url.Action("Index", "Message")">
+                            @*<span data-toggle="tooltip" data-placement="bottom" title="消息">
+                                <img src="~/Images/notification.png" alt="" class="nav-img" />
+                                @if (um.NewMessageCount > 0)
+                                {
+                                    <span id="spnNewMsgCnt" class="badge">@(um.NewMessageCount)</span>
+                                }
+                            </span>*@
+                            <span class="glyphicon glyphicon-bell "></span>&nbsp;&nbsp;消息
+                            @if (um.NewMessageCount > 0)
+                            {
+                                <span id="spnNewMsgCnt" class="badge">@(um.NewMessageCount)</span>
+                            }
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btnPostQuestion" data-toggle="modal" data-target="#divModal">
+                            @*<span data-toggle="tooltip" data-placement="bottom" title="提问" />
+                            <img src="~/Images/post.png" alt="" class="nav-img" />*@
+                            <span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;提问
+                        </a>
+                    </li>
+                    @if (IsAdmin)
+                    {
+                        <li>
+                            <a href="#" id="btnBugReport" data-toggle="modal" data-target="#divModal">
+                                @*<span data-toggle="tooltip" data-placement="bottom" title="报错" />
+                                <img src="~/Images/error.png" alt="" class="nav-img" />*@
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;&nbsp;报错
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="@Html.IsSelected("Account", "Login")">@Html.ActionLink("登录 / 注册", "Login", "Account", new { returnUrl = Request.Url.AbsoluteUri }, new { })</li>
+                </ul>                
+            }
+        </div>
+    </div>
+</nav>
+
+<div style="margin-top: 45px; position: fixed; width: 100%; z-index: 1030">
+    <div id="divInfoLoading" class="alert-tag" style="display: none">
+        <div class="alert alert-dismissible alert-info">
+            <button type="button" class="close">&times;</button>
+            <p>显示些没用的……</p>
+        </div>
+    </div>
+    <div id="divInfoSuccess" class="alert-tag" style="display: none">
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close">&times;</button>
+            <p>Well done!</p>
+        </div>
+    </div>
+    <div id="divInfoError" class="alert-tag" style="display: none">
+        <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="close">&times;</button>
+            <p></p>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/Upper/bug-report.js"></script>

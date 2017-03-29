@@ -1,0 +1,22 @@
+﻿@model IEnumerable<NotificationModel>
+
+@{
+    bool isForAdmin = ViewBag.IsForAdmin != null && ViewBag.IsForAdmin == true ? true : false;
+}
+
+<ul class="notification-list">
+    @foreach (NotificationModel ntfn in Model)
+    {
+        <li class="item @Html.AssignClassWithCondition(ntfn.IsNew, "new")" data-id="@ntfn.ID">
+            <div>
+                @Html.UpperNotification(ntfn)
+            </div>
+            @if (ntfn.IsNew && !isForAdmin)
+            {
+                <div class="cancel-new">
+                    <a href="#" class="btn btn-info outline btn-xs">标为已读</a>
+                </div>
+            }
+        </li>
+    }
+</ul>

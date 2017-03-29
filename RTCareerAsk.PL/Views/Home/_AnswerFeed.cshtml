@@ -1,0 +1,12 @@
+﻿@model AnswerInfoModel
+
+<div>
+    @Html.UpperNameTag(Model.Creator)
+</div>
+<div id="@string.Format("divAnswer{0}", Model.ID)" style="margin:1em 0;">
+    @Html.Raw(HttpUtility.HtmlDecode(Model.Content))
+</div>
+<div class="action">
+    <span>推荐 @(Model.VoteDiff)</span>
+    <span><a href="#" class="feed-comments" data-id="@Model.ID">评论（<span id="@string.Format("spnCmtCnt{0}", Model.ID)">@(Model.SubPostCount)</span>）</a></span>
+</div>

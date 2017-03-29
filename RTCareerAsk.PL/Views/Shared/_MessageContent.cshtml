@@ -1,0 +1,31 @@
+﻿@model MessageModel
+
+@{
+    bool isFromSelf = Model.From.UserID == ViewBag.UserId;
+}
+
+@Html.HiddenFor(model => model.MessageID, new { id = "hdnMsgID" })
+<div class="message-body">
+    @*<h4>@Model.Content.Title</h4>
+        <small>来自：
+        @if (isFromSystem)
+        {
+            <span>Upper管理员</span>
+        }
+        else
+        {
+            <a href="@Url.Action("Index", "User", new { id = Model.From.UserID })">@Model.From.Name</a>
+        }
+        </small>*@
+    <div class="float-right">
+        @if (!Model.Content.IsSystem && !isFromSelf)
+        {
+            <a href="#" id="btnWriteLetter" data-id="@Model.From.UserID" data-toggle="modal" data-target="#divModal"><span class="glyphicon glyphicon-share-alt icon" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="回复" /></a>
+        }
+        <a href="#" id="@string.Format("btnDeleteMsg{0}", Model.MessageID)" class="glyphicon glyphicon-trash icon" aria-hidden="true" data-id="@Model.MessageID" data-type="3" data-toggle="modal" data-target="#divModalSm" title="删除"></a>
+    </div>
+    <div class="divider"></div>
+    <div id="divMsgContent">
+        @Html.Raw(HttpUtility.HtmlDecode(Model.Content.Content))
+    </div>
+</div>

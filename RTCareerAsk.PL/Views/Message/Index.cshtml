@@ -1,0 +1,20 @@
+﻿@model IEnumerable<MessageModel>
+
+<div class="centered" style="max-width: 720px; padding: 0 10px; margin-bottom: 15px">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#divNotifications" data-toggle="tab" aria-expanded="true">提醒</a></li>
+        <li><a href="#divMessages" data-toggle="tab" aria-expanded="false">私信</a></li>
+    </ul>
+</div>
+<div id="divTabContent" class="tab-content centered" style="max-width: 720px">
+    <div class="tab-pane fade active in" id="divNotifications">
+        @Html.Partial("_NotificationPartial", ViewBag.Notifications as List<NotificationModel>)
+    </div>
+    <div class="tab-pane fade" id="divMessages">
+        @Html.Partial("_MessagePartial", Model)
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/message")
+}

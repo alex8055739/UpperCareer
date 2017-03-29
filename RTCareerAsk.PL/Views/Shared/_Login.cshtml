@@ -1,0 +1,40 @@
+﻿@model LoginModel
+
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        @*<legend>请输入登录信息</legend>*@
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-lg-2 control-label" })
+            <div class="col-lg-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "请输入电子邮箱" })
+                @*@Html.ValidationMessageFor(m => m.Email)*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-lg-2 control-label" })
+            <div class="col-lg-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "请输入密码" })
+                @*@Html.ValidationMessageFor(m => m.Password)*@
+                <div class="checkbox">
+                    <label style="line-height: 1.25">
+                        @Html.CheckBoxFor(m => m.RememberMe)
+                        一周内自动登录
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <input type="submit" class="btn btn-success btn-block" value="登录" />
+                <input type="button" class="btn btn-link btn-block" id="btnForget" data-toggle="modal" data-target="#divModalSm" value="忘记密码？通过邮箱找回" />
+                <div>
+                    <a href="@Url.Action("Index", "Question")" class="btn btn-info outline btn-sm centered" style="max-width:200px;margin-top:30px">随便看看</a>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}

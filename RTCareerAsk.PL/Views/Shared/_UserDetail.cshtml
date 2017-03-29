@@ -1,0 +1,69 @@
+﻿@model UserDetailModel
+
+@{
+    bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+    bool IsAdmin = ViewBag.IsAdmin != null ? Convert.ToBoolean(ViewBag.IsAdmin) : false;
+}
+
+<div class="user-detail">
+    <div class="wrap">
+        <div class="basic">
+            <div>
+                <h3>
+                    @Model.Name
+                    @if (Model.HasFollowed == null)
+                    {
+                        @Html.ActionLink("设置个人信息", "UserManage", "Account", null, new { @class = "btn btn-default btn-xs" })
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-default btn-xs @Html.AssignClassWithCondition(!Convert.ToBoolean(Model.HasFollowed), "disabled")" id="btnWriteLetter" data-id="@Model.UserID" data-toggle="modal" data-target="#divModal"><span class="glyphicon glyphicon-send"></span>&nbsp;@(Convert.ToBoolean(Model.HasFollowed) ? "发消息" : "关注后发消息")</a>
+                    }
+                </h3>
+                @if (string.IsNullOrEmpty(Model.Company) && string.IsNullOrEmpty(Model.Title))
+                {
+                    <p class="extra"><span style="margin-right: 0.5em">[未提供个人信息]</span></p>
+                }
+                else
+                {
+                    <p class="extra"><span style="margin-right: 0.5em">@(string.IsNullOrEmpty(Model.Company) ? "[无公司信息]" : Model.Company)</span>|<span style="margin-left: 0.5em">@(string.IsNullOrEmpty(Model.Title) ? "[无头衔信息]" : Model.Title)</span></p>
+                }
+                @if (IsAdmin)
+                {
+                    <p class="extra">邮箱前缀：@Model.EmailPrefix</p>
+                }
+            </div>
+            @Html.UpperPortrait(Model.Portrait, PortraitSize.Medium)
+        </div>
+        <div class="self-description">
+            @Html.Raw(HttpUtility.HtmlDecode(Model.SelfDescription))
+        </div>
+        <div class="action">
+            @if (!ViewBag.IsSelf)
+            {
+                if (Model.HasFollowed == true)
+                {
+                    <button class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login") btn btn-default unfollow" data-target="@Model.UserID"><span class="glyphicon glyphicon-eye-close"></span>&nbsp;取消关注</button>
+                }
+                else
+                {
+                    <button class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login") btn btn-success follow" data-target="@Model.UserID"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;关注@(Model.Gender == 0 ? "TA" : Model.Gender == 1 ? "他" : "她")</button>
+                }
+            }
+            @if (IsAdmin)
+            {
+                <a href="#" class="btn btn-info outline recommand" data-id="@Model.UserID"><span class="glyphicon glyphicon-fire"></span>&nbsp;推荐@(Model.Gender == 0 ? "TA" : Model.Gender == 1 ? "他" : "她")</a>
+            }
+        </div>
+    </div>
+    <div style="display: flex; flex-flow: row; align-items: center; text-align: center; background-color: #ffffff; border-top: 2px solid #f7f7f7">
+        <div style="flex: auto; border-right: solid 1px #f7f7f7">
+            <p>被关注</p>
+            <p><span id="spnFollowerCount">@Model.FollowerCount</span></p>
+        </div>
+        <div style="flex: auto; border-left: solid 1px #f7f7f7">
+            <p>关注了</p>
+            <p>@Model.FolloweeCount</p>
+        </div>
+    </div>
+</div>

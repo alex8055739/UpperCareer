@@ -1,0 +1,7 @@
+﻿@model IEnumerable<NotificationModel>
+
+@Html.Partial("_NotificationAllPartial", Model)
+
+@section scripts{
+    @Scripts.Render("~/bundles/notification")
+}

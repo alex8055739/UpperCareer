@@ -1,0 +1,17 @@
+﻿@model IEnumerable<FeedModel>
+
+@if (Model.Count() > 0)
+{
+    <ul class="list-group">
+        @foreach (FeedModel model in Model)
+        {
+            @Html.UpperFeed(model)
+        }
+    </ul>
+}
+else
+{
+    <div>
+        <img src="/Images/feed_blank.jpg" alt="" style="width: 66%; height: auto; margin: 0 auto" />
+    </div>
+}

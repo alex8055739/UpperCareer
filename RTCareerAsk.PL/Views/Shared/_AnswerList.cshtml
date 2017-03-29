@@ -1,0 +1,26 @@
+﻿@model IEnumerable<AnswerInfoModel>
+
+<div class="content-info">
+    <ul class="list-group box">
+        @foreach (AnswerInfoModel a in Model)
+        {
+            <li class="list-group-item">
+                <div class="section-wrap">
+                    <div class="section number">
+                        <span class="marked-number">@a.VoteDiff</span>
+                        <span>推荐</span>
+                    </div>
+                    <div class="section number reply-count">
+                        <span class="marked-number">@a.SubPostCount</span>
+                        <span>评论</span>
+                    </div>
+                    <div class="section text">
+                        @Html.ActionLink(a.Title, "AnswerDetail", "Question", new { id = a.ID }, new { style = "font-size:16px" })
+                        <div>@Html.Raw(HttpUtility.HtmlDecode(a.Content))</div>
+                        <p>@Html.UpperAuthor(a.Creator.Name, a.CreateBefore)</p>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

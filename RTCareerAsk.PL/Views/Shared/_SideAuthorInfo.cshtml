@@ -1,0 +1,35 @@
+﻿@model UserDetailModel
+
+@{
+    bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+}
+
+<div class="side-bar" style="margin-bottom: 0; padding-bottom: 0"></div>
+<div class="side-bar">
+    <div class="author-tag">
+        <span>作者信息</span>
+    </div>
+    <div class="author-info">
+        <div class="name-tag">
+            <a href="@Url.Action("Index", "User", new { id = Model.UserID })">@Html.UpperPortrait(Model.Portrait, PortraitSize.Medium)</a>
+            <a href="@Url.Action("Index", "User", new { id = Model.UserID })"><span>@Model.Name</span></a>
+            <span class="float-right user-list">
+                @if (Model.HasFollowed != null && Model.HasFollowed == true)
+                {
+                    <button class="btn btn-default btn-sm unfollow @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" data-target="@Model.UserID"><span class="glyphicon glyphicon-eye-close"></span>&nbsp;取消关注</button>
+                }
+                else if (Model.HasFollowed != null && Model.HasFollowed == false)
+                {
+                    <button class="btn btn-success btn-sm follow @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" data-target="@Model.UserID"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;关注用户</button>
+                }
+                else
+                {
+                    <button class="btn btn-default btn-sm disabled">自己</button>
+                }
+            </span>
+        </div>
+        <p class="extra"><span style="margin-right: 0.5em">@(string.IsNullOrEmpty(Model.Company) ? "[无公司信息]" : Model.Company)</span>|<span style="margin-left: 0.5em">@(string.IsNullOrEmpty(Model.Title) ? "[无头衔信息]" : Model.Title)</span></p>
+        <p class="self-description">@(string.IsNullOrEmpty(Model.SelfDescription) ? "未提供自我介绍" : Model.SelfDescription)</p>
+        <p class="extra">被关注： @Model.FollowerCount | 关注了： @Model.FolloweeCount</p>
+    </div>
+</div>

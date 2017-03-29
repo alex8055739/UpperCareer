@@ -1,0 +1,34 @@
+﻿@model AnswerModel
+
+<div style="display: flex; -ms-flex-flow: row; -webkit-flex-flow: row; flex-flow: row; justify-content: space-between">
+    <div style="max-width: 720px; padding: 0 10px;">
+        <div class="answer">
+            <div>
+                @Html.Partial("_AnswerDetail", Model)
+            </div>
+            <div>
+                <span class="cmt-count">@Model.Comments.Count</span>
+                条评论
+            </div>
+            <ul id="@string.Format("ulCmtList{0}", Model.ID)" class="comment-list">
+                @Html.Partial("_CommentList", Model.Comments)
+            </ul>
+        </div>
+    </div>
+    <div>
+        @Html.Partial("_SideAuthorInfo", ViewBag.AuthorInfo as UserDetailModel)
+        @if (ViewBag.AlternativeAnswers != null)
+        {
+            @Html.Partial("_SideAnswerList", ViewBag.AlternativeAnswers as SideContentModel)
+        }
+    </div>
+</div>
+
+<script>
+    window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": ["tsina", "weixin", "sqq"], "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "slide": { "type": "slide", "bdImg": "5", "bdPos": "right", "bdTop": "100" } };
+    with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+</script>
+
+@section scripts{
+    @Scripts.Render("~/bundles/answer")
+}

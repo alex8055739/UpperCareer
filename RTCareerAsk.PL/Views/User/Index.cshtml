@@ -1,0 +1,29 @@
+﻿@model UserDetailModel
+
+@{
+    TabModel tabModel = new TabModel();
+    tabModel.TabItems.Add("提问", new ActionLinkParams() { ActionName = "RecentRecord", ControllerName = "User", RouteValues = new { contentType = 1, targetId = Model.UserID, pageIndex = 0 } });
+    tabModel.TabItems.Add("回答", new ActionLinkParams() { ActionName = "RecentRecord", ControllerName = "User", RouteValues = new { contentType = 2, targetId = Model.UserID, pageIndex = 0 } });
+    tabModel.TabItems.Add("关注" + (Model.Gender == 0 ? "TA" : Model.Gender == 1 ? "他" : "她") + "的", new ActionLinkParams() { ActionName = "FollowersOrFollowees", ControllerName = "User", RouteValues = new { contentType = true, targetId = Model.UserID, pageIndex = 0 } });
+    tabModel.TabItems.Add((Model.Gender == 0 ? "TA" : Model.Gender == 1 ? "他" : "她") + "关注的", new ActionLinkParams() { ActionName = "FollowersOrFollowees", ControllerName = "User", RouteValues = new { contentType = false, targetId = Model.UserID, pageIndex = 0 } });
+    tabModel.ActiveItem = "提问";
+    tabModel.AjaxOptns = new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "divUserRecord", OnFailure = "OnUpdateContentFailure", OnComplete = "OnUpdateContentComplete" };
+}
+
+<div class="user-page">
+    <div class="info">
+        @Html.Partial("_UserDetail", Model)
+    </div>
+    <div class="record">
+        <div class="wrap">
+            @Ajax.UpperTab(tabModel, null)
+            <div id="divUserRecord">
+                @Html.Partial("_RecentQuestions", Model.RecentQuestions)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/user")
+}

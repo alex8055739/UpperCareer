@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CommentModel>
+
+@{
+    bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+}
+
+@foreach (CommentModel c in Model)
+{
+    <li id="@string.Format("liCmtBlk{0}", c.ID)" class="box">
+        <div class="body">
+            <div class="left">
+                @Html.UpperPortrait(c.Creator.Portrait, PortraitSize.Small)
+            </div>
+            <div class="right">
+                <p>
+                    @Html.ActionLink(c.Creator.Name, "Index", "User", new { id = c.Creator.UserID }, new { id = string.Format("aCmtBy{0}", c.Creator.UserID) })
+                </p>
+                <p>@Html.Raw(HttpUtility.HtmlDecode(c.Content))</p>
+            </div>
+        </div>
+        <div class="action">
+            <span>@c.CreateBefore</span>
+            @if (c.IsDeleteAllowed)
+            {
+                <a id="btnDel" href="#" data-id="@c.ID" data-type="2" data-toggle="modal" data-target="#divModalSm">删除</a>
+            }
+            else
+            {
+                <a id="@string.Format("btnCmtRply{0}", c.Creator.UserID)" class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" href="#">回复</a>
+            }
+        </div>
+    </li>
+}

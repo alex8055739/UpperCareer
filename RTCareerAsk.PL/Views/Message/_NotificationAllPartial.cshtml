@@ -1,0 +1,20 @@
+﻿@model IEnumerable<NotificationModel>
+
+@{
+    TabModel tabFilters = new TabModel();
+    tabFilters.TabItems.Add("所有提醒", new ActionLinkParams() { ActionName = "LoadAllNotificationsByType", ControllerName = "Message", RouteValues = new { contentType = 0 } });
+    tabFilters.TabItems.Add("推荐", new ActionLinkParams() { ActionName = "LoadAllNotificationsByType", ControllerName = "Message", RouteValues = new { contentType = 1 } });
+    tabFilters.TabItems.Add("评论及回复", new ActionLinkParams() { ActionName = "LoadAllNotificationsByType", ControllerName = "Message", RouteValues = new { contentType = 2 } });
+    tabFilters.TabItems.Add("关注", new ActionLinkParams() { ActionName = "LoadAllNotificationsByType", ControllerName = "Message", RouteValues = new { contentType = 3 } });
+    tabFilters.ActiveItem = "所有提醒";
+    tabFilters.AjaxOptns = new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "divMessageList", OnFailure = "OnNotificationFailure", OnComplete = "SetScrollPaging" };
+    tabFilters.HtmlAttrs.Add("class", "tab-sorting");
+}
+
+<div>
+    @Ajax.UpperTab(tabFilters, null)
+    <br />
+    <div id="divMessageList" style="padding: 0 10px">
+        @Html.Partial("_NotificationList", Model)
+    </div>
+</div>

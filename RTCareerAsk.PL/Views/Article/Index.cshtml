@@ -1,0 +1,8 @@
+﻿@model IEnumerable<ArticleInfoModel>
+
+<div class="article-list centered">
+    @Html.Partial("_ArticleList", Model)
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/article-list")
+}

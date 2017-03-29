@@ -1,0 +1,111 @@
+﻿@model ArticlePostModel
+
+@{
+    bool IsAdmin = ViewBag.IsAdmin != null ? Convert.ToBoolean(ViewBag.IsAdmin) : false;
+}
+
+<div class="article-compose centered">
+    <h2>@ViewBag.Title</h2>
+
+    @using (Html.BeginForm("Compose", "Article", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        @Html.HiddenFor(model => model.HasReference)
+        @Html.HiddenFor(model => model.ReferenceID)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cover, new { @class = "control-label" })
+            <a href="#" id="lnkUploadCover">
+                <div id="divCoverPreview" class="cover-preview">
+                    <div style="height: 100%; display: flex; align-items: center; justify-content: center; color: #808080; opacity: 0.5">
+                        <span>点击或将图片拖放在这里</span>
+                    </div>
+                </div>
+            </a>
+            <input type="file" id="inpCoverFile" value="" style="display: none" />
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Cover, new { id = "txtCoverLink", @class = "form-control", @readonly = "true", placeholder = "头图链接" })
+                <span class="input-group-btn">
+                    <button id="btnUploadCover" class="btn btn-primary disabled" type="button">上传封面</button>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.Cover)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control", placeholder = "文章标题" })
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Author, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Author, new { @class = "form-control", placeholder = "文章作者" })
+            @Html.ValidationMessageFor(model => model.Author)
+        </div>
+        if (Model.HasReference)
+        {
+            <div class="form-group">
+                <strong>来自于问题：@Html.ActionLink(Model.Reference.ForQuestion.Title, "QuestionDetail", "Question", new { id = Model.Reference.ForQuestion.ID }, new { })</strong>
+                <div style="background-color: #eeeeee; padding: 10px">
+                    <div style="border: 1px dashed #aaaaaa; padding: 5px;">
+                        @Html.Raw(HttpUtility.HtmlDecode(Model.Reference.Content))
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            @Html.TextAreaFor(model => model.Content, new { id = "txtArticleContent", @class = "form-control", rows = "8", placeholder = "正文内容" })
+            @Html.ValidationMessageFor(model => model.Content)
+            @if (!Model.HasReference)
+            {
+                <script>
+                    var editor = CKEDITOR.replace("txtArticleContent",
+                        {
+                            toolbar: 'article',
+                            wordcount: {
+                                showWordCount: false,
+                                showCharCount: true,
+                                maxCharCount: 20000
+                            }
+                        });
+
+                    //editor.once('instanceReady', function () {
+                    //    // Create and show the notification.
+                    //    var notification1 = new CKEDITOR.plugins.notification(editor, {
+                    //        message: 'Error occurred',
+                    //        type: 'warning'
+                    //    });
+                    //    notification1.show();
+
+                    //     //Use shortcut - it has the same result as above.
+                    //    var notification2 = editor.showNotification('您还没有填写任何内容', 'progress');
+                    //});
+                </script>
+            }
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Index, new { @class = "control-label" })
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Index, new { @class = "form-control", placeholder = "请输入大于0的数字或缺省" })
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">&plus;</button>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.Index)
+            <div style="background-color: #eeeeee; padding: 10px">
+                <div style="border: 1px dashed #aaaaaa; padding: 5px;">
+                    @foreach (ArticleInfoModel atclInfo in Model.TopArticles)
+                    {
+                        <div>
+                            <span>@atclInfo.Index</span>
+                            <p>@atclInfo.Title</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-success btn-lg" style="display: block; margin: 0 auto" value="发布到首页" />
+        </div>
+    }
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/compose")
+}

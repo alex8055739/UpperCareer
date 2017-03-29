@@ -270,6 +270,7 @@ D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk\bin\zh-Hant\System.Spatial.resourc
 D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk\obj\Debug\RTCareerAsk.csprojResolveAssemblyReference.cache
 D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk\obj\Debug\RTCareerAsk.dll
 D:\工作\RTCareerAsk\UpperCareer\RTCareerAsk\obj\Debug\RTCareerAsk.pdb
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\RTCareerAsk.dll.config
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\RTCareerAsk.dll
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\RTCareerAsk.pdb
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\Antlr3.Runtime.dll

@@ -1,0 +1,15 @@
+﻿@model QuestionModel
+
+@section featured{
+    <div class="featured-section">
+        <div class="left" style="margin: 0 auto">
+            @Html.Partial("_QuestionDetail", Model)
+        </div>
+    </div>
+}
+
+@Html.Partial("_AnswersDetail", Model.Answers)
+
+@section scripts{
+    @Scripts.Render("~/bundles/question")
+}

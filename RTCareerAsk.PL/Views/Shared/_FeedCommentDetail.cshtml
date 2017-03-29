@@ -1,0 +1,20 @@
+﻿@model CommentModel
+
+@{
+    bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+}
+
+<li>
+    <div class="header">
+        @Html.UpperNameTag(Model.Creator)
+    </div>
+    <div class="action">
+        @if (!Model.IsDeleteAllowed)
+        {
+            <a id="@string.Format("btnCmtRply{0}", Model.ID)" data-targetid="@Model.Creator.UserID" data-targetname="@Model.Creator.Name" class="btn btn-info outline btn-xs @Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")" href="#">回复</a>
+        }
+    </div>
+    <div class="body">
+        <p>@Html.Raw(HttpUtility.HtmlDecode(Model.Content))</p>
+    </div>
+</li>

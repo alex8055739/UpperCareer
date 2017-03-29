@@ -1,0 +1,56 @@
+﻿@model AnswerModel
+
+@{
+    bool IsAuthorized = ViewBag.IsAuthorized != null ? Convert.ToBoolean(ViewBag.IsAuthorized) : false;
+}
+
+<div id="@string.Format("divAns{0}", Model.ID)">
+    <div class="heading">
+        @Html.UpperPortrait(Model.Creator.Portrait, PortraitSize.Small, new { style = "flex-grow:0" })
+        <p>
+            @Html.ActionLink(Model.Creator.Name, "Index", "User", new { id = Model.Creator.UserID }, new { })
+            ，在问题
+            @Html.ActionLink(Model.ForQuestion.Title, "QuestionDetail", "Question", new { id = Model.ForQuestion.ID }, new { })
+            下回答道：
+        </p>
+    </div>
+    <div id="@string.Format("divAnsTxt{0}", Model.ID)" class="content">
+        @Html.Raw(HttpUtility.HtmlDecode(Model.Content))
+    </div>
+    <div class="info-group">
+        <p class="extra">
+            于
+            @Model.UpdateBefore
+            最后编辑
+        </p>
+        <div class="action">
+            <ul class="breadcrumb">
+                @if (Model.IsEditAllowed)
+                {
+                    <li><a href="#" role="button" id="@string.Format("btnAnsEdt{0}", Model.ID)">编辑</a></li>
+                }
+                <li><a href="#" id="@string.Format("btnWrtCmt{0}", Model.ID)" class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login")">评一下</a></li>
+                <li class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login") like @Html.IsActive(true, Model)" data-islike="true" data-id="@Model.ID" data-title="@Model.ForQuestion.Title" data-author="@Model.Creator.UserID" data-type="1">
+                    <a href="#" id="">
+                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                        &nbsp;推荐(<span class="count">@Model.VotePositive</span>)
+                    </a>
+                </li>
+                <li class="@Html.AssignClassWithCondition(!IsAuthorized, "redirect-login") like @Html.IsActive(false, Model)" data-islike="false" data-id="@Model.ID" data-title="@Model.ForQuestion.Title" data-author="@Model.Creator.UserID" data-type="1">
+                    <a href="#" id="">
+                        <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                        &nbsp;太水(<span class="count">@Model.VoteNegative</span>)
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    @if (IsAuthorized)
+    {
+        <div id="@string.Format("divCmtForm{0}", Model.ID)" class="collapse">
+            <div class="clearfix">
+                @Html.Partial("_CommentForm", new CommentPostModel() { AnswerID = Model.ID, AuthorID = Model.Creator.UserID, QuestionTitle = Model.ForQuestion.Title })
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MessageModel>
+
+@{
+    bool openMessage = ViewBag.Message != null;
+}
+
+<div class="message-main">
+    <ul id="ulMsgList" class="panel-group" role="tablist" aria-multiselectable="true">
+        @foreach (MessageModel msg in Model)
+        {
+            <li id="@string.Format("liMsg{0}", msg.MessageID)" class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" style="display:block;width:100%" data-parent="#ulMsgList" data-id="@msg.MessageID" href="@string.Format("#divMsgBody{0}", msg.MessageID)" aria-expanded="true" aria-controls="collapseOne">
+                            @msg.Content.Title
+                            @if (msg.IsNew)
+                            {
+                                <span class="badge">new</span>
+                            }
+                        </a>
+                        <p style="margin-top: 10px; font-size: 12px">
+                            来自：
+                            @if (!msg.Content.IsSystem)
+                            {
+                                <a href="@Url.Action("Index", "User", new { id = msg.From.UserID })">@msg.From.Name</a>
+                            }
+                            else
+                            {
+                                <span>Upper管理员</span>
+                            }
+                        </p>
+                    </h4>
+                </div>
+                <div id="@string.Format("divMsgBody{0}", msg.MessageID)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        @Html.Partial("_MessageContent", msg)
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>
