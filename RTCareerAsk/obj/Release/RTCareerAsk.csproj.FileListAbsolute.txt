@@ -182,3 +182,4 @@ C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\LeanCloud.pd
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\LeanCloud.xml
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\LeanCloud.NetFx45.pdb
 C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\LeanCloud.NetFx45.xml
+C:\Users\Administrator\Documents\GitHub\UpperCareer\RTCareerAsk\bin\RTCareerAsk.dll.config
