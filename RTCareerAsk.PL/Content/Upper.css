@@ -648,6 +648,7 @@ a {
 .article-comment-list {
     -webkit-padding-start: 0px;
     padding: 5px 10px;
+    list-style-type: none;
 }
 
     .article-comment-list > li {
